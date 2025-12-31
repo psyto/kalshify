@@ -1,0 +1,125 @@
+version: 1
+applications:
+  - appRoot: apps/acquire
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - corepack enable
+            - corepack prepare pnpm@8.15.0 --activate
+            - pnpm install --frozen-lockfile
+            - echo "Installing dependencies for ACQUIRE"
+        build:
+          commands:
+            - cd apps/acquire
+            - pnpm run build
+            - echo "ACQUIRE build completed"
+        postBuild:
+          commands:
+            - echo "Post-build completed"
+      artifacts:
+        baseDirectory: apps/acquire/.next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - apps/acquire/.next/cache/**/*
+          - .turbo/**/*
+    customHeaders:
+      - pattern: '**/*'
+        headers:
+          - key: 'Cache-Control'
+            value: 'public, max-age=31536000, immutable'
+      - pattern: '*.html'
+        headers:
+          - key: 'Cache-Control'
+            value: 'public, max-age=0, must-revalidate'
+      - pattern: '/api/**'
+        headers:
+          - key: 'Cache-Control'
+            value: 'no-cache, no-store, must-revalidate'
+          - key: 'X-Content-Type-Options'
+            value: 'nosniff'
+  - appRoot: apps/pulse
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - corepack enable
+            - corepack prepare pnpm@8.15.0 --activate
+            - pnpm install --frozen-lockfile
+            - echo "Installing dependencies for PULSE"
+        build:
+          commands:
+            - cd apps/pulse
+            - pnpm run build
+            - echo "PULSE build completed"
+        postBuild:
+          commands:
+            - echo "Post-build completed"
+      artifacts:
+        baseDirectory: apps/pulse/.next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - apps/pulse/.next/cache/**/*
+          - .turbo/**/*
+    customHeaders:
+      - pattern: '**/*'
+        headers:
+          - key: 'Cache-Control'
+            value: 'public, max-age=31536000, immutable'
+      - pattern: '*.html'
+        headers:
+          - key: 'Cache-Control'
+            value: 'public, max-age=0, must-revalidate'
+      - pattern: '/api/**'
+        headers:
+          - key: 'Cache-Control'
+            value: 'no-cache, no-store, must-revalidate'
+          - key: 'X-Content-Type-Options'
+            value: 'nosniff'
+  - appRoot: apps/trace
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - corepack enable
+            - corepack prepare pnpm@8.15.0 --activate
+            - pnpm install --frozen-lockfile
+            - echo "Installing dependencies for TRACE"
+        build:
+          commands:
+            - cd apps/trace
+            - pnpm run build
+            - echo "TRACE build completed"
+        postBuild:
+          commands:
+            - echo "Post-build completed"
+      artifacts:
+        baseDirectory: apps/trace/.next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - apps/trace/.next/cache/**/*
+          - .turbo/**/*
+    customHeaders:
+      - pattern: '**/*'
+        headers:
+          - key: 'Cache-Control'
+            value: 'public, max-age=31536000, immutable'
+      - pattern: '*.html'
+        headers:
+          - key: 'Cache-Control'
+            value: 'public, max-age=0, must-revalidate'
+      - pattern: '/api/**'
+        headers:
+          - key: 'Cache-Control'
+            value: 'no-cache, no-store, must-revalidate'
+          - key: 'X-Content-Type-Options'
+            value: 'nosniff'
