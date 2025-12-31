@@ -8,7 +8,7 @@
 
 **Concept:** A decentralized contribution scoring and "Proof of Contribution" (PoC) protocol for DAOs and Web3 teams.
 
-**Role in Suite:** **Operational Verification.** It proves to potential buyers on ACQUIRE that the project has a healthy, productive, and high-quality human capital foundation.
+**Role in Suite:** **Operational Verification.** PULSE collects verified team vitality and contribution quality data. This backing data powers ACQUIRE, enabling buyers to see authenticated team health metrics when evaluating Web3 service listings. It proves to potential buyers on ACQUIRE that the project has a healthy, productive, and high-quality human capital foundation.
 
 ---
 
@@ -47,8 +47,9 @@
 
 ### 3.5. ACQUIRE Integration (The "Team Vitality" Signal)
 
+- **Backing Data for ACQUIRE:** PULSE provides verified team vitality data that powers ACQUIRE listings. Every Web3 service listing on ACQUIRE includes authenticated team health metrics from PULSE.
 - **Vitality Badge:** Listings on **acquire.fabrknt.com** pull data from PULSE to show the "Team Retention" and "Developer Activity" scores.
-- **Buyer Value:** Buyers can see that they are not just buying code, but an active, healthy ecosystem of contributors.
+- **Buyer Value:** Buyers can see that they are not just buying code, but an active, healthy ecosystem of contributors. This verified backing data eliminates information asymmetry and enables trusted transactions.
 
 ---
 
@@ -96,6 +97,8 @@
 
 By completing **PULSE**, your suite now covers the entire Web3 project lifecycle:
 
-- **PULSE:** Proves the **Humans** are working (Vitality).
-- **TRACE:** Proves the **Marketing** is working (Growth).
-- **ACQUIRE:** Proves the **Value** is transferable (Exit).
+- **PULSE:** Collects verified team vitality data. Proves the **Humans** are working (Vitality).
+- **TRACE:** Collects verified growth and activity metrics. Proves the **Marketing** is working (Growth).
+- **ACQUIRE:** Leverages backing data from PULSE and TRACE to enable trusted Web3 service transactions. Proves the **Value** is transferable (Exit).
+
+The verified data from PULSE and TRACE powers ACQUIRE, enabling buyers and sellers to transact with complete transparency and data-backed valuations.

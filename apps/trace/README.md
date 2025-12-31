@@ -8,7 +8,7 @@
 
 **Concept:** A high-precision Web3 marketing attribution and "Ad-Audit" tool with comprehensive on-chain activity monitoring capabilities.
 
-**Role in Suite:** **Growth Verification.** It proves to potential buyers on ACQUIRE that a project's user acquisition is real, efficient, and bot-free. Additionally, it demonstrates that the service is actively being used through comprehensive on-chain activity monitoring.
+**Role in Suite:** **Growth Verification.** TRACE collects verified marketing ROI, user acquisition quality, and service activity metrics. This backing data powers ACQUIRE, enabling buyers to see authenticated growth signals when evaluating Web3 service listings. It proves to potential buyers on ACQUIRE that a project's user acquisition is real, efficient, and bot-free. Additionally, it demonstrates that the service is actively being used through comprehensive on-chain activity monitoring.
 
 ---
 
@@ -52,8 +52,9 @@
 
 ### 3.5. ACQUIRE Integration (The "Export to Exit" Feature)
 
-- **Verification API:** A dedicated endpoint that allows **acquire.fabrknt.com** to pull a "Growth Certificate."
-- **Trust Signal:** Listings on ACQUIRE will display a "TRACE-Verified ROI" badge, significantly increasing buyer confidence and valuation.
+- **Backing Data for ACQUIRE:** TRACE provides verified growth and activity metrics that power ACQUIRE listings. Every Web3 service listing on ACQUIRE includes authenticated marketing ROI and service activity data from TRACE.
+- **Verification API:** A dedicated endpoint that allows **acquire.fabrknt.com** to pull a "Growth Certificate" with verified metrics.
+- **Trust Signal:** Listings on ACQUIRE will display a "TRACE-Verified ROI" badge, significantly increasing buyer confidence and valuation. Buyers can see verified growth signals, eliminating information asymmetry.
 
 ---
 
@@ -107,5 +108,5 @@
 1. **Build:** You build a project.
 2. **Operate (PULSE):** You track development activity to prove the team is "alive" and efficient.
 3. **Grow (TRACE):** You run ads/marketing and prove that every $1 spent results in $X of on-chain volume. Additionally, you monitor all on-chain activity to demonstrate that your service is actively being used, regardless of marketing spend.
-4. **Exit (ACQUIRE):** You list the project. The buyer sees **PULSE** data (Operational Health) and **TRACE** data (Growth Efficiency + Service Activity). The Activity Score proves the service has real usage, not just marketing-driven spikes.
-5. **Result:** The "Information Asymmetry" is eliminated, leading to a faster close and a higher sale price.
+4. **Exit (ACQUIRE):** You list the project on ACQUIRE. The buyer sees verified **PULSE** data (Operational Health) and verified **TRACE** data (Growth Efficiency + Service Activity). The Activity Score proves the service has real usage, not just marketing-driven spikes. This backing data enables trusted transactions with complete transparency.
+5. **Result:** The "Information Asymmetry" is eliminated, leading to a faster close and a higher sale price. Buyers can evaluate Web3 services with confidence, knowing they have access to authenticated team vitality and growth metrics.

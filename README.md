@@ -1,10 +1,26 @@
 # Fabrknt Suite
 
-> **Web3 Project Lifecycle Management** - From team vitality to growth tracking to M&A facilitation
+> **Verified Data, Trusted Transactions** - Buy and sell Web3 services backed by verified team vitality and growth metrics
 
-The Fabrknt Suite is a comprehensive SaaS platform for Web3 projects, providing verified signals throughout the entire project lifecycle.
+The Fabrknt Suite enables trusted Web3 service transactions through verified data. **PULSE** verifies team vitality and contribution quality. **TRACE** verifies marketing ROI and service activity. **ACQUIRE** leverages this verified backing data to power a transparent marketplace for buying and selling Web3 services with data-backed valuations.
 
 ## 🏗️ Suite Architecture
+
+### How It Works
+
+The Fabrknt Suite operates as an integrated ecosystem where data flows from verification to transaction:
+
+1. **PULSE** verifies and tracks team vitality, contribution quality, and organizational health
+2. **TRACE** verifies marketing ROI, service activity, and growth metrics
+3. **ACQUIRE** leverages this verified backing data to enable trusted Web3 service transactions
+
+When a project is listed on ACQUIRE, buyers can see:
+
+- **Team Health** (from PULSE): Contribution scores, retention rates, developer activity
+- **Growth Signals** (from TRACE): Marketing efficiency, user acquisition quality, service activity metrics
+- **Verified Revenue**: On-chain protocol fees or verified payment data
+
+This eliminates information asymmetry and enables high-trust business transfers in Web3.
 
 ### Applications
 
@@ -21,8 +37,9 @@ The Fabrknt Suite is a comprehensive SaaS platform for Web3 projects, providing 
   - Service health metrics (DAU/WAU/MAU, Protocol Activity Score)
 
 - **[ACQUIRE](./apps/acquire)** (port 3003) - M&A Terminal for Web3
-  - Verified project listings with PULSE + TRACE data
-  - Fabrknt Score composite metric
+  - **Powered by verified data from PULSE and TRACE** - All listings include authenticated team vitality and growth metrics
+  - Buy and sell Web3 services with complete transparency
+  - Fabrknt Score composite metric combining PULSE (team health) + TRACE (growth efficiency) + revenue
   - One-click NDA with wallet signatures
   - Atomic escrow for secure asset transfers
 
@@ -74,7 +91,7 @@ pnpm pulse:dev
 # Run only TRACE
 pnpm trace:dev
 
-# Run only FABRIC
+# Run only ACQUIRE
 pnpm acquire:dev
 ```
 
@@ -124,9 +141,9 @@ pnpm db:studio
 
 The database is organized into three main sections:
 
-1. **PULSE Models**: `User`, `Organization`, `Contribution`, `Praise`, `SBTToken`, `HealthScore`
-2. **TRACE Models**: `Campaign`, `Click`, `Conversion`, `ActivityMetrics`, `ContractInteraction`
-3. **FABRIC Models**: `Listing`, `SuiteRibbonData`, `NDASignature`, `ProofOfFunds`, `Escrow`
+1. **PULSE Models**: `User`, `Organization`, `Contribution`, `Praise`, `SBTToken`, `HealthScore` - Team vitality data
+2. **TRACE Models**: `Campaign`, `Click`, `Conversion`, `ActivityMetrics`, `ContractInteraction` - Growth and activity data
+3. **ACQUIRE Models**: `Listing`, `SuiteRibbonData`, `NDASignature`, `ProofOfFunds`, `Escrow` - M&A transaction data that references PULSE and TRACE data
 
 See [packages/db/prisma/schema.prisma](./packages/db/prisma/schema.prisma) for full schema.
 
@@ -201,10 +218,10 @@ Each app requires specific environment variables:
 - `HELIUS_*` - Helius API for Solana event tracking
 - `REDIS_URL` - Redis connection string
 
-### FABRIC Specific
+### ACQUIRE Specific
 
-- `PULSE_API_*` - PULSE API integration
-- `TRACE_API_*` - TRACE API integration
+- `PULSE_API_*` - PULSE API integration (to fetch team vitality data)
+- `TRACE_API_*` - TRACE API integration (to fetch growth and activity data)
 - Escrow contract addresses
 
 See `.env.example` files for complete configuration.
@@ -282,12 +299,14 @@ See individual app `amplify.yml` files for deployment configurations.
 - [ ] Omotenashi scoring algorithm
 - [ ] SBT minting
 
-### Phase 3: FABRIC Implementation
+### Phase 3: ACQUIRE Implementation
 
-- [ ] Listing engine
-- [ ] Suite Ribbon integration
+- [ ] Listing engine with PULSE + TRACE data integration
+- [ ] Suite Ribbon component displaying verified data from PULSE and TRACE
+- [ ] Fabrknt Score calculation (combining team vitality + growth + revenue)
 - [ ] Atomic escrow contracts
 - [ ] NDA & Proof of Funds
+- [ ] Buyer interface with audit view of backing data
 
 ### Phase 4: Integration & Polish
 
@@ -300,7 +319,7 @@ See individual app `amplify.yml` files for deployment configurations.
 
 - [ ] Security audit
 - [ ] Performance optimization
-- [ ] Staged rollout (TRACE → PULSE → FABRIC)
+- [ ] Staged rollout (TRACE → PULSE → ACQUIRE)
 
 ## 🔗 Related Projects
 

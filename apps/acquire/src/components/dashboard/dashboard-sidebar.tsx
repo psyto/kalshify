@@ -198,9 +198,9 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
               <span>📊</span>
               <span>TRACE</span>
             </a>
-            <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-green-50 text-green-700 font-medium">
-              <span>🏗️</span>
-              <span>FABRIC</span>
+            <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-blue-50 text-blue-700 font-medium">
+              <span>💼</span>
+              <span>ACQUIRE</span>
               <span className="ml-auto text-[10px]">●</span>
             </div>
           </div>
