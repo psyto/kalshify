@@ -59,12 +59,13 @@ applications:
             - echo "PULSE build completed"
         postBuild:
           commands:
-            - echo "Checking for trace files..."
-            - ls -la .next/standalone/apps/pulse/.next/server/ || echo "No server dir in standalone"
-            - find .next/standalone/apps/pulse/.next/server -name "*.nft.json" | head -5 || true
             - echo "Copying static assets to standalone build..."
             - cp -r .next/static .next/standalone/apps/pulse/.next/static
             - cp -r public .next/standalone/apps/pulse/public || true
+            - echo "Copying server trace files for Amplify..."
+            - cp .next/next-server.js.nft.json .next/standalone/apps/pulse/.next/next-server.js.nft.json
+            - cp .next/next-minimal-server.js.nft.json .next/standalone/apps/pulse/.next/next-minimal-server.js.nft.json
+            - cp .next/trace .next/standalone/apps/pulse/.next/trace || true
             - echo "Copying required-server-files.json for Amplify..."
             - cp .next/standalone/apps/pulse/.next/required-server-files.json .next/standalone/apps/pulse/required-server-files.json
             - echo "Standalone build prepared for deployment"
