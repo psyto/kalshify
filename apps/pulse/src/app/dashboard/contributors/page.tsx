@@ -11,7 +11,6 @@ export default function ContributorsPage() {
   const communityContributors = contributors.filter(c => c.role === 'community');
 
   // Calculate aggregate stats
-  const totalScore = contributors.reduce((sum, c) => sum + c.totalScore, 0);
   const totalGithub = contributors.reduce((sum, c) => sum + c.githubScore, 0);
   const totalDiscord = contributors.reduce((sum, c) => sum + c.discordScore, 0);
   const totalNotion = contributors.reduce((sum, c) => sum + c.notionScore, 0);

@@ -1,4 +1,4 @@
-import { Github, MessageSquare, FileText, Award, ExternalLink } from 'lucide-react';
+import { Github, MessageSquare, FileText, ExternalLink } from 'lucide-react';
 import { cn } from '@fabrknt/ui';
 import { getMockContributions } from '@/lib/mock-data';
 import { formatRelativeTime, formatNumber } from '@/lib/utils/format';
@@ -28,9 +28,6 @@ export default function ContributionsPage() {
   const githubContributions = contributions.filter(c => c.platform === 'github');
   const discordContributions = contributions.filter(c => c.platform === 'discord');
   const notionContributions = contributions.filter(c => c.platform === 'notion');
-
-  // Calculate stats
-  const totalScore = contributions.reduce((sum, c) => sum + c.score, 0);
 
   return (
     <div className="space-y-8">
