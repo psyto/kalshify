@@ -59,6 +59,10 @@ applications:
             - echo "PULSE build completed"
         postBuild:
           commands:
+            - echo "Checking standalone build structure..."
+            - ls -la .next/
+            - ls -la .next/standalone/ || echo "No standalone directory"
+            - mkdir -p .next/standalone/.next
             - cp -r .next/static .next/standalone/.next/static
             - cp -r public .next/standalone/public || true
             - echo "Prepared standalone build for deployment"
