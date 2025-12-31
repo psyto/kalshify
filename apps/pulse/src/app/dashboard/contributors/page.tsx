@@ -6,9 +6,9 @@ import { formatNumber } from '@/lib/utils/format';
 
 export default function ContributorsPage() {
   const contributors = getMockContributors();
-  const coreContributors = contributors.filter(c => c.role === 'core');
-  const regularContributors = contributors.filter(c => c.role === 'contributor');
-  const communityContributors = contributors.filter(c => c.role === 'community');
+  const coreContributors = contributors.filter((c) => c.role === 'core');
+  const regularContributors = contributors.filter((c) => c.role === 'contributor');
+  const communityContributors = contributors.filter((c) => c.role === 'community');
 
   // Calculate aggregate stats
   const totalGithub = contributors.reduce((sum, c) => sum + c.githubScore, 0);
@@ -37,7 +37,7 @@ export default function ContributorsPage() {
           <p className="text-sm text-muted-foreground mb-1">Total Contributors</p>
           <p className="text-3xl font-bold text-foreground">{contributors.length}</p>
           <p className="text-sm text-muted-foreground/75 mt-1">
-            {contributors.filter(c => c.isActive).length} active
+            {contributors.filter((c) => c.isActive).length} active
           </p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6">

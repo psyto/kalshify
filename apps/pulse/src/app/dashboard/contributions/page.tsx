@@ -25,9 +25,9 @@ const typeLabels = {
 
 export default function ContributionsPage() {
   const contributions = getMockContributions(30); // Last 30 days
-  const githubContributions = contributions.filter(c => c.platform === 'github');
-  const discordContributions = contributions.filter(c => c.platform === 'discord');
-  const notionContributions = contributions.filter(c => c.platform === 'notion');
+  const githubContributions = contributions.filter((c) => c.platform === 'github');
+  const discordContributions = contributions.filter((c) => c.platform === 'discord');
+  const notionContributions = contributions.filter((c) => c.platform === 'notion');
 
   return (
     <div className="space-y-8">
@@ -51,7 +51,9 @@ export default function ContributionsPage() {
             <Github className="h-4 w-4 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">GitHub</p>
           </div>
-          <p className="text-3xl font-bold text-foreground">{formatNumber(githubContributions.length)}</p>
+          <p className="text-3xl font-bold text-foreground">
+            {formatNumber(githubContributions.length)}
+          </p>
           <p className="text-sm text-muted-foreground/75 mt-1">PRs and reviews</p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6">
@@ -59,7 +61,9 @@ export default function ContributionsPage() {
             <MessageSquare className="h-4 w-4 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">Discord</p>
           </div>
-          <p className="text-3xl font-bold text-foreground">{formatNumber(discordContributions.length)}</p>
+          <p className="text-3xl font-bold text-foreground">
+            {formatNumber(discordContributions.length)}
+          </p>
           <p className="text-sm text-muted-foreground/75 mt-1">messages and praises</p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6">
@@ -67,16 +71,16 @@ export default function ContributionsPage() {
             <FileText className="h-4 w-4 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">Notion</p>
           </div>
-          <p className="text-3xl font-bold text-foreground">{formatNumber(notionContributions.length)}</p>
+          <p className="text-3xl font-bold text-foreground">
+            {formatNumber(notionContributions.length)}
+          </p>
           <p className="text-sm text-muted-foreground/75 mt-1">pages created</p>
         </div>
       </div>
 
       {/* Activity Feed */}
       <div className="bg-card rounded-lg border border-border p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">
-          Recent Activity
-        </h3>
+        <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activity</h3>
         <div className="space-y-4">
           {contributions.slice(0, 20).map((contribution) => {
             const Icon = platformIcons[contribution.platform];
@@ -86,10 +90,7 @@ export default function ContributionsPage() {
                 className="flex items-start gap-4 pb-4 border-b border-gray-100 last:border-0"
               >
                 {/* Icon */}
-                <div className={cn(
-                  'p-2 rounded-lg',
-                  platformColors[contribution.platform]
-                )}>
+                <div className={cn('p-2 rounded-lg', platformColors[contribution.platform])}>
                   <Icon className="h-5 w-5" />
                 </div>
 
@@ -100,9 +101,7 @@ export default function ContributionsPage() {
                       <p className="text-sm font-medium text-foreground">
                         {contribution.contributorName}
                       </p>
-                      <p className="text-sm text-foreground/90 mt-1">
-                        {contribution.title}
-                      </p>
+                      <p className="text-sm text-foreground/90 mt-1">{contribution.title}</p>
                       <div className="flex items-center gap-3 mt-2">
                         <span className="text-xs text-muted-foreground/75 capitalize">
                           {typeLabels[contribution.type]}
@@ -137,9 +136,7 @@ export default function ContributionsPage() {
 
                     {/* Score */}
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-purple-600">
-                        +{contribution.score}
-                      </p>
+                      <p className="text-sm font-semibold text-purple-600">+{contribution.score}</p>
                       <p className="text-xs text-muted-foreground/75">points</p>
                     </div>
                   </div>
@@ -158,9 +155,7 @@ export default function ContributionsPage() {
 
       {/* Omotenashi Info */}
       <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-        <h3 className="text-sm font-semibold text-purple-900 mb-2">
-          About Omotenashi Scoring
-        </h3>
+        <h3 className="text-sm font-semibold text-purple-900 mb-2">About Omotenashi Scoring</h3>
         <div className="text-sm text-purple-800 space-y-1">
           <p>
             • <strong>Quality over Quantity:</strong> High-impact contributions earn more points

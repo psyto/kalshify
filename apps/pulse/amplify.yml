@@ -12,13 +12,14 @@ frontend:
         - cd apps/pulse
         - pnpm run build
         - echo "PULSE build completed"
-    postBuild:
-      commands:
-        - echo "Post-build completed"
   artifacts:
-    baseDirectory: apps/pulse/.next
+    baseDirectory: apps/pulse
     files:
-      - '**/*'
+      - '.next/**/*'
+      - 'node_modules/**/*'
+      - 'package.json'
+      - 'next.config.js'
+      - 'public/**/*'
   cache:
     paths:
       - node_modules/**/*
