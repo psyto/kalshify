@@ -27,11 +27,11 @@ export const suiteTheme = {
       light: '#fbbf24',
       dark: '#d97706',
     },
-    fabric: {
-      primary: '#27ae60', // Exit green
-      secondary: '#16a085',
-      light: '#34d399',
-      dark: '#059669',
+    acquire: {
+      primary: '#3b82f6', // Business blue
+      secondary: '#2563eb',
+      light: '#60a5fa',
+      dark: '#1d4ed8',
     },
   },
   fonts: {

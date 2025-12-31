@@ -6,7 +6,7 @@ import { Providers } from '@/components/providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'FABRIC - M&A Terminal for Web3 | Fabrknt Suite',
+  title: 'ACQUIRE - M&A Terminal for Web3 | Fabrknt Suite',
   description:
     'Premium M&A terminal for Web3 projects with verified team vitality and growth signals',
   viewport: {

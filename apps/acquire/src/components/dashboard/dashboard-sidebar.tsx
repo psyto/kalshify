@@ -33,8 +33,8 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Mobile Header with Close Button */}
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
             <div className="flex items-center gap-2">
-              <span className="text-4xl">🏗️</span>
-              <span className="text-xl font-bold text-foreground">FABRIC</span>
+              <span className="text-4xl">💼</span>
+              <span className="text-xl font-bold text-foreground">ACQUIRE</span>
             </div>
             <button
               onClick={onClose}
@@ -75,7 +75,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                   className={cn(
                     'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-green-50 text-green-700'
+                      ? 'bg-blue-50 text-blue-700'
                       : 'text-foreground/90 hover:bg-muted hover:text-foreground'
                   )}
                 >
@@ -106,9 +106,9 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 <span>📊</span>
                 <span>TRACE</span>
               </a>
-              <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-green-50 text-green-700 font-medium">
-                <span>🏗️</span>
-                <span>FABRIC</span>
+              <div className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-blue-50 text-blue-700 font-medium">
+                <span>💼</span>
+                <span>ACQUIRE</span>
                 <span className="ml-auto text-[10px]">●</span>
               </div>
             </div>
@@ -117,7 +117,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           {/* Footer */}
           <div className="border-t border-border p-4">
             <div className="text-xs text-muted-foreground/75">
-              <div className="font-medium text-foreground">FABRIC</div>
+              <div className="font-medium text-foreground">ACQUIRE</div>
               <div className="mt-1">
                 Part of <span className="font-semibold text-foreground">Fabrknt Suite</span>
               </div>
@@ -131,9 +131,9 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
       <div className="hidden lg:flex h-full w-64 flex-col bg-muted border-r border-border">
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-border px-6">
-          <span className="text-4xl">🏗️</span>
+          <span className="text-4xl">💼</span>
           <div className="ml-2 flex items-center gap-2">
-            <span className="text-xl font-bold text-foreground">FABRIC</span>
+            <span className="text-xl font-bold text-foreground">ACQUIRE</span>
             <span className="rounded bg-blue-100 px-1.5 py-0.5 text-xs font-semibold text-blue-800">
               PREVIEW
             </span>
@@ -169,7 +169,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 className={cn(
                   'flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                   isActive
-                    ? 'bg-green-50 text-green-700'
+                    ? 'bg-blue-50 text-blue-700'
                     : 'text-foreground/90 hover:bg-muted hover:text-foreground'
                 )}
               >
@@ -209,7 +209,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         {/* Footer */}
         <div className="border-t border-border p-4">
           <div className="text-xs text-muted-foreground/75">
-            <div className="font-medium text-foreground">FABRIC</div>
+            <div className="font-medium text-foreground">ACQUIRE</div>
             <div className="mt-1">
               Part of <span className="font-semibold text-foreground">Fabrknt Suite</span>
             </div>

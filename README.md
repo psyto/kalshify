@@ -20,7 +20,7 @@ The Fabrknt Suite is a comprehensive SaaS platform for Web3 projects, providing 
   - Bot & Sybil detection
   - Service health metrics (DAU/WAU/MAU, Protocol Activity Score)
 
-- **[FABRIC](./apps/fabric)** (port 3003) - M&A Terminal for Web3
+- **[ACQUIRE](./apps/acquire)** (port 3003) - M&A Terminal for Web3
   - Verified project listings with PULSE + TRACE data
   - Fabrknt Score composite metric
   - One-click NDA with wallet signatures
@@ -53,7 +53,7 @@ cd fabrknt-suite
 cp .env.example .env
 cp apps/pulse/.env.example apps/pulse/.env.local
 cp apps/trace/.env.example apps/trace/.env.local
-cp apps/fabric/.env.example apps/fabric/.env.local
+cp apps/acquire/.env.example apps/acquire/.env.local
 
 # 3. Install dependencies and setup infrastructure
 pnpm setup
@@ -75,7 +75,7 @@ pnpm pulse:dev
 pnpm trace:dev
 
 # Run only FABRIC
-pnpm fabric:dev
+pnpm acquire:dev
 ```
 
 ## 🐳 Docker Services
@@ -94,6 +94,7 @@ pnpm docker:logs
 ```
 
 **Available Services:**
+
 - PostgreSQL: `localhost:5432` (user: `fabrknt`, password: `fabrknt_dev_password`)
 - Redis: `localhost:6379`
 - pgAdmin: `http://localhost:5050` (admin@fabrknt.local / admin)
@@ -164,7 +165,7 @@ fabrknt-suite/
 ├── apps/
 │   ├── pulse/           # Team vitality tracking app
 │   ├── trace/           # Marketing attribution app
-│   └── fabric/          # M&A terminal app
+│   └── acquire/          # M&A terminal app
 ├── packages/
 │   ├── ui/              # Shared UI components
 │   ├── auth/            # Authentication utilities
@@ -184,20 +185,24 @@ fabrknt-suite/
 Each app requires specific environment variables:
 
 ### Shared (all apps)
+
 - `DATABASE_URL` - PostgreSQL connection string
 - `COGNITO_*` - AWS Cognito configuration
 
 ### PULSE Specific
+
 - `GITHUB_*` - GitHub App credentials
 - `DISCORD_*` - Discord bot credentials
 - `CHAINLINK_*` - Chainlink Functions for SBT minting
 
 ### TRACE Specific
+
 - `ALCHEMY_*` - Alchemy API for EVM event tracking
 - `HELIUS_*` - Helius API for Solana event tracking
 - `REDIS_URL` - Redis connection string
 
 ### FABRIC Specific
+
 - `PULSE_API_*` - PULSE API integration
 - `TRACE_API_*` - TRACE API integration
 - Escrow contract addresses
@@ -221,6 +226,7 @@ See individual app `amplify.yml` files for deployment configurations.
 ## 📝 Tech Stack
 
 ### Frontend
+
 - Next.js 14 (App Router)
 - React 18
 - TypeScript
@@ -231,6 +237,7 @@ See individual app `amplify.yml` files for deployment configurations.
 - Zustand (state management)
 
 ### Backend
+
 - Node.js 20
 - Prisma ORM
 - PostgreSQL 16
@@ -238,12 +245,14 @@ See individual app `amplify.yml` files for deployment configurations.
 - Zod (validation)
 
 ### Blockchain
+
 - Solana Web3.js
 - Viem (EVM)
 - Alchemy SDK
 - Helius DAS API
 
 ### DevOps
+
 - Turborepo (monorepo)
 - pnpm (package manager)
 - Docker Compose (local dev)
@@ -252,6 +261,7 @@ See individual app `amplify.yml` files for deployment configurations.
 ## 🗺️ Roadmap
 
 ### Phase 0: Foundation ✅
+
 - [x] Monorepo setup
 - [x] Shared packages
 - [x] Database schema
@@ -259,30 +269,35 @@ See individual app `amplify.yml` files for deployment configurations.
 - [x] Docker environment
 
 ### Phase 1: TRACE Implementation
+
 - [ ] Core attribution engine
 - [ ] On-chain event processing
 - [ ] Activity monitoring (DAU/WAU/MAU)
 - [ ] Link redirection service
 
 ### Phase 2: PULSE Implementation
+
 - [ ] Contribution tracking
 - [ ] Platform integrations (GitHub, Discord, Notion)
 - [ ] Omotenashi scoring algorithm
 - [ ] SBT minting
 
 ### Phase 3: FABRIC Implementation
+
 - [ ] Listing engine
 - [ ] Suite Ribbon integration
 - [ ] Atomic escrow contracts
 - [ ] NDA & Proof of Funds
 
 ### Phase 4: Integration & Polish
+
 - [ ] Cross-app integration
 - [ ] Analytics & monitoring
 - [ ] Documentation
 - [ ] Beta testing
 
 ### Phase 5: Production Launch
+
 - [ ] Security audit
 - [ ] Performance optimization
 - [ ] Staged rollout (TRACE → PULSE → FABRIC)

@@ -1,21 +1,21 @@
 # Fabrknt Suite AWS Infrastructure
 
-This directory contains the AWS CDK infrastructure code for Fabrknt Suite (PULSE, TRACE, FABRIC).
+This directory contains the AWS CDK infrastructure code for Fabrknt Suite (PULSE, TRACE, ACQUIRE).
 
 ## Overview
 
 The infrastructure includes:
 
--   **VPC**: Isolated network with public, private, and database subnets
--   **RDS PostgreSQL**: Primary database for all products
--   **DynamoDB**: High-frequency writes (clicks, events)
--   **ElastiCache Redis**: Caching and session storage
--   **API Gateway**: RESTful APIs for all products
--   **Lambda**: Serverless functions for APIs and background workers
--   **Cognito**: User authentication and authorization
--   **S3**: Static assets and data exports
--   **EventBridge**: Scheduled tasks and event-driven architecture
--   **SQS**: Async task processing
+- **VPC**: Isolated network with public, private, and database subnets
+- **RDS PostgreSQL**: Primary database for all products
+- **DynamoDB**: High-frequency writes (clicks, events)
+- **ElastiCache Redis**: Caching and session storage
+- **API Gateway**: RESTful APIs for all products
+- **Lambda**: Serverless functions for APIs and background workers
+- **Cognito**: User authentication and authorization
+- **S3**: Static assets and data exports
+- **EventBridge**: Scheduled tasks and event-driven architecture
+- **SQS**: Async task processing
 
 ## Prerequisites
 
@@ -101,7 +101,7 @@ infrastructure/
 ├── lambda/                      # Lambda function templates
 │   ├── trace/
 │   ├── pulse/
-│   ├── fabric/
+│   ├── acquire/
 │   └── shared/
 ├── scripts/
 │   ├── setup.sh                 # Setup script
@@ -137,7 +137,7 @@ ACTIVITY_METRICS_TABLE_NAME=fabrknt-trace-activity-metrics-dev
 # API Gateway URLs
 TRACE_API_URL=https://api-id.execute-api.region.amazonaws.com/dev
 PULSE_API_URL=https://api-id.execute-api.region.amazonaws.com/dev
-FABRIC_API_URL=https://api-id.execute-api.region.amazonaws.com/dev
+ACQUIRE_API_URL=https://api-id.execute-api.region.amazonaws.com/dev
 
 # Cognito
 COGNITO_USER_POOL_ID=your-user-pool-id
@@ -174,27 +174,27 @@ npm run destroy
 
 ### Development Environment
 
--   **RDS PostgreSQL** (db.t3.micro): ~$15-30/month
--   **DynamoDB** (on-demand): ~$5-10/month
--   **ElastiCache Redis** (cache.t3.micro): ~$15-20/month
--   **Lambda**: ~$5-10/month (1M requests)
--   **API Gateway**: ~$3.50/month (1M requests)
--   **S3**: ~$2-5/month
--   **Amplify**: ~$15/month
--   **CloudWatch**: ~$5-10/month
--   **Total**: ~$65-105/month
+- **RDS PostgreSQL** (db.t3.micro): ~$15-30/month
+- **DynamoDB** (on-demand): ~$5-10/month
+- **ElastiCache Redis** (cache.t3.micro): ~$15-20/month
+- **Lambda**: ~$5-10/month (1M requests)
+- **API Gateway**: ~$3.50/month (1M requests)
+- **S3**: ~$2-5/month
+- **Amplify**: ~$15/month
+- **CloudWatch**: ~$5-10/month
+- **Total**: ~$65-105/month
 
 ### Production Environment
 
--   **RDS PostgreSQL** (db.t3.medium, Multi-AZ): ~$200-400/month
--   **DynamoDB**: ~$100-200/month
--   **ElastiCache Redis** (cache.t3.small): ~$60-120/month
--   **Lambda**: ~$50-100/month
--   **API Gateway**: ~$20-50/month
--   **S3**: ~$20-40/month
--   **Amplify**: ~$50/month
--   **CloudWatch**: ~$30-50/month
--   **Total**: ~$530-1010/month
+- **RDS PostgreSQL** (db.t3.medium, Multi-AZ): ~$200-400/month
+- **DynamoDB**: ~$100-200/month
+- **ElastiCache Redis** (cache.t3.small): ~$60-120/month
+- **Lambda**: ~$50-100/month
+- **API Gateway**: ~$20-50/month
+- **S3**: ~$20-40/month
+- **Amplify**: ~$50/month
+- **CloudWatch**: ~$30-50/month
+- **Total**: ~$530-1010/month
 
 ## Security Considerations
 
@@ -207,10 +207,10 @@ npm run destroy
 
 ## Monitoring
 
--   **CloudWatch Logs**: All Lambda functions log to CloudWatch
--   **CloudWatch Metrics**: Custom metrics for business KPIs
--   **X-Ray**: Distributed tracing (can be enabled)
--   **Alarms**: Set up for errors, latency, and costs
+- **CloudWatch Logs**: All Lambda functions log to CloudWatch
+- **CloudWatch Metrics**: Custom metrics for business KPIs
+- **X-Ray**: Distributed tracing (can be enabled)
+- **Alarms**: Set up for errors, latency, and costs
 
 ## Database Migrations
 
@@ -230,10 +230,10 @@ psql -h your-rds-endpoint.region.rds.amazonaws.com \
 
 Lambda functions are located in `lambda/` directory:
 
--   **trace/api-handler.ts**: TRACE API endpoints
--   **pulse/api-handler.ts**: PULSE API endpoints
--   **fabric/api-handler.ts**: FABRIC API endpoints
--   **shared/metrics-aggregator.ts**: Daily metrics aggregation
+- **trace/api-handler.ts**: TRACE API endpoints
+- **pulse/api-handler.ts**: PULSE API endpoints
+- **acquire/api-handler.ts**: ACQUIRE API endpoints
+- **shared/metrics-aggregator.ts**: Daily metrics aggregation
 
 To deploy Lambda functions, you'll need to:
 
@@ -277,7 +277,7 @@ To deploy Lambda functions, you'll need to:
 
 ## Resources
 
--   [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/)
--   [AWS Architecture Document](../docs/AWS_ARCHITECTURE.md)
--   [Amplify Setup Guide](../docs/AMPLIFY_SETUP.md)
--   [Migration Checklist](../docs/MIGRATION_CHECKLIST.md)
+- [AWS CDK Documentation](https://docs.aws.amazon.com/cdk/)
+- [AWS Architecture Document](../docs/AWS_ARCHITECTURE.md)
+- [Amplify Setup Guide](../docs/AMPLIFY_SETUP.md)
+- [Migration Checklist](../docs/MIGRATION_CHECKLIST.md)

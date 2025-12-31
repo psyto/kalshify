@@ -111,8 +111,8 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 onClick={onClose}
                 className="flex items-center gap-2 px-2 py-1.5 rounded text-xs text-foreground/90 hover:bg-muted transition-colors"
               >
-                <span>🏗️</span>
-                <span>FABRIC</span>
+                <span>💼</span>
+                <span>ACQUIRE</span>
               </a>
             </div>
           </div>
