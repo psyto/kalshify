@@ -25,7 +25,6 @@ const navigation = [
     name: 'Conversions',
     href: '/dashboard/conversions',
     icon: Zap,
-    disabled: true, // Coming soon
   },
 ];
 
