@@ -3,18 +3,20 @@ frontend:
   phases:
     preBuild:
       commands:
-        - cd apps/suite && corepack enable && corepack prepare pnpm@latest --activate && pnpm install --no-frozen-lockfile
+        - corepack enable
+        - corepack prepare pnpm@latest --activate
+        - pnpm install --no-frozen-lockfile
     build:
       commands:
-        - cd apps/suite && pnpm run build
+        - pnpm run build
   artifacts:
-    baseDirectory: apps/suite/.next
+    baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
-      - apps/suite/node_modules/**/*
-      - apps/suite/.next/cache/**/*
+      - node_modules/**/*
+      - .next/cache/**/*
 customHeaders:
   - pattern: '**/*'
     headers:

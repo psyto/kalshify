@@ -1,347 +1,103 @@
-# Fabrknt Suite
+# Product Requirements Document: ACQUIRE
 
-> **Verified Data, Trusted Transactions** - Buy and sell Web3 services backed by verified team vitality and growth metrics
+## 1. Project Overview
 
-The Fabrknt Suite enables trusted Web3 service transactions through verified data. **PULSE** verifies team vitality and contribution quality. **TRACE** verifies marketing ROI and service activity. **ACQUIRE** leverages this verified backing data to power a transparent marketplace for buying and selling Web3 services with data-backed valuations.
+**Project Name:** ACQUIRE (Powered by Fabrknt)
 
-## 🏗️ Suite Architecture
+**Domain:** `acquire.fabrknt.com`
 
-### How It Works
+**Concept:** The premium M&A terminal for Web3, powered by verified backing data from **PULSE** and **TRACE**.
 
-The Fabrknt Suite operates as an integrated ecosystem where data flows from verification to transaction:
-
-1. **PULSE** verifies and tracks team vitality, contribution quality, and organizational health
-2. **TRACE** verifies marketing ROI, service activity, and growth metrics
-3. **ACQUIRE** leverages this verified backing data to enable trusted Web3 service transactions
-
-When a project is listed on ACQUIRE, buyers can see:
-
-- **Team Health** (from PULSE): Contribution scores, retention rates, developer activity
-- **Growth Signals** (from TRACE): Marketing efficiency, user acquisition quality, service activity metrics
-- **Verified Revenue**: On-chain protocol fees or verified payment data
-
-This eliminates information asymmetry and enables high-trust business transfers in Web3.
-
-### Applications
-
-- **[PULSE](./apps/pulse)** (port 3001) - Team Vitality Tracking
-  - Decentralized contribution scoring across GitHub, Discord, and Notion
-  - Qualitative "Omotenashi Logic" rewards quality over quantity
-  - Soulbound Token (SBT) rewards for milestones
-  - Weekly organizational health reports
-
-- **[TRACE](./apps/trace)** (port 3002) - Marketing Attribution & Activity Monitoring
-  - High-precision click-to-wallet attribution
-  - On-chain conversion tracking (mint, swap, stake, vote)
-  - Bot & Sybil detection
-  - Service health metrics (DAU/WAU/MAU, Protocol Activity Score)
-
-- **[ACQUIRE](./apps/acquire)** (port 3003) - M&A Terminal for Web3
-  - **Powered by verified data from PULSE and TRACE** - All listings include authenticated team vitality and growth metrics
-  - Buy and sell Web3 services with complete transparency
-  - Fabrknt Score composite metric combining PULSE (team health) + TRACE (growth efficiency) + revenue
-  - One-click NDA with wallet signatures
-  - Atomic escrow for secure asset transfers
-
-### Shared Packages
-
-- **[@fabrknt/ui](./packages/ui)** - Shared React components (Shadcn UI + Radix)
-- **[@fabrknt/auth](./packages/auth)** - Cognito + wallet authentication
-- **[@fabrknt/db](./packages/db)** - Prisma client and database utilities
-- **[@fabrknt/api](./packages/api)** - API utilities, error handling, validation
-- **[@fabrknt/blockchain](./packages/blockchain)** - Blockchain integrations (Solana + EVM)
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- pnpm 8+
-- Docker & Docker Compose
-
-### Quick Start
-
-```bash
-# 1. Clone the repository
-git clone <repository-url>
-cd fabrknt-suite
-
-# 2. Copy environment variables
-cp .env.example .env
-cp apps/pulse/.env.example apps/pulse/.env.local
-cp apps/trace/.env.example apps/trace/.env.local
-cp apps/acquire/.env.example apps/acquire/.env.local
-
-# 3. Install dependencies and setup infrastructure
-pnpm setup
-
-# 4. Apply database schema
-pnpm db:push
-
-# 5. Start all apps in development mode
-pnpm dev
-```
-
-### Individual App Development
-
-```bash
-# Run only PULSE
-pnpm pulse:dev
-
-# Run only TRACE
-pnpm trace:dev
-
-# Run only ACQUIRE
-pnpm acquire:dev
-```
-
-## 🐳 Docker Services
-
-Local development uses Docker Compose for PostgreSQL and Redis:
-
-```bash
-# Start services
-pnpm docker:up
-
-# Stop services
-pnpm docker:down
-
-# View logs
-pnpm docker:logs
-```
-
-**Available Services:**
-
-- PostgreSQL: `localhost:5432` (user: `fabrknt`, password: `fabrknt_dev_password`)
-- Redis: `localhost:6379`
-- pgAdmin: `http://localhost:5050` (admin@fabrknt.local / admin)
-- Redis Commander: `http://localhost:8081`
-
-## 📊 Database
-
-The suite uses a shared PostgreSQL database managed by Prisma.
-
-### Common Commands
-
-```bash
-# Generate Prisma Client
-pnpm db:generate
-
-# Push schema to database (dev)
-pnpm db:push
-
-# Create migration
-pnpm db:migrate
-
-# Open Prisma Studio
-pnpm db:studio
-```
-
-### Schema Overview
-
-The database is organized into three main sections:
-
-1. **PULSE Models**: `User`, `Organization`, `Contribution`, `Praise`, `SBTToken`, `HealthScore` - Team vitality data
-2. **TRACE Models**: `Campaign`, `Click`, `Conversion`, `ActivityMetrics`, `ContractInteraction` - Growth and activity data
-3. **ACQUIRE Models**: `Listing`, `SuiteRibbonData`, `NDASignature`, `ProofOfFunds`, `Escrow` - M&A transaction data that references PULSE and TRACE data
-
-See [packages/db/prisma/schema.prisma](./packages/db/prisma/schema.prisma) for full schema.
-
-## 🏃 Development Workflow
-
-### Code Quality
-
-```bash
-# Lint all packages
-pnpm lint
-
-# Type check all packages
-pnpm type-check
-
-# Run both
-pnpm check
-
-# Format code
-pnpm format
-```
-
-### Build
-
-```bash
-# Build all apps and packages
-pnpm build
-
-# Build specific app
-pnpm --filter @fabrknt/pulse build
-```
-
-## 📦 Monorepo Structure
-
-```
-fabrknt-suite/
-├── apps/
-│   ├── pulse/           # Team vitality tracking app
-│   ├── trace/           # Marketing attribution app
-│   └── acquire/          # M&A terminal app
-├── packages/
-│   ├── ui/              # Shared UI components
-│   ├── auth/            # Authentication utilities
-│   ├── db/              # Database & Prisma client
-│   ├── api/             # API utilities
-│   └── blockchain/      # Blockchain integrations
-├── infrastructure/      # Infrastructure & development tools
-│   ├── docker-compose.yml  # Local dev services (PostgreSQL, Redis)
-│   ├── init-db.sql         # Database initialization
-│   └── ...                 # CDK stacks, Lambda handlers
-├── turbo.json          # Turborepo configuration
-└── pnpm-workspace.yaml # pnpm workspace config
-```
-
-## 🔐 Environment Variables
-
-Each app requires specific environment variables:
-
-### Shared (all apps)
-
-- `DATABASE_URL` - PostgreSQL connection string
-- `COGNITO_*` - AWS Cognito configuration
-
-### PULSE Specific
-
-- `GITHUB_*` - GitHub App credentials
-- `DISCORD_*` - Discord bot credentials
-- `CHAINLINK_*` - Chainlink Functions for SBT minting
-
-### TRACE Specific
-
-- `ALCHEMY_*` - Alchemy API for EVM event tracking
-- `HELIUS_*` - Helius API for Solana event tracking
-- `REDIS_URL` - Redis connection string
-
-### ACQUIRE Specific
-
-- `PULSE_API_*` - PULSE API integration (to fetch team vitality data)
-- `TRACE_API_*` - TRACE API integration (to fetch growth and activity data)
-- Escrow contract addresses
-
-See `.env.example` files for complete configuration.
-
-## 🚢 Deployment
-
-All three apps are designed to deploy on AWS Amplify with the following AWS services:
-
-- **Frontend**: AWS Amplify
-- **Backend**: AWS Lambda + API Gateway
-- **Database**: Amazon RDS PostgreSQL
-- **Cache**: Amazon ElastiCache Redis (TRACE only)
-- **Auth**: Amazon Cognito
-- **Storage**: Amazon S3
-- **Monitoring**: Amazon CloudWatch
-
-See individual app `amplify.yml` files for deployment configurations.
-
-## 📝 Tech Stack
-
-### Frontend
-
-- Next.js 14 (App Router)
-- React 18
-- TypeScript
-- Tailwind CSS
-- Shadcn UI + Radix UI
-- Recharts/Nivo (charts)
-- TanStack Query
-- Zustand (state management)
-
-### Backend
-
-- Node.js 20
-- Prisma ORM
-- PostgreSQL 16
-- Redis 7
-- Zod (validation)
-
-### Blockchain
-
-- Solana Web3.js
-- Viem (EVM)
-- Alchemy SDK
-- Helius DAS API
-
-### DevOps
-
-- Turborepo (monorepo)
-- pnpm (package manager)
-- Docker Compose (local dev)
-- AWS Amplify (deployment)
-
-## 🗺️ Roadmap
-
-### Phase 0: Foundation ✅
-
-- [x] Monorepo setup
-- [x] Shared packages
-- [x] Database schema
-- [x] Basic app structure
-- [x] Docker environment
-
-### Phase 1: TRACE Implementation
-
-- [ ] Core attribution engine
-- [ ] On-chain event processing
-- [ ] Activity monitoring (DAU/WAU/MAU)
-- [ ] Link redirection service
-
-### Phase 2: PULSE Implementation
-
-- [ ] Contribution tracking
-- [ ] Platform integrations (GitHub, Discord, Notion)
-- [ ] Omotenashi scoring algorithm
-- [ ] SBT minting
-
-### Phase 3: ACQUIRE Implementation
-
-- [ ] Listing engine with PULSE + TRACE data integration
-- [ ] Suite Ribbon component displaying verified data from PULSE and TRACE
-- [ ] Fabrknt Score calculation (combining team vitality + growth + revenue)
-- [ ] Atomic escrow contracts
-- [ ] NDA & Proof of Funds
-- [ ] Buyer interface with audit view of backing data
-
-### Phase 4: Integration & Polish
-
-- [ ] Cross-app integration
-- [ ] Analytics & monitoring
-- [ ] Documentation
-- [ ] Beta testing
-
-### Phase 5: Production Launch
-
-- [ ] Security audit
-- [ ] Performance optimization
-- [ ] Staged rollout (TRACE → PULSE → ACQUIRE)
-
-## 🔗 Related Projects
-
-- **[@fabrknt/sdk](https://github.com/fabrknt/sdk)** - The core Fabrknt SDK for building crypto financial operations (separate repository)
-
-## 🤝 Contributing
-
-This is a private monorepo. For development:
-
-1. Create a feature branch from `main`
-2. Make your changes
-3. Run `pnpm check` before committing
-4. Submit a pull request
-
-## 📄 License
-
-Proprietary - All rights reserved
-
-## 🆘 Support
-
-For issues or questions, please contact the development team.
+**Role in Suite:** **The Exit Layer.** ACQUIRE enables buying and selling Web3 services with complete transparency. Every listing includes verified team vitality data from **PULSE** and verified growth metrics from **TRACE**, eliminating information asymmetry and facilitating high-trust Web3 business transfers.
 
 ---
 
-**Built with ❤️ by the Fabrknt team**
+## 2. Design System & Aesthetics (The Suite Standard)
+
+- **Visual Identity:** Full consistency with `www.fabrknt.com`.
+- **The "Suite Ribbon":** Every listing features a dedicated data ribbon displaying real-time health signals from TRACE and PULSE.
+- **Minimalist Architecture:** The UI must feel like a "Financial Terminal"—functional, fast, and devoid of "Crypto-hype" visuals.
+
+---
+
+## 3. Core Functional Modules (The Exit Terminal)
+
+### 3.1. Verified Listing Engine (The Synthesis)
+
+- **Automated Data Import:** Instead of manual entry, sellers link their **TRACE** (Marketing ROI + Service Activity) and **PULSE** (Team Vitality) IDs.
+- **The "Fabrknt Score":** An aggregate score calculated from:
+- **Growth (TRACE):** On-chain conversion efficiency, wallet quality, and service activity metrics (DAU/WAU/MAU, activity score).
+- **Vitality (PULSE):** Team contribution consistency and developer activity.
+- **Revenue:** Verified on-chain protocol fees or Stripe data.
+
+### 3.2. Buyer Interface (High-Fidelity DD)
+
+- **The "Audit View":** Buyers can deep-dive into the raw data provided by TRACE and PULSE without leaving the ACQUIRE interface.
+- **One-Click NDA:** Buyers sign an on-chain message to unlock "Privileged Data" (GitHub private repos, specific smart contract addresses).
+- **Proof of Funds (PoF):** Access to high-value listings is gated by a wallet-balance check to ensure only serious buyers engage.
+
+### 3.3. Transaction Protocol (The Deal Protocol)
+
+- **Atomic Escrow:** A smart contract-based swap where the purchase price (Stablecoins) is exchanged for project assets.
+- **Asset Packaging:**
+- **Smart Contract Ownership:** Transfer of `Admin/Owner` roles.
+- **Digital Assets:** ENS domains, GitHub organization access, and Social accounts.
+
+---
+
+## 4. Enhanced Synergy Features (Integration with Suite)
+
+| Integration | Data Point Shared with ACQUIRE                                                         | Impact on Valuation                                                                  |
+| ----------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **TRACE**   | Verified On-chain ROI / Marketing efficiency + Service activity metrics (DAU/WAU/MAU). | Proves the product is "market-fit", scalable, and actively being used by real users. |
+| **PULSE**   | Team contribution score / SBT-verified history.                                        | Reduces "Key Person Risk" by proving a healthy team.                                 |
+
+---
+
+## 5. Technical Specifications
+
+### 5.1. Tech Stack
+
+- **Frontend:** Next.js 14, Tailwind CSS, Shadcn UI.
+- **Hosting:** AWS Amplify Hosting (consistent with main website)
+- **Backend:** Amazon RDS PostgreSQL as the central hub for the Suite.
+- **API:** AWS API Gateway + Lambda for serverless APIs
+- **Background Workers:** AWS Lambda triggered by EventBridge for data aggregation and monitoring
+- **Blockchain:** \* **Escrow:** Custom Solidity/Rust contracts for atomic swaps (deployed via Lambda).
+- **Validation:** Cross-chain API calls to verify TRACE/PULSE on-chain badges (SBTs) via Lambda.
+- **Authentication:** Amazon Cognito with wallet-based authentication
+- **Storage:** Amazon S3 for listing assets and documents
+- **Monitoring:** Amazon CloudWatch for logs and metrics
+
+### 5.2. Unified API Structure
+
+- `GET /api/v1/suite/summary/{listing_id}`: Aggregates stats from `trace.fabrknt.com` and `pulse.fabrknt.com`.
+- `POST /api/v1/escrow/init`: Deploys a new escrow instance for a deal.
+
+---
+
+## 6. Implementation Strategy (AI Prompts)
+
+### Step 1: The "Suite Ribbon" Component
+
+> "Create a React component called `SuiteRibbon`. It should display three key metrics: 'Growth (from TRACE)', 'Vitality (from PULSE)', and 'Verified Revenue'. Use the minimalist design of https://www.google.com/search?q=fabrknt.com. Each metric should have a 'Verified' checkmark icon that links to the respective subdomain for the audit report."
+
+### Step 2: The Multi-Source Listing Form
+
+> "Build a multi-step form for `acquire.fabrknt.com`. Step 1: Connect Wallet. Step 2: Enter TRACE Project ID. Step 3: Enter PULSE Team ID. The form should then call the APIs of these subdomains to auto-populate the project's performance data."
+
+### Step 3: Atomic Swap Escrow
+
+> "Write a Solidity smart contract for an atomic swap. The buyer deposits USDC. The seller deposits an NFT representing the project's ownership. The contract releases the USDC to the seller only when the NFT is successfully transferred to the buyer."
+
+---
+
+## 7. The Fabrknt Ecosystem Vision
+
+**ACQUIRE** is the **Trust Anchor** of the ecosystem, powered by verified backing data.
+
+1. **TRACE** collects verified growth data (marketing ROI + service activity).
+2. **PULSE** collects verified team vitality data (human effort and contribution quality).
+3. **ACQUIRE** leverages this verified backing data to enable trusted Web3 service transactions. Buyers and sellers can transact with complete transparency, seeing authenticated team health and growth metrics for every listing.
+
+This data-driven approach eliminates information asymmetry and enables high-trust business transfers in Web3.
