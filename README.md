@@ -1,103 +1,270 @@
-# Product Requirements Document: ACQUIRE
+# Fabrknt Suite: Web3 Intelligence & Matching Platform
+
+**Intelligence → Match: AI-Powered Company Intelligence & Matching Platform for Web3 SMEs**
+
+**Domain:** `www.fabrknt.com`
+
+---
 
 ## 1. Project Overview
 
-**Project Name:** ACQUIRE (Powered by Fabrknt)
+**Project Name:** Fabrknt Suite (Powered by Fabrknt)
 
-**Domain:** `acquire.fabrknt.com`
+**Concept:** A next-generation Web3 corporate analysis and matching platform consisting of two integrated products: **Intelligence** (automated company intelligence) and **Match** (M&A & partnership matching). Intelligence provides verified company intelligence combining growth metrics and team health data. Match leverages Intelligence data to power M&A and partnership matching, enabling high-trust business transactions with complete transparency.
 
-**Concept:** The premium M&A terminal for Web3, powered by verified backing data from **PULSE** and **TRACE**.
+**Architecture:** **Intelligence → Match** - Intelligence serves as the data foundation that powers Match's matching and decision-making capabilities. Every Match listing is backed by verified Intelligence data, ensuring transparency and trust.
 
-**Role in Suite:** **The Exit Layer.** ACQUIRE enables buying and selling Web3 services with complete transparency. Every listing includes verified team vitality data from **PULSE** and verified growth metrics from **TRACE**, eliminating information asymmetry and facilitating high-trust Web3 business transfers.
-
----
-
-## 2. Design System & Aesthetics (The Suite Standard)
-
-- **Visual Identity:** Full consistency with `www.fabrknt.com`.
-- **The "Suite Ribbon":** Every listing features a dedicated data ribbon displaying real-time health signals from TRACE and PULSE.
-- **Minimalist Architecture:** The UI must feel like a "Financial Terminal"—functional, fast, and devoid of "Crypto-hype" visuals.
+**Positioning:** **AI × SME Specialization × Integrated Advisory** - Maximizing automation through AI to drastically improve the cost and time efficiency of M&A and partnership processes in the Web3 market, where information asymmetry is high.
 
 ---
 
-## 3. Core Functional Modules (The Exit Terminal)
+## 2. Market Opportunity
 
-### 3.1. Verified Listing Engine (The Synthesis)
+### Web3 Market Growth
 
-- **Automated Data Import:** Instead of manual entry, sellers link their **TRACE** (Marketing ROI + Service Activity) and **PULSE** (Team Vitality) IDs.
-- **The "Fabrknt Score":** An aggregate score calculated from:
-- **Growth (TRACE):** On-chain conversion efficiency, wallet quality, and service activity metrics (DAU/WAU/MAU, activity score).
-- **Vitality (PULSE):** Team contribution consistency and developer activity.
-- **Revenue:** Verified on-chain protocol fees or Stripe data.
+The Web3 market is estimated to be between **$3.47 billion and $7.23 billion** as of 2025, with projections to expand to **$41.4 billion – $42.3 billion by 2030** (CAGR of approximately 42%–45%).
 
-### 3.2. Buyer Interface (High-Fidelity DD)
+### SME Segment Opportunity
 
-- **The "Audit View":** Buyers can deep-dive into the raw data provided by TRACE and PULSE without leaving the ACQUIRE interface.
-- **One-Click NDA:** Buyers sign an on-chain message to unlock "Privileged Data" (GitHub private repos, specific smart contract addresses).
-- **Proof of Funds (PoF):** Access to high-value listings is gated by a wallet-balance check to ensure only serious buyers engage.
+The growth rate of SMEs within the Web3 market is particularly noteworthy. While large enterprises currently lead with a 60.9% market share, the **SME segment is projected to grow at an average annual rate of 54.6% through 2030**, outstripping the pace of large corporations.
 
-### 3.3. Transaction Protocol (The Deal Protocol)
+-   **Active Seed and Small-Scale Deals:** Approximately 36.4% of funding rounds are concentrated in the $1M to $5M range, making the seed round the most active phase.
+-   **The Necessity of Consolidation:** Many small projects face resource shortages and intensifying competition. We have entered a "Consolidation Phase" where SMEs with high technical capabilities are being absorbed into larger ecosystems.
 
-- **Atomic Escrow:** A smart contract-based swap where the purchase price (Stablecoins) is exchanged for project assets.
-- **Asset Packaging:**
-- **Smart Contract Ownership:** Transfer of `Admin/Owner` roles.
-- **Digital Assets:** ENS domains, GitHub organization access, and Social accounts.
+### Global Market Positioning
+
+The platform serves the global Web3 ecosystem, focusing on SMEs that require efficient, data-driven M&A and partnership processes. As the market moves from "speculation to utility" and "isolation to integration," an infrastructure where AI bridges the gap between technology and business based on data is indispensable for the development of the global Web3 ecosystem.
 
 ---
 
-## 4. Enhanced Synergy Features (Integration with Suite)
+## 3. AI Automation & Efficiency
 
-| Integration | Data Point Shared with ACQUIRE                                                         | Impact on Valuation                                                                  |
-| ----------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| **TRACE**   | Verified On-chain ROI / Marketing efficiency + Service activity metrics (DAU/WAU/MAU). | Proves the product is "market-fit", scalable, and actively being used by real users. |
-| **PULSE**   | Team contribution score / SBT-verified history.                                        | Reduces "Key Person Risk" by proving a healthy team.                                 |
+The vision of "maximizing automation through AI" drastically improves the cost and time efficiency of traditional M&A processes in the Web3 market.
 
----
+### Quantitative Evaluation of AI-Driven Efficiency
 
-## 5. Technical Specifications
+-   **Accelerated Sourcing and Evaluation:** By using AI algorithms to identify targets, the time required to locate and evaluate companies can be reduced by **over 50%**.
+-   **High-Speed Document Processing:** AI agents utilizing Natural Language Processing (NLP) can process thousands of financial and legal documents in minutes to extract inconsistencies or legal risks. This shortens the review period for mid-market deals from weeks to days.
+-   **Democratization of Technical Evaluation:** AI auditing tools detect smart contract vulnerabilities and assign security scores (0–100%). Furthermore, they translate complex code into language understandable by non-technical investors and executives.
 
-### 5.1. Tech Stack
+### Three-Tier Data Integration
 
-- **Frontend:** Next.js 14, Tailwind CSS, Shadcn UI.
-- **Hosting:** AWS Amplify Hosting (consistent with main website)
-- **Backend:** Amazon RDS PostgreSQL as the central hub for the Suite.
-- **API:** AWS API Gateway + Lambda for serverless APIs
-- **Background Workers:** AWS Lambda triggered by EventBridge for data aggregation and monitoring
-- **Blockchain:** \* **Escrow:** Custom Solidity/Rust contracts for atomic swaps (deployed via Lambda).
-- **Validation:** Cross-chain API calls to verify TRACE/PULSE on-chain badges (SBTs) via Lambda.
-- **Authentication:** Amazon Cognito with wallet-based authentication
-- **Storage:** Amazon S3 for listing assets and documents
-- **Monitoring:** Amazon CloudWatch for logs and metrics
+AI seamlessly combines three layers of data to provide a holistic view:
 
-### 5.2. Unified API Structure
-
-- `GET /api/v1/suite/summary/{listing_id}`: Aggregates stats from `trace.fabrknt.com` and `pulse.fabrknt.com`.
-- `POST /api/v1/escrow/init`: Deploys a new escrow instance for a deal.
+1. **On-chain:** Real-time monitoring of "Smart Money" movements and TVL trends via APIs (e.g., Nansen, Dune). Verified on-chain protocol fees, transaction volumes, and wallet quality metrics.
+2. **Off-chain:** Traditional financial and legal information, GitHub activity, team contribution data, and service activity metrics (DAU/WAU/MAU).
+3. **Online:** Sentiment analysis to distinguish between bot activity (airdrop farming) and genuine community growth. Social media metrics and community engagement data.
 
 ---
 
-## 6. Implementation Strategy (AI Prompts)
+## 4. Platform Architecture: Intelligence → Match
 
-### Step 1: The "Suite Ribbon" Component
+The platform operates on a two-tier architecture where **Intelligence** serves as the data foundation that powers **Match**.
 
-> "Create a React component called `SuiteRibbon`. It should display three key metrics: 'Growth (from TRACE)', 'Vitality (from PULSE)', and 'Verified Revenue'. Use the minimalist design of https://www.google.com/search?q=fabrknt.com. Each metric should have a 'Verified' checkmark icon that links to the respective subdomain for the audit report."
+### 4.1. Intelligence: The Data Foundation
 
-### Step 2: The Multi-Source Listing Form
+**Intelligence** provides automated, verified intelligence for Web3 companies by combining:
 
-> "Build a multi-step form for `acquire.fabrknt.com`. Step 1: Connect Wallet. Step 2: Enter TRACE Project ID. Step 3: Enter PULSE Team ID. The form should then call the APIs of these subdomains to auto-populate the project's performance data."
+-   **Growth Metrics:** On-chain activity, wallet growth, user growth rates, TVL trends, and transaction volumes
+-   **Team Health:** GitHub commits, active contributors, contributor retention, code quality, and team consistency
+-   **Verified Intelligence:** Automated verification via blockchain and GitHub APIs—no manual input, just trustworthy metrics
 
-### Step 3: Atomic Swap Escrow
+**The "Fabrknt Score":** An aggregate intelligence score (0-100) calculated from:
 
-> "Write a Solidity smart contract for an atomic swap. The buyer deposits USDC. The seller deposits an NFT representing the project's ownership. The contract releases the USDC to the seller only when the NFT is successfully transferred to the buyer."
+-   **Growth Score:** On-chain conversion efficiency, wallet quality, and service activity metrics (DAU/WAU/MAU)
+-   **Team Health Score:** Team contribution consistency and developer activity
+-   **Revenue Verification:** Verified on-chain protocol fees or Stripe data
+
+**Key Features:**
+
+-   Automated analysis of on-chain data, GitHub activity, and social metrics
+-   Real-time monitoring and updates
+-   Comprehensive company directory with verified intelligence scores
+-   Transparent, auditable data sources
+
+### 4.2. Match: Powered by Intelligence Data
+
+**Match** leverages Intelligence data to enable M&A and partnership matching:
+
+-   **Automated Data Import:** Listings automatically pull verified intelligence data from Intelligence—no manual entry required
+-   **The "Audit View":** Buyers can deep-dive into the raw intelligence data without leaving the Match interface
+-   **AI-Powered Matching:** Automated compatibility analysis based on verified intelligence scores
+-   **One-Click NDA:** Buyers sign an on-chain message to unlock "Privileged Data" (GitHub private repos, specific smart contract addresses)
+-   **Proof of Funds (PoF):** Access to high-value listings is gated by a wallet-balance check to ensure only serious buyers engage
+
+### 4.3. Partnership & Collaboration Matching
+
+Beyond M&A transactions, **Match** serves as a comprehensive "matchmaking platform" for the Web3 ecosystem:
+
+-   **Business Matchmaking:** Connect companies seeking infrastructure with SMEs possessing specific tech stacks (e.g., Zero-Knowledge Proofs, DePIN)
+-   **Technology-Complementary Alliances:** Match companies based on complementary capabilities and technical requirements, using Intelligence data to assess compatibility
+-   **Partnership Types:** Support for technical, strategic, marketing, and ecosystem partnerships
+-   **Post-Alliance Monitoring:** AI continuously analyzes on-chain activity post-partnership using Intelligence data to visualize and evaluate synergies, such as increases in user count or transaction volume
+
+### 4.4. Transaction Protocol (The Deal Protocol)
+
+-   **Atomic Escrow:** A smart contract-based swap where the purchase price (Stablecoins) is exchanged for project assets.
+-   **Asset Packaging:**
+    -   **Smart Contract Ownership:** Transfer of `Admin/Owner` roles.
+    -   **Digital Assets:** ENS domains, GitHub organization access, and Social accounts.
 
 ---
 
-## 7. The Fabrknt Ecosystem Vision
+## 5. Design System & Aesthetics
 
-**ACQUIRE** is the **Trust Anchor** of the ecosystem, powered by verified backing data.
+-   **Visual Identity:** Full consistency with `www.fabrknt.com`.
+-   **The "Suite Ribbon":** Every Match listing features a dedicated data ribbon displaying real-time intelligence signals from Intelligence (growth metrics and team health).
+-   **Minimalist Architecture:** The UI feels like a "Financial Terminal"—functional, fast, and devoid of "Crypto-hype" visuals.
 
-1. **TRACE** collects verified growth data (marketing ROI + service activity).
-2. **PULSE** collects verified team vitality data (human effort and contribution quality).
-3. **ACQUIRE** leverages this verified backing data to enable trusted Web3 service transactions. Buyers and sellers can transact with complete transparency, seeing authenticated team health and growth metrics for every listing.
+---
 
-This data-driven approach eliminates information asymmetry and enables high-trust business transfers in Web3.
+## 6. Intelligence → Match Data Flow
+
+**Intelligence** collects and verifies data, which **Match** uses for matching and decision-making:
+
+| Intelligence Data  | Used by Match For                                                                     | Impact on Matching & Valuation                                                      |
+| ------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Growth Metrics** | Verified On-chain ROI / Marketing efficiency + Service activity metrics (DAU/WAU/MAU) | Proves the product is "market-fit", scalable, and actively being used by real users |
+| **Team Health**    | Team contribution score / Developer activity / Code quality                           | Reduces "Key Person Risk" by proving a healthy team and sustainable development     |
+| **Overall Score**  | Automated compatibility analysis and ranking                                          | Enables AI-powered matching based on verified intelligence scores                   |
+
+---
+
+## 7. Technical Specifications
+
+### 7.1. Tech Stack
+
+-   **Frontend:** Next.js 14, Tailwind CSS, Shadcn UI.
+-   **Hosting:** AWS Amplify Hosting (consistent with main website)
+-   **Backend:** Amazon RDS PostgreSQL as the central hub for the Suite.
+-   **API:** AWS API Gateway + Lambda for serverless APIs
+-   **Background Workers:** AWS Lambda triggered by EventBridge for data aggregation and monitoring
+-   **Blockchain:** **Escrow:** Custom Solidity/Rust contracts for atomic swaps (deployed via Lambda).
+-   **Validation:** Cross-chain API calls to verify TRACE/PULSE on-chain badges (SBTs) via Lambda.
+-   **Authentication:** Amazon Cognito with wallet-based authentication
+-   **Storage:** Amazon S3 for listing assets and documents
+-   **Monitoring:** Amazon CloudWatch for logs and metrics
+
+### 7.2. AI Analysis Engine
+
+-   **Multi-Chain Integration:** Support for 40+ EVM chains
+-   **Automated Target Extraction:** AI algorithms identify and score promising unlisted Web3 projects
+-   **Long List Generation:** Automated candidate generation from various data sources
+-   **Post-Alliance Monitoring:** Continuous analysis of on-chain activity to evaluate partnership synergies
+
+### 7.3. Unified API Structure
+
+-   `GET /api/v1/intelligence/companies`: Get verified company intelligence data
+-   `GET /api/v1/intelligence/companies/{id}`: Get detailed intelligence for a specific company
+-   `GET /api/v1/match/opportunities`: Get M&A and partnership opportunities (powered by Intelligence data)
+-   `GET /api/v1/match/opportunities/{id}`: Get detailed opportunity with full intelligence metrics
+-   `POST /api/v1/escrow/init`: Deploys a new escrow instance for a deal
+
+---
+
+## 8. Unique Value Proposition
+
+### AI-Powered Automation
+
+-   **50%+ Time Reduction:** Accelerated sourcing and evaluation through AI algorithms
+-   **Weeks to Days:** Document processing speed improvements for mid-market deals
+-   **Automated Verification:** 100% automated verification using on-chain data, GitHub activity, and social metrics
+
+### SME Specialization
+
+-   **Focus on Web3 SMEs:** Specialized in serving small to medium enterprises in the Web3 space
+-   **Scalable Solutions:** Designed for deals in the $1M-$5M range where traditional M&A processes are inefficient
+-   **Cost-Effective:** AI automation reduces costs associated with traditional due diligence
+
+### Integrated Advisory
+
+-   **End-to-End Support:** From target identification to transaction completion
+-   **Data-Driven Decisions:** Comprehensive three-tier data integration (on-chain, off-chain, online)
+-   **Transparent Process:** Complete visibility into verified metrics and data sources
+
+---
+
+## 9. The Fabrknt Ecosystem Vision
+
+**Fabrknt Suite** operates on a data-driven architecture where **Intelligence** powers **Match**.
+
+### The Intelligence → Match Flow
+
+1. **Intelligence** collects and verifies comprehensive company data:
+
+    - Growth metrics (on-chain activity, wallet growth, user growth rates)
+    - Team health (GitHub activity, contributors, code quality)
+    - Overall intelligence scores (0-100)
+
+2. **Match** leverages Intelligence data to enable trusted transactions:
+
+    - M&A matching powered by verified intelligence scores
+    - Partnership matching based on complementary capabilities
+    - Automated compatibility analysis using intelligence metrics
+
+3. **Result:** Buyers, sellers, and partners can transact with complete transparency, seeing authenticated team health and growth metrics for every listing.
+
+This data-driven approach eliminates information asymmetry and enables high-trust business transfers and partnerships in Web3, supporting the global consolidation and integration of the Web3 ecosystem. **Intelligence is the foundation; Match is the engine that uses that foundation to create connections.**
+
+---
+
+## 10. Implementation Roadmap
+
+### Phase 1: Core Platform ✅
+
+-   Intelligence: Automated company intelligence with growth and team health metrics
+-   Match: Basic M&A matching functionality powered by Intelligence data
+-   Suite Ribbon component displaying Intelligence metrics
+
+### Phase 2: Partnership Features ✅
+
+-   Partnership and collaboration matching (implemented in code)
+-   Enhanced matching algorithms using Intelligence scores
+-   Post-alliance monitoring capabilities leveraging Intelligence data
+
+### Phase 3: AI Enhancement (In Progress)
+
+-   AI document processing (NLP for financial/legal docs)
+-   Sentiment analysis integration
+-   Automated target extraction algorithms
+-   Enhanced SME scoring system
+
+---
+
+## 11. Getting Started
+
+### For Sellers
+
+1. Your company is automatically tracked in **Intelligence** (if not, add it)
+2. Intelligence verifies your growth metrics and team health
+3. Create your listing in **Match** - intelligence data auto-populates from Intelligence
+4. Listings show verified intelligence scores, enabling faster buyer trust
+
+### For Buyers
+
+1. Browse **Intelligence** to research companies with verified metrics
+2. Use **Match** to find acquisition targets and partnership opportunities
+3. View detailed intelligence data (growth metrics, team health) for each opportunity
+4. Access detailed audit views with raw intelligence data
+5. Sign on-chain NDA for privileged data access
+6. Complete transactions via atomic escrow
+
+### For Partners
+
+1. Browse **Intelligence** to understand company capabilities
+2. Use **Match** to find partnership opportunities
+3. Filter by partnership type (technical, strategic, marketing, ecosystem)
+4. Match based on complementary capabilities using Intelligence data
+5. Monitor post-alliance synergies through Intelligence metrics
+
+---
+
+## 12. Contributing
+
+This is part of the Fabrknt ecosystem. For contributions, please refer to the main Fabrknt repository.
+
+---
+
+## 13. License
+
+See LICENSE file in the repository root.

@@ -14,7 +14,6 @@ import {
   Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Logo } from '@/components/logo';
 
 const intelligenceNav = [
   { name: 'Spotlight', href: '/intelligence', icon: TrendingUp },
@@ -49,10 +48,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
       >
         <div className="flex h-full flex-col">
           {/* Mobile Header with Close Button */}
-          <div className="flex h-16 items-center justify-between border-b border-border px-6">
-            <div onClick={onClose}>
-              <Logo size="md" />
-            </div>
+          <div className="flex h-16 items-center justify-end border-b border-border px-6">
             <button
               onClick={onClose}
               className="p-2 text-foreground hover:bg-muted rounded-md transition-colors"
@@ -174,13 +170,8 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
 
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex h-full w-64 flex-col bg-muted border-r border-border">
-        {/* Logo */}
-        <div className="flex h-16 items-center border-b border-border px-6">
-          <Logo size="md" />
-        </div>
-
         {/* Navigation */}
-        <nav className="flex-1 space-y-4 px-3 py-4">
+        <nav className="flex-1 space-y-4 px-3 py-4 pt-6">
           {/* Home */}
           <Link
             href="/"
