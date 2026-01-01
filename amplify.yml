@@ -3,14 +3,10 @@ frontend:
   phases:
     preBuild:
       commands:
-        - cd apps/suite
-        - corepack enable
-        - corepack prepare pnpm@latest --activate
-        - pnpm install --no-frozen-lockfile
+        - cd apps/suite && corepack enable && corepack prepare pnpm@latest --activate && pnpm install --no-frozen-lockfile
     build:
       commands:
-        - cd apps/suite
-        - pnpm run build
+        - cd apps/suite && pnpm run build
   artifacts:
     baseDirectory: apps/suite/.next
     files:
