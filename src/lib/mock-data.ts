@@ -5,7 +5,8 @@ export type OpportunityType = 'acquisition' | 'partnership' | 'collaboration' | 
 export interface Listing {
   id: string;
   type: OpportunityType;
-  projectName: string;
+  projectName: string;  // Company name (e.g., "Uniswap", "Aave")
+  productType: string;  // Product type (e.g., "Cross-chain Bridge", "DeFi Lending Platform")
   description: string;
 
   // M&A specific (acquisition/investment)
@@ -44,7 +45,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'listing-1',
       type: 'acquisition',
-      projectName: 'DeFi Yield Protocol',
+      projectName: 'Yearn Finance',
+      productType: 'DeFi Yield Aggregator',
       description: 'Automated yield farming protocol with proven revenue and active community. $2.5M ARR, 15K MAU, growing 25% MoM.',
       askingPrice: 8500000,
       revenue: 2500000,
@@ -78,7 +80,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'listing-2',
       type: 'acquisition',
-      projectName: 'NFT Gaming Platform',
+      projectName: 'Axie Infinity',
+      productType: 'Play-to-Earn Gaming Platform',
       description: 'Play-to-earn gaming ecosystem with 50K+ active players. Strong community engagement and proven team.',
       askingPrice: 12000000,
       revenue: 3800000,
@@ -112,7 +115,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'listing-3',
       type: 'acquisition',
-      projectName: 'DAO Governance Toolkit',
+      projectName: 'Snapshot',
+      productType: 'DAO Governance Platform',
       description: 'Modular governance framework used by 200+ DAOs. Subscription-based revenue model, highly scalable.',
       askingPrice: 5500000,
       revenue: 1200000,
@@ -146,7 +150,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'listing-4',
       type: 'acquisition',
-      projectName: 'NFT Marketplace',
+      projectName: 'Foundation',
+      productType: 'NFT Art Marketplace',
       description: 'Curated NFT marketplace focusing on digital art. $850K ARR, strong artist community.',
       askingPrice: 3200000,
       revenue: 850000,
@@ -179,7 +184,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'listing-5',
       type: 'acquisition',
-      projectName: 'Cross-Chain Bridge',
+      projectName: 'Synapse Protocol',
+      productType: 'Cross-Chain Bridge',
       description: 'Secure multi-chain asset bridge. $4.2M TVL, high transaction volume, strong security track record.',
       askingPrice: 15000000,
       revenue: 5600000,
@@ -213,7 +219,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'listing-6',
       type: 'acquisition',
-      projectName: 'Social DeFi App',
+      projectName: 'DeFi Llama',
+      productType: 'Social DeFi Platform',
       description: 'Social trading platform with 12K active traders. Revenue from trading fees and premium subscriptions.',
       askingPrice: 4800000,
       revenue: 980000,
@@ -248,7 +255,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'partnership-1',
       type: 'partnership',
-      projectName: 'ZK-Proof Infrastructure',
+      projectName: 'zkSync',
+      productType: 'ZK-Proof Infrastructure',
       description: 'Enterprise-grade zero-knowledge proof infrastructure seeking integration partners. Looking to collaborate with L2s, privacy protocols, and enterprise blockchain solutions.',
       revenue: 1500000,
       mau: 3200,
@@ -282,7 +290,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'partnership-2',
       type: 'collaboration',
-      projectName: 'DePIN Network',
+      projectName: 'Helium',
+      productType: 'DePIN Network',
       description: 'Decentralized Physical Infrastructure Network with 5K+ nodes. Seeking ecosystem partnerships for network expansion and use-case development.',
       revenue: 800000,
       mau: 5500,
@@ -316,7 +325,8 @@ export function generateMockListings(): Listing[] {
     {
       id: 'partnership-3',
       type: 'partnership',
-      projectName: 'Payment Protocol',
+      projectName: 'Circle',
+      productType: 'Payment Protocol',
       description: 'Stablecoin payment rails for Web3 apps. Seeking strategic partnerships with DeFi protocols, NFT marketplaces, and gaming platforms for payment integration.',
       revenue: 2200000,
       mau: 18000,

@@ -53,6 +53,9 @@ export default function ListingDetailPage({
               <h1 className="text-3xl font-bold text-foreground">
                 {listing.projectName}
               </h1>
+              <p className="text-lg text-muted-foreground mt-1">
+                {listing.productType}
+              </p>
               <div className="mt-2 flex items-center gap-3">
                 <span className="text-sm capitalize text-muted-foreground">
                   {listing.category}

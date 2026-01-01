@@ -74,7 +74,10 @@ export function ListingCard({ listing }: ListingCardProps) {
               <h3 className="text-lg font-bold text-foreground group-hover:text-green-600">
                 {listing.projectName}
               </h3>
-              <p className="text-sm text-muted-foreground/75 capitalize">
+              <p className="text-sm text-muted-foreground/75">
+                {listing.productType}
+              </p>
+              <p className="text-xs text-muted-foreground/60 capitalize mt-0.5">
                 {listing.category} • {listing.chain}
               </p>
             </div>
