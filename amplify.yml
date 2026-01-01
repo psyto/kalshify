@@ -3,27 +3,24 @@ frontend:
   phases:
     preBuild:
       commands:
+        - cd apps/suite
         - corepack enable
-        - corepack prepare pnpm@8.15.0 --activate
+        - corepack prepare pnpm@latest --activate
         - pnpm install --frozen-lockfile
-        - echo "Installing dependencies for Fabrknt Suite"
+        - echo "Installing dependencies for Fabrknt"
     build:
       commands:
         - cd apps/suite
         - pnpm run build
-        - echo "Suite build completed"
-    postBuild:
-      commands:
-        - echo "Post-build completed"
+        - echo "Build completed"
   artifacts:
     baseDirectory: apps/suite/.next
     files:
       - '**/*'
   cache:
     paths:
-      - node_modules/**/*
+      - apps/suite/node_modules/**/*
       - apps/suite/.next/cache/**/*
-      - .turbo/**/*
 customHeaders:
   - pattern: '**/*'
     headers:
