@@ -1,9 +1,21 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { companies, getTopCompanies } from '@/lib/intelligence/companies';
+import { ArrowRight, Trophy, TrendingUp, Github, Star } from 'lucide-react';
+import {
+  companies,
+  getTopCompanies,
+  getFastestGrowing,
+  getMostActiveTeams,
+  getRisingStars,
+  getCategoryLeaders,
+} from '@/lib/intelligence/companies';
+import { SpotlightSection, CategoryLeaderCard } from '@/components/intelligence/spotlight';
 
 export default function IntelligencePage() {
   const topCompanies = getTopCompanies(5);
+  const fastestGrowing = getFastestGrowing(5);
+  const mostActiveTeams = getMostActiveTeams(5);
+  const risingStars = getRisingStars(5);
+  const categoryLeaders = getCategoryLeaders();
 
   return (
     <div className="space-y-8">
@@ -41,55 +53,57 @@ export default function IntelligencePage() {
         </div>
       </div>
 
-      {/* Top Companies Preview */}
-      <div className="bg-card rounded-lg border border-border p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-semibold text-foreground">Top Performers</h2>
-            <p className="text-sm text-muted-foreground mt-1">Companies with highest intelligence scores</p>
-          </div>
-          <Link
-            href="/intelligence/companies"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors"
-          >
-            View All Companies
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+      {/* Spotlight Sections */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Top Overall */}
+        <SpotlightSection
+          title="Top Performers"
+          description="Highest overall intelligence scores"
+          icon={Trophy}
+          companies={topCompanies}
+          iconColor="text-yellow-600"
+        />
 
-        <div className="space-y-4">
-          {topCompanies.map((company, index) => (
-            <Link
-              key={company.slug}
-              href={`/intelligence/${company.slug}`}
-              className="block p-4 rounded-lg border border-border hover:border-purple-300 hover:shadow-md transition-all"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="text-2xl font-bold text-muted-foreground/50 w-8">#{index + 1}</div>
-                  <div className="text-3xl">{company.logo}</div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">{company.name}</h3>
-                    <p className="text-sm text-muted-foreground">{company.category}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-8">
-                  <div className="text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Overall Score</p>
-                    <p className="text-2xl font-bold text-green-600">{company.overallScore}</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Team Health</p>
-                    <p className="text-2xl font-bold text-foreground">{company.teamHealth.score}</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Growth</p>
-                    <p className="text-2xl font-bold text-foreground">{company.growth.score}</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+        {/* Fastest Growing */}
+        <SpotlightSection
+          title="Fastest Growing"
+          description="Highest user growth rate (30 days)"
+          icon={TrendingUp}
+          companies={fastestGrowing}
+          iconColor="text-green-600"
+        />
+
+        {/* Most Active Teams */}
+        <SpotlightSection
+          title="Most Active Teams"
+          description="Highest GitHub commit velocity"
+          icon={Github}
+          companies={mostActiveTeams}
+          iconColor="text-blue-600"
+        />
+
+        {/* Rising Stars */}
+        <SpotlightSection
+          title="Rising Stars"
+          description="Biggest growth momentum"
+          icon={Star}
+          companies={risingStars}
+          iconColor="text-purple-600"
+        />
+      </div>
+
+      {/* Category Leaders */}
+      <div className="bg-card rounded-lg border border-border p-6">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold text-foreground">Category Leaders</h2>
+          <p className="text-sm text-muted-foreground mt-1">Top companies in each category</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <CategoryLeaderCard category="DeFi" company={categoryLeaders.defi} />
+          <CategoryLeaderCard category="Infrastructure" company={categoryLeaders.infrastructure} />
+          <CategoryLeaderCard category="NFT" company={categoryLeaders.nft} />
+          <CategoryLeaderCard category="DAO" company={categoryLeaders.dao} />
+          <CategoryLeaderCard category="Gaming" company={categoryLeaders.gaming} />
         </div>
       </div>
 
