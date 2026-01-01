@@ -1,3 +1,5 @@
+import { loadCompanyFromJson, loadAllCompaniesFromJson } from './data-loader';
+
 export type CompanyCategory = 'defi' | 'infrastructure' | 'nft' | 'dao' | 'gaming';
 export type TrendDirection = 'up' | 'down' | 'stable';
 
@@ -35,8 +37,8 @@ export interface Company {
   listingId?: string;           // Reference to marketplace listing
 }
 
-// Mock company data - 25 web3 companies
-export const companies: Company[] = [
+// Mock company data - 25 web3 companies (used as fallback when real data is not available)
+const mockCompanies: Company[] = [
   // DeFi Companies
   {
     slug: 'uniswap',
@@ -668,6 +670,24 @@ export const companies: Company[] = [
     isListed: false,
   },
 ];
+
+// Load real data from JSON files when available, fallback to mock data
+function loadCompanies(): Company[] {
+  // Start with all companies from JSON files (real data)
+  const realCompanies = loadAllCompaniesFromJson();
+  const realSlugs = new Set(realCompanies.map(c => c.slug));
+
+  // Add mock companies that don't have real data
+  const mockOnlyCompanies = mockCompanies.filter(
+    mockCompany => !realSlugs.has(mockCompany.slug)
+  );
+
+  // Combine real and mock data
+  return [...realCompanies, ...mockOnlyCompanies];
+}
+
+// Export the merged companies array (real data where available, mock data as fallback)
+export const companies: Company[] = loadCompanies();
 
 // Helper functions
 export function getCompanyBySlug(slug: string): Company | undefined {

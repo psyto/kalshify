@@ -65,3 +65,6 @@ amplify/
 # Temporary files
 *.tmp
 .cache/
+
+# Fetched company intelligence data
+data/
