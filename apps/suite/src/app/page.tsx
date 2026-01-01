@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Brain, ShoppingCart, TrendingUp, Shield, Users, Building2 } from 'lucide-react';
+import { ArrowRight, Brain, Link2, TrendingUp, Shield, Users, Building2 } from 'lucide-react';
 import { companies } from '@/lib/intelligence/companies';
 import { getMockListings } from '@/lib/mock-data';
 
@@ -16,11 +16,11 @@ export default function SuiteLandingPage() {
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Web3 Intelligence & Acquisition Platform
+              Web3 Intelligence & M&A Matching Platform
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Discover verified web3 companies with automated on-chain and off-chain intelligence.
-              Make informed acquisition decisions with trustworthy data.
+              Research web3 companies with AI-powered intelligence. Connect for acquisitions,
+              strategic partnerships, and ecosystem collaborations—all backed by verified on-chain and off-chain data.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -35,8 +35,8 @@ export default function SuiteLandingPage() {
                 href="/match"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-semibold text-lg"
               >
-                <ShoppingCart className="h-6 w-6" />
-                Explore Match
+                <Link2 className="h-6 w-6" />
+                Find Matches
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
@@ -59,11 +59,11 @@ export default function SuiteLandingPage() {
           </div>
           <div className="text-center">
             <p className="text-4xl font-bold text-cyan-600 mb-2">{activeListings}</p>
-            <p className="text-sm text-muted-foreground">Active Listings</p>
+            <p className="text-sm text-muted-foreground">Active Opportunities</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-bold text-green-600 mb-2">100%</p>
-            <p className="text-sm text-muted-foreground">Verified Data</p>
+            <p className="text-sm text-muted-foreground">AI-Verified Data</p>
           </div>
         </div>
       </div>
@@ -131,7 +131,7 @@ export default function SuiteLandingPage() {
           <div className="bg-card rounded-lg border border-border p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-3 rounded-lg bg-cyan-100">
-                <ShoppingCart className="h-8 w-8 text-cyan-600" />
+                <Link2 className="h-8 w-8 text-cyan-600" />
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-foreground">MATCH</h2>
@@ -148,27 +148,27 @@ export default function SuiteLandingPage() {
               <div className="flex items-start gap-3">
                 <Building2 className="h-5 w-5 text-cyan-600 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-foreground">M&A Opportunities</p>
+                  <p className="font-semibold text-foreground">Acquisition Targets</p>
                   <p className="text-sm text-muted-foreground">
-                    {listedCompanies} verified companies available for acquisition
+                    {listedCompanies} verified web3 companies seeking M&A with transparent metrics
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Users className="h-5 w-5 text-cyan-600 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-foreground">Partnership Matching</p>
+                  <p className="font-semibold text-foreground">Strategic Partnerships</p>
                   <p className="text-sm text-muted-foreground">
-                    Strategic alliances, tech collaborations, ecosystem building
+                    Technical integrations, ecosystem collaborations, co-marketing opportunities
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <TrendingUp className="h-5 w-5 text-cyan-600 mt-0.5" />
+                <Shield className="h-5 w-5 text-cyan-600 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-foreground">Verified Intelligence</p>
+                  <p className="font-semibold text-foreground">AI-Powered Matching</p>
                   <p className="text-sm text-muted-foreground">
-                    All metrics verified - team health, growth, and revenue
+                    Automated compatibility analysis based on verified intelligence scores
                   </p>
                 </div>
               </div>
@@ -190,34 +190,34 @@ export default function SuiteLandingPage() {
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-              Fully Automated Verification
+              How It Works
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
                 <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-purple-600">1</span>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">On-Chain Data</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">AI Intelligence</h3>
                 <p className="text-sm text-muted-foreground">
-                  Smart contracts, wallets, DAOs, and blockchain transactions automatically verified
+                  Automated analysis of on-chain data, GitHub activity, and social metrics—no manual input needed
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 rounded-full bg-cyan-100 flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-cyan-600">2</span>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Off-Chain Sources</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Smart Matching</h3>
                 <p className="text-sm text-muted-foreground">
-                  GitHub commits, Discord activity, and Twitter engagement tracked in real-time
+                  AI-powered compatibility analysis finds the best M&A targets and partnership opportunities
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl font-bold text-green-600">3</span>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Intelligence Score</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Connect & Close</h3>
                 <p className="text-sm text-muted-foreground">
-                  Algorithmic scoring combines all metrics into trustworthy overall intelligence
+                  Transparent verified metrics enable faster due diligence and confident decision-making
                 </p>
               </div>
             </div>
@@ -229,24 +229,25 @@ export default function SuiteLandingPage() {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-3xl mx-auto text-center bg-gradient-to-r from-purple-50 to-cyan-50 rounded-lg border border-purple-200 p-12">
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            Start Making Data-Driven Decisions
+            Ready to Find Your Next Strategic Move?
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Research companies with INTELLIGENCE, connect for M&A and partnerships with MATCH. All backed by verified data.
+            Research companies with AI-powered INTELLIGENCE. Find acquisitions and partnerships with smart MATCH.
+            All decisions backed by 100% verified data.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/intelligence/companies"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium"
             >
-              View All Companies
+              Explore Companies
               <ArrowRight className="h-5 w-5" />
             </Link>
             <Link
               href="/match/opportunities"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-50 transition-colors font-medium"
             >
-              View All Opportunities
+              Find Matches
               <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
