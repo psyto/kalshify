@@ -72,7 +72,7 @@ export default function SuiteLandingPage() {
               </span>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Web3 Intelligence & M&A Matching Platform
+              Web3 Intelligence & Matching Platform
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
               Research web3 companies with AI-powered intelligence. Connect for acquisitions,
@@ -287,12 +287,12 @@ export default function SuiteLandingPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">About Fabrknt</h2>
             <p className="text-lg text-muted-foreground">
-              We are <a href="https://www.fabrknt.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-purple-600 hover:text-purple-700">www.fabrknt.com</a> — Building the future of Web3 intelligence and M&A
+              We are <a href="https://www.fabrknt.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-purple-600 hover:text-purple-700">www.fabrknt.com</a> — Building the future of Web3 intelligence and matching
             </p>
           </div>
           <div className="bg-card rounded-lg border border-border p-8">
             <p className="text-muted-foreground mb-6">
-              Fabrknt is a Web3 intelligence and M&A matching platform that brings transparency and trust to the ecosystem.
+              Fabrknt is a Web3 intelligence and matching platform that brings transparency and trust to the ecosystem.
               Our mission is to enable better decision-making through AI-powered, verified intelligence on Web3 companies.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -375,7 +375,7 @@ export default function SuiteLandingPage() {
                 </span>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
-                Web3 Intelligence & M&A Matching Platform
+                Web3 Intelligence & Matching Platform
               </p>
               <p className="text-sm text-muted-foreground mb-4">
                 We are <a href="https://www.fabrknt.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-purple-600 hover:text-purple-700">www.fabrknt.com</a>

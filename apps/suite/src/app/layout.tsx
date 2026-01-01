@@ -6,9 +6,9 @@ import { Providers } from '@/components/providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'MARKETPLACE - Verified Web3 Company Marketplace | Fabrknt Suite',
+  title: 'Fabrknt - Web3 Intelligence & Matching Platform',
   description:
-    'Acquisition marketplace for web3 companies with verified on-chain and off-chain intelligence',
+    'AI-powered Web3 company intelligence and matching platform for M&A, partnerships, and strategic collaborations. 100% verified on-chain and off-chain data.',
   viewport: {
     width: 'device-width',
     initialScale: 1,
