@@ -24,6 +24,15 @@ export default function MatchPage() {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
+        <div className="flex justify-center mb-4">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-100 text-cyan-800 text-sm font-semibold">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            </span>
+            Preview
+          </span>
+        </div>
         <h1 className="text-4xl font-bold text-foreground mb-4">M&A & Partnership Matching</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Find acquisition targets and partnership opportunities with verified intelligence
