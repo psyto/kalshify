@@ -3,6 +3,9 @@ import { CompanyCard } from "@/components/intelligence/company-card";
 import { prisma } from "@/lib/db";
 import { Company } from "@/lib/intelligence/companies";
 
+// Mark page as dynamic since it uses database
+export const dynamic = 'force-dynamic';
+
 async function getCompanies(): Promise<Company[]> {
     try {
         // Use Prisma directly like the detail page does

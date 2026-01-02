@@ -8,6 +8,9 @@ import {
     CategoryLeaderCard,
 } from "@/components/intelligence/spotlight";
 
+// Mark page as dynamic since it uses database
+export const dynamic = 'force-dynamic';
+
 async function getAllCompaniesFromDB(): Promise<Company[]> {
     const companies = await prisma.company.findMany({
         where: { isActive: true },

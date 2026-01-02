@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { searchCompanies } from "@/lib/intelligence/company-queries";
 
+// Mark route as dynamic
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/intelligence/search?q=query
  * Search companies in Intelligence database
  */
 export async function GET(request: NextRequest) {
     try {
-        const { searchParams } = new URL(request.url);
+        // Use request.nextUrl instead of new URL(request.url) to avoid dynamic server usage error
+        const { searchParams } = request.nextUrl;
         const query = searchParams.get("q") || "";
         const category = searchParams.get("category") || undefined;
         const limit = parseInt(searchParams.get("limit") || "100");

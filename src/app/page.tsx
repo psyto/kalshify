@@ -12,6 +12,9 @@ import {
 import { prisma } from "@/lib/db";
 import { Logo } from "@/components/logo";
 
+// Mark page as dynamic since it uses database
+export const dynamic = 'force-dynamic';
+
 async function getCompanyStats() {
     const [companyCount, listedCount, avgScore] = await Promise.all([
         prisma.company.count({ where: { isActive: true } }),

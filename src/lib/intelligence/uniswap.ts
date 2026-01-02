@@ -123,7 +123,7 @@ export function convertToCompany(
             contributorRetention: Math.round(
                 (data.github.activeContributors30d /
                     Math.max(data.github.totalContributors, 1)) *
-                100
+                    100
             ),
             codeQuality: 90, // Would need code analysis
         },

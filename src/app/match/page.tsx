@@ -18,6 +18,9 @@ import {
 } from "@/lib/match/helpers";
 import { MatchSpotlightSection } from "@/components/match/match-spotlight";
 
+// Mark page as dynamic since it uses database
+export const dynamic = 'force-dynamic';
+
 async function getListings() {
     const listings = await prisma.listing.findMany({
         where: { status: "active" },

@@ -5,6 +5,9 @@ import { Filter } from "lucide-react";
 import { ListingCard } from "@/components/dashboard/listing-card";
 import { Listing } from "@/lib/mock-data";
 
+// Prevent static generation for client component
+export const dynamic = "force-dynamic";
+
 type CategoryFilter = "all" | Listing["category"];
 type StatusFilter = "all" | Listing["status"];
 type TypeFilter = "all" | "ma" | "partnership";
