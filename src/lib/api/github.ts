@@ -208,7 +208,14 @@ export async function getTeamMetrics(
         };
     } catch (error) {
         console.error("Error fetching team metrics:", error);
-        throw error;
+        return {
+            totalContributors: 0,
+            activeContributors30d: 0,
+            totalCommits30d: 0,
+            avgCommitsPerDay: 0,
+            topContributors: [],
+            commitActivity: [],
+        };
     }
 }
 
@@ -308,4 +315,10 @@ export async function getOrganizationMetrics(
  */
 export async function getUniswapMetrics(): Promise<GitHubTeamMetrics> {
     return getOrganizationMetrics("Uniswap");
+}
+/**
+ * Fabrknt-specific: Get organization-level metrics (aggregates across all repos)
+ */
+export async function getFabrkntMetrics(): Promise<GitHubTeamMetrics> {
+    return getOrganizationMetrics("fabrknt");
 }

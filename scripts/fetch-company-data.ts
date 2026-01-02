@@ -24,6 +24,12 @@ import {
 } from "../src/lib/intelligence/registry";
 import { IntelligenceData, IntelligenceScore } from "../src/lib/api/types";
 import { Company } from "../src/lib/intelligence/companies";
+import { CrawlerService } from "../src/lib/intelligence/crawler";
+import { LLMService } from "../src/lib/intelligence/llm";
+
+// Initialize Services
+const crawler = new CrawlerService();
+const llm = new LLMService();
 
 // Storage configuration
 const DATA_DIR = join(process.cwd(), "data", "companies");
@@ -135,30 +141,26 @@ async function fetchCompanyData(slug: string) {
         `  - GITHUB_TOKEN: ${process.env.GITHUB_TOKEN ? "✓ Set" : "✗ Missing"}`
     );
     console.log(
-        `  - TWITTER_BEARER_TOKEN: ${
-            process.env.TWITTER_BEARER_TOKEN ? "✓ Set" : "✗ Missing"
+        `  - TWITTER_BEARER_TOKEN: ${process.env.TWITTER_BEARER_TOKEN ? "✓ Set" : "✗ Missing"
         }`
     );
     console.log(
-        `  - ${rpcEnvVar}: ${
-            process.env[rpcEnvVar]
-                ? "✓ Set"
-                : `✗ Using ${chainRpcInfo.defaultUrl || "default"}`
+        `  - ${rpcEnvVar}: ${process.env[rpcEnvVar]
+            ? "✓ Set"
+            : `✗ Using ${chainRpcInfo.defaultUrl || "default"}`
         }`
     );
 
     // Show chain-specific API keys
     if (metadata.chain === "ethereum") {
         console.log(
-            `  - ALCHEMY_API_KEY: ${
-                process.env.ALCHEMY_API_KEY ? "✓ Set" : "✗ Missing (optional)"
+            `  - ALCHEMY_API_KEY: ${process.env.ALCHEMY_API_KEY ? "✓ Set" : "✗ Missing (optional)"
             }`
         );
     }
     if (metadata.chain === "solana") {
         console.log(
-            `  - HELIUS_API_KEY: ${
-                process.env.HELIUS_API_KEY ? "✓ Set" : "✗ Missing (optional)"
+            `  - HELIUS_API_KEY: ${process.env.HELIUS_API_KEY ? "✓ Set" : "✗ Missing (optional)"
             }`
         );
     }
@@ -211,20 +213,45 @@ async function fetchCompanyData(slug: string) {
         console.log(`  - Contract/Program: ${data.onchain.contractAddress}`);
         console.log(`  - Chain: ${data.onchain.chain}`);
         console.log(
-            `  - Transactions (24h): ${
-                data.onchain.transactionCount24h?.toLocaleString() || "N/A"
+            `  - Transactions (24h): ${data.onchain.transactionCount24h?.toLocaleString() || "N/A"
             }`
         );
         console.log(
-            `  - Transactions (30d): ${
-                data.onchain.transactionCount30d?.toLocaleString() || "N/A"
+            `  - Transactions (30d): ${data.onchain.transactionCount30d?.toLocaleString() || "N/A"
             }`
         );
         console.log(
-            `  - Unique Wallets (30d): ${
-                data.onchain.uniqueWallets30d?.toLocaleString() || "N/A"
+            `  - Unique Wallets (30d): ${data.onchain.uniqueWallets30d?.toLocaleString() || "N/A"
             }`
         );
+
+        // Step 1.5: Crawl News (Blog/Medium)
+        if (metadata.blogUrl || metadata.mediumUrl) {
+            console.log("\n📰 Step 1.5: Crawling news sources...");
+            data.news = [];
+
+            if (metadata.blogUrl) {
+                const news = await crawler.crawlCompanyNews(metadata.blogUrl, "Official Blog");
+                data.news.push(...news);
+            }
+            if (metadata.mediumUrl) {
+                const news = await crawler.crawlCompanyNews(metadata.mediumUrl, "Medium");
+                data.news.push(...news);
+            }
+
+            // Summarize partnerships
+            if (data.news.length > 0) {
+                console.log(`\n🤖 Summarizing ${data.news.length} news items for partnerships...`);
+                for (const item of data.news) {
+                    item.summary = await llm.summarizePartnerships(item.title, item.url);
+                    if (item.summary !== "Not a partnership") {
+                        console.log(`   - [Partnership Opportunity] ${item.title}: ${item.summary}`);
+                    }
+                }
+            } else {
+                console.log("   No news items found.");
+            }
+        }
 
         // Step 2: Calculate Intelligence Score
         console.log("\n🧮 Step 2: Calculating Intelligence Score...");
@@ -270,6 +297,11 @@ async function fetchCompanyData(slug: string) {
         // Step 3: Get complete company data
         console.log("\n🏢 Step 3: Converting to Company format...");
         const company = await module.getCompanyData(data, score);
+
+        // Ensure news is included in the company object
+        if (data.news && data.news.length > 0) {
+            company.news = data.news;
+        }
 
         console.log("\n✅ Company data ready!");
         console.log("\n📝 Company Profile:");
@@ -325,6 +357,7 @@ async function main() {
         console.error("\nUsage:");
         console.error("  pnpm fetch:company <slug>");
         console.error("  pnpm fetch:company all");
+        console.error("  pnpm fetch:company funding");
         console.error(
             `\nAvailable companies: ${getAvailableCompanySlugs().join(", ")}`
         );
@@ -366,6 +399,30 @@ async function main() {
             `\n✨ Completed! Fetched ${results.length}/${slugs.length} companies.`
         );
         console.log(`📁 Data stored in: ${DATA_DIR}`);
+    } else if (companySlug === "funding") {
+        // Fetch Global Funding News
+        console.log("\n💰 Fetching global funding news...");
+        const opportunities = await crawler.crawlFundingNews();
+
+        console.log(`\n✅ Found ${opportunities.length} funding items.`);
+        const potentialSeeds = opportunities.filter(o => o.isPotentialSeed);
+        console.log(`🌱 Potential Seed Rounds: ${potentialSeeds.length}`);
+
+        if (potentialSeeds.length > 0) {
+            console.log("\n🔍 Analyzing Potentials:");
+            for (const seed of potentialSeeds) {
+                console.log(`   - ${seed.companyName} (${seed.amount}): ${seed.roundType}`);
+            }
+        }
+
+        const fundingPath = join(DATA_DIR, "funding.json");
+        await fs.writeFile(fundingPath, JSON.stringify({
+            fetchedAt: new Date().toISOString(),
+            opportunities
+        }, null, 2));
+
+        console.log(`\n💾 Funding data saved to: ${fundingPath}`);
+
     } else {
         // Fetch single company
         await fetchCompanyData(companySlug);

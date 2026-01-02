@@ -1,0 +1,237 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - Web3 wallet-based authentication
+model User {
+  id              String   @id @default(cuid())
+  walletAddress   String   @unique
+
+  // Optional profile fields
+  displayName     String?
+  email           String?
+  bio             String?
+  website         String?
+  twitter         String?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  lastLoginAt     DateTime?
+
+  // Relations
+  listings        Listing[]
+  offers          Offer[]
+  dataRoomRequests DataRoomRequest[]
+  watchlist       Watchlist[]
+  notifications   Notification[]
+
+  @@index([walletAddress])
+}
+
+// Listing model - Matches existing mock data structure
+model Listing {
+  id              String   @id @default(cuid())
+
+  // Basic Info
+  type            String   // 'acquisition' | 'partnership' | 'collaboration' | 'investment'
+  projectName     String
+  productType     String
+  description     String   @db.Text
+
+  // M&A Fields (optional)
+  askingPrice     Decimal?  @db.Decimal(15, 2)
+  revenue         Decimal   @db.Decimal(15, 2)
+  mau             Int
+
+  // Partnership Fields (optional)
+  seekingPartners     String[]
+  offeringCapabilities String[]
+  partnershipType     String?   // 'technical' | 'strategic' | 'marketing' | 'ecosystem'
+
+  // Metadata
+  category        String   // 'defi' | 'nft' | 'gaming' | 'infrastructure' | 'dao'
+  status          String   @default("active") // 'active' | 'under_offer' | 'sold' | 'withdrawn' | 'in_discussion'
+  chain           String   // 'ethereum' | 'base' | 'polygon' | 'solana' | 'multi-chain'
+  website         String?
+  logoUrl         String?  // Supabase Storage URL
+
+  // Requirements
+  hasNDA          Boolean  @default(false)
+  requiresProofOfFunds Boolean @default(false)
+  minBuyerCapital Decimal?  @db.Decimal(15, 2)
+
+  // Intelligence Link (optional)
+  intelligenceCompanyId String?
+  suiteDataSnapshot     Json?    // Cached PULSE + TRACE data
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  publishedAt     DateTime?
+
+  // Relations
+  seller          User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId        String
+
+  offers          Offer[]
+  dataRoomRequests DataRoomRequest[]
+  documents       Document[]
+  watchlist       Watchlist[]
+
+  @@index([sellerId])
+  @@index([status])
+  @@index([category])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// Offer model - Buyer offers on listings
+model Offer {
+  id              String   @id @default(cuid())
+
+  // Offer Details
+  amount          Decimal?  @db.Decimal(15, 2)  // For M&A
+  proposalText    String   @db.Text             // For both M&A and partnerships
+
+  // Status
+  status          String   @default("pending")  // 'pending' | 'accepted' | 'rejected' | 'withdrawn'
+
+  // Contact Info (optional)
+  contactEmail    String?
+  contactTelegram String?
+
+  // Proof of Funds
+  proofOfFundsUrl String?  // Supabase Storage URL
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  respondedAt     DateTime?
+
+  // Relations
+  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId       String
+
+  buyer           User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  buyerId         String
+
+  @@index([listingId])
+  @@index([buyerId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Data Room Request model - Buyers requesting access to private documents
+model DataRoomRequest {
+  id              String   @id @default(cuid())
+
+  // Request Details
+  purpose         String   @db.Text
+  companyName     String?
+  position        String?
+
+  // Status
+  status          String   @default("pending")  // 'pending' | 'approved' | 'rejected'
+
+  // NDA
+  ndaSigned       Boolean  @default(false)
+  ndaSignedAt     DateTime?
+  ndaDocumentUrl  String?  // Supabase Storage URL
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  respondedAt     DateTime?
+
+  // Relations
+  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId       String
+
+  requester       User     @relation(fields: [requesterId], references: [id], onDelete: Cascade)
+  requesterId     String
+
+  @@index([listingId])
+  @@index([requesterId])
+  @@index([status])
+}
+
+// Document model - File metadata for listings
+model Document {
+  id              String   @id @default(cuid())
+
+  // Document Info
+  name            String
+  url             String   // Supabase Storage URL
+  type            String   // 'logo' | 'data_room' | 'proof_of_funds' | 'nda'
+  sizeBytes       Int
+  mimeType        String
+
+  // Access Control
+  requiresDataRoomAccess Boolean @default(false)
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+
+  // Relations
+  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId       String
+
+  @@index([listingId])
+  @@index([type])
+}
+
+// Watchlist model - Users saving listings for later
+model Watchlist {
+  id              String   @id @default(cuid())
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+
+  // Relations (Composite unique to prevent duplicates)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+
+  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId       String
+
+  @@unique([userId, listingId])
+  @@index([userId])
+}
+
+// Notification model - In-app notifications and email tracking
+model Notification {
+  id              String   @id @default(cuid())
+
+  // Notification Content
+  type            String   // 'new_offer' | 'data_room_request' | 'offer_response' | 'listing_status_change'
+  title           String
+  message         String   @db.Text
+
+  // Link
+  linkUrl         String?
+
+  // Status
+  read            Boolean  @default(false)
+  emailSent       Boolean  @default(false)
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  readAt          DateTime?
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+}

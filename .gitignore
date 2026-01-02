@@ -68,3 +68,5 @@ amplify/
 
 # Fetched company intelligence data
 data/
+
+/src/generated/prisma

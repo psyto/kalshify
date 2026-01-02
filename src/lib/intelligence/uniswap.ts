@@ -32,8 +32,14 @@ export async function fetchUniswapData(): Promise<IntelligenceData> {
                 };
             }),
             getTwitterMetrics().catch((err) => {
-                console.error("Twitter fetch error:", err);
-                throw err;
+                console.error("Twitter fetch error (Uniswap):", err);
+                return {
+                    followers: 0,
+                    following: 0,
+                    tweetCount: 0,
+                    verified: false,
+                    createdAt: new Date().toISOString(),
+                };
             }),
             getEthereumMetrics().catch((err) => {
                 console.error("Ethereum RPC fetch error:", err);
@@ -87,7 +93,7 @@ export async function calculateUniswapScore(
     return calculateIntelligenceScore(
         intelligenceData.github,
         intelligenceData.twitter,
-        intelligenceData.onchain
+        intelligenceData.onchain, intelligenceData.category, intelligenceData.category
     );
 }
 
@@ -115,7 +121,7 @@ export function convertToCompany(
             contributorRetention: Math.round(
                 (data.github.activeContributors30d /
                     Math.max(data.github.totalContributors, 1)) *
-                    100
+                100
             ),
             codeQuality: 90, // Would need code analysis
         },

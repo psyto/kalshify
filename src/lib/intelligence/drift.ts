@@ -24,7 +24,14 @@ export async function fetchDriftData(): Promise<IntelligenceData> {
                 commitActivity: [],
             })),
             getEngagementMetrics("DriftProtocol").catch((err) => {
-                throw err;
+                console.error("Twitter fetch error (Drift):", err);
+                return {
+                    followers: 0,
+                    following: 0,
+                    tweetCount: 0,
+                    verified: false,
+                    createdAt: new Date().toISOString(),
+                };
             }),
             getOnChainMetrics(DRIFT_PROGRAM_ID).catch(() => ({
                 contractAddress: DRIFT_PROGRAM_ID,
@@ -61,7 +68,7 @@ export async function calculateDriftScore(
     return calculateIntelligenceScore(
         intelligenceData.github,
         intelligenceData.twitter,
-        intelligenceData.onchain
+        intelligenceData.onchain, intelligenceData.category
     );
 }
 
@@ -83,7 +90,7 @@ export function convertToCompany(
             contributorRetention: Math.round(
                 (data.github.activeContributors30d /
                     Math.max(data.github.totalContributors, 1)) *
-                    100
+                100
             ),
             codeQuality: 90,
         },

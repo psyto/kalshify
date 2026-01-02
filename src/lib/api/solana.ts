@@ -307,7 +307,16 @@ export async function getOnChainMetrics(
         };
     } catch (error) {
         console.error("Error fetching on-chain metrics:", error);
-        throw error;
+        return {
+            transactionCount24h: 0,
+            transactionCount7d: 0,
+            transactionCount30d: 0,
+            uniqueWallets24h: 0,
+            uniqueWallets7d: 0,
+            uniqueWallets30d: 0,
+            chain: "solana",
+            monthlyActiveUsers: 0,
+        };
     }
 }
 

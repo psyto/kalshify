@@ -93,8 +93,12 @@ async function twitterFetch(
             waitTime = Math.pow(2, retryCount) * 1000;
         }
 
-        // Cap wait time at 5 minutes
-        waitTime = Math.min(waitTime, 5 * 60 * 1000);
+        // Cap wait time at 30 seconds for automated fetches
+        const MAX_WAIT = 30 * 1000;
+        if (waitTime > MAX_WAIT) {
+            console.warn(`Twitter rate limit reset is too far (${Math.round(waitTime / 1000)}s). Skipping Twitter for this run.`);
+            throw new Error(`Twitter rate limit reset is too far (${Math.round(waitTime / 1000)}s)`);
+        }
 
         console.warn(
             `Twitter API rate limit hit. Retrying in ${Math.round(
@@ -210,8 +214,20 @@ export async function getEngagementMetrics(
             },
         };
     } catch (error) {
-        console.error("Error fetching engagement metrics:", error);
-        throw error;
+        console.error(`Error fetching engagement metrics for ${username}:`, error);
+        // Return default limited metrics instead of throwing to allow script to proceed
+        return {
+            followers: 0,
+            following: 0,
+            tweetCount: 0,
+            verified: false,
+            createdAt: new Date().toISOString(),
+            engagement30d: {
+                likes: 0,
+                retweets: 0,
+                replies: 0,
+            },
+        };
     }
 }
 
@@ -220,4 +236,10 @@ export async function getEngagementMetrics(
  */
 export async function getUniswapMetrics(): Promise<TwitterMetrics> {
     return getEngagementMetrics("Uniswap");
+}
+/**
+ * Fabrknt-specific: Get metrics for @fabrknt
+ */
+export async function getFabrkntMetrics(): Promise<TwitterMetrics> {
+    return getEngagementMetrics("fabrknt");
 }

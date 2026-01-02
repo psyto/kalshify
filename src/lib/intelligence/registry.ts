@@ -20,6 +20,8 @@ export interface CompanyMetadata {
     chain: SupportedChain;
     name: string;
     description?: string;
+    blogUrl?: string;
+    mediumUrl?: string;
 }
 
 // Type for intelligence module functions
@@ -45,6 +47,8 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Uniswap",
             description: "Leading decentralized exchange protocol",
+            blogUrl: "https://blog.uniswap.org",
+            mediumUrl: "https://medium.com/uniswap",
         },
         loader: async () => {
             const module = await import("./uniswap");
@@ -60,6 +64,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Jupiter",
             description: "Solana's leading DEX aggregator",
+            blogUrl: "https://station.jup.ag/docs",
         },
         loader: async () => {
             const module = await import("./jupiter");
@@ -76,6 +81,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Morpho",
             description: "Peer-to-peer lending protocol",
+            mediumUrl: "https://medium.com/morpho-labs",
         },
         loader: async () => {
             const module = await import("./morpho");
@@ -91,6 +97,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Euler",
             description: "Permissionless lending protocol",
+            mediumUrl: "https://medium.com/euler-finance",
         },
         loader: async () => {
             const module = await import("./euler");
@@ -106,6 +113,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Rocket Pool",
             description: "Decentralized Ethereum staking protocol",
+            mediumUrl: "https://medium.com/rocket-pool",
         },
         loader: async () => {
             const module = await import("./rocketpool");
@@ -136,6 +144,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Safe",
             description: "Multi-sig wallet infrastructure",
+            blogUrl: "https://safe.global/blog",
         },
         loader: async () => {
             const module = await import("./safe");
@@ -152,6 +161,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Orca",
             description: "User-friendly AMM on Solana",
+            mediumUrl: "https://medium.com/orca-so",
         },
         loader: async () => {
             const module = await import("./orca");
@@ -167,6 +177,8 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Drift Protocol",
             description: "Decentralized perpetuals and spot trading",
+            blogUrl: "https://drift.trade/updates",
+            mediumUrl: "https://medium.com/@drift-protocol",
         },
         loader: async () => {
             const module = await import("./drift");
@@ -182,6 +194,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "MarginFi",
             description: "Lending and borrowing protocol",
+            mediumUrl: "https://medium.com/marginfi",
         },
         loader: async () => {
             const module = await import("./marginfi");
@@ -197,6 +210,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Kamino Finance",
             description: "Automated liquidity management",
+            mediumUrl: "https://medium.com/kamino-finance",
         },
         loader: async () => {
             const module = await import("./kamino");
@@ -212,6 +226,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Tensor",
             description: "NFT marketplace on Solana",
+            blogUrl: "https://tensor.substack.com",
         },
         loader: async () => {
             const module = await import("./tensor");
@@ -228,6 +243,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Lido",
             description: "Liquid staking protocol for Ethereum",
+            blogUrl: "https://blog.lido.fi",
         },
         loader: async () => {
             const module = await import("./lido");
@@ -243,6 +259,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Zora",
             description: "NFT marketplace and protocol",
+            blogUrl: "https://zora.co/writing",
         },
         loader: async () => {
             const module = await import("./zora");
@@ -258,6 +275,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "0x Protocol",
             description: "DEX aggregation and liquidity protocol",
+            blogUrl: "https://0x.org/blog",
         },
         loader: async () => {
             const module = await import("./zerox");
@@ -273,6 +291,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Parallel",
             description: "Sci-fi card game on Ethereum",
+            mediumUrl: "https://medium.com/parallel-life",
         },
         loader: async () => {
             const module = await import("./parallel");
@@ -288,6 +307,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "ethereum",
             name: "Velodrome",
             description: "AMM and ve(3,3) model on Optimism",
+            mediumUrl: "https://medium.com/@velodrome",
         },
         loader: async () => {
             const module = await import("./velodrome");
@@ -304,6 +324,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Metaplex",
             description: "NFT standard and tools on Solana",
+            mediumUrl: "https://medium.com/metaplex",
         },
         loader: async () => {
             const module = await import("./metaplex");
@@ -319,6 +340,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Jito",
             description: "MEV infrastructure on Solana",
+            blogUrl: "https://jito.wtf/blog",
         },
         loader: async () => {
             const module = await import("./jito");
@@ -334,6 +356,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Star Atlas",
             description: "Space MMO on Solana",
+            mediumUrl: "https://medium.com/star-atlas",
         },
         loader: async () => {
             const module = await import("./staratlas");
@@ -349,6 +372,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Aurory",
             description: "RPG and NFT game on Solana",
+            mediumUrl: "https://medium.com/aurory-project",
         },
         loader: async () => {
             const module = await import("./aurory");
@@ -364,6 +388,7 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
             chain: "solana",
             name: "Mango Markets",
             description: "Decentralized trading platform on Solana",
+            mediumUrl: "https://medium.com/mango-markets",
         },
         loader: async () => {
             const module = await import("./mangomarkets");
@@ -371,6 +396,23 @@ export const INTELLIGENCE_REGISTRY: Record<string, RegistryEntry> = {
                 fetchData: module.fetchMangomarketsData,
                 calculateScore: module.calculateMangomarketsScore,
                 getCompanyData: module.getMangomarketsCompanyData,
+            };
+        },
+    },
+    fabrknt: {
+        metadata: {
+            chain: "ethereum",
+            name: "Fabrknt",
+            description:
+                "The Foundational Foundry for Agentic Code & Future Economies",
+            blogUrl: "https://www.fabrknt.com",
+        },
+        loader: async () => {
+            const module = await import("./fabrknt");
+            return {
+                fetchData: module.fetchFabrkntData,
+                calculateScore: module.calculateFabrkntScore,
+                getCompanyData: module.getFabrkntCompanyData,
             };
         },
     },

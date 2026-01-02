@@ -1,15 +1,17 @@
 import { Search } from 'lucide-react';
-import { companies } from '@/lib/intelligence/companies';
+import { getCompanies } from '@/lib/intelligence/companies';
 import { CompanyCard } from '@/components/intelligence/company-card';
 
 export default function CompaniesPage() {
+  const companiesList = getCompanies();
+
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-foreground">Company Directory</h1>
         <p className="text-muted-foreground mt-2">
-          Browse all {companies.length} verified web3 companies with on-chain and off-chain intelligence
+          Browse all {companiesList.length} verified web3 companies with on-chain and off-chain intelligence
         </p>
       </div>
 
@@ -31,27 +33,27 @@ export default function CompaniesPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-card rounded-lg border border-border p-6">
           <p className="text-sm text-muted-foreground mb-1">Total Companies</p>
-          <p className="text-3xl font-bold text-foreground">{companies.length}</p>
+          <p className="text-3xl font-bold text-foreground">{companiesList.length}</p>
           <p className="text-sm text-muted-foreground/75 mt-1">verified</p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6">
           <p className="text-sm text-muted-foreground mb-1">Avg Intelligence Score</p>
           <p className="text-3xl font-bold text-foreground">
-            {Math.round(companies.reduce((sum, c) => sum + c.overallScore, 0) / companies.length)}
+            {Math.round(companiesList.reduce((sum, c) => sum + c.overallScore, 0) / companiesList.length)}
           </p>
           <p className="text-sm text-muted-foreground/75 mt-1">out of 100</p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6">
           <p className="text-sm text-muted-foreground mb-1">Listed in Marketplace</p>
           <p className="text-3xl font-bold text-foreground">
-            {companies.filter((c) => c.isListed).length}
+            {companiesList.filter((c) => c.isListed).length}
           </p>
           <p className="text-sm text-muted-foreground/75 mt-1">available for acquisition</p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6">
           <p className="text-sm text-muted-foreground mb-1">Growing Fast</p>
           <p className="text-3xl font-bold text-foreground">
-            {companies.filter((c) => c.trend === 'up').length}
+            {companiesList.filter((c) => c.trend === 'up').length}
           </p>
           <p className="text-sm text-muted-foreground/75 mt-1">upward trend</p>
         </div>
@@ -59,7 +61,7 @@ export default function CompaniesPage() {
 
       {/* Company Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {companies.map((company) => (
+        {companiesList.map((company) => (
           <CompanyCard key={company.slug} company={company} />
         ))}
       </div>

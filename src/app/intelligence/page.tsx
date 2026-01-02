@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Trophy, TrendingUp, Github, Star } from 'lucide-react';
 import {
-  companies,
+  getCompanies,
   getTopCompanies,
   getFastestGrowing,
   getMostActiveTeams,
@@ -11,6 +11,7 @@ import {
 import { SpotlightSection, CategoryLeaderCard } from '@/components/intelligence/spotlight';
 
 export default function IntelligencePage() {
+  const companiesList = getCompanies();
   const topCompanies = getTopCompanies(5);
   const fastestGrowing = getFastestGrowing(5);
   const mostActiveTeams = getMostActiveTeams(5);
@@ -32,7 +33,7 @@ export default function IntelligencePage() {
         </div>
         <h1 className="text-4xl font-bold text-foreground mb-4">Web3 Company Intelligence</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Automated intelligence for {companies.length} web3 companies with verified on-chain and off-chain data
+          Automated intelligence for {companiesList.length} web3 companies with verified on-chain and off-chain data
         </p>
       </div>
 
@@ -40,24 +41,24 @@ export default function IntelligencePage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-card rounded-lg border border-border p-6 text-center">
           <p className="text-sm text-muted-foreground mb-2">Companies Tracked</p>
-          <p className="text-4xl font-bold text-foreground">{companies.length}</p>
+          <p className="text-4xl font-bold text-foreground">{companiesList.length}</p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6 text-center">
           <p className="text-sm text-muted-foreground mb-2">Avg Intelligence Score</p>
           <p className="text-4xl font-bold text-foreground">
-            {Math.round(companies.reduce((sum, c) => sum + c.overallScore, 0) / companies.length)}
+            {Math.round(companiesList.reduce((sum, c) => sum + c.overallScore, 0) / companiesList.length)}
           </p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6 text-center">
           <p className="text-sm text-muted-foreground mb-2">Growing Fast</p>
           <p className="text-4xl font-bold text-green-600">
-            {companies.filter((c) => c.trend === 'up').length}
+            {companiesList.filter((c) => c.trend === 'up').length}
           </p>
         </div>
         <div className="bg-card rounded-lg border border-border p-6 text-center">
           <p className="text-sm text-muted-foreground mb-2">Listed for Sale</p>
           <p className="text-4xl font-bold text-purple-600">
-            {companies.filter((c) => c.isListed).length}
+            {companiesList.filter((c) => c.isListed).length}
           </p>
         </div>
       </div>
@@ -71,6 +72,8 @@ export default function IntelligencePage() {
           icon={Trophy}
           companies={topCompanies}
           iconColor="text-yellow-600"
+          scoreType="overall"
+          scoreLabel="Overall Index"
         />
 
         {/* Fastest Growing */}
@@ -80,6 +83,8 @@ export default function IntelligencePage() {
           icon={TrendingUp}
           companies={fastestGrowing}
           iconColor="text-green-600"
+          scoreType="growth"
+          scoreLabel="Growth Score"
         />
 
         {/* Most Active Teams */}
@@ -89,6 +94,8 @@ export default function IntelligencePage() {
           icon={Github}
           companies={mostActiveTeams}
           iconColor="text-blue-600"
+          scoreType="team"
+          scoreLabel="Team Score"
         />
 
         {/* Rising Stars */}
@@ -98,6 +105,8 @@ export default function IntelligencePage() {
           icon={Star}
           companies={risingStars}
           iconColor="text-purple-600"
+          scoreType="momentum"
+          scoreLabel="Momentum Index"
         />
       </div>
 

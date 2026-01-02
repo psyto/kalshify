@@ -115,6 +115,13 @@ export interface IntelligenceData {
     twitter: TwitterMetrics;
     onchain: OnChainMetrics;
     nansen?: NansenWalletMetrics; // Optional: wallet quality metrics
+    news?: {
+        title: string;
+        url: string;
+        date: string;
+        summary: string;
+        source: string;
+    }[];
     calculatedAt: string;
 }
 

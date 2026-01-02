@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink, TrendingUp, TrendingDown, Minus, Github, Activ
 import { getCompanyBySlug } from '@/lib/intelligence/companies';
 import { cn } from '@/lib/utils';
 import { formatNumber } from '@/lib/utils/format';
+import { NewsSection } from '@/components/intelligence/news-section';
 
 interface PageProps {
   params: { company: string };
@@ -41,8 +42,8 @@ export default function CompanyProfilePage({ params }: PageProps) {
     company.overallScore >= 85
       ? 'text-green-600'
       : company.overallScore >= 70
-      ? 'text-yellow-600'
-      : 'text-red-600';
+        ? 'text-yellow-600'
+        : 'text-red-600';
 
   return (
     <div className="min-h-screen bg-muted">
@@ -175,6 +176,9 @@ export default function CompanyProfilePage({ params }: PageProps) {
             </div>
           </div>
         </div>
+
+        {/* News & Intelligence */}
+        <NewsSection news={company.news} />
 
         {/* Intelligence Verification */}
         <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">

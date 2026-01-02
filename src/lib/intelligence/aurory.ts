@@ -61,7 +61,7 @@ export async function calculateAuroryScore(
     return calculateIntelligenceScore(
         intelligenceData.github,
         intelligenceData.twitter,
-        intelligenceData.onchain
+        intelligenceData.onchain, intelligenceData.category
     );
 }
 

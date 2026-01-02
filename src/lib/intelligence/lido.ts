@@ -24,7 +24,14 @@ export async function fetchLidoData(): Promise<IntelligenceData> {
                 commitActivity: [],
             })),
             getEngagementMetrics("LidoFinance").catch((err) => {
-                throw err;
+                console.error("Twitter fetch error (Lido):", err);
+                return {
+                    followers: 0,
+                    following: 0,
+                    tweetCount: 0,
+                    verified: false,
+                    createdAt: new Date().toISOString(),
+                };
             }),
             getOnChainMetrics(LIDO_CONTRACT).catch(() => ({
                 contractAddress: LIDO_CONTRACT,
@@ -61,7 +68,7 @@ export async function calculateLidoScore(
     return calculateIntelligenceScore(
         intelligenceData.github,
         intelligenceData.twitter,
-        intelligenceData.onchain
+        intelligenceData.onchain, intelligenceData.category
     );
 }
 
@@ -83,7 +90,7 @@ export function convertToCompany(
             contributorRetention: Math.round(
                 (data.github.activeContributors30d /
                     Math.max(data.github.totalContributors, 1)) *
-                    100
+                100
             ),
             codeQuality: 90,
         },

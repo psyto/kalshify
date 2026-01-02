@@ -29,8 +29,14 @@ export async function fetchMorphoData(): Promise<IntelligenceData> {
                 };
             }),
             getEngagementMetrics("MorphoLabs").catch((err) => {
-                console.error("Twitter fetch error:", err);
-                throw err;
+                console.error("Twitter fetch error (Morpho):", err);
+                return {
+                    followers: 0,
+                    following: 0,
+                    tweetCount: 0,
+                    verified: false,
+                    createdAt: new Date().toISOString(),
+                };
             }),
             getOnChainMetrics(MORPHO_CONTRACT).catch((err) => {
                 console.error("Ethereum RPC fetch error:", err);
@@ -72,7 +78,7 @@ export async function calculateMorphoScore(
     return calculateIntelligenceScore(
         intelligenceData.github,
         intelligenceData.twitter,
-        intelligenceData.onchain
+        intelligenceData.onchain, intelligenceData.category
     );
 }
 
@@ -95,7 +101,7 @@ export function convertToCompany(
             contributorRetention: Math.round(
                 (data.github.activeContributors30d /
                     Math.max(data.github.totalContributors, 1)) *
-                    100
+                100
             ),
             codeQuality: 90,
         },

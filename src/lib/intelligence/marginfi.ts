@@ -61,7 +61,7 @@ export async function calculateMarginfiScore(
     return calculateIntelligenceScore(
         intelligenceData.github,
         intelligenceData.twitter,
-        intelligenceData.onchain
+        intelligenceData.onchain, intelligenceData.category
     );
 }
 

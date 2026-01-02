@@ -5,6 +5,7 @@
  */
 
 import {
+    IntelligenceData,
     IntelligenceScore,
     GitHubTeamMetrics,
     TwitterMetrics,
@@ -15,10 +16,10 @@ import {
  * Normalize a value to 0-100 scale
  */
 function normalize(value: number, min: number, max: number): number {
-    if (value <= min) return 0;
+    if (isNaN(value) || value <= min) return 0;
     if (value >= max) return 100;
     const normalized = ((value - min) / (max - min)) * 100;
-    return Math.min(100, Math.max(0, normalized)); // Clamp between 0-100
+    return isNaN(normalized) ? 0 : Math.min(100, Math.max(0, normalized)); // Clamp between 0-100
 }
 
 /**
@@ -43,9 +44,11 @@ export function calculateGitHubScore(metrics: GitHubTeamMetrics): {
     const activityScore = normalize(metrics.totalCommits30d, 0, 300);
 
     // Retention score: % of contributors active in last 30d
-    const retentionRate =
-        (metrics.activeContributors30d / metrics.totalContributors) * 100;
-    const retentionScore = normalize(retentionRate, 0, 50); // 50% retention is excellent
+    // Softened for large projects: 20% retention is excellent, 10% is good
+    const retentionRate = metrics.totalContributors > 0
+        ? (metrics.activeContributors30d / metrics.totalContributors) * 100
+        : 0;
+    const retentionScore = normalize(retentionRate, 0, 20);
 
     const overall =
         contributorScore * 0.4 + activityScore * 0.4 + retentionScore * 0.2;
@@ -88,8 +91,11 @@ export function calculateTwitterScore(metrics: TwitterMetrics): {
             metrics.engagement30d.replies;
 
         // Normalize based on followers (engagement rate)
-        const engagementRate = (totalEngagement / metrics.followers) * 100;
-        engagementScore = normalize(engagementRate, 0, 10); // 10% engagement rate is excellent
+        // Realistic benchmark: 1.5% engagement is excellent for institutional accounts
+        const engagementRate = metrics.followers > 0
+            ? (totalEngagement / metrics.followers) * 100
+            : 0;
+        engagementScore = normalize(engagementRate, 0, 1.5);
     }
 
     const overall = followersScore * 0.7 + engagementScore * 0.3;
@@ -117,10 +123,11 @@ export function calculateOnChainScore(onchain: Partial<OnChainMetrics>): {
 } {
     // User growth score: based on DAU/MAU ratio from unique wallets
     let userGrowthScore = 50;
-    if (onchain.monthlyActiveUsers && onchain.dailyActiveUsers) {
+    if (onchain.monthlyActiveUsers && onchain.dailyActiveUsers && onchain.monthlyActiveUsers > 0) {
         const dauMauRatio =
             (onchain.dailyActiveUsers / onchain.monthlyActiveUsers) * 100;
-        userGrowthScore = normalize(dauMauRatio, 0, 30); // 30% DAU/MAU is excellent
+        // Realistic benchmark: 10% DAU/MAU is excellent for utility protocols
+        userGrowthScore = normalize(dauMauRatio, 0, 10);
     } else if (onchain.uniqueWallets30d) {
         // Fallback: use unique wallets as proxy for users
         userGrowthScore = normalize(onchain.uniqueWallets30d, 0, 100000);
@@ -156,31 +163,99 @@ export function calculateOnChainScore(onchain: Partial<OnChainMetrics>): {
 }
 
 /**
+ * Calculate Web Activity / Shipping Pace Score (0-100)
+ * Evaluates recency and frequency of website/blog updates
+ */
+export function calculateWebScore(news?: IntelligenceData["news"]): number {
+    if (!news || news.length === 0) return 0;
+
+    const now = new Date();
+    const updateDates = news
+        .map((item) => new Date(item.date))
+        .filter((date) => !isNaN(date.getTime()))
+        .sort((a, b) => b.getTime() - a.getTime());
+
+    if (updateDates.length === 0) return 0;
+
+    // 1. Recency Score (50%)
+    const latestUpdate = updateDates[0];
+    const daysSinceLastUpdate =
+        (now.getTime() - latestUpdate.getTime()) / (1000 * 60 * 60 * 24);
+    const recencyScore = normalize(daysSinceLastUpdate, 30, 0); // 100 if updated today, 0 if > 30 days
+
+    // 2. Frequency Score (50%)
+    // Average 1 update per 2 weeks is excellent (100), 1 per 2 months is poor (0)
+    const frequencyScore = normalize(news.length, 0, 5) * 0.5 + // Quantity
+        normalize(30 / Math.max(1, updateDates.length), 60, 14) * 0.5; // Pace
+
+    return Math.round(recencyScore * 0.6 + frequencyScore * 0.4);
+}
+
+/**
  * Calculate Overall Intelligence Score
- * Fully automated - uses RPC-derived metrics
+ * Fully automated - uses RPC-derived metrics and dynamic weight shifting
  */
 export function calculateIntelligenceScore(
     github: GitHubTeamMetrics,
     twitter: TwitterMetrics,
-    onchain: Partial<OnChainMetrics>
+    onchain: Partial<OnChainMetrics>,
+    category: "defi" | "nft" | "gaming" | "infrastructure" | "dao" = "infrastructure",
+    news?: IntelligenceData["news"]
 ): IntelligenceScore {
     const githubScore = calculateGitHubScore(github);
     const twitterScore = calculateTwitterScore(twitter);
     const onchainScore = calculateOnChainScore(onchain);
+    const webScore = calculateWebScore(news);
 
-    // Weights:
-    // - Team Health (GitHub): 35%
-    // - Growth Score (On-chain): 40%
-    // - Social Score (Twitter): 15%
-    // - Wallet Quality (Nansen): 10% (optional, default 50 if not available)
+    // Initial Weights based on category
+    let weights = {
+        github: 0.35,
+        growth: 0.4,
+        social: 0.15,
+        wallet: 0.1,
+    };
+
+    if (category === "defi") {
+        weights = { github: 0.3, growth: 0.5, social: 0.1, wallet: 0.1 };
+    } else if (category === "infrastructure") {
+        weights = { github: 0.5, growth: 0.3, social: 0.1, wallet: 0.1 };
+    } else if (category === "gaming" || category === "nft") {
+        weights = { github: 0.25, growth: 0.35, social: 0.3, wallet: 0.1 };
+    }
+
+    // --- Dynamic Weight Shifting ---
+
+    // 1. Handle Private Development (Zero/Low GitHub activity)
+    // If less than 5 commits in 30 days, we assume private-heavy dev
+    if (github.totalCommits30d < 5) {
+        console.log("Detecting private-heavy development. Shifting GitHub weight.");
+        const originalGithubWeight = weights.github;
+        weights.github = originalGithubWeight * 0.2; // Keep 20% for transparency/public maintenance
+        const shiftAmount = originalGithubWeight - weights.github;
+
+        // Distribute shift to Growth (as it reflects real usage) and Social
+        weights.growth += shiftAmount * 0.6;
+        weights.social += shiftAmount * 0.4;
+    }
+
+    // 2. Handle Non-Blockchain / Web-first Services (Zero On-chain activity)
+    if ((onchain.transactionCount30d || 0) < 10) {
+        console.log("Detecting web-first service. Incorporating Web Activity score.");
+        // If webScore is available, use it to boost growth (as proxy for activity)
+        if (webScore > 0) {
+            // Mix on-chain growth with web activity
+            // Since on-chain is near 0, we'll let webScore represent the 'activity' portion
+            onchainScore.score = Math.round(onchainScore.score * 0.3 + webScore * 0.7);
+        }
+    }
 
     const walletQualityScore = 50; // Default until we integrate Nansen
 
     const overall =
-        githubScore.score * 0.35 +
-        onchainScore.score * 0.4 +
-        twitterScore.score * 0.15 +
-        walletQualityScore * 0.1;
+        githubScore.score * weights.github +
+        onchainScore.score * weights.growth +
+        twitterScore.score * weights.social +
+        walletQualityScore * weights.wallet;
 
     return {
         overall: Math.round(overall),
@@ -190,7 +265,11 @@ export function calculateIntelligenceScore(
         socialScore: twitterScore.score,
         breakdown: {
             github: githubScore.breakdown,
-            onchain: onchainScore.breakdown,
+            onchain: {
+                ...onchainScore.breakdown,
+                // Add web signal for transparency in the JSON data
+                webActivityScore: webScore,
+            } as any,
             wallet: {
                 distributionScore: 50,
                 smartMoneyScore: 50,
@@ -198,4 +277,18 @@ export function calculateIntelligenceScore(
             social: twitterScore.breakdown,
         },
     };
+}
+/**
+ * Calculate Momentum Index (0-100)
+ * Momentum = (70% Growth + 30% Team) + Trend Bonus
+ */
+export function calculateMomentumIndex(
+    growthScore: number,
+    teamScore: number,
+    trend: "up" | "stable" | "down"
+): number {
+    const trendWeight =
+        trend === "up" ? 20 : trend === "stable" ? 10 : 0;
+    const growthBalance = growthScore * 0.7 + teamScore * 0.3;
+    return Math.min(100, Math.round(growthBalance + trendWeight));
 }
