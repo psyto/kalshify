@@ -1,8 +1,11 @@
+"use client";
+
 import dynamic from "next/dynamic";
 
+// Dynamically import with ssr: false to prevent prerendering
+// This is needed because the component uses wagmi hooks that require browser context
 const CreateListingClient = dynamic(
-    () =>
-        import("./CreateListingClient").then((mod) => mod.CreateListingClient),
+    () => import("./CreateListingClient").then((mod) => ({ default: mod.CreateListingClient })),
     {
         ssr: false,
         loading: () => (

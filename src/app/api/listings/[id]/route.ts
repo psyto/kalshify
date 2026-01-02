@@ -89,7 +89,8 @@ export async function GET(
 
     return NextResponse.json(listing);
   } catch (error) {
-    console.error(`GET /api/listings/${params.id} error:`, error);
+    const { id } = await params;
+    console.error(`GET /api/listings/${id} error:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch listing' },
       { status: 500 }
