@@ -81,6 +81,17 @@ async function getAllCompaniesFromDB(): Promise<Company[]> {
                 tvl: onchain.tvl,
                 volume30d: onchain.volume30d,
             },
+            social: {
+                score: company.socialScore,
+                twitterFollowers: indexData?.twitter?.followers,
+                discordMembers: indexData?.social?.discordMembers,
+                telegramMembers: indexData?.social?.telegramMembers,
+                communityEngagement: indexData?.twitter?.engagement30d?.likes
+                    ? (indexData.twitter.engagement30d.likes +
+                       indexData.twitter.engagement30d.retweets +
+                       indexData.twitter.engagement30d.replies)
+                    : company.socialScore,
+            },
         };
     });
 }
