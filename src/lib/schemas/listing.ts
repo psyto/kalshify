@@ -260,8 +260,48 @@ export type CreateListingInput = z.infer<typeof CreateListingSchema>;
 // ==================== Edit Listing Schema ====================
 
 // Same as create, but all fields optional (partial update support)
-export const UpdateListingSchema = CreateListingSchema.partial().extend({
+// Note: Can't use .partial() on discriminated unions, so we define it manually
+export const UpdateListingSchema = z.object({
   id: z.string().cuid(),
+  type: ListingTypeEnum.optional(),
+  projectName: z.string().min(3).max(100).optional(),
+  productType: z.string().min(3).max(100).optional(),
+  description: z.string().min(50).max(5000).optional(),
+  category: CategoryEnum.optional(),
+  chain: ChainEnum.optional(),
+  website: z.string().url().optional().or(z.literal('')),
+  revenue: z.number().min(0).max(1000000000).optional(),
+  mau: z.number().int().min(0).max(100000000).optional(),
+  askingPrice: z.number().min(0).max(10000000000).optional(),
+  seekingPartners: z.array(z.string()).min(1).max(10).optional(),
+  offeringCapabilities: z.array(z.string()).min(1).max(10).optional(),
+  partnershipType: PartnershipTypeEnum.optional(),
+  hasNDA: z.boolean().optional(),
+  requiresProofOfFunds: z.boolean().optional(),
+  minBuyerCapital: z.number().min(0).max(10000000000).optional(),
+  intelligenceCompanyId: z.string().optional(),
+  suiteDataSnapshot: z
+    .object({
+      pulse: z
+        .object({
+          vitality_score: z.number().optional(),
+          developer_activity_score: z.number().optional(),
+          team_retention_score: z.number().optional(),
+          active_contributors: z.number().optional(),
+        })
+        .optional(),
+      trace: z
+        .object({
+          growth_score: z.number().optional(),
+          verified_roi: z.number().optional(),
+          roi_multiplier: z.number().optional(),
+          quality_score: z.number().optional(),
+        })
+        .optional(),
+      revenue_verified: z.number().optional(),
+      fabrknt_score: z.number().optional(),
+    })
+    .optional(),
   status: ListingStatusEnum.optional(),
 });
 

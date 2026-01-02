@@ -7,7 +7,45 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+// Company model - Intelligence data storage
+model Company {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  category        String   // 'defi' | 'nft' | 'gaming' | 'infrastructure' | 'dao'
+  description     String?  @db.Text
+  logo            String?
+  website         String?
+
+  // Scores (cached from calculations)
+  overallScore    Int      @default(0)
+  teamHealthScore Int      @default(0)
+  growthScore     Int      @default(0)
+  socialScore     Int      @default(0)
+  walletQualityScore Int   @default(0)
+
+  // Trend indicator
+  trend           String   @default("stable") // 'up' | 'stable' | 'down'
+
+  // Raw Intelligence data (JSON)
+  // Stores full IntelligenceData from APIs
+  intelligenceData Json?
+
+  // Status
+  isListed        Boolean  @default(false)
+  isActive        Boolean  @default(true)
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  lastFetchedAt   DateTime?
+
+  @@index([slug])
+  @@index([category])
+  @@index([overallScore])
+  @@index([isActive])
 }
 
 // User model - Web3 wallet-based authentication

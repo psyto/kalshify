@@ -1,14 +1,22 @@
 /**
  * Data Loader for Intelligence
- * Loads company data from JSON files when available, falls back to mock data
+ *
+ * @deprecated This module is deprecated. All runtime data fetching should use Supabase via:
+ * - getCompanies() from ./companies.ts
+ * - getCompanyBySlug() from ./companies.ts
+ *
+ * These functions are kept only for use in data seeding scripts (scripts/ directory).
+ * DO NOT use these functions in application code - they read from JSON files on disk.
  */
 
 import { Company } from "./companies";
+import { IntelligenceScore } from "@/lib/api/types";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
 /**
  * Load company data from JSON file if it exists
+ * @deprecated Use getCompanyBySlug() from ./companies.ts instead (fetches from Supabase)
  * @param slug - Company slug
  * @returns Company data from JSON or null if not found
  */
@@ -42,6 +50,7 @@ export function loadCompanyFromJson(slug: string): Company | null {
 
 /**
  * Check if a company has real JSON data available
+ * @deprecated This function checks for JSON files. Use Supabase queries instead.
  * @param slug - Company slug
  * @returns true if JSON file exists
  */
@@ -52,6 +61,7 @@ export function hasRealData(slug: string): boolean {
 
 /**
  * Get all available JSON data files
+ * @deprecated Use getCompanies() from ./companies.ts instead (fetches from Supabase)
  * @returns Array of company slugs that have real data
  */
 export function getAvailableDataSlugs(): string[] {
@@ -75,6 +85,7 @@ export function getAvailableDataSlugs(): string[] {
 
 /**
  * Load all companies from JSON files
+ * @deprecated Use getCompanies() from ./companies.ts instead (fetches from Supabase)
  * @returns Array of Company objects from JSON files
  */
 export function loadAllCompaniesFromJson(): Company[] {
@@ -89,4 +100,38 @@ export function loadAllCompaniesFromJson(): Company[] {
     }
 
     return companies;
+}
+
+/**
+ * Load scores breakdown from JSON file
+ * @deprecated Scores are available in the intelligenceData field when fetching from Supabase
+ * @param slug - Company slug
+ * @returns IntelligenceScore breakdown or null if not found
+ */
+export function loadCompanyScores(slug: string): IntelligenceScore | null {
+    try {
+        const dataPath = join(
+            process.cwd(),
+            "data",
+            "companies",
+            `${slug}.json`
+        );
+
+        if (!existsSync(dataPath)) {
+            return null;
+        }
+
+        const rawData = readFileSync(dataPath, "utf-8");
+        const jsonData = JSON.parse(rawData);
+
+        // Return the scores object from the JSON file
+        if (jsonData.scores) {
+            return jsonData.scores as IntelligenceScore;
+        }
+
+        return null;
+    } catch (error) {
+        console.error(`Error loading scores for ${slug}:`, error);
+        return null;
+    }
 }

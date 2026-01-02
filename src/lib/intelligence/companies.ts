@@ -1,5 +1,5 @@
-import { loadCompanyFromJson, loadAllCompaniesFromJson } from "./data-loader";
 import { calculateMomentumIndex } from "./calculators/score-calculator";
+import { prisma } from "@/lib/db";
 
 export type CompanyCategory =
     | "defi"
@@ -50,56 +50,170 @@ export interface Company {
     }[];
 }
 
-// Load all verified companies from disk
-export function loadCompanies(): Company[] {
-    return loadAllCompaniesFromJson();
+/**
+ * Transform database company record to Company interface
+ */
+function transformCompany(company: any): Company {
+    const intelligenceData = company.intelligenceData as any;
+    const github = intelligenceData?.github || {};
+    const onchain = intelligenceData?.onchain || {};
+
+    return {
+        slug: company.slug,
+        name: company.name,
+        category: company.category as CompanyCategory,
+        description: company.description || "",
+        logo: company.logo || "🏢",
+        website: company.website || "",
+        overallScore: company.overallScore,
+        trend: company.trend as TrendDirection,
+        isListed: company.isListed,
+        teamHealth: {
+            score: company.teamHealthScore,
+            githubCommits30d: github.totalCommits30d || 0,
+            activeContributors: github.activeContributors30d || 0,
+            contributorRetention:
+                github.activeContributors30d && github.totalContributors
+                    ? Math.round(
+                          (github.activeContributors30d /
+                              github.totalContributors) *
+                              100
+                      )
+                    : 0,
+            codeQuality: company.teamHealthScore,
+        },
+        growth: {
+            score: company.growthScore,
+            onChainActivity30d: onchain.transactionCount30d || 0,
+            walletGrowth: onchain.uniqueWallets30d
+                ? Math.round(
+                      (onchain.uniqueWallets30d /
+                          (onchain.uniqueWallets30d + 1000)) *
+                          100
+                  )
+                : 0,
+            userGrowthRate: onchain.monthlyActiveUsers
+                ? Math.round((onchain.monthlyActiveUsers / 1000) * 100)
+                : 0,
+            tvl: onchain.tvl,
+            volume30d: onchain.volume30d,
+        },
+        news: intelligenceData?.news || [],
+    };
 }
 
-// Export the merged companies array (real data where available, mock data as fallback)
-// Deprecated: use getCompanies() for the most up-to-date data
-export const companies: Company[] = loadCompanies();
+/**
+ * Get all companies from Supabase database
+ */
+export async function getCompanies(): Promise<Company[]> {
+    const companies = await prisma.company.findMany({
+        where: { isActive: true },
+        select: {
+            id: true,
+            slug: true,
+            name: true,
+            category: true,
+            description: true,
+            logo: true,
+            website: true,
+            overallScore: true,
+            teamHealthScore: true,
+            growthScore: true,
+            socialScore: true,
+            trend: true,
+            isListed: true,
+            intelligenceData: true,
+        },
+        orderBy: {
+            overallScore: "desc",
+        },
+    });
+
+    return companies.map(transformCompany);
+}
 
 /**
- * Get all companies with the most up-to-date information from disk
+ * Get all companies from Supabase database (alias for getCompanies)
+ * @deprecated Use getCompanies() instead
  */
-export function getCompanies(): Company[] {
-    return loadCompanies();
+export async function getCompaniesFromDB(): Promise<Company[]> {
+    return getCompanies();
 }
 
 // Helper functions
-export function getCompanyBySlug(slug: string): Company | undefined {
-    // Load real data from JSON
-    return loadCompanyFromJson(slug) || undefined;
+/**
+ * Get company by slug from Supabase database
+ */
+export async function getCompanyBySlug(slug: string): Promise<Company | null> {
+    const company = await prisma.company.findUnique({
+        where: { slug },
+        select: {
+            id: true,
+            slug: true,
+            name: true,
+            category: true,
+            description: true,
+            logo: true,
+            website: true,
+            overallScore: true,
+            teamHealthScore: true,
+            growthScore: true,
+            socialScore: true,
+            trend: true,
+            isListed: true,
+            intelligenceData: true,
+        },
+    });
+
+    if (!company) return null;
+
+    return transformCompany(company);
 }
 
-export function getCompaniesByCategory(category: CompanyCategory): Company[] {
-    const allCompanies = getCompanies();
+/**
+ * Get company by slug from Supabase database (alias for getCompanyBySlug)
+ * @deprecated Use getCompanyBySlug() instead
+ */
+export async function getCompanyBySlugFromDB(
+    slug: string
+): Promise<Company | null> {
+    return getCompanyBySlug(slug);
+}
+
+export async function getCompaniesByCategory(
+    category: CompanyCategory
+): Promise<Company[]> {
+    const allCompanies = await getCompanies();
     return allCompanies.filter((c) => c.category === category);
 }
 
-export function getTopCompanies(limit: number = 10): Company[] {
-    const allCompanies = getCompanies();
+export async function getTopCompanies(limit: number = 10): Promise<Company[]> {
+    const allCompanies = await getCompanies();
     return [...allCompanies]
         .sort((a, b) => b.overallScore - a.overallScore)
         .slice(0, limit);
 }
 
-export function getFastestGrowing(limit: number = 10): Company[] {
-    const allCompanies = getCompanies();
+export async function getFastestGrowing(
+    limit: number = 10
+): Promise<Company[]> {
+    const allCompanies = await getCompanies();
     return [...allCompanies]
         .sort((a, b) => b.growth.score - a.growth.score)
         .slice(0, limit);
 }
 
-export function getMostActiveTeams(limit: number = 10): Company[] {
-    const allCompanies = getCompanies();
+export async function getMostActiveTeams(
+    limit: number = 10
+): Promise<Company[]> {
+    const allCompanies = await getCompanies();
     return [...allCompanies]
         .sort((a, b) => b.teamHealth.score - a.teamHealth.score)
         .slice(0, limit);
 }
 
-export function getRisingStars(limit: number = 10): Company[] {
-    const allCompanies = getCompanies();
+export async function getRisingStars(limit: number = 10): Promise<Company[]> {
+    const allCompanies = await getCompanies();
     return [...allCompanies]
         .sort((a, b) => {
             // Priority 1: Trend
@@ -107,20 +221,30 @@ export function getRisingStars(limit: number = 10): Company[] {
             if (a.trend !== "up" && b.trend === "up") return 1;
 
             // Priority 2: Momentum calculation
-            const aMomentum = calculateMomentumIndex(a.growth.score, a.teamHealth.score, a.trend);
-            const bMomentum = calculateMomentumIndex(b.growth.score, b.teamHealth.score, b.trend);
+            const aMomentum = calculateMomentumIndex(
+                a.growth.score,
+                a.teamHealth.score,
+                a.trend
+            );
+            const bMomentum = calculateMomentumIndex(
+                b.growth.score,
+                b.teamHealth.score,
+                b.trend
+            );
             return bMomentum - aMomentum;
         })
         .slice(0, limit);
 }
 
-export function getListedCompanies(): Company[] {
-    const allCompanies = getCompanies();
+export async function getListedCompanies(): Promise<Company[]> {
+    const allCompanies = await getCompanies();
     return allCompanies.filter((c) => c.isListed);
 }
 
-export function getCategoryLeaders(): Record<CompanyCategory, Company> {
-    const allCompanies = getCompanies();
+export async function getCategoryLeaders(): Promise<
+    Record<CompanyCategory, Company | undefined>
+> {
+    const allCompanies = await getCompanies();
     const categories: CompanyCategory[] = [
         "defi",
         "infrastructure",
@@ -142,5 +266,5 @@ export function getCategoryLeaders(): Record<CompanyCategory, Company> {
         }
     });
 
-    return leaders as Record<CompanyCategory, Company>;
+    return leaders as Record<CompanyCategory, Company | undefined>;
 }
