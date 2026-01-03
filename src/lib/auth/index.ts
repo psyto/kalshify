@@ -1,8 +1,7 @@
-import { getServerSession } from "next-auth";
-import { authConfig } from "./config";
+import { auth } from "./config";
 
 export async function getSession() {
-  return await getServerSession(authConfig);
+  return await auth();
 }
 
 export async function getCurrentUser() {
@@ -10,4 +9,4 @@ export async function getCurrentUser() {
   return session?.user;
 }
 
-export { authConfig } from "./config";
+export { auth, handlers, signIn, signOut } from "./config";

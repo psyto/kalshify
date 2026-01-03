@@ -1,12 +1,10 @@
-import { NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/db";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
-const prisma = new PrismaClient();
-
-export const authConfig: NextAuthConfig = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHub({
@@ -34,4 +32,4 @@ export const authConfig: NextAuthConfig = {
     strategy: "database",
   },
   debug: process.env.NODE_ENV === "development",
-};
+});
