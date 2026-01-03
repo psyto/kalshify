@@ -128,19 +128,34 @@ export async function getAllProtocolsTVL(): Promise<DefiLlamaProtocol[]> {
 
 /**
  * Estimate daily active users from TVL and category
- * This is a rough approximation based on industry benchmarks
+ * Uses tiered multipliers - larger protocols have broader adoption
  */
 export function estimateDailyUsers(tvl: number, category: string): number {
-    // Different categories have different user density per TVL
-    const userPerDollarRatios: Record<string, number> = {
-        dex: 0.00001, // DEXes: ~1 user per $100k TVL
+    // Base ratios per category
+    const baseRatios: Record<string, number> = {
+        dex: 0.00001, // DEXes: ~1 user per $100k TVL (baseline)
         lending: 0.000005, // Lending: ~1 user per $200k TVL
         derivatives: 0.000002, // Derivatives: ~1 user per $500k TVL
         default: 0.00001,
     };
 
-    const ratio = userPerDollarRatios[category] || userPerDollarRatios.default;
-    return Math.floor(tvl * ratio);
+    const baseRatio = baseRatios[category] || baseRatios.default;
+
+    // Apply tiered multipliers for large protocols
+    // Large protocols have network effects and broader adoption
+    let multiplier = 1;
+    if (tvl >= 5_000_000_000) {
+        // $5B+: Top-tier protocols (Uniswap, Aave, etc.)
+        multiplier = 5; // 5x more users per dollar (proven mass adoption)
+    } else if (tvl >= 1_000_000_000) {
+        // $1B-$5B: Major protocols
+        multiplier = 3; // 3x more users per dollar
+    } else if (tvl >= 100_000_000) {
+        // $100M-$1B: Established protocols
+        multiplier = 1.5; // 1.5x more users per dollar
+    }
+
+    return Math.floor(tvl * baseRatio * multiplier);
 }
 
 /**

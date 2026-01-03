@@ -169,8 +169,9 @@ export function calculateOnChainScore(onchain: Partial<OnChainMetrics>): {
             100,
             (onchain.dailyActiveUsers / onchain.monthlyActiveUsers) * 100
         );
-        // Realistic benchmark: 10% DAU/MAU is excellent for utility protocols
-        userGrowthScore = normalize(dauMauRatio, 0, 10);
+        // Realistic benchmark: 5% DAU/MAU is excellent for DeFi protocols
+        // (Users don't trade every day, but active protocols see 3-7% ratios)
+        userGrowthScore = normalize(dauMauRatio, 0, 5);
     } else if (onchain.uniqueWallets30d && onchain.uniqueWallets30d > 0) {
         // Fallback: use unique wallets as proxy for users
         // Adjusted benchmark: 10 to 10,000 wallets (was 0 to 100,000)
@@ -264,7 +265,7 @@ function calculateAIPartnershipScore(
         reasoning: string;
     }>
 ): number {
-    if (!news || news.length === 0) return 0;
+    if (!news || !Array.isArray(news) || news.length === 0) return 0;
 
     let score = 0;
     const now = new Date();
@@ -310,7 +311,7 @@ function calculateAIPartnershipScore(
  * Fallback regex-based partnership scoring (when AI unavailable)
  */
 function calculateRegexPartnershipScore(news: IndexData["news"]): number {
-    if (!news || news.length === 0) return 0;
+    if (!news || !Array.isArray(news) || news.length === 0) return 0;
 
     const partnershipKeywords = [
         /\bpartnership\b/i,
@@ -360,7 +361,7 @@ function calculateRegexPartnershipScore(news: IndexData["news"]): number {
  * Rewards shipping pace and high-impact announcements
  */
 export function calculateIndexNewsScore(news?: IndexData["news"]): number {
-    if (!news || news.length === 0) return 0;
+    if (!news || !Array.isArray(news) || news.length === 0) return 0;
 
     // Use word boundaries for better keyword synergy (avoids false positives like "disintegrated")
     const keywords = [
@@ -433,35 +434,44 @@ export function calculateViralityScore(engagement30d: {
 /**
  * Calculate Attention Velocity
  * Proxies for web impressions via social engagement rate
+ * Falls back to follower count when engagement data is unavailable
  */
 export function calculateAttentionScore(twitter: TwitterMetrics): number {
-    if (!twitter.engagement30d) return 0;
+    // Calculate total engagement if data exists
+    const totalEngagement = twitter.engagement30d
+        ? (twitter.engagement30d.likes || 0) +
+          (twitter.engagement30d.retweets || 0) +
+          (twitter.engagement30d.replies || 0)
+        : 0;
 
-    const totalEngagement =
-        (twitter.engagement30d.likes || 0) +
-        (twitter.engagement30d.retweets || 0) +
-        (twitter.engagement30d.replies || 0);
+    // Primary: Use engagement velocity if we have engagement data
+    if (totalEngagement > 0) {
+        // If no followers but has engagement, use a small denominator to avoid division by zero
+        const effectiveFollowers = Math.max(twitter.followers || 1, 1);
 
-    // If no engagement, return 0
-    if (totalEngagement === 0) return 0;
+        // Engagement Velocity: High engagement relative to size indicates a "Visibility Spike"
+        const velocity = (totalEngagement / effectiveFollowers) * 100;
 
-    // If no followers but has engagement, use a small denominator to avoid division by zero
-    // This handles edge cases where engagement exists but follower count is missing
-    const effectiveFollowers = Math.max(twitter.followers || 1, 1);
+        // Benchmark: 2% velocity is viral/high-attention for Web3
+        // Cap at 100% to handle viral posts
+        return normalize(Math.min(100, velocity), 0, 2);
+    }
 
-    // Engagement Velocity: High engagement relative to size indicates a "Visibility Spike"
-    const velocity = (totalEngagement / effectiveFollowers) * 100;
+    // Fallback: If no engagement data but have followers, use followers as attention proxy
+    // Large follower base = accumulated attention over time
+    // Benchmark: 10k to 1M+ followers (Uniswap has 1M+)
+    if (twitter.followers && twitter.followers > 0) {
+        return normalize(twitter.followers, 10000, 1000000);
+    }
 
-    // Benchmark: 2% velocity is viral/high-attention for Web3
-    // Cap at 100% to handle viral posts
-    return normalize(Math.min(100, velocity), 0, 2);
+    return 0;
 }
 
 /**
  * Calculate Web Activity / Shipping Pace Score (0-100)
  */
 export function calculateWebScore(news?: IndexData["news"]): number {
-    if (!news || news.length === 0) return 0;
+    if (!news || !Array.isArray(news) || news.length === 0) return 0;
 
     const now = new Date();
     const updateDates = news
@@ -552,8 +562,18 @@ export async function calculateIndexScore(
         wallet: 0,
     };
 
+    const tvl = onchain.tvl || 0;
+
     if (category === "defi") {
-        weights = { github: 0.35, growth: 0.55, social: 0.1, wallet: 0 };
+        // High-TVL DeFi: Proven protocols prioritize real growth over development activity
+        if (tvl >= 1_000_000_000) {
+            // $1B+ TVL: Mature protocols with proven product-market fit
+            // Reduce GitHub weight (25%), increase Growth weight (65%)
+            weights = { github: 0.25, growth: 0.65, social: 0.1, wallet: 0 };
+        } else {
+            // Standard DeFi weighting
+            weights = { github: 0.35, growth: 0.55, social: 0.1, wallet: 0 };
+        }
     } else if (category === "infrastructure") {
         weights = { github: 0.55, growth: 0.35, social: 0.1, wallet: 0 };
     } else if (category === "gaming" || category === "nft") {
@@ -580,21 +600,50 @@ export async function calculateIndexScore(
     }
 
     // --- Signal Fusion: Revamped Growth Score with Word-of-Mouth ---
-    // Growth = (On-Chain * 0.35) + (News/Shipping * 0.25) + (Partnerships * 0.20) + (Attention * 0.20)
-    // Partnerships added as explicit word-of-mouth signal
-    let combinedGrowthScore =
-        onchainScore.score * 0.35 +
-        Math.max(webScore, indexNewsScore) * 0.25 +
-        partnershipScore * 0.2 +
-        attentionScore * 0.2;
+    // Adaptive weighting based on on-chain strength:
+    // - Exceptional (>75 + TVL >$1B): Dominant on-chain weight (80%)
+    // - Strong on-chain (>70): Prioritize real usage metrics (60%)
+    // - Weak on-chain (<30): Prioritize web/social/partnership signals
+    // - Medium: Balanced approach
+    let combinedGrowthScore = 0;
 
-    // If On-chain is extremely low (SaaS/Stealth), shift weight to Web/Social/Partnership Growth
-    // This is critical for Fabrknt which has no real on-chain activity
-    if ((onchain.transactionCount30d || 0) < 10) {
+    // Use tvl already defined above
+    const isExceptional = onchainScore.score >= 75 && tvl >= 1_000_000_000;
+
+    if (isExceptional) {
+        // Exceptional protocols: Top-tier with $1B+ TVL and strong on-chain
+        // These protocols have proven product-market fit through real usage
+        // Massively prioritize actual usage metrics (80%)
+        combinedGrowthScore =
+            onchainScore.score * 0.8 +
+            Math.max(webScore, indexNewsScore) * 0.08 +
+            partnershipScore * 0.07 +
+            attentionScore * 0.05;
+    } else if (onchainScore.score >= 70) {
+        // Strong on-chain: Established protocols with proven usage
+        // Give much more weight to actual usage metrics (60%)
+        // Reduce weight on marketing/news signals (40%)
+        combinedGrowthScore =
+            onchainScore.score * 0.6 +
+            Math.max(webScore, indexNewsScore) * 0.15 +
+            partnershipScore * 0.15 +
+            attentionScore * 0.1;
+    } else if ((onchain.transactionCount30d || 0) < 10) {
+        // Extremely low on-chain: SaaS/Stealth/Pre-launch
+        // Shift weight to Web/Social/Partnership Growth
+        // This is critical for Fabrknt which has no real on-chain activity
         combinedGrowthScore =
             Math.max(webScore, indexNewsScore) * 0.35 +
             partnershipScore * 0.35 +
             attentionScore * 0.3;
+    } else {
+        // Medium on-chain: Balanced scoring
+        // Growth = (On-Chain * 0.35) + (News * 0.25) + (Partnerships * 0.20) + (Attention * 0.20)
+        combinedGrowthScore =
+            onchainScore.score * 0.35 +
+            Math.max(webScore, indexNewsScore) * 0.25 +
+            partnershipScore * 0.2 +
+            attentionScore * 0.2;
     }
 
     // --- Dynamic Weight Shifting for Private Development ---

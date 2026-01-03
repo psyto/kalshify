@@ -37,7 +37,11 @@ export interface CompanyConfig {
         address: string;
         customMetricsFunction?:
             | "getUniswapMetrics"
-            | "getJupiterMetrics";
+            | "getJupiterMetrics"
+            | "getKaminoMetrics"
+            | "getDriftMetrics"
+            | "getOrcaMetrics"
+            | "getMarginFiMetrics";
     };
 
     // Optional URLs for news crawling
@@ -266,6 +270,10 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         onchain: {
             chain: "solana",
             address: "whirLbMiicVdio4qvUfM5DAg3K5nRp6oP2Y",
+            customMetricsFunction: "getOrcaMetrics",
+        },
+        features: {
+            hasTVL: true,
         },
         defaults: {
             walletGrowth: 20,
@@ -290,6 +298,10 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         onchain: {
             chain: "solana",
             address: "dRiftyHA39bWEY4nXUvNnprgNa8gvhcteAdT",
+            customMetricsFunction: "getDriftMetrics",
+        },
+        features: {
+            hasTVL: true,
         },
         defaults: {
             walletGrowth: 20,
@@ -314,6 +326,10 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         onchain: {
             chain: "solana",
             address: "MFv2hWf31Z9kbCa1snEPYctwafyhdvnV7F",
+            customMetricsFunction: "getMarginFiMetrics",
+        },
+        features: {
+            hasTVL: true,
         },
         defaults: {
             walletGrowth: 20,
@@ -338,6 +354,10 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         onchain: {
             chain: "solana",
             address: "KLend2g3cP87fffoy8q1mQqGKjrxjC8boSy",
+            customMetricsFunction: "getKaminoMetrics",
+        },
+        features: {
+            hasTVL: true,
         },
         defaults: {
             walletGrowth: 20,

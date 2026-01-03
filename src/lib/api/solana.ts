@@ -573,21 +573,229 @@ export async function getOnChainMetrics(
 }
 
 /**
- * Jupiter Aggregator: Get metrics for Jupiter program
- * Main Program: JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4
+ * Jupiter Aggregator: Get comprehensive metrics using DefiLlama + on-chain data
+ * Combines real TVL data from DefiLlama with estimated user/transaction metrics
  *
- * Note: This provides transaction counts and unique wallets.
- * For volume/fees data, use Dune Analytics or parse swap events.
+ * Program: JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4
  */
 export async function getJupiterMetrics(): Promise<Partial<OnChainMetrics>> {
     const JUPITER_PROGRAM_ID = "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4";
-    const metrics = await getOnChainMetrics(JUPITER_PROGRAM_ID);
 
-    // Use transaction counts as proxy for activity
-    // Note: This is approximate - actual volume requires parsing Swap events
+    try {
+        // Import DefiLlama client dynamically
+        const { getProtocolMetrics } = await import("./defillama");
+
+        // Get real TVL and estimated metrics from DefiLlama
+        const defiMetrics = await getProtocolMetrics("jupiter", "dex");
+
+        if (defiMetrics) {
+            console.log(
+                `✓ DefiLlama: Jupiter TVL = $${(defiMetrics.tvl / 1e9).toFixed(2)}B`
+            );
+
+            return {
+                chain: "solana",
+                tvl: defiMetrics.tvl,
+                // Use DefiLlama-estimated metrics (more accurate than RPC signature counting)
+                dailyActiveUsers: defiMetrics.estimatedDailyUsers,
+                monthlyActiveUsers: defiMetrics.estimatedMonthlyUsers,
+                transactionCount30d: defiMetrics.estimatedMonthlyTransactions,
+                transactionCount24h: Math.floor(
+                    defiMetrics.estimatedMonthlyTransactions / 30
+                ),
+                transactionCount7d: Math.floor(
+                    (defiMetrics.estimatedMonthlyTransactions / 30) * 7
+                ),
+                // Estimate unique wallets from users
+                uniqueWallets30d: defiMetrics.estimatedMonthlyUsers,
+                uniqueWallets24h: defiMetrics.estimatedDailyUsers,
+                uniqueWallets7d: Math.floor(defiMetrics.estimatedDailyUsers * 5),
+            };
+        }
+    } catch (error) {
+        console.warn(
+            "DefiLlama fetch failed, falling back to minimal RPC metrics:",
+            error
+        );
+    }
+
+    // Fallback: Use minimal RPC metrics if DefiLlama fails
+    // Note: This may hit rate limits for high-traffic protocols
+    const metrics = await getOnChainMetrics(JUPITER_PROGRAM_ID);
     return {
         ...metrics,
-        // Estimate monthly active users from unique wallets
         monthlyActiveUsers: metrics.uniqueWallets30d || 0,
+    };
+}
+
+/**
+ * Kamino: Get comprehensive metrics using DefiLlama
+ * Kamino is a lending/liquidity protocol on Solana
+ */
+export async function getKaminoMetrics(): Promise<Partial<OnChainMetrics>> {
+    try {
+        const { getProtocolMetrics } = await import("./defillama");
+        const defiMetrics = await getProtocolMetrics("kamino", "lending");
+
+        if (defiMetrics) {
+            console.log(
+                `✓ DefiLlama: Kamino TVL = $${(defiMetrics.tvl / 1e9).toFixed(2)}B`
+            );
+
+            return {
+                chain: "solana",
+                tvl: defiMetrics.tvl,
+                dailyActiveUsers: defiMetrics.estimatedDailyUsers,
+                monthlyActiveUsers: defiMetrics.estimatedMonthlyUsers,
+                transactionCount30d: defiMetrics.estimatedMonthlyTransactions,
+                transactionCount24h: Math.floor(
+                    defiMetrics.estimatedMonthlyTransactions / 30
+                ),
+                transactionCount7d: Math.floor(
+                    (defiMetrics.estimatedMonthlyTransactions / 30) * 7
+                ),
+                uniqueWallets30d: defiMetrics.estimatedMonthlyUsers,
+                uniqueWallets24h: defiMetrics.estimatedDailyUsers,
+                uniqueWallets7d: Math.floor(defiMetrics.estimatedDailyUsers * 5),
+            };
+        }
+    } catch (error) {
+        console.warn("DefiLlama fetch failed for Kamino:", error);
+    }
+
+    return {
+        chain: "solana",
+        transactionCount24h: 0,
+        transactionCount30d: 0,
+        monthlyActiveUsers: 0,
+    };
+}
+
+/**
+ * Drift: Get comprehensive metrics using DefiLlama
+ * Drift is a perpetuals DEX on Solana
+ */
+export async function getDriftMetrics(): Promise<Partial<OnChainMetrics>> {
+    try {
+        const { getProtocolMetrics } = await import("./defillama");
+        const defiMetrics = await getProtocolMetrics("drift", "derivatives");
+
+        if (defiMetrics) {
+            console.log(
+                `✓ DefiLlama: Drift TVL = $${(defiMetrics.tvl / 1e6).toFixed(2)}M`
+            );
+
+            return {
+                chain: "solana",
+                tvl: defiMetrics.tvl,
+                dailyActiveUsers: defiMetrics.estimatedDailyUsers,
+                monthlyActiveUsers: defiMetrics.estimatedMonthlyUsers,
+                transactionCount30d: defiMetrics.estimatedMonthlyTransactions,
+                transactionCount24h: Math.floor(
+                    defiMetrics.estimatedMonthlyTransactions / 30
+                ),
+                transactionCount7d: Math.floor(
+                    (defiMetrics.estimatedMonthlyTransactions / 30) * 7
+                ),
+                uniqueWallets30d: defiMetrics.estimatedMonthlyUsers,
+                uniqueWallets24h: defiMetrics.estimatedDailyUsers,
+                uniqueWallets7d: Math.floor(defiMetrics.estimatedDailyUsers * 5),
+            };
+        }
+    } catch (error) {
+        console.warn("DefiLlama fetch failed for Drift:", error);
+    }
+
+    return {
+        chain: "solana",
+        transactionCount24h: 0,
+        transactionCount30d: 0,
+        monthlyActiveUsers: 0,
+    };
+}
+
+/**
+ * Orca: Get comprehensive metrics using DefiLlama
+ * Orca is a DEX on Solana
+ */
+export async function getOrcaMetrics(): Promise<Partial<OnChainMetrics>> {
+    try {
+        const { getProtocolMetrics } = await import("./defillama");
+        const defiMetrics = await getProtocolMetrics("orca", "dex");
+
+        if (defiMetrics) {
+            console.log(
+                `✓ DefiLlama: Orca TVL = $${(defiMetrics.tvl / 1e6).toFixed(2)}M`
+            );
+
+            return {
+                chain: "solana",
+                tvl: defiMetrics.tvl,
+                dailyActiveUsers: defiMetrics.estimatedDailyUsers,
+                monthlyActiveUsers: defiMetrics.estimatedMonthlyUsers,
+                transactionCount30d: defiMetrics.estimatedMonthlyTransactions,
+                transactionCount24h: Math.floor(
+                    defiMetrics.estimatedMonthlyTransactions / 30
+                ),
+                transactionCount7d: Math.floor(
+                    (defiMetrics.estimatedMonthlyTransactions / 30) * 7
+                ),
+                uniqueWallets30d: defiMetrics.estimatedMonthlyUsers,
+                uniqueWallets24h: defiMetrics.estimatedDailyUsers,
+                uniqueWallets7d: Math.floor(defiMetrics.estimatedDailyUsers * 5),
+            };
+        }
+    } catch (error) {
+        console.warn("DefiLlama fetch failed for Orca:", error);
+    }
+
+    return {
+        chain: "solana",
+        transactionCount24h: 0,
+        transactionCount30d: 0,
+        monthlyActiveUsers: 0,
+    };
+}
+
+/**
+ * MarginFi: Get comprehensive metrics using DefiLlama
+ * MarginFi is a lending protocol on Solana
+ */
+export async function getMarginFiMetrics(): Promise<Partial<OnChainMetrics>> {
+    try {
+        const { getProtocolMetrics } = await import("./defillama");
+        const defiMetrics = await getProtocolMetrics("marginfi", "lending");
+
+        if (defiMetrics) {
+            console.log(
+                `✓ DefiLlama: MarginFi TVL = $${(defiMetrics.tvl / 1e6).toFixed(2)}M`
+            );
+
+            return {
+                chain: "solana",
+                tvl: defiMetrics.tvl,
+                dailyActiveUsers: defiMetrics.estimatedDailyUsers,
+                monthlyActiveUsers: defiMetrics.estimatedMonthlyUsers,
+                transactionCount30d: defiMetrics.estimatedMonthlyTransactions,
+                transactionCount24h: Math.floor(
+                    defiMetrics.estimatedMonthlyTransactions / 30
+                ),
+                transactionCount7d: Math.floor(
+                    (defiMetrics.estimatedMonthlyTransactions / 30) * 7
+                ),
+                uniqueWallets30d: defiMetrics.estimatedMonthlyUsers,
+                uniqueWallets24h: defiMetrics.estimatedDailyUsers,
+                uniqueWallets7d: Math.floor(defiMetrics.estimatedDailyUsers * 5),
+            };
+        }
+    } catch (error) {
+        console.warn("DefiLlama fetch failed for MarginFi:", error);
+    }
+
+    return {
+        chain: "solana",
+        transactionCount24h: 0,
+        transactionCount30d: 0,
+        monthlyActiveUsers: 0,
     };
 }
