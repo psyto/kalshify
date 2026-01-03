@@ -138,7 +138,7 @@ async function getSignaturesForAddressWithLimit(
     options?: SolanaAPIOptions
 ): Promise<any[]> {
     const connection = getConnection(options);
-    
+
     try {
         const batch = await connection.getSignaturesForAddress(publicKey, {
             limit,
@@ -147,7 +147,7 @@ async function getSignaturesForAddressWithLimit(
         return batch;
     } catch (error: any) {
         const errorMessage = error?.message || String(error);
-        
+
         // Check for limit too large errors
         if (
             errorMessage.includes("limit") &&
@@ -157,7 +157,9 @@ async function getSignaturesForAddressWithLimit(
                 errorMessage.includes("maximum"))
         ) {
             // Extract max limit from error message if available
-            const maxMatch = errorMessage.match(/max(?:imum)?\s+(?:is\s+)?(\d+)/i);
+            const maxMatch = errorMessage.match(
+                /max(?:imum)?\s+(?:is\s+)?(\d+)/i
+            );
             if (maxMatch) {
                 const maxLimit = parseInt(maxMatch[1], 10);
                 // Use 80% of max to be safe
@@ -189,7 +191,7 @@ async function getSignaturesForAddressWithLimit(
                 );
             }
         }
-        
+
         // Re-throw other errors (rate limits, etc.)
         throw error;
     }
@@ -365,6 +367,11 @@ export async function getUniqueAddressesFromSignatures(
 /**
  * Get on-chain metrics for a Solana program
  * Note: This is a simplified version. For production, use specialized APIs like Helius or QuickNode
+ *
+ * Strategy: Fetch sequentially with delays to avoid rate limits
+ * - Start with shorter time periods (24h, 7d) which are more likely to succeed
+ * - Use shorter time ranges if 30d fails
+ * - Add delays between requests to respect rate limits
  */
 export async function getOnChainMetrics(
     programId: string,
@@ -376,8 +383,44 @@ export async function getOnChainMetrics(
         const slot7dAgo = await getSlotFromDaysAgo(7, options);
         const slot30dAgo = await getSlotFromDaysAgo(30, options);
 
-        // Get signatures for different time periods
-        // Note: This is approximate since Solana doesn't have direct slot-to-time mapping
+        // Helper function to add delay between requests
+        const delay = (ms: number) =>
+            new Promise((resolve) => setTimeout(resolve, ms));
+
+        // Fetch sequentially with delays to avoid rate limits
+        // Start with 24h (most recent, smallest range)
+        let signatures24h: any[] = [];
+        try {
+            signatures24h = await getSignaturesForAddress(
+                programId,
+                slot24hAgo,
+                currentSlot,
+                options
+            );
+            // Add delay before next request
+            await delay(2000); // 2 second delay
+        } catch (err: any) {
+            console.warn("24h signature fetch failed:", err?.message || err);
+            // Continue with empty array - will use zeros
+        }
+
+        // Fetch 7d data
+        let signatures7d: any[] = [];
+        try {
+            signatures7d = await getSignaturesForAddress(
+                programId,
+                slot7dAgo,
+                currentSlot,
+                options
+            );
+            // Add delay before next request
+            await delay(2000); // 2 second delay
+        } catch (err: any) {
+            console.warn("7d signature fetch failed:", err?.message || err);
+            // Continue with empty array - will use zeros
+        }
+
+        // Try 30d, but fallback to shorter ranges if it fails
         let signatures30d: any[] = [];
         try {
             signatures30d = await getSignaturesForAddress(
@@ -386,42 +429,109 @@ export async function getOnChainMetrics(
                 currentSlot,
                 options
             );
-        } catch (err) {
+        } catch (err: any) {
+            // If 30d fails, try 14d as fallback
             console.warn(
                 "30-day signature fetch failed, trying 14-day range:",
-                err
+                err?.message || err
             );
-            const slot14dAgo = await getSlotFromDaysAgo(14, options);
-            signatures30d = await getSignaturesForAddress(
-                programId,
-                slot14dAgo,
-                currentSlot,
-                options
-            );
+            try {
+                await delay(3000); // Longer delay before retry
+                const slot14dAgo = await getSlotFromDaysAgo(14, options);
+                signatures30d = await getSignaturesForAddress(
+                    programId,
+                    slot14dAgo,
+                    currentSlot,
+                    options
+                );
+            } catch (fallbackErr: any) {
+                console.warn(
+                    "14-day signature fetch also failed:",
+                    fallbackErr?.message || fallbackErr
+                );
+                // If both fail, estimate 30d from 7d data (rough approximation)
+                if (signatures7d.length > 0) {
+                    console.warn("Using 7d data to estimate 30d metrics");
+                    signatures30d = signatures7d; // Will be scaled below
+                }
+            }
         }
 
-        const [signatures24h, signatures7d] = await Promise.all([
-            getSignaturesForAddress(
-                programId,
-                slot24hAgo,
-                currentSlot,
-                options
-            ),
-            getSignaturesForAddress(programId, slot7dAgo, currentSlot, options),
-        ]);
+        // Get unique addresses sequentially with delays to avoid rate limits
+        // Only fetch unique addresses if we have signatures
+        let uniqueWallets24h = 0;
+        let uniqueWallets7d = 0;
+        let uniqueWallets30d = 0;
 
-        // Get unique addresses (sample-based for performance)
-        const [uniqueWallets24h, uniqueWallets7d, uniqueWallets30d] =
-            await Promise.all([
-                getUniqueAddressesFromSignatures(signatures24h, options),
-                getUniqueAddressesFromSignatures(signatures7d, options),
-                getUniqueAddressesFromSignatures(signatures30d, options),
-            ]);
+        if (signatures24h.length > 0) {
+            try {
+                uniqueWallets24h = await getUniqueAddressesFromSignatures(
+                    signatures24h,
+                    options
+                );
+                await delay(2000); // Delay before next request
+            } catch (err: any) {
+                console.warn(
+                    "Failed to get unique wallets for 24h:",
+                    err?.message || err
+                );
+                // Fallback: estimate from signature count
+                uniqueWallets24h = Math.min(signatures24h.length, 100);
+            }
+        }
+
+        if (signatures7d.length > 0) {
+            try {
+                uniqueWallets7d = await getUniqueAddressesFromSignatures(
+                    signatures7d,
+                    options
+                );
+                await delay(2000); // Delay before next request
+            } catch (err: any) {
+                console.warn(
+                    "Failed to get unique wallets for 7d:",
+                    err?.message || err
+                );
+                // Fallback: estimate from signature count
+                uniqueWallets7d = Math.min(signatures7d.length, 500);
+            }
+        }
+
+        if (signatures30d.length > 0) {
+            try {
+                uniqueWallets30d = await getUniqueAddressesFromSignatures(
+                    signatures30d,
+                    options
+                );
+            } catch (err: any) {
+                console.warn(
+                    "Failed to get unique wallets for 30d:",
+                    err?.message || err
+                );
+                // Fallback: estimate from signature count or scale from 7d
+                if (signatures30d === signatures7d) {
+                    // If we used 7d data, scale it
+                    uniqueWallets30d = Math.min(
+                        Math.round(uniqueWallets7d * 4.3),
+                        signatures30d.length
+                    );
+                } else {
+                    uniqueWallets30d = Math.min(signatures30d.length, 2000);
+                }
+            }
+        }
+
+        // If 30d was estimated from 7d, scale transaction count too
+        let transactionCount30d = signatures30d.length;
+        if (signatures30d === signatures7d && signatures7d.length > 0) {
+            // Rough estimate: 30d ≈ 4.3x 7d
+            transactionCount30d = Math.round(signatures7d.length * 4.3);
+        }
 
         return {
             transactionCount24h: signatures24h.length,
             transactionCount7d: signatures7d.length,
-            transactionCount30d: signatures30d.length,
+            transactionCount30d,
             uniqueWallets24h,
             uniqueWallets7d,
             uniqueWallets30d,

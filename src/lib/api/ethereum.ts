@@ -472,23 +472,59 @@ export async function getOnChainMetrics(
 }
 
 /**
- * Uniswap V3: Get metrics for Uniswap V3 Factory contract
- * Factory: 0x1F98431c8aD98523631AE4a59f267346ea31F984
+ * Uniswap V3: Get comprehensive metrics using DefiLlama + on-chain data
+ * Combines real TVL data from DefiLlama with estimated user/transaction metrics
  *
- * Note: This provides transaction counts and unique wallets.
- * For volume/fees data, use Dune Analytics or parse Swap events from pool contracts.
+ * Factory: 0x1F98431c8aD98523631AE4a59f267346ea31F984
  */
 export async function getUniswapMetrics(
     options?: EthereumAPIOptions
 ): Promise<Partial<OnChainMetrics>> {
     const UNISWAP_V3_FACTORY = "0x1F98431c8aD98523631AE4a59f267346ea31F984";
-    const metrics = await getOnChainMetrics(UNISWAP_V3_FACTORY, options);
 
-    // Use transaction counts as proxy for activity
-    // Note: This is approximate - actual volume requires parsing Swap events
+    try {
+        // Import DefiLlama client dynamically
+        const { getProtocolMetrics } = await import("./defillama");
+
+        // Get real TVL and estimated metrics from DefiLlama
+        const defiMetrics = await getProtocolMetrics("uniswap", "dex");
+
+        if (defiMetrics) {
+            console.log(
+                `✓ DefiLlama: Uniswap TVL = $${(defiMetrics.tvl / 1e9).toFixed(2)}B`
+            );
+
+            return {
+                contractAddress: UNISWAP_V3_FACTORY,
+                chain: "ethereum",
+                tvl: defiMetrics.tvl,
+                // Use DefiLlama-estimated metrics (more accurate than factory contract)
+                dailyActiveUsers: defiMetrics.estimatedDailyUsers,
+                monthlyActiveUsers: defiMetrics.estimatedMonthlyUsers,
+                transactionCount30d: defiMetrics.estimatedMonthlyTransactions,
+                transactionCount24h: Math.floor(
+                    defiMetrics.estimatedMonthlyTransactions / 30
+                ),
+                transactionCount7d: Math.floor(
+                    (defiMetrics.estimatedMonthlyTransactions / 30) * 7
+                ),
+                // Estimate unique wallets from users
+                uniqueWallets30d: defiMetrics.estimatedMonthlyUsers,
+                uniqueWallets24h: defiMetrics.estimatedDailyUsers,
+                uniqueWallets7d: Math.floor(defiMetrics.estimatedDailyUsers * 5),
+            };
+        }
+    } catch (error) {
+        console.warn(
+            "DefiLlama fetch failed, falling back to on-chain factory metrics:",
+            error
+        );
+    }
+
+    // Fallback: Use factory contract metrics if DefiLlama fails
+    const metrics = await getOnChainMetrics(UNISWAP_V3_FACTORY, options);
     return {
         ...metrics,
-        // Estimate monthly active users from unique wallets
         monthlyActiveUsers: metrics.uniqueWallets30d || 0,
     };
 }

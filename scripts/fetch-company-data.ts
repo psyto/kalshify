@@ -60,7 +60,182 @@ async function ensureDataDir(): Promise<void> {
 }
 
 /**
- * Save company data to JSON file
+ * Load existing company data from JSON file
+ */
+async function loadExistingCompanyData(
+    slug: string
+): Promise<StoredCompanyData | null> {
+    const filePath = join(DATA_DIR, `${slug}.json`);
+    try {
+        const fileContent = await fs.readFile(filePath, "utf-8");
+        const existingData = JSON.parse(fileContent) as StoredCompanyData;
+        return existingData;
+    } catch (error) {
+        // File doesn't exist or is invalid - that's okay
+        return null;
+    }
+}
+
+/**
+ * Merge GitHub data - prefer new if it has activity, otherwise keep old
+ */
+function mergeGitHubData(existing: any, newData: any): any {
+    // If new data has activity, use it
+    if (newData.totalCommits30d > 0 || newData.totalContributors > 0) {
+        return newData;
+    }
+    // If old data has activity, keep it
+    if (existing?.totalCommits30d > 0 || existing?.totalContributors > 0) {
+        return existing;
+    }
+    // Otherwise use new (even if zero)
+    return newData;
+}
+
+/**
+ * Merge Twitter data - prefer new if it has followers, otherwise keep old
+ */
+function mergeTwitterData(existing: any, newData: any): any {
+    // If new data has followers, use it
+    if (newData.followers > 0) {
+        return newData;
+    }
+    // If old data has followers, keep it
+    if (existing?.followers > 0) {
+        return existing;
+    }
+    // Otherwise use new
+    return newData;
+}
+
+/**
+ * Merge on-chain data - prefer new if it has transactions, otherwise keep old
+ */
+function mergeOnchainData(existing: any, newData: any): any {
+    // If new data has transactions, use it
+    if (newData.transactionCount30d > 0 || newData.uniqueWallets30d > 0) {
+        return newData;
+    }
+    // If old data has transactions, keep it
+    if (existing?.transactionCount30d > 0 || existing?.uniqueWallets30d > 0) {
+        return existing;
+    }
+    // Otherwise use new
+    return newData;
+}
+
+/**
+ * Merge new data with existing data, preserving old data when new fetch fails
+ */
+function mergeCompanyData(
+    existing: StoredCompanyData | null,
+    newData: {
+        rawData: IndexData;
+        scores: IndexScore;
+        company: Company;
+    }
+): {
+    rawData: IndexData;
+    scores: IndexScore;
+    company: Company;
+} {
+    if (!existing) {
+        return newData;
+    }
+
+    // Merge rawData - prefer new data, but keep old if new is missing/zero
+    const mergedRawData: IndexData = {
+        companyName:
+            newData.rawData.companyName || existing.rawData.companyName,
+        category: newData.rawData.category || existing.rawData.category,
+        github: mergeGitHubData(
+            existing.rawData.github,
+            newData.rawData.github
+        ),
+        twitter: mergeTwitterData(
+            existing.rawData.twitter,
+            newData.rawData.twitter
+        ),
+        onchain: mergeOnchainData(
+            existing.rawData.onchain,
+            newData.rawData.onchain
+        ),
+        news: newData.rawData.news?.length
+            ? newData.rawData.news
+            : existing.rawData.news || [],
+        calculatedAt:
+            newData.rawData.calculatedAt || existing.rawData.calculatedAt,
+    };
+
+    // Merge scores - prefer new scores if they're valid (non-zero)
+    const mergedScores: IndexScore = {
+        overall:
+            newData.scores.overall > 0
+                ? newData.scores.overall
+                : existing.scores.overall,
+        teamHealth:
+            newData.scores.teamHealth > 0
+                ? newData.scores.teamHealth
+                : existing.scores.teamHealth,
+        growthScore:
+            newData.scores.growthScore > 0
+                ? newData.scores.growthScore
+                : existing.scores.growthScore,
+        socialScore:
+            newData.scores.socialScore > 0
+                ? newData.scores.socialScore
+                : existing.scores.socialScore,
+        walletQuality:
+            newData.scores.walletQuality > 0
+                ? newData.scores.walletQuality
+                : existing.scores.walletQuality,
+        breakdown: newData.scores.breakdown || existing.scores.breakdown,
+    };
+
+    // Merge company - prefer new company data, but preserve scores if new ones are zero
+    const mergedCompany: Company = {
+        ...existing.company,
+        ...newData.company,
+        // Preserve old scores if new ones are zero
+        overallScore:
+            newData.company.overallScore > 0
+                ? newData.company.overallScore
+                : existing.company.overallScore,
+        teamHealth: {
+            ...existing.company.teamHealth,
+            ...newData.company.teamHealth,
+            score:
+                newData.company.teamHealth.score > 0
+                    ? newData.company.teamHealth.score
+                    : existing.company.teamHealth.score,
+        },
+        growth: {
+            ...existing.company.growth,
+            ...newData.company.growth,
+            score:
+                newData.company.growth.score > 0
+                    ? newData.company.growth.score
+                    : existing.company.growth.score,
+        },
+        social: {
+            ...existing.company.social,
+            ...newData.company.social,
+            score:
+                newData.company.social.score > 0
+                    ? newData.company.social.score
+                    : existing.company.social.score,
+        },
+    };
+
+    return {
+        rawData: mergedRawData,
+        scores: mergedScores,
+        company: mergedCompany,
+    };
+}
+
+/**
+ * Save company data to JSON file (updated to merge with existing)
  */
 async function saveCompanyData(
     slug: string,
@@ -71,17 +246,29 @@ async function saveCompanyData(
 ): Promise<string> {
     await ensureDataDir();
 
+    // Load existing data
+    const existing = await loadExistingCompanyData(slug);
+
+    // Merge with existing data
+    const merged = mergeCompanyData(existing, { rawData, scores, company });
+
     const storedData: StoredCompanyData = {
         slug,
         fetchedAt: new Date().toISOString(),
         metadata,
-        rawData,
-        scores,
-        company,
+        rawData: merged.rawData,
+        scores: merged.scores,
+        company: merged.company,
     };
 
     const filePath = join(DATA_DIR, `${slug}.json`);
     await fs.writeFile(filePath, JSON.stringify(storedData, null, 2), "utf-8");
+
+    if (existing) {
+        console.log(
+            `   ✅ Merged with existing data (preserved old data where new fetch failed)`
+        );
+    }
 
     return filePath;
 }
@@ -134,6 +321,15 @@ async function fetchCompanyData(slug: string) {
 
     console.log(`\n🚀 Fetching ${metadata.name} Index Data...`);
     console.log(`   Chain: ${metadata.chain.toUpperCase()}\n`);
+
+    // Load existing data first
+    const existing = await loadExistingCompanyData(slug);
+    if (existing) {
+        console.log(`📂 Found existing data (fetched: ${existing.fetchedAt})`);
+        console.log(
+            `   Will preserve old data if new fetch fails or returns zeros\n`
+        );
+    }
 
     // Debug: Check environment variables (chain-specific)
     console.log("🔍 Checking environment variables:");

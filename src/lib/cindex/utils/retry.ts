@@ -110,15 +110,25 @@ export async function withRetry<T>(
                             : parseInt(retryAfter, 10);
                     const retryAfterMs = retryAfterSeconds * 1000;
 
-                    // Use the retry-after time, but cap at 15 minutes to avoid waiting too long
-                    delayMs = Math.min(retryAfterMs, 900000); // Cap at 15 minutes
+                    // For GitHub API, wait until actual reset time (up to 1 hour max)
+                    // For other APIs, cap at 15 minutes
+                    const isGitHub = error?.message?.includes("GitHub API");
+                    const maxWaitMs = isGitHub ? 3600000 : 900000; // 1 hour for GitHub, 15 min for others
+                    delayMs = Math.min(retryAfterMs, maxWaitMs);
 
                     // If retry-after is very long, log it
                     if (retryAfterMs > 300000) {
                         const minutes = Math.round(retryAfterMs / 60000);
-                        console.warn(
-                            `Rate limit resets in ${minutes} minutes. Waiting up to 15 minutes...`
-                        );
+                        const hours = Math.round(minutes / 60);
+                        if (isGitHub && retryAfterMs <= maxWaitMs) {
+                            console.warn(
+                                `GitHub rate limit resets in ${hours > 0 ? `${hours}h ` : ""}${minutes % 60}m. Waiting until reset...`
+                            );
+                        } else if (retryAfterMs > maxWaitMs) {
+                            console.warn(
+                                `Rate limit resets in ${hours > 0 ? `${hours}h ` : ""}${minutes % 60}m. Waiting up to ${Math.round(maxWaitMs / 60000)} minutes...`
+                            );
+                        }
                     }
                 } else {
                     // Use longer exponential backoff for rate limits: 5s, 10s, 20s, 40s, 80s

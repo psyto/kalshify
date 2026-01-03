@@ -22,6 +22,7 @@ import { IndexData, IndexScore } from "@/lib/api/types";
 import { Company } from "./companies";
 import { CompanyConfig } from "./company-configs";
 import { CrawlerService } from "./crawler";
+import { LLMService } from "./llm";
 import { fetchWithTimeoutAndRetry } from "./utils/fetch-with-retry";
 import { TimeoutError } from "./utils/timeout";
 
@@ -296,18 +297,73 @@ export async function fetchCompanyData(
 }
 
 /**
- * Generic score calculation
+ * Generic score calculation with optional AI partnership analysis
  */
 export async function calculateCompanyScore(
     config: CompanyConfig,
-    data?: IndexData
+    data?: IndexData,
+    partnershipAnalyses?: Array<{
+        isPartnership: boolean;
+        quality: "tier1" | "tier2" | "tier3" | "none";
+        partnerNames: string[];
+        relationshipType: string;
+        confidence: number;
+        reasoning: string;
+    }>
 ): Promise<IndexScore> {
     const indexData = data || (await fetchCompanyData(config));
+
+    // If partnership analyses not provided but we have news, analyze with AI
+    let analyses = partnershipAnalyses;
+    if (!analyses && indexData.news && indexData.news.length > 0) {
+        console.log(
+            `🤖 Analyzing ${indexData.news.length} news items for partnerships with AI...`
+        );
+        const llm = new LLMService();
+        try {
+            analyses = await llm.batchAnalyzePartnerships(
+                indexData.news.map((item) => ({
+                    title: item.title,
+                    content: item.content,
+                    url: item.url,
+                }))
+            );
+
+            // Log detected partnerships
+            const partnerships = analyses.filter((a) => a.isPartnership);
+            if (partnerships.length > 0) {
+                console.log(
+                    `   ✅ Detected ${partnerships.length} partnerships:`
+                );
+                partnerships.forEach((p, i) => {
+                    const newsItem = indexData.news![i];
+                    console.log(
+                        `      - ${newsItem.title} (${p.quality}, ${p.confidence}% confidence)`
+                    );
+                    if (p.partnerNames.length > 0) {
+                        console.log(
+                            `        Partners: ${p.partnerNames.join(", ")}`
+                        );
+                    }
+                });
+            } else {
+                console.log("   No partnerships detected in news");
+            }
+        } catch (error) {
+            console.warn(
+                "   ⚠️  AI partnership analysis failed, falling back to regex detection"
+            );
+            analyses = undefined; // Will use regex fallback in calculateIndexScore
+        }
+    }
+
     return calculateIndexScore(
         indexData.github,
         indexData.twitter,
         indexData.onchain,
-        indexData.category
+        indexData.category,
+        indexData.news,
+        analyses
     );
 }
 

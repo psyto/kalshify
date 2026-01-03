@@ -82,6 +82,7 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
             address: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
             customMetricsFunction: "getUniswapMetrics",
         },
+        blogUrl: "https://blog.uniswap.org",
         features: {
             hasTVL: true,
         },
@@ -140,6 +141,10 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         onchain: {
             chain: "ethereum",
             address: "0x8888882f8f843896699869179fB6E4f7e3B58888",
+        },
+        blogUrl: "https://morpho.mirror.xyz",
+        features: {
+            hasTVL: true,
         },
         defaults: {
             walletGrowth: 15,
@@ -381,6 +386,10 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         onchain: {
             chain: "ethereum",
             address: "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+        },
+        blogUrl: "https://blog.lido.fi",
+        features: {
+            hasTVL: true,
         },
         defaults: {
             walletGrowth: 15,

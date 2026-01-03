@@ -17,6 +17,7 @@ import { prisma } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/lib/utils/format";
 import { NewsSection } from "@/components/cindex/news-section";
+import type { Metadata } from "next";
 
 interface PageProps {
     params: Promise<{ company: string }>;
@@ -159,9 +160,9 @@ async function getCompanyData(slug: string) {
                 discordMembers: indexData?.social?.discordMembers,
                 telegramMembers: indexData?.social?.telegramMembers,
                 communityEngagement: indexData?.twitter?.engagement30d?.likes
-                    ? (indexData.twitter.engagement30d.likes +
-                       indexData.twitter.engagement30d.retweets +
-                       indexData.twitter.engagement30d.replies)
+                    ? indexData.twitter.engagement30d.likes +
+                      indexData.twitter.engagement30d.retweets +
+                      indexData.twitter.engagement30d.replies
                     : company.socialScore,
             },
             news: indexData?.news || [],
@@ -241,6 +242,74 @@ async function getCompanyData(slug: string) {
     }
 }
 
+const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+    "https://www.fabrknt.com";
+
+export async function generateMetadata({
+    params,
+}: PageProps): Promise<Metadata> {
+    const { company } = await params;
+    const companyData = await getCompanyData(company);
+
+    if (!companyData) {
+        return {
+            title: "Company Not Found",
+            description: "The requested company profile could not be found.",
+        };
+    }
+
+    const description =
+        companyData.description ||
+        `View ${companyData.name}'s verified Web3 metrics, team health (${companyData.teamHealthScore}/100), growth score (${companyData.growthScore}/100), and social engagement. Overall score: ${companyData.overallScore}/100.`;
+
+    const ogImage = companyData.logo
+        ? companyData.logo.startsWith("http")
+            ? companyData.logo
+            : `${baseUrl}${companyData.logo}`
+        : `${baseUrl}/og-image.png`;
+
+    return {
+        title: `${companyData.name} - Web3 Company Profile`,
+        description,
+        keywords: [
+            companyData.name,
+            companyData.category,
+            "Web3",
+            "Blockchain",
+            "Company Profile",
+            "On-chain Metrics",
+            "Team Health",
+            "Growth Metrics",
+        ],
+        openGraph: {
+            title: `${companyData.name} - Web3 Company Profile | Fabrknt`,
+            description,
+            url: `${baseUrl}/cindex/${company}`,
+            siteName: "Fabrknt",
+            images: [
+                {
+                    url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: `${companyData.name} - Web3 Company Profile`,
+                },
+            ],
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${companyData.name} - Web3 Company Profile`,
+            description,
+            images: [ogImage],
+        },
+        alternates: {
+            canonical: `/cindex/${company}`,
+        },
+    };
+}
+
 export default async function CompanyProfilePage({ params }: PageProps) {
     const { company: companySlug } = await params;
     const companyData = await getCompanyData(companySlug);
@@ -251,6 +320,38 @@ export default async function CompanyProfilePage({ params }: PageProps) {
 
     const company = companyData;
     const scores = companyData.scores;
+
+    // Structured data for SEO
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: company.name,
+        description:
+            company.description ||
+            `${company.name} - Web3 ${company.category} company`,
+        url: company.website || `${baseUrl}/cindex/${companySlug}`,
+        logo: company.logo?.startsWith("http")
+            ? company.logo
+            : company.logo
+            ? `${baseUrl}${company.logo}`
+            : `${baseUrl}/logo.png`,
+        sameAs: [
+            ...(getCompanySocialLinks(companySlug).github
+                ? [getCompanySocialLinks(companySlug).github]
+                : []),
+            ...(getCompanySocialLinks(companySlug).twitter
+                ? [getCompanySocialLinks(companySlug).twitter]
+                : []),
+        ],
+        aggregateRating: company.overallScore
+            ? {
+                  "@type": "AggregateRating",
+                  ratingValue: company.overallScore / 20, // Convert 0-100 to 0-5 scale
+                  bestRating: 5,
+                  worstRating: 0,
+              }
+            : undefined,
+    };
 
     const trend = company.trend as "up" | "down" | "stable";
     const TrendIcon = trendIcons[trend];
@@ -294,6 +395,13 @@ export default async function CompanyProfilePage({ params }: PageProps) {
 
     return (
         <div className="min-h-screen bg-muted">
+            {/* Structured Data for SEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(structuredData),
+                }}
+            />
             {/* Header */}
             <div className="border-b border-border bg-card">
                 <div className="p-8">
@@ -396,9 +504,12 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                 Data Collection in Progress
                             </h3>
                             <p className="text-sm text-blue-800">
-                                We are currently fetching and verifying data from GitHub, Twitter, and on-chain sources.
-                                Some metrics may be incomplete or show as zero until the initial data collection is complete.
-                                This page will update automatically as data becomes available.
+                                We are currently fetching and verifying data
+                                from GitHub, Twitter, and on-chain sources. Some
+                                metrics may be incomplete or show as zero until
+                                the initial data collection is complete. This
+                                page will update automatically as data becomes
+                                available.
                             </p>
                         </div>
                     </div>
@@ -454,7 +565,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Active Contributors (30d)
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {formatNumber(company.teamHealth.activeContributors)}
+                                    {formatNumber(
+                                        company.teamHealth.activeContributors
+                                    )}
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -551,7 +664,10 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Volume (30d)
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    ${formatNumber(company.growth.volume30d || 0)}
+                                    $
+                                    {formatNumber(
+                                        company.growth.volume30d || 0
+                                    )}
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -559,7 +675,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Web Activity Score
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {scores?.breakdown?.onchain?.webActivityScore || 0}/100
+                                    {scores?.breakdown?.onchain
+                                        ?.webActivityScore || 0}
+                                    /100
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -567,7 +685,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     News Growth Score
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {scores?.breakdown?.onchain?.newsGrowthScore || 0}/100
+                                    {scores?.breakdown?.onchain
+                                        ?.newsGrowthScore || 0}
+                                    /100
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -575,7 +695,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Attention Score
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {scores?.breakdown?.onchain?.attentionScore || 0}/100
+                                    {scores?.breakdown?.onchain
+                                        ?.attentionScore || 0}
+                                    /100
                                 </span>
                             </div>
                             <div className="flex justify-between border-t border-gray-100 pt-3 mt-3">
@@ -583,7 +705,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Partnership Score (Word-of-Mouth)
                                 </span>
                                 <span className="font-semibold text-green-600">
-                                    {scores?.breakdown?.onchain?.partnershipScore || 0}/100
+                                    {scores?.breakdown?.onchain
+                                        ?.partnershipScore || 0}
+                                    /100
                                 </span>
                             </div>
                         </div>
@@ -625,7 +749,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Twitter Followers
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {formatNumber(company.social.twitterFollowers || 0)}
+                                    {formatNumber(
+                                        company.social.twitterFollowers || 0
+                                    )}
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -666,7 +792,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Virality Score (Sharing Rate)
                                 </span>
                                 <span className="font-semibold text-purple-600">
-                                    {scores?.breakdown?.onchain?.viralityScore || 0}/100
+                                    {scores?.breakdown?.onchain
+                                        ?.viralityScore || 0}
+                                    /100
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -674,7 +802,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Discord Members
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {formatNumber(company.social.discordMembers || 0)}
+                                    {formatNumber(
+                                        company.social.discordMembers || 0
+                                    )}
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -682,7 +812,9 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                                     Telegram Members
                                 </span>
                                 <span className="font-medium text-foreground">
-                                    {formatNumber(company.social.telegramMembers || 0)}
+                                    {formatNumber(
+                                        company.social.telegramMembers || 0
+                                    )}
                                 </span>
                             </div>
                         </div>

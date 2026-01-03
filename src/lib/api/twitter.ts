@@ -6,9 +6,30 @@
 import { TwitterMetrics } from "./types";
 
 const TWITTER_API_BASE = "https://api.twitter.com/2";
-const TWITTER_BEARER_TOKEN =
-    process.env.TWITTER_BEARER_TOKEN ||
-    process.env.NEXT_PUBLIC_TWITTER_BEARER_TOKEN;
+
+/**
+ * Get Twitter Bearer Token from environment variables
+ * Handles URL-encoded tokens (decodes %3D to =)
+ * Reads token lazily (when needed) to support dotenv loading in scripts
+ */
+function getTwitterBearerToken(): string | undefined {
+    const token =
+        process.env.TWITTER_BEARER_TOKEN ||
+        process.env.NEXT_PUBLIC_TWITTER_BEARER_TOKEN;
+
+    if (!token) {
+        return undefined;
+    }
+
+    // Decode URL-encoded tokens (e.g., %3D -> =)
+    // Some users copy tokens with URL encoding, which breaks authentication
+    try {
+        return decodeURIComponent(token);
+    } catch {
+        // If decoding fails, return original token
+        return token;
+    }
+}
 
 interface TwitterAPIOptions {
     token?: string;
@@ -57,10 +78,13 @@ async function twitterFetch(
         return cached;
     }
 
-    const token = options?.token || TWITTER_BEARER_TOKEN;
+    // Read token lazily (when function is called) to support dotenv loading in scripts
+    const token = options?.token || getTwitterBearerToken();
 
     if (!token) {
-        throw new Error("Twitter Bearer Token is required");
+        throw new Error(
+            "Twitter Bearer Token is required. Please set TWITTER_BEARER_TOKEN in .env.local"
+        );
     }
 
     const headers: HeadersInit = {

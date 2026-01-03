@@ -173,13 +173,28 @@ export function calculateOnChainScore(onchain: Partial<OnChainMetrics>): {
         userGrowthScore = normalize(dauMauRatio, 0, 10);
     } else if (onchain.uniqueWallets30d && onchain.uniqueWallets30d > 0) {
         // Fallback: use unique wallets as proxy for users
-        userGrowthScore = normalize(onchain.uniqueWallets30d, 0, 100000);
+        // Adjusted benchmark: 10 to 10,000 wallets (was 0 to 100,000)
+        // This way even small protocols with 100 wallets get ~1% score
+        // And protocols with 1,000 wallets get ~10% score
+        userGrowthScore = normalize(
+            onchain.uniqueWallets30d,
+            10,
+            10000
+        );
     }
 
     // Transaction score: based on transaction volume
     let transactionScore = 0;
     if (onchain.transactionCount30d && onchain.transactionCount30d > 0) {
-        transactionScore = normalize(onchain.transactionCount30d, 0, 1000000);
+        // Adjusted benchmark: 10 to 100,000 transactions (was 0 to 1,000,000)
+        // Even protocols with 100 txs get ~0.1% score
+        // Protocols with 1,000 txs get ~1% score
+        // Protocols with 10,000 txs get ~10% score
+        transactionScore = normalize(
+            onchain.transactionCount30d,
+            10,
+            100000
+        );
     }
 
     // TVL score: if available (would need external API like DeFi Llama)
@@ -210,10 +225,91 @@ export function calculateOnChainScore(onchain: Partial<OnChainMetrics>): {
 }
 
 /**
- * Calculate Partnership Score (Ecosystem Word-of-Mouth)
- * Measures partnerships, integrations, collaborations - strong word-of-mouth signals
+ * Calculate Partnership Score (Ecosystem Word-of-Mouth) - AI-Enhanced
+ * Uses LLM to detect and rate partnership quality with context understanding
  */
-export function calculatePartnershipScore(news?: IndexData["news"]): number {
+export async function calculatePartnershipScore(
+    news?: IndexData["news"],
+    aiAnalyses?: Array<{
+        isPartnership: boolean;
+        quality: "tier1" | "tier2" | "tier3" | "none";
+        partnerNames: string[];
+        relationshipType: string;
+        confidence: number;
+        reasoning: string;
+    }>
+): Promise<number> {
+    if (!news || news.length === 0) return 0;
+
+    // If AI analyses provided, use them (preferred)
+    if (aiAnalyses && aiAnalyses.length === news.length) {
+        return calculateAIPartnershipScore(news, aiAnalyses);
+    }
+
+    // Otherwise fall back to regex-based detection
+    return calculateRegexPartnershipScore(news);
+}
+
+/**
+ * AI-powered partnership scoring with quality tiers
+ */
+function calculateAIPartnershipScore(
+    news: IndexData["news"],
+    analyses: Array<{
+        isPartnership: boolean;
+        quality: "tier1" | "tier2" | "tier3" | "none";
+        partnerNames: string[];
+        relationshipType: string;
+        confidence: number;
+        reasoning: string;
+    }>
+): number {
+    if (!news || news.length === 0) return 0;
+
+    let score = 0;
+    const now = new Date();
+
+    // Quality tier weights
+    const qualityWeights = {
+        tier1: 50, // Major companies (Coinbase, a16z, etc.)
+        tier2: 30, // Established protocols (Uniswap, Aave, etc.)
+        tier3: 15, // Smaller partners
+        none: 0,
+    };
+
+    news.forEach((item, index) => {
+        // Ensure we have a corresponding analysis for this news item
+        if (index >= analyses.length) return;
+
+        const analysis = analyses[index];
+        if (!analysis || !analysis.isPartnership) return;
+
+        const date = new Date(item.date);
+        if (isNaN(date.getTime())) return;
+
+        const daysAgo = Math.max(
+            0,
+            (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+        );
+
+        // Recent partnerships more valuable (30 day window)
+        const freshness = normalize(daysAgo, 30, 0);
+
+        // Quality-weighted score with confidence adjustment
+        const baseScore = qualityWeights[analysis.quality];
+        const confidenceMultiplier = analysis.confidence / 100;
+        const freshnessMultiplier = freshness / 100 + 0.2; // Min 0.2 for older news
+
+        score += baseScore * confidenceMultiplier * freshnessMultiplier;
+    });
+
+    return Math.min(100, Math.round(score));
+}
+
+/**
+ * Fallback regex-based partnership scoring (when AI unavailable)
+ */
+function calculateRegexPartnershipScore(news: IndexData["news"]): number {
     if (!news || news.length === 0) return 0;
 
     const partnershipKeywords = [
@@ -412,8 +508,9 @@ export function calculateWebScore(news?: IndexData["news"]): number {
 /**
  * Calculate Overall Index Score
  * Fully automated - uses RPC-derived metrics and dynamic weight shifting
+ * Now supports AI-enhanced partnership detection
  */
-export function calculateIndexScore(
+export async function calculateIndexScore(
     github: GitHubTeamMetrics,
     twitter: TwitterMetrics,
     onchain: Partial<OnChainMetrics>,
@@ -423,14 +520,25 @@ export function calculateIndexScore(
         | "gaming"
         | "infrastructure"
         | "dao" = "infrastructure",
-    news?: IndexData["news"]
-): IndexScore {
+    news?: IndexData["news"],
+    partnershipAnalyses?: Array<{
+        isPartnership: boolean;
+        quality: "tier1" | "tier2" | "tier3" | "none";
+        partnerNames: string[];
+        relationshipType: string;
+        confidence: number;
+        reasoning: string;
+    }>
+): Promise<IndexScore> {
     const githubScore = calculateGitHubScore(github);
     const twitterScore = calculateTwitterScore(twitter);
     const onchainScore = calculateOnChainScore(onchain);
     const webScore = calculateWebScore(news);
     const indexNewsScore = calculateIndexNewsScore(news);
-    const partnershipScore = calculatePartnershipScore(news);
+    const partnershipScore = await calculatePartnershipScore(
+        news,
+        partnershipAnalyses
+    );
     const attentionScore = calculateAttentionScore(twitter);
     const viralityScore = twitter.engagement30d
         ? calculateViralityScore(twitter.engagement30d)

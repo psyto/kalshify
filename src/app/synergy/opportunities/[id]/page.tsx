@@ -15,6 +15,7 @@ import { formatUSD, formatNumber, formatDate } from "@/lib/utils/format";
 import { SuiteRibbon } from "@/components/suite-ribbon";
 import { cn } from "@/lib/utils";
 import { prisma } from "@/lib/db";
+import type { Metadata } from "next";
 
 const statusColors: Record<string, string> = {
     active: "bg-green-100 text-green-800",
@@ -23,6 +24,100 @@ const statusColors: Record<string, string> = {
     withdrawn: "bg-red-100 text-red-800",
     in_discussion: "bg-blue-100 text-blue-800",
 };
+
+const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+    "https://www.fabrknt.com";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+
+    const listing = await prisma.listing.findUnique({
+        where: { id },
+        select: {
+            id: true,
+            projectName: true,
+            description: true,
+            type: true,
+            askingPrice: true,
+            category: true,
+            logoUrl: true,
+        },
+    });
+
+    if (!listing) {
+        return {
+            title: "Listing Not Found",
+            description: "The requested listing could not be found.",
+        };
+    }
+
+    const title =
+        listing.type === "acquisition"
+            ? `${listing.projectName} - ${
+                  listing.type === "acquisition"
+                      ? "M&A Opportunity"
+                      : "Partnership Opportunity"
+              }`
+            : `${listing.projectName} - Partnership Opportunity`;
+
+    const description =
+        listing.description ||
+        `${listing.projectName} is ${
+            listing.type === "acquisition"
+                ? "seeking acquisition"
+                : "seeking partnerships"
+        } in the ${listing.category} space.`;
+
+    const ogImage = listing.logoUrl
+        ? listing.logoUrl.startsWith("http")
+            ? listing.logoUrl
+            : `${baseUrl}${listing.logoUrl}`
+        : `${baseUrl}/og-image.png`;
+
+    return {
+        title,
+        description,
+        keywords: [
+            listing.projectName,
+            listing.type,
+            listing.category,
+            "Web3",
+            "M&A",
+            "Partnerships",
+            "Blockchain",
+        ],
+        openGraph: {
+            title: `${title} | Fabrknt`,
+            description,
+            url: `${baseUrl}/synergy/opportunities/${id}`,
+            siteName: "Fabrknt",
+            images: [
+                {
+                    url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: `${listing.projectName} - ${listing.type} opportunity`,
+                },
+            ],
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+            images: [ogImage],
+        },
+        alternates: {
+            canonical: `/synergy/opportunities/${id}`,
+        },
+    };
+}
 
 export default async function ListingDetailPage({
     params,
@@ -51,6 +146,34 @@ export default async function ListingDetailPage({
         notFound();
     }
 
+    // Structured data for SEO
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": listing.type === "acquisition" ? "Offer" : "Service",
+        name: listing.projectName,
+        description: listing.description,
+        url: `${baseUrl}/synergy/opportunities/${id}`,
+        ...(listing.logoUrl && {
+            image: listing.logoUrl.startsWith("http")
+                ? listing.logoUrl
+                : `${baseUrl}${listing.logoUrl}`,
+        }),
+        category: listing.category,
+        ...(listing.askingPrice && {
+            price: Number(listing.askingPrice),
+            priceCurrency: "USD",
+        }),
+        offers: {
+            "@type": "Offer",
+            availability:
+                listing.status === "active" ? "InStock" : "OutOfStock",
+            price: listing.askingPrice
+                ? Number(listing.askingPrice)
+                : undefined,
+            priceCurrency: "USD",
+        },
+    };
+
     // Transform Prisma data to match component expectations
     const transformedListing = {
         ...listing,
@@ -68,6 +191,13 @@ export default async function ListingDetailPage({
 
     return (
         <div className="min-h-screen bg-muted">
+            {/* Structured Data for SEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(structuredData),
+                }}
+            />
             {/* Header */}
             <div className="border-b border-border bg-card">
                 <div className="p-8">
