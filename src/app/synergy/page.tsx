@@ -22,57 +22,63 @@ import { SynergySpotlightSection } from "@/components/synergy/synergy-spotlight"
 export const dynamic = "force-dynamic";
 
 async function getListings() {
-    const listings = await prisma.listing.findMany({
-        where: { status: "active" },
-        include: {
-            seller: {
-                select: {
-                    id: true,
-                    walletAddress: true,
-                    displayName: true,
+    try {
+        const listings = await prisma.listing.findMany({
+            where: { status: "active" },
+            include: {
+                seller: {
+                    select: {
+                        id: true,
+                        walletAddress: true,
+                        displayName: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        offers: true,
+                        dataRoomRequests: true,
+                        watchlist: true,
+                    },
                 },
             },
-            _count: {
-                select: {
-                    offers: true,
-                    dataRoomRequests: true,
-                    watchlist: true,
-                },
+            orderBy: {
+                createdAt: "desc",
             },
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
-    });
+        });
 
-    // Transform to match expected Listing format
-    return listings.map((listing) => ({
-        id: listing.id,
-        type: listing.type as any,
-        projectName: listing.projectName,
-        productType: listing.productType,
-        description: listing.description,
-        askingPrice: listing.askingPrice
-            ? Number(listing.askingPrice)
-            : undefined,
-        revenue: Number(listing.revenue),
-        mau: listing.mau,
-        seekingPartners: listing.seekingPartners,
-        offeringCapabilities: listing.offeringCapabilities,
-        partnershipType: listing.partnershipType as any,
-        category: listing.category as any,
-        status: listing.status as any,
-        sellerWallet: listing.seller.walletAddress,
-        createdAt: listing.createdAt.toISOString(),
-        suiteData: listing.suiteDataSnapshot as any,
-        chain: listing.chain as any,
-        website: listing.website || undefined,
-        hasNDA: listing.hasNDA,
-        requiresProofOfFunds: listing.requiresProofOfFunds,
-        minBuyerCapital: listing.minBuyerCapital
-            ? Number(listing.minBuyerCapital)
-            : undefined,
-    }));
+        // Transform to match expected Listing format
+        return listings.map((listing) => ({
+            id: listing.id,
+            type: listing.type as any,
+            projectName: listing.projectName,
+            productType: listing.productType,
+            description: listing.description,
+            askingPrice: listing.askingPrice
+                ? Number(listing.askingPrice)
+                : undefined,
+            revenue: Number(listing.revenue),
+            mau: listing.mau,
+            seekingPartners: listing.seekingPartners,
+            offeringCapabilities: listing.offeringCapabilities,
+            partnershipType: listing.partnershipType as any,
+            category: listing.category as any,
+            status: listing.status as any,
+            sellerWallet: listing.seller.walletAddress,
+            createdAt: listing.createdAt.toISOString(),
+            suiteData: listing.suiteDataSnapshot as any,
+            chain: listing.chain as any,
+            website: listing.website || undefined,
+            hasNDA: listing.hasNDA,
+            requiresProofOfFunds: listing.requiresProofOfFunds,
+            minBuyerCapital: listing.minBuyerCapital
+                ? Number(listing.minBuyerCapital)
+                : undefined,
+        }));
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        // Return empty array on error to prevent page crash
+        return [];
+    }
 }
 
 function calculateStats(listings: any[]) {

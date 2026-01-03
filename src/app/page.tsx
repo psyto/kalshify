@@ -16,28 +16,44 @@ import { Logo } from "@/components/logo";
 export const dynamic = "force-dynamic";
 
 async function getCompanyStats() {
-    const [companyCount, listedCount, avgScore] = await Promise.all([
-        prisma.company.count({ where: { isActive: true } }),
-        prisma.company.count({ where: { isActive: true, isListed: true } }),
-        prisma.company.aggregate({
-            where: { isActive: true },
-            _avg: { overallScore: true },
-        }),
-    ]);
+    try {
+        const [companyCount, listedCount, avgScore] = await Promise.all([
+            prisma.company.count({ where: { isActive: true } }),
+            prisma.company.count({ where: { isActive: true, isListed: true } }),
+            prisma.company.aggregate({
+                where: { isActive: true },
+                _avg: { overallScore: true },
+            }),
+        ]);
 
-    return {
-        totalCompanies: companyCount,
-        listedCompanies: listedCount,
-        avgScore: Math.round(avgScore._avg.overallScore || 0),
-    };
+        return {
+            totalCompanies: companyCount,
+            listedCompanies: listedCount,
+            avgScore: Math.round(avgScore._avg.overallScore || 0),
+        };
+    } catch (error) {
+        console.error("Error fetching company stats:", error);
+        // Return fallback values on error
+        return {
+            totalCompanies: 0,
+            listedCompanies: 0,
+            avgScore: 0,
+        };
+    }
 }
 
 async function getListingStats() {
-    const activeListings = await prisma.listing.count({
-        where: { status: "active" },
-    });
+    try {
+        const activeListings = await prisma.listing.count({
+            where: { status: "active" },
+        });
 
-    return { activeListings };
+        return { activeListings };
+    } catch (error) {
+        console.error("Error fetching listing stats:", error);
+        // Return fallback values on error
+        return { activeListings: 0 };
+    }
 }
 
 export default async function SuiteLandingPage() {

@@ -12,88 +12,95 @@ import {
 export const dynamic = "force-dynamic";
 
 async function getAllCompaniesFromDB(): Promise<Company[]> {
-    const companies = await prisma.company.findMany({
-        where: { isActive: true },
-        select: {
-            id: true,
-            slug: true,
-            name: true,
-            category: true,
-            description: true,
-            logo: true,
-            website: true,
-            overallScore: true,
-            teamHealthScore: true,
-            growthScore: true,
-            socialScore: true,
-            trend: true,
-            isListed: true,
-            indexData: true,
-        },
-        orderBy: {
-            overallScore: "desc",
-        },
-    });
+    try {
+        const companies = await prisma.company.findMany({
+            where: { isActive: true },
+            select: {
+                id: true,
+                slug: true,
+                name: true,
+                category: true,
+                description: true,
+                logo: true,
+                website: true,
+                overallScore: true,
+                teamHealthScore: true,
+                growthScore: true,
+                socialScore: true,
+                trend: true,
+                isListed: true,
+                indexData: true,
+            },
+            orderBy: {
+                overallScore: "desc",
+            },
+        });
 
-    // Transform to Company interface
-    return companies.map((company): Company => {
-        const indexData = company.indexData as any;
-        const github = indexData?.github || {};
-        const onchain = indexData?.onchain || {};
+        // Transform to Company interface
+        return companies.map((company): Company => {
+            const indexData = company.indexData as any;
+            const github = indexData?.github || {};
+            const onchain = indexData?.onchain || {};
 
-        return {
-            slug: company.slug,
-            name: company.name,
-            category: company.category as Company["category"],
-            description: company.description || "",
-            logo: company.logo || "🏢",
-            website: company.website || "",
-            overallScore: company.overallScore,
-            trend: company.trend as "up" | "down" | "stable",
-            isListed: company.isListed,
-            teamHealth: {
-                score: company.teamHealthScore,
-                githubCommits30d: github.totalCommits30d || 0,
-                activeContributors: github.activeContributors30d || 0,
-                contributorRetention:
-                    github.activeContributors30d && github.totalContributors
+            return {
+                slug: company.slug,
+                name: company.name,
+                category: company.category as Company["category"],
+                description: company.description || "",
+                logo: company.logo || "🏢",
+                website: company.website || "",
+                overallScore: company.overallScore,
+                trend: company.trend as "up" | "down" | "stable",
+                isListed: company.isListed,
+                teamHealth: {
+                    score: company.teamHealthScore,
+                    githubCommits30d: github.totalCommits30d || 0,
+                    activeContributors: github.activeContributors30d || 0,
+                    contributorRetention:
+                        github.activeContributors30d && github.totalContributors
+                            ? Math.round(
+                                  (github.activeContributors30d /
+                                      github.totalContributors) *
+                                      100
+                              )
+                            : 0,
+                    codeQuality: company.teamHealthScore,
+                },
+                growth: {
+                    score: company.growthScore,
+                    onChainActivity30d: onchain.transactionCount30d || 0,
+                    walletGrowth: onchain.uniqueWallets30d
                         ? Math.round(
-                              (github.activeContributors30d /
-                                  github.totalContributors) *
+                              (onchain.uniqueWallets30d /
+                                  (onchain.uniqueWallets30d + 1000)) *
                                   100
                           )
                         : 0,
-                codeQuality: company.teamHealthScore,
-            },
-            growth: {
-                score: company.growthScore,
-                onChainActivity30d: onchain.transactionCount30d || 0,
-                walletGrowth: onchain.uniqueWallets30d
-                    ? Math.round(
-                          (onchain.uniqueWallets30d /
-                              (onchain.uniqueWallets30d + 1000)) *
-                              100
-                      )
-                    : 0,
-                userGrowthRate: onchain.monthlyActiveUsers
-                    ? Math.round((onchain.monthlyActiveUsers / 1000) * 100)
-                    : 0,
-                tvl: onchain.tvl,
-                volume30d: onchain.volume30d,
-            },
-            social: {
-                score: company.socialScore,
-                twitterFollowers: indexData?.twitter?.followers,
-                discordMembers: indexData?.social?.discordMembers,
-                telegramMembers: indexData?.social?.telegramMembers,
-                communityEngagement: indexData?.twitter?.engagement30d?.likes
-                    ? indexData.twitter.engagement30d.likes +
-                      indexData.twitter.engagement30d.retweets +
-                      indexData.twitter.engagement30d.replies
-                    : company.socialScore,
-            },
-        };
-    });
+                    userGrowthRate: onchain.monthlyActiveUsers
+                        ? Math.round((onchain.monthlyActiveUsers / 1000) * 100)
+                        : 0,
+                    tvl: onchain.tvl,
+                    volume30d: onchain.volume30d,
+                },
+                social: {
+                    score: company.socialScore,
+                    twitterFollowers: indexData?.twitter?.followers,
+                    discordMembers: indexData?.social?.discordMembers,
+                    telegramMembers: indexData?.social?.telegramMembers,
+                    communityEngagement: indexData?.twitter?.engagement30d
+                        ?.likes
+                        ? indexData.twitter.engagement30d.likes +
+                          indexData.twitter.engagement30d.retweets +
+                          indexData.twitter.engagement30d.replies
+                        : company.socialScore,
+                },
+            };
+        });
+    } catch (error) {
+        console.error("Error fetching companies from database:", error);
+        // Return empty array on error to prevent page crash
+        return [];
+    }
 }
 
 function getTopCompanies(companies: Company[], limit: number = 10): Company[] {
