@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { SessionProvider } from "./providers/session-provider";
 import { queryClient } from "@/lib/query-client";
 import { getWagmiConfig } from "@/lib/wagmi-config";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -28,10 +29,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <WagmiProvider config={config}>
-            <QueryClientProvider client={queryClient}>
-                <RainbowKitProvider>{children}</RainbowKitProvider>
-            </QueryClientProvider>
-        </WagmiProvider>
+        <SessionProvider>
+            <WagmiProvider config={config}>
+                <QueryClientProvider client={queryClient}>
+                    <RainbowKitProvider>{children}</RainbowKitProvider>
+                </QueryClientProvider>
+            </WagmiProvider>
+        </SessionProvider>
     );
 }

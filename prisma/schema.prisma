@@ -48,14 +48,21 @@ model Company {
   @@index([isActive])
 }
 
-// User model - Web3 wallet-based authentication
+// User model - Extended for NextAuth + Web3
 model User {
   id              String   @id @default(cuid())
-  walletAddress   String   @unique
+
+  // NextAuth fields
+  name            String?
+  email           String?  @unique
+  emailVerified   DateTime?
+  image           String?
+
+  // Web3 wallet (optional, for wallet login)
+  walletAddress   String?  @unique
 
   // Optional profile fields
   displayName     String?
-  email           String?
   bio             String?
   website         String?
   twitter         String?
@@ -72,7 +79,135 @@ model User {
   watchlist       Watchlist[]
   notifications   Notification[]
 
+  // New: Partnership matching relations
+  accounts        Account[]
+  sessions        Session[]
+  claimedProfiles ClaimedProfile[]
+  swipes          Swipe[]
+
   @@index([walletAddress])
+  @@index([email])
+}
+
+// NextAuth models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Claimed Profile - Links users to companies
+model ClaimedProfile {
+  id                  String   @id @default(cuid())
+
+  // Link to user and company
+  userId              String
+  companySlug         String   @unique  // Each company can only be claimed once
+
+  // Verification
+  verificationType    String   // 'domain' | 'github' | 'wallet'
+  verificationProof   String?  // Proof of verification (TXT record, GitHub commit, signature)
+  verified            Boolean  @default(false)
+  verifiedAt          DateTime?
+
+  // Timestamps
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relations
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([companySlug])
+}
+
+// Swipe - Track partnership interest
+model Swipe {
+  id            String   @id @default(cuid())
+
+  // Who swiped
+  userId        String
+  companySlug   String   // The user's company
+
+  // Who they swiped on
+  partnerSlug   String   // The partner company
+
+  // Action
+  action        String   // 'interested' | 'passed' | 'super_like'
+
+  // Timestamps
+  createdAt     DateTime @default(now())
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Prevent duplicate swipes
+  @@unique([companySlug, partnerSlug])
+  @@index([userId])
+  @@index([companySlug])
+  @@index([partnerSlug])
+}
+
+// Match - Mutual partnership interest
+model Match {
+  id            String   @id @default(cuid())
+
+  // The two companies that matched
+  companyASlug  String
+  companyBSlug  String
+
+  // Match metadata
+  matchScore    Int      // AI compatibility score (0-100)
+
+  // Status
+  status        String   @default("new")  // 'new' | 'chatting' | 'partnership_started' | 'completed' | 'declined'
+
+  // Timestamps
+  matchedAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Partnership tracking (optional)
+  partnershipType String?  // 'integration' | 'co-marketing' | 'merger' | 'revenue_share'
+  partnershipMetrics Json?   // Track KPIs (revenue, users, etc.)
+
+  // Prevent duplicate matches (A-B is same as B-A)
+  @@unique([companyASlug, companyBSlug])
+  @@index([companyASlug])
+  @@index([companyBSlug])
+  @@index([status])
+  @@index([matchedAt])
 }
 
 // Listing model - Matches existing mock data structure
