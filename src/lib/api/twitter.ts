@@ -68,62 +68,64 @@ async function twitterFetch(
         "Content-Type": "application/json",
     };
 
-    const response = await fetch(`${TWITTER_API_BASE}${endpoint}`, {
-        headers,
-        next: { revalidate: 3600 }, // Cache for 1 hour
-    });
+    // Add timeout using AbortController (increased to 5 minutes for Twitter API)
+    const controller = new AbortController();
+    const timeoutMs = 300000; // 300 seconds (5 minutes) - increased to handle rate limits
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    // Handle rate limiting (429) with exponential backoff
-    if (response.status === 429) {
-        if (retryCount >= maxRetries) {
+    try {
+        const response = await fetch(`${TWITTER_API_BASE}${endpoint}`, {
+            headers,
+            signal: controller.signal,
+            next: { revalidate: 3600 }, // Cache for 1 hour
+        });
+        clearTimeout(timeoutId);
+
+        // Handle rate limiting (429) - let retry.ts handle the retry logic
+        if (response.status === 429) {
+            // Get retry-after header (x-rate-limit-reset is Unix timestamp in seconds)
+            const rateLimitReset = response.headers.get("x-rate-limit-reset");
+            let errorMsg = `Twitter API error: ${response.status} ${response.statusText} (rate limit exceeded)`;
+
+            if (rateLimitReset) {
+                const resetTime = new Date(parseInt(rateLimitReset, 10) * 1000);
+                errorMsg += ` - Resets at ${resetTime.toISOString()}`;
+            }
+
+            const error: any = new Error(errorMsg);
+            error.status = 429;
+            error.retryAfter = rateLimitReset
+                ? Math.max(
+                      0,
+                      parseInt(rateLimitReset, 10) -
+                          Math.floor(Date.now() / 1000)
+                  )
+                : undefined;
+            throw error;
+        }
+
+        if (!response.ok) {
             throw new Error(
-                `Twitter API rate limit exceeded after ${maxRetries} retries. Please wait before trying again.`
+                `Twitter API error: ${response.status} ${response.statusText}`
             );
         }
 
-        // Get retry-after header or use exponential backoff
-        const retryAfter = response.headers.get("x-rate-limit-reset");
-        let waitTime: number;
+        const data = await response.json();
 
-        if (retryAfter) {
-            const resetTime = parseInt(retryAfter, 10) * 1000; // Convert to milliseconds
-            waitTime = Math.max(0, resetTime - Date.now());
-        } else {
-            // Exponential backoff: 2^retryCount seconds (2s, 4s, 8s)
-            waitTime = Math.pow(2, retryCount) * 1000;
+        // Cache successful responses
+        setCache(endpoint, data);
+
+        return data;
+    } catch (error: any) {
+        clearTimeout(timeoutId);
+        // Handle abort/timeout errors
+        if (error.name === "AbortError" || controller.signal.aborted) {
+            throw new Error(
+                `Twitter API request timed out after ${timeoutMs}ms`
+            );
         }
-
-        // Cap wait time at 30 seconds for automated fetches
-        const MAX_WAIT = 30 * 1000;
-        if (waitTime > MAX_WAIT) {
-            console.warn(`Twitter rate limit reset is too far (${Math.round(waitTime / 1000)}s). Skipping Twitter for this run.`);
-            throw new Error(`Twitter rate limit reset is too far (${Math.round(waitTime / 1000)}s)`);
-        }
-
-        console.warn(
-            `Twitter API rate limit hit. Retrying in ${Math.round(
-                waitTime / 1000
-            )}s... (attempt ${retryCount + 1}/${maxRetries})`
-        );
-
-        await new Promise((resolve) => setTimeout(resolve, waitTime));
-
-        // Retry the request
-        return twitterFetch(endpoint, options, retryCount + 1, maxRetries);
+        throw error;
     }
-
-    if (!response.ok) {
-        throw new Error(
-            `Twitter API error: ${response.status} ${response.statusText}`
-        );
-    }
-
-    const data = await response.json();
-
-    // Cache successful responses
-    setCache(endpoint, data);
-
-    return data;
 }
 
 /**
@@ -214,7 +216,10 @@ export async function getEngagementMetrics(
             },
         };
     } catch (error) {
-        console.error(`Error fetching engagement metrics for ${username}:`, error);
+        console.error(
+            `Error fetching engagement metrics for ${username}:`,
+            error
+        );
         // Return default limited metrics instead of throwing to allow script to proceed
         return {
             followers: 0,

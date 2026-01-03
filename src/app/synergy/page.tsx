@@ -128,11 +128,13 @@ export default async function SynergyPage() {
                     </span>
                 </div>
                 <h1 className="text-4xl font-bold text-foreground mb-4">
-                    M&A & Partnership Synergy
+                    SYNERGY
                 </h1>
+                <p className="text-sm text-muted-foreground mb-2">
+                    Quiet M&A & Partnerships
+                </p>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Find acquisition targets and partnership opportunities with
-                    verified index
+                    Discover acquisition targets and partnership opportunities — without broadcasting intent.
                 </p>
             </div>
 
@@ -314,7 +316,7 @@ export default async function SynergyPage() {
             {/* CTA Section */}
             <div className="bg-cyan-50 border border-cyan-200 rounded-lg p-8 text-center">
                 <h3 className="text-2xl font-bold text-cyan-900 mb-4">
-                    Verified Index
+                    AI-powered compatibility analysis based on verified index scores, not narratives.
                 </h3>
                 <p className="text-cyan-800 max-w-2xl mx-auto mb-6">
                     Every opportunity includes verified on-chain and off-chain
@@ -325,7 +327,7 @@ export default async function SynergyPage() {
                     href="/synergy/opportunities"
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-medium"
                 >
-                    Explore All Opportunities
+                    Find Real Opportunities
                     <ArrowRight className="h-5 w-5" />
                 </Link>
             </div>

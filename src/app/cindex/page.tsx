@@ -189,11 +189,13 @@ export default async function CindexPage() {
                     </span>
                 </div>
                 <h1 className="text-4xl font-bold text-foreground mb-4">
-                    Web3 Company Index
+                    INDEX
                 </h1>
+                <p className="text-sm text-muted-foreground mb-2">
+                    Web3 Company Verification
+                </p>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Automated index for {companiesList.length} web3 companies
-                    with verified on-chain and off-chain data
+                    An automated index that shows what Web3 companies actually do — not what they say.
                 </p>
             </div>
 
@@ -344,7 +346,7 @@ export default async function CindexPage() {
             {/* CTA Section */}
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-8 text-center">
                 <h3 className="text-2xl font-bold text-purple-900 mb-4">
-                    Fully Automated Index
+                    If it can't be verified, it doesn't count.
                 </h3>
                 <p className="text-purple-800 max-w-2xl mx-auto mb-6">
                     All company metrics are automatically verified through

@@ -151,10 +151,13 @@ export default function MarketplacePage() {
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-bold text-foreground">
-                    Marketplace
+                    Opportunities
                 </h1>
+                <p className="text-sm text-muted-foreground mb-2">
+                    Quiet M&A & Partnerships
+                </p>
                 <p className="text-muted-foreground mt-2">
-                    Browse all verified Web3 projects available for acquisition
+                    Discover acquisition targets and partnership opportunities — without broadcasting intent.
                 </p>
             </div>
 

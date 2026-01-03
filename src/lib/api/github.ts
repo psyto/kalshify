@@ -35,18 +35,60 @@ async function githubFetch(
         headers["Authorization"] = `Bearer ${token}`;
     }
 
-    const response = await fetch(`${GITHUB_API_BASE}${endpoint}`, {
-        headers,
-        next: { revalidate: 3600 }, // Cache for 1 hour
-    });
+    // Add timeout using AbortController (3 minutes for GitHub API)
+    const controller = new AbortController();
+    const timeoutMs = 180000; // 180 seconds (3 minutes)
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    if (!response.ok) {
-        throw new Error(
-            `GitHub API error: ${response.status} ${response.statusText}`
-        );
+    try {
+        const response = await fetch(`${GITHUB_API_BASE}${endpoint}`, {
+            headers,
+            signal: controller.signal,
+            next: { revalidate: 3600 }, // Cache for 1 hour
+        });
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            // Include rate limit info in error message if available
+            const rateLimitRemaining = response.headers.get(
+                "x-ratelimit-remaining"
+            );
+            const rateLimitReset = response.headers.get("x-ratelimit-reset");
+            let errorMsg = `GitHub API error: ${response.status} ${response.statusText}`;
+
+            if (response.status === 403 || response.status === 429) {
+                errorMsg += " (rate limit exceeded)";
+                if (rateLimitReset) {
+                    const resetTime = new Date(
+                        parseInt(rateLimitReset, 10) * 1000
+                    );
+                    errorMsg += ` - Resets at ${resetTime.toISOString()}`;
+                }
+            }
+
+            const error: any = new Error(errorMsg);
+            error.status = response.status;
+            error.retryAfter = rateLimitReset
+                ? Math.max(
+                      0,
+                      parseInt(rateLimitReset, 10) -
+                          Math.floor(Date.now() / 1000)
+                  )
+                : undefined;
+            throw error;
+        }
+
+        return response.json();
+    } catch (error: any) {
+        clearTimeout(timeoutId);
+        // Handle abort/timeout errors
+        if (error.name === "AbortError" || controller.signal.aborted) {
+            throw new Error(
+                `GitHub API request timed out after ${timeoutMs}ms`
+            );
+        }
+        throw error;
     }
-
-    return response.json();
 }
 
 /**

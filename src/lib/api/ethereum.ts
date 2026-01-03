@@ -62,33 +62,95 @@ async function ethereumRpcFetch(
 ): Promise<any> {
     const rpcUrl = getEthereumRpcUrl(options);
 
-    const response = await fetch(rpcUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            jsonrpc: "2.0",
-            id: 1,
-            method,
-            params,
-        }),
-        next: { revalidate: 300 }, // Cache for 5 minutes
-    });
+    // Add timeout using AbortController (increased to 5 minutes for RPC calls)
+    const controller = new AbortController();
+    const timeoutMs = 300000; // 300 seconds (5 minutes) - increased to handle slow RPCs and rate limits
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    if (!response.ok) {
-        throw new Error(
-            `Ethereum RPC error: ${response.status} ${response.statusText}`
-        );
+    try {
+        const response = await fetch(rpcUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                jsonrpc: "2.0",
+                id: 1,
+                method,
+                params,
+            }),
+            signal: controller.signal,
+            next: { revalidate: 300 }, // Cache for 5 minutes
+        });
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            // Check for rate limit errors (429)
+            // Note: Ethereum RPC typically doesn't provide retry-after header,
+            // so we'll rely on exponential backoff in retry.ts
+            if (response.status === 429) {
+                const error: any = new Error(
+                    `Ethereum RPC error: ${response.status} ${response.statusText} (rate limit exceeded)`
+                );
+                error.status = 429;
+                // Don't set retryAfter - Ethereum RPC doesn't provide this info
+                // retry.ts will use exponential backoff instead
+                throw error;
+            }
+
+            throw new Error(
+                `Ethereum RPC error: ${response.status} ${response.statusText}`
+            );
+        }
+
+        let data;
+        try {
+            data = await response.json();
+        } catch (jsonError) {
+            throw new Error(
+                `Ethereum RPC error: Invalid JSON response (status ${response.status})`
+            );
+        }
+
+        if (data.error) {
+            // Check for rate limit errors in JSON-RPC error response
+            const errorCode = data.error?.code;
+            const errorMessage = data.error?.message || "";
+
+            if (
+                errorCode === 429 ||
+                errorMessage.toLowerCase().includes("rate limit") ||
+                errorMessage.toLowerCase().includes("too many requests")
+            ) {
+                // Ethereum RPC typically doesn't provide retry-after info
+                // retry.ts will use exponential backoff instead
+                const error: any = new Error(
+                    `Ethereum RPC error: ${errorMessage} (rate limit exceeded)`
+                );
+                error.status = 429;
+                // Don't set retryAfter - rely on exponential backoff
+                throw error;
+            }
+
+            throw new Error(`Ethereum RPC error: ${errorMessage}`);
+        }
+
+        // Handle case where result is undefined (some RPC providers return empty responses)
+        if (data.result === undefined && !data.error) {
+            throw new Error("Ethereum RPC error: no response");
+        }
+
+        return data.result;
+    } catch (error: any) {
+        clearTimeout(timeoutId);
+        // Handle abort/timeout errors
+        if (error.name === "AbortError" || controller.signal.aborted) {
+            throw new Error(
+                `Ethereum RPC request timed out after ${timeoutMs}ms`
+            );
+        }
+        throw error;
     }
-
-    const data = await response.json();
-
-    if (data.error) {
-        throw new Error(`Ethereum RPC error: ${data.error.message}`);
-    }
-
-    return data.result;
 }
 
 /**
@@ -165,19 +227,20 @@ export async function getBlockFromDaysAgo(
 /**
  * Get logs/events for a contract in a time range
  * Automatically chunks large ranges to avoid API limits
+ * Handles "range is too large" errors by dynamically adjusting chunk size
  */
-export async function getContractLogs(
+async function getContractLogsWithChunkSize(
     contractAddress: string,
     fromBlock: number,
     toBlock: number,
+    chunkSize: number,
     options?: EthereumAPIOptions
 ): Promise<any[]> {
-    try {
-        const MAX_BLOCK_RANGE = 10000; // ~1.4 days, safe limit for eth_getLogs
-        const blockRange = toBlock - fromBlock;
+    const blockRange = toBlock - fromBlock;
 
-        // If range is small enough, fetch directly
-        if (blockRange <= MAX_BLOCK_RANGE) {
+    // If range is small enough, fetch directly
+    if (blockRange <= chunkSize) {
+        try {
             const logs = await ethereumRpcFetch(
                 "eth_getLogs",
                 [
@@ -191,41 +254,119 @@ export async function getContractLogs(
             );
 
             return logs || [];
-        }
-
-        // For large ranges, split into chunks
-        const chunks: Promise<any[]>[] = [];
-        let currentFrom = fromBlock;
-
-        while (currentFrom < toBlock) {
-            const currentTo = Math.min(currentFrom + MAX_BLOCK_RANGE, toBlock);
-
-            chunks.push(
-                ethereumRpcFetch(
-                    "eth_getLogs",
-                    [
-                        {
-                            address: contractAddress,
-                            fromBlock: `0x${currentFrom.toString(16)}`,
-                            toBlock: `0x${currentTo.toString(16)}`,
-                        },
-                    ],
-                    options
-                ).catch((err) => {
-                    console.error(
-                        `Error fetching logs chunk ${currentFrom}-${currentTo}:`,
-                        err
+        } catch (error: any) {
+            // Check if error is about range being too large
+            const errorMessage = error?.message || String(error);
+            if (
+                errorMessage.includes("range is too large") ||
+                errorMessage.includes("max is") ||
+                errorMessage.includes("too many blocks")
+            ) {
+                // Extract max block count from error message (e.g., "max is 1k blocks" -> 1000)
+                const maxMatch = errorMessage.match(/max is\s+(\d+)\s*(k|K)?\s*blocks?/i);
+                if (maxMatch) {
+                    let maxBlocks = parseInt(maxMatch[1], 10);
+                    if (maxMatch[2] && (maxMatch[2].toLowerCase() === "k")) {
+                        maxBlocks *= 1000;
+                    }
+                    // Retry with smaller chunk size (use 80% of max to be safe)
+                    const newChunkSize = Math.floor(maxBlocks * 0.8);
+                    console.warn(
+                        `Block range too large (${blockRange} blocks). Retrying with chunk size ${newChunkSize}...`
                     );
-                    return [];
-                })
-            );
-
-            currentFrom = currentTo + 1;
+                    return getContractLogsWithChunkSize(
+                        contractAddress,
+                        fromBlock,
+                        toBlock,
+                        newChunkSize,
+                        options
+                    );
+                }
+                // If we can't extract max, try with half the current chunk size
+                const newChunkSize = Math.floor(chunkSize / 2);
+                if (newChunkSize >= 100) {
+                    // Minimum chunk size of 100 blocks
+                    console.warn(
+                        `Block range too large. Retrying with smaller chunk size ${newChunkSize}...`
+                    );
+                    return getContractLogsWithChunkSize(
+                        contractAddress,
+                        fromBlock,
+                        toBlock,
+                        newChunkSize,
+                        options
+                    );
+                }
+            }
+            throw error;
         }
+    }
 
-        // Fetch all chunks in parallel and combine results
-        const chunkResults = await Promise.all(chunks);
-        return chunkResults.flat();
+    // For large ranges, split into chunks
+    // Limit concurrent requests to avoid overwhelming RPC endpoints
+    const MAX_CONCURRENT_REQUESTS = 5;
+    const chunks: Array<{ from: number; to: number }> = [];
+    let currentFrom = fromBlock;
+
+    while (currentFrom < toBlock) {
+        const currentTo = Math.min(currentFrom + chunkSize, toBlock);
+        chunks.push({ from: currentFrom, to: currentTo });
+        currentFrom = currentTo + 1;
+    }
+
+    // Process chunks in batches to limit concurrent requests
+    const results: any[] = [];
+    for (let i = 0; i < chunks.length; i += MAX_CONCURRENT_REQUESTS) {
+        const batch = chunks.slice(i, i + MAX_CONCURRENT_REQUESTS);
+        const batchPromises = batch.map(({ from, to }) =>
+            getContractLogsWithChunkSize(
+                contractAddress,
+                from,
+                to,
+                chunkSize,
+                options
+            ).catch((err) => {
+                console.error(
+                    `Error fetching logs chunk ${from}-${to}:`,
+                    err.message || err
+                );
+                return [];
+            })
+        );
+
+        const batchResults = await Promise.all(batchPromises);
+        results.push(...batchResults.flat());
+
+        // Small delay between batches to avoid overwhelming RPC
+        if (i + MAX_CONCURRENT_REQUESTS < chunks.length) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+    }
+
+    return results;
+}
+
+/**
+ * Get logs/events for a contract in a time range
+ * Automatically chunks large ranges to avoid API limits
+ */
+export async function getContractLogs(
+    contractAddress: string,
+    fromBlock: number,
+    toBlock: number,
+    options?: EthereumAPIOptions
+): Promise<any[]> {
+    try {
+        // Start with a conservative chunk size (1000 blocks)
+        // Some RPC providers have stricter limits (e.g., 1k blocks)
+        const INITIAL_CHUNK_SIZE = 1000;
+        return await getContractLogsWithChunkSize(
+            contractAddress,
+            fromBlock,
+            toBlock,
+            INITIAL_CHUNK_SIZE,
+            options
+        );
     } catch (error) {
         console.error("Error fetching contract logs:", error);
         return [];

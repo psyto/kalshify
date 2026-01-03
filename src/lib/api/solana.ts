@@ -128,6 +128,74 @@ export async function getSlotFromDaysAgo(
 }
 
 /**
+ * Get signatures for an address with a specific limit
+ * Handles "limit is too large" errors by dynamically adjusting limit
+ */
+async function getSignaturesForAddressWithLimit(
+    publicKey: PublicKey,
+    limit: number,
+    before: string | undefined,
+    options?: SolanaAPIOptions
+): Promise<any[]> {
+    const connection = getConnection(options);
+    
+    try {
+        const batch = await connection.getSignaturesForAddress(publicKey, {
+            limit,
+            before,
+        });
+        return batch;
+    } catch (error: any) {
+        const errorMessage = error?.message || String(error);
+        
+        // Check for limit too large errors
+        if (
+            errorMessage.includes("limit") &&
+            (errorMessage.includes("too large") ||
+                errorMessage.includes("exceeded") ||
+                errorMessage.includes("max is") ||
+                errorMessage.includes("maximum"))
+        ) {
+            // Extract max limit from error message if available
+            const maxMatch = errorMessage.match(/max(?:imum)?\s+(?:is\s+)?(\d+)/i);
+            if (maxMatch) {
+                const maxLimit = parseInt(maxMatch[1], 10);
+                // Use 80% of max to be safe
+                const newLimit = Math.floor(maxLimit * 0.8);
+                if (newLimit >= 10) {
+                    // Minimum limit of 10
+                    console.warn(
+                        `Limit ${limit} is too large. Retrying with limit ${newLimit}...`
+                    );
+                    return getSignaturesForAddressWithLimit(
+                        publicKey,
+                        newLimit,
+                        before,
+                        options
+                    );
+                }
+            }
+            // If we can't extract max, try with half the current limit
+            const newLimit = Math.floor(limit / 2);
+            if (newLimit >= 10) {
+                console.warn(
+                    `Limit ${limit} is too large. Retrying with smaller limit ${newLimit}...`
+                );
+                return getSignaturesForAddressWithLimit(
+                    publicKey,
+                    newLimit,
+                    before,
+                    options
+                );
+            }
+        }
+        
+        // Re-throw other errors (rate limits, etc.)
+        throw error;
+    }
+}
+
+/**
  * Get signatures for an address in a time range
  */
 export async function getSignaturesForAddress(
@@ -144,49 +212,89 @@ export async function getSignaturesForAddress(
         // We'll use before/after signatures with limits
         // For large ranges, we'll need to paginate
         const MAX_SIGNATURES = 1000; // RPC limit
+        const INITIAL_LIMIT = 1000; // Start with 1000, adjust if needed
         const signatures: any[] = [];
 
         let before: string | undefined = undefined;
         let hasMore = true;
+        let currentLimit = INITIAL_LIMIT;
 
         while (hasMore && signatures.length < MAX_SIGNATURES) {
-            const batch = await connection.getSignaturesForAddress(publicKey, {
-                limit: 1000,
-                before,
-            });
+            try {
+                const batch = await getSignaturesForAddressWithLimit(
+                    publicKey,
+                    currentLimit,
+                    before,
+                    options
+                );
 
-            if (batch.length === 0) {
-                hasMore = false;
-                break;
-            }
+                if (batch.length === 0) {
+                    hasMore = false;
+                    break;
+                }
 
-            // Filter by slot range
-            const filtered = batch.filter((sig) => {
-                if (sig.slot === null) return false;
-                return sig.slot >= fromSlot && sig.slot <= toSlot;
-            });
+                // Filter by slot range
+                const filtered = batch.filter((sig) => {
+                    if (sig.slot === null) return false;
+                    return sig.slot >= fromSlot && sig.slot <= toSlot;
+                });
 
-            signatures.push(...filtered);
+                signatures.push(...filtered);
 
-            // If we got fewer than requested, we're done
-            if (batch.length < 1000) {
-                hasMore = false;
-            } else {
-                before = batch[batch.length - 1].signature;
-            }
+                // If we got fewer than requested, we're done
+                if (batch.length < currentLimit) {
+                    hasMore = false;
+                } else {
+                    before = batch[batch.length - 1].signature;
+                }
 
-            // If the last signature's slot is before our fromSlot, we're done
-            if (
-                batch.length > 0 &&
-                batch[batch.length - 1].slot !== null &&
-                batch[batch.length - 1].slot! < fromSlot
-            ) {
-                hasMore = false;
+                // If the last signature's slot is before our fromSlot, we're done
+                if (
+                    batch.length > 0 &&
+                    batch[batch.length - 1].slot !== null &&
+                    batch[batch.length - 1].slot! < fromSlot
+                ) {
+                    hasMore = false;
+                }
+            } catch (error: any) {
+                // If limit was adjusted, continue with the new limit
+                // Otherwise, check for rate limit errors
+                const errorMessage = error?.message || String(error);
+                if (
+                    errorMessage.includes("429") ||
+                    errorMessage.includes("Too Many Requests") ||
+                    errorMessage.includes("rate limit")
+                ) {
+                    const rateLimitError: any = new Error(
+                        `Solana RPC error: ${errorMessage} (rate limit exceeded)`
+                    );
+                    rateLimitError.status = 429;
+                    throw rateLimitError;
+                }
+                // Re-throw other errors
+                throw error;
             }
         }
 
         return signatures;
-    } catch (error) {
+    } catch (error: any) {
+        // Check for rate limit errors (429) in Solana RPC
+        // Note: Solana RPC doesn't provide retry-after info, so we'll rely on exponential backoff
+        const errorMessage = error?.message || String(error);
+        if (
+            errorMessage.includes("429") ||
+            errorMessage.includes("Too Many Requests") ||
+            errorMessage.includes("rate limit")
+        ) {
+            const rateLimitError: any = new Error(
+                `Solana RPC error: ${errorMessage} (rate limit exceeded)`
+            );
+            rateLimitError.status = 429;
+            // Don't set retryAfter - Solana RPC doesn't provide this info
+            // retry.ts will use exponential backoff instead
+            throw rateLimitError;
+        }
+
         console.error("Error fetching signatures:", error);
         return [];
     }
@@ -228,7 +336,24 @@ export async function getUniqueAddressesFromSignatures(
                 });
             }
         });
-    } catch (error) {
+    } catch (error: any) {
+        // Check for rate limit errors (429) in Solana RPC
+        // Note: Solana RPC doesn't provide retry-after info, so we'll rely on exponential backoff
+        const errorMessage = error?.message || String(error);
+        if (
+            errorMessage.includes("429") ||
+            errorMessage.includes("Too Many Requests") ||
+            errorMessage.includes("rate limit")
+        ) {
+            const rateLimitError: any = new Error(
+                `Solana RPC error: ${errorMessage} (rate limit exceeded)`
+            );
+            rateLimitError.status = 429;
+            // Don't set retryAfter - Solana RPC doesn't provide this info
+            // retry.ts will use exponential backoff instead
+            throw rateLimitError;
+        }
+
         console.error("Error parsing transactions:", error);
         // Fallback: just count unique signatures
         return new Set(signatures.map((sig) => sig.signature)).size;
@@ -305,7 +430,24 @@ export async function getOnChainMetrics(
             // Use unique wallets as proxy for monthly active users
             monthlyActiveUsers: uniqueWallets30d,
         };
-    } catch (error) {
+    } catch (error: any) {
+        // Check for rate limit errors (429) in Solana RPC
+        // Note: Solana RPC doesn't provide retry-after info, so we'll rely on exponential backoff
+        const errorMessage = error?.message || String(error);
+        if (
+            errorMessage.includes("429") ||
+            errorMessage.includes("Too Many Requests") ||
+            errorMessage.includes("rate limit")
+        ) {
+            const rateLimitError: any = new Error(
+                `Solana RPC error: ${errorMessage} (rate limit exceeded)`
+            );
+            rateLimitError.status = 429;
+            // Don't set retryAfter - Solana RPC doesn't provide this info
+            // retry.ts will use exponential backoff instead
+            throw rateLimitError;
+        }
+
         console.error("Error fetching on-chain metrics:", error);
         return {
             transactionCount24h: 0,

@@ -16,6 +16,9 @@ export default async function CompaniesPage() {
                     <h1 className="text-3xl font-bold text-foreground">
                         Company Directory
                     </h1>
+                    <p className="text-sm text-muted-foreground mb-2">
+                        Web3 Company Verification
+                    </p>
                     <p className="text-muted-foreground mt-2">
                         No companies found. Please check your database
                         connection.
@@ -32,9 +35,11 @@ export default async function CompaniesPage() {
                 <h1 className="text-3xl font-bold text-foreground">
                     Company Directory
                 </h1>
+                <p className="text-sm text-muted-foreground mb-2">
+                    Web3 Company Verification
+                </p>
                 <p className="text-muted-foreground mt-2">
-                    Browse all {companiesList.length} verified web3 companies
-                    with on-chain and off-chain index
+                    An automated index that shows what Web3 companies actually do — not what they say.
                 </p>
             </div>
 

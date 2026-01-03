@@ -29,9 +29,12 @@ export default function SellerDashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">My Listings</h1>
+        <h1 className="text-3xl font-bold text-foreground">My Opportunities</h1>
+        <p className="text-sm text-muted-foreground mb-2">
+          Quiet M&A & Partnerships
+        </p>
         <p className="text-muted-foreground mt-2">
-          Manage your project listings and track buyer interest
+          Manage your project listings and track buyer interest — all inquiries are private and confidential.
         </p>
       </div>
 

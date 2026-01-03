@@ -115,14 +115,26 @@ export default async function SuiteLandingPage() {
                                 Preview
                             </span>
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-                            Web3 Index & Synergy Platform
+                        <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
+                            Verify Web3.
                         </h1>
-                        <p className="text-xl text-muted-foreground mb-8">
-                            Research web3 companies with AI-powered index.
-                            Connect for acquisitions, strategic partnerships,
-                            and ecosystem collaborations—all backed by verified
-                            on-chain and off-chain data.
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                            Before You Trust It.
+                        </h2>
+                        <p className="text-xl md:text-2xl font-semibold text-muted-foreground mb-2">
+                            Pitch decks lie.{" "}
+                            <span className="text-purple-600">
+                                On-chain data doesn't.
+                            </span>
+                        </p>
+                        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                            FABRKNT helps{" "}
+                            <strong className="text-foreground">
+                                Web3 Corp Dev teams, investors, and founders
+                            </strong>{" "}
+                            verify companies using real on-chain activity,
+                            GitHub signals, and social data — fully automated,
+                            no self-reporting.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
@@ -130,7 +142,7 @@ export default async function SuiteLandingPage() {
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-semibold text-lg"
                             >
                                 <Brain className="h-6 w-6" />
-                                Explore Index
+                                Explore Verified Companies
                                 <ArrowRight className="h-5 w-5" />
                             </Link>
                             <Link
@@ -138,7 +150,7 @@ export default async function SuiteLandingPage() {
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-semibold text-lg"
                             >
                                 <Link2 className="h-6 w-6" />
-                                Find Synergies
+                                Find Real Synergies
                                 <ArrowRight className="h-5 w-5" />
                             </Link>
                         </div>
@@ -148,44 +160,126 @@ export default async function SuiteLandingPage() {
 
             {/* Stats Section */}
             <div className="container mx-auto px-4 py-12">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div className="max-w-4xl mx-auto text-center mb-8">
+                    <p className="text-lg text-muted-foreground">
+                        Built for people who make irreversible decisions
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                     <div className="text-center">
                         <p className="text-4xl font-bold text-foreground mb-2">
                             {totalCompanies}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            Companies Tracked
+                            Web3 companies fully verified
                         </p>
                     </div>
                     <div className="text-center">
                         <p className="text-4xl font-bold text-purple-600 mb-2">
-                            {companyStats.avgScore}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                            Avg Index Score
-                        </p>
-                    </div>
-                    <div className="text-center">
-                        <p className="text-4xl font-bold text-cyan-600 mb-2">
-                            {activeListings}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                            Active Opportunities
-                        </p>
-                    </div>
-                    <div className="text-center">
-                        <p className="text-4xl font-bold text-green-600 mb-2">
                             100%
                         </p>
+                        <p className="text-sm text-muted-foreground mb-1">
+                            Automated — no manual input
+                        </p>
                         <p className="text-sm text-muted-foreground">
-                            AI-Verified Data
+                            On-chain + GitHub + social signals
+                        </p>
+                    </div>
+                </div>
+                <div className="max-w-4xl mx-auto text-center mt-8">
+                    <p className="text-sm text-muted-foreground italic">
+                        Used by teams who can't afford to trust unverifiable
+                        metrics.
+                    </p>
+                </div>
+            </div>
+
+            {/* Problem Section */}
+            <div className="bg-card border-t border-b border-border">
+                <div className="container mx-auto px-4 py-16">
+                    <div className="max-w-4xl mx-auto">
+                        <h2 className="text-3xl font-bold text-foreground text-center mb-8">
+                            Web3 has a trust problem
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">📈</span>
+                                <div>
+                                    <p className="font-semibold text-foreground mb-1">
+                                        User numbers are inflated
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">💻</span>
+                                <div>
+                                    <p className="font-semibold text-foreground mb-1">
+                                        GitHub looks active — until you check
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">🤝</span>
+                                <div>
+                                    <p className="font-semibold text-foreground mb-1">
+                                        "Strategic partnerships" don't exist
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">📊</span>
+                                <div>
+                                    <p className="font-semibold text-foreground mb-1">
+                                        M&A and investments start with slides,
+                                        not reality
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <p className="text-center text-lg font-semibold text-muted-foreground">
+                            Most Web3 decisions are still made on unverified
+                            claims.
                         </p>
                     </div>
                 </div>
             </div>
 
-            {/* Products Section */}
+            {/* Solution Section */}
             <div className="container mx-auto px-4 py-16">
+                <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="text-3xl font-bold text-foreground mb-4">
+                        FABRKNT fixes the first step
+                    </h2>
+                    <p className="text-lg text-muted-foreground mb-4">
+                        FABRKNT is a{" "}
+                        <strong className="text-foreground">
+                            Web3 Index & Synergy platform
+                        </strong>{" "}
+                        built for{" "}
+                        <strong className="text-foreground">
+                            early verification
+                        </strong>
+                        .
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-4 text-muted-foreground mb-4">
+                        <span className="px-4 py-2 bg-muted rounded-lg">
+                            No forms.
+                        </span>
+                        <span className="px-4 py-2 bg-muted rounded-lg">
+                            No pitch decks.
+                        </span>
+                        <span className="px-4 py-2 bg-muted rounded-lg">
+                            No self-reported metrics.
+                        </span>
+                    </div>
+                    <p className="text-lg font-semibold text-purple-600 mb-0">
+                        Only signals that can be verified.
+                    </p>
+                </div>
+            </div>
+
+            {/* Products Section */}
+            <div className="container mx-auto px-4 pt-4 pb-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                     {/* INDEX Product */}
                     <div className="bg-card rounded-lg border border-border p-8">
@@ -198,15 +292,14 @@ export default async function SuiteLandingPage() {
                                     INDEX
                                 </h2>
                                 <p className="text-sm text-muted-foreground">
-                                    Web3 Company Index
+                                    Web3 Company Verification
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
-                            Automated index for {totalCompanies} web3 companies
-                            with verified on-chain and off-chain data. No manual
-                            input, just trustworthy metrics.
+                            An automated index that shows what Web3 companies
+                            actually do — not what they say.
                         </p>
 
                         <div className="space-y-4 mb-6">
@@ -214,11 +307,11 @@ export default async function SuiteLandingPage() {
                                 <TrendingUp className="h-5 w-5 text-purple-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Growth Metrics
+                                        On-chain growth
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        On-chain activity, wallet growth, user
-                                        growth rates
+                                        Wallet activity, protocol usage, real
+                                        traction
                                     </p>
                                 </div>
                             </div>
@@ -226,7 +319,7 @@ export default async function SuiteLandingPage() {
                                 <Users className="h-5 w-5 text-purple-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Team Health
+                                        Team & code health
                                     </p>
                                     <p className="text-sm text-muted-foreground">
                                         GitHub commits, contributors, retention,
@@ -238,21 +331,25 @@ export default async function SuiteLandingPage() {
                                 <Shield className="h-5 w-5 text-purple-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Verified Index
+                                        Signal integrity
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        Automated verification via blockchain
-                                        and GitHub APIs
+                                        Cross-verified via blockchain and public
+                                        APIs
                                     </p>
                                 </div>
                             </div>
                         </div>
 
+                        <p className="text-sm font-semibold text-purple-600 mb-6">
+                            If it can't be verified, it doesn't count.
+                        </p>
+
                         <Link
-                            href="/index"
+                            href="/cindex"
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium w-full justify-center"
                         >
-                            Explore Index
+                            Explore the Index
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                     </div>
@@ -268,15 +365,14 @@ export default async function SuiteLandingPage() {
                                     SYNERGY
                                 </h2>
                                 <p className="text-sm text-muted-foreground">
-                                    M&A & Partnership Synergy
+                                    Quiet M&A & Partnerships
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
-                            Find acquisition targets and partnership
-                            opportunities with verified index. Connect for M&A,
-                            strategic alliances, and ecosystem collaboration.
+                            Discover acquisition targets and partnership
+                            opportunities — without broadcasting intent.
                         </p>
 
                         <div className="space-y-4 mb-6">
@@ -284,12 +380,7 @@ export default async function SuiteLandingPage() {
                                 <Building2 className="h-5 w-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Acquisition Targets
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        {listedCompanies} verified web3
-                                        companies seeking M&A with transparent
-                                        metrics
+                                        Corp Dev teams scouting quietly
                                     </p>
                                 </div>
                             </div>
@@ -297,12 +388,7 @@ export default async function SuiteLandingPage() {
                                 <Users className="h-5 w-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Strategic Partnerships
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Technical integrations, ecosystem
-                                        collaborations, co-marketing
-                                        opportunities
+                                        Strategic partnerships and integrations
                                     </p>
                                 </div>
                             </div>
@@ -310,21 +396,25 @@ export default async function SuiteLandingPage() {
                                 <Shield className="h-5 w-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        AI-Powered Synergy
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Automated compatibility analysis based
-                                        on verified index scores
+                                        Early M&A conversations
                                     </p>
                                 </div>
                             </div>
                         </div>
 
+                        <p className="text-sm text-muted-foreground mb-6">
+                            AI-powered compatibility analysis based on{" "}
+                            <strong className="text-foreground">
+                                verified index scores
+                            </strong>
+                            , not narratives.
+                        </p>
+
                         <Link
                             href="/synergy"
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-medium w-full justify-center"
                         >
-                            Explore Opportunities
+                            Find Real Opportunities
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                     </div>
@@ -336,7 +426,7 @@ export default async function SuiteLandingPage() {
                 <div className="container mx-auto px-4 py-16">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-3xl font-bold text-foreground text-center mb-12">
-                            How It Works
+                            How it works
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div className="text-center">
@@ -346,12 +436,11 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    AI Index
+                                    Verify
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Automated analysis of on-chain data, GitHub
-                                    activity, and social metrics—no manual input
-                                    needed
+                                    We automatically analyze on-chain data,
+                                    GitHub activity, and social signals.
                                 </p>
                             </div>
                             <div className="text-center">
@@ -361,12 +450,11 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    Smart Synergy
+                                    Score
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    AI-powered compatibility analysis finds the
-                                    best M&A targets and partnership
-                                    opportunities
+                                    Companies receive transparent, comparable
+                                    index scores.
                                 </p>
                             </div>
                             <div className="text-center">
@@ -376,14 +464,77 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    Connect & Close
+                                    Connect
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Transparent verified metrics enable faster
-                                    due diligence and confident decision-making
+                                    Use verified data to approach acquisitions
+                                    and partnerships with confidence.
                                 </p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Who It's For */}
+            <div className="container mx-auto px-4 py-16">
+                <div className="max-w-4xl mx-auto">
+                    <h2 className="text-3xl font-bold text-foreground text-center mb-12">
+                        Who FABRKNT is for
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="bg-card rounded-lg border border-border p-6 text-center">
+                            <Building2 className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-foreground mb-2">
+                                Corp Dev & M&A Teams
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                Avoid bad first calls. Screen candidates before
+                                outreach.
+                            </p>
+                        </div>
+                        <div className="bg-card rounded-lg border border-border p-6 text-center">
+                            <TrendingUp className="h-12 w-12 text-cyan-600 mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-foreground mb-2">
+                                Web3 Investors & Funds
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                Run pre-DD before the pitch deck arrives.
+                            </p>
+                        </div>
+                        <div className="bg-card rounded-lg border border-border p-6 text-center">
+                            <Users className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-foreground mb-2">
+                                Web3 Founders
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                Get discovered for what you actually build — not
+                                how well you sell.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Belief Section */}
+            <div className="bg-card border-t border-b border-border">
+                <div className="container mx-auto px-4 py-16">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h2 className="text-3xl font-bold text-foreground mb-6">
+                            Our belief
+                        </h2>
+                        <p className="text-2xl font-bold text-purple-600 mb-8">
+                            Web3 deserves better signals.
+                        </p>
+                        <div className="space-y-2 text-lg text-muted-foreground mb-8">
+                            <p>Verification beats trust.</p>
+                            <p>Data beats narratives.</p>
+                            <p>Transparency compounds.</p>
+                        </div>
+                        <p className="text-muted-foreground">
+                            FABRKNT is built in public — because credibility
+                            matters.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -393,71 +544,43 @@ export default async function SuiteLandingPage() {
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold text-foreground mb-4">
-                            About Fabrknt
+                            About FABRKNT
                         </h2>
                         <p className="text-lg text-muted-foreground">
-                            We are{" "}
-                            <a
-                                href="https://www.fabrknt.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="font-semibold text-purple-600 hover:text-purple-700"
-                            >
-                                www.fabrknt.com
-                            </a>{" "}
-                            — Building the future of Web3 index and synergy
+                            FABRKNT is building the future of{" "}
+                            <strong className="text-foreground">
+                                Web3 verification and synergy
+                            </strong>
+                            .
                         </p>
                     </div>
                     <div className="bg-card rounded-lg border border-border p-8">
-                        <p className="text-muted-foreground mb-6">
-                            Fabrknt is a Web3 index and synergy platform that
-                            brings transparency and trust to the ecosystem. Our
-                            mission is to enable better decision-making through
-                            AI-powered, verified index on Web3 companies.
+                        <p className="text-muted-foreground mb-6 text-center">
+                            Our mission is to{" "}
+                            <strong className="text-foreground">
+                                democratize access to trustworthy Web3 company
+                                data
+                            </strong>{" "}
+                            and enable better decisions across M&A,
+                            partnerships, and investments.
                         </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                             <div>
-                                <h3 className="font-semibold text-foreground mb-2">
-                                    🎯 Our Mission
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Democratize access to verified Web3 company
-                                    index and facilitate meaningful connections
-                                    between companies seeking growth through M&A
-                                    and strategic partnerships.
+                                <p className="text-2xl mb-2">🤖</p>
+                                <p className="text-sm font-semibold text-foreground mb-1">
+                                    100% automated verification
                                 </p>
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground mb-2">
-                                    🔍 Our Approach
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    100% automated verification using on-chain
-                                    data, GitHub activity, and social metrics.
-                                    No manual input, no manipulation—just
-                                    trustworthy, transparent index.
+                                <p className="text-2xl mb-2">🚫</p>
+                                <p className="text-sm font-semibold text-foreground mb-1">
+                                    No self-reported metrics
                                 </p>
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground mb-2">
-                                    🤝 Built for Web3
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    We understand the unique challenges of the
-                                    Web3 ecosystem. Our platform is designed to
-                                    help founders, investors, and acquirers make
-                                    data-driven decisions with confidence.
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="font-semibold text-foreground mb-2">
-                                    🚀 Open Development
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    We believe in building in public. Follow our
-                                    journey on GitHub and X as we continue to
-                                    expand our index coverage and synergy
-                                    capabilities.
+                                <p className="text-2xl mb-2">🌐</p>
+                                <p className="text-sm font-semibold text-foreground mb-1">
+                                    Built for Web3, by Web3
                                 </p>
                             </div>
                         </div>
@@ -469,29 +592,32 @@ export default async function SuiteLandingPage() {
             <div className="container mx-auto px-4 py-16">
                 <div className="max-w-3xl mx-auto text-center bg-gradient-to-r from-purple-50 to-cyan-50 rounded-lg border border-purple-200 p-12">
                     <h2 className="text-3xl font-bold text-foreground mb-4">
-                        Ready to Find Your Next Strategic Move?
+                        Stop trusting claims.
                     </h2>
-                    <p className="text-lg text-muted-foreground mb-8">
-                        Research companies with AI-powered INDEX. Find
-                        acquisitions and partnerships with smart SYNERGY. All
-                        decisions backed by 100% verified data.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <h2 className="text-3xl font-bold text-purple-600 mb-8">
+                        Start verifying.
+                    </h2>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                         <Link
-                            href="/cindex/companies"
+                            href="/cindex"
                             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium"
                         >
-                            Explore Companies
+                            Explore Verified Companies
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                         <Link
-                            href="/synergy/opportunities"
+                            href="/synergy"
                             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-50 transition-colors font-medium"
                         >
-                            Find Synergyes
+                            Find Strategic Synergies
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                     </div>
+                    <p className="text-sm text-muted-foreground italic border-t border-purple-200 pt-6">
+                        FABRKNT does not rank narratives.
+                        <br />
+                        We index reality.
+                    </p>
                 </div>
             </div>
 

@@ -22,6 +22,16 @@ import { IndexData, IndexScore } from "@/lib/api/types";
 import { Company } from "./companies";
 import { CompanyConfig } from "./company-configs";
 import { CrawlerService } from "./crawler";
+import { fetchWithTimeoutAndRetry } from "./utils/fetch-with-retry";
+import { TimeoutError } from "./utils/timeout";
+
+// Configuration for fetch timeouts and retries
+// Increased timeouts and retries to handle rate limits and slow APIs
+const FETCH_CONFIG = {
+    github: { timeoutMs: 180000, maxRetries: 5 }, // 3min timeout, 5 retries
+    twitter: { timeoutMs: 300000, maxRetries: 5 }, // 5min timeout, 5 retries (rate limits are common)
+    onchain: { timeoutMs: 300000, maxRetries: 4 }, // 5min timeout, 4 retries (RPC calls can be very slow)
+};
 
 /**
  * Generic fetch function that works for any company
@@ -32,79 +42,25 @@ export async function fetchCompanyData(
     try {
         console.log(`Fetching ${config.name} index data...`);
 
-        // Fetch GitHub metrics
-        let githubPromise: Promise<any>;
-        if (config.github.customMetricsFunction === "getUniswapMetrics") {
-            githubPromise = getUniswapGitHubMetrics();
-        } else if (
-            config.github.customMetricsFunction === "getFabrkntMetrics"
-        ) {
-            githubPromise = getFabrkntMetrics();
-        } else {
-            githubPromise = getOrganizationMetrics(config.github.org);
-        }
+        // Create fetch functions with timeout and retry
+        const fetchGitHub = () => {
+            if (config.github.customMetricsFunction === "getUniswapMetrics") {
+                return getUniswapGitHubMetrics();
+            } else if (
+                config.github.customMetricsFunction === "getFabrkntMetrics"
+            ) {
+                return getFabrkntMetrics();
+            } else {
+                return getOrganizationMetrics(config.github.org);
+            }
+        };
 
-        // Fetch Twitter metrics
-        const twitterPromise = getEngagementMetrics(config.twitter.handle);
+        const fetchTwitter = () => getEngagementMetrics(config.twitter.handle);
 
-        // Fetch On-chain metrics
-        let onchainPromise: Promise<any>;
-        if (config.features?.useCrawler) {
-            // Fabrknt special case: no real on-chain metrics
-            onchainPromise = Promise.resolve({
-                contractAddress: config.onchain.address,
-                chain: config.onchain.chain,
-                transactionCount24h: 0,
-                transactionCount7d: 0,
-                transactionCount30d: 0,
-                uniqueWallets24h: 0,
-                uniqueWallets7d: 0,
-                uniqueWallets30d: 0,
-            });
-        } else if (
-            config.onchain.customMetricsFunction === "getUniswapMetrics"
-        ) {
-            onchainPromise = getUniswapOnChainMetrics();
-        } else if (
-            config.onchain.customMetricsFunction === "getJupiterMetrics"
-        ) {
-            onchainPromise = getJupiterMetrics();
-        } else if (config.onchain.chain === "solana") {
-            onchainPromise = getSolanaMetrics(config.onchain.address);
-        } else {
-            // Ethereum and other EVM chains
-            onchainPromise = getEthereumMetrics(config.onchain.address);
-        }
-
-        // Execute all fetches in parallel with error handling
-        const [github, twitter, onchain] = await Promise.all([
-            githubPromise.catch((err) => {
-                console.error(`GitHub fetch error (${config.name}):`, err);
-                return {
-                    totalContributors: 0,
-                    activeContributors30d: 0,
-                    totalCommits30d: 0,
-                    avgCommitsPerDay: 0,
-                    topContributors: [],
-                    commitActivity: [],
-                };
-            }),
-            twitterPromise.catch((err) => {
-                console.error(`Twitter fetch error (${config.name}):`, err);
-                return {
-                    followers: 0,
-                    following: 0,
-                    tweetCount: 0,
-                    verified: false,
-                    createdAt: new Date().toISOString(),
-                };
-            }),
-            onchainPromise.catch((err) => {
-                console.error(
-                    `${config.onchain.chain} fetch error (${config.name}):`,
-                    err
-                );
-                return {
+        const fetchOnchain = () => {
+            if (config.features?.useCrawler) {
+                // Fabrknt special case: no real on-chain metrics
+                return Promise.resolve({
                     contractAddress: config.onchain.address,
                     chain: config.onchain.chain,
                     transactionCount24h: 0,
@@ -113,9 +69,142 @@ export async function fetchCompanyData(
                     uniqueWallets24h: 0,
                     uniqueWallets7d: 0,
                     uniqueWallets30d: 0,
-                };
-            }),
-        ]);
+                });
+            } else if (
+                config.onchain.customMetricsFunction === "getUniswapMetrics"
+            ) {
+                return getUniswapOnChainMetrics();
+            } else if (
+                config.onchain.customMetricsFunction === "getJupiterMetrics"
+            ) {
+                return getJupiterMetrics();
+            } else if (config.onchain.chain === "solana") {
+                return getSolanaMetrics(config.onchain.address);
+            } else {
+                // Ethereum and other EVM chains
+                return getEthereumMetrics(config.onchain.address);
+            }
+        };
+
+        // Execute all fetches in parallel with timeout and retry, using Promise.allSettled
+        // to handle partial failures gracefully
+        const [githubResult, twitterResult, onchainResult] =
+            await Promise.allSettled([
+                fetchWithTimeoutAndRetry(fetchGitHub, {
+                    ...FETCH_CONFIG.github,
+                    sourceName: `GitHub (${config.name})`,
+                }).catch((err) => {
+                    // Return default values only after all retries exhausted
+                    console.error(
+                        `GitHub fetch failed for ${config.name} after retries:`,
+                        err instanceof TimeoutError
+                            ? `Timeout after ${FETCH_CONFIG.github.timeoutMs}ms`
+                            : err.message
+                    );
+                    return {
+                        totalContributors: 0,
+                        activeContributors30d: 0,
+                        totalCommits30d: 0,
+                        avgCommitsPerDay: 0,
+                        topContributors: [],
+                        commitActivity: [],
+                    };
+                }),
+                fetchWithTimeoutAndRetry(fetchTwitter, {
+                    ...FETCH_CONFIG.twitter,
+                    sourceName: `Twitter (${config.name})`,
+                }).catch((err) => {
+                    console.error(
+                        `Twitter fetch failed for ${config.name} after retries:`,
+                        err instanceof TimeoutError
+                            ? `Timeout after ${FETCH_CONFIG.twitter.timeoutMs}ms`
+                            : err.message
+                    );
+                    return {
+                        followers: 0,
+                        following: 0,
+                        tweetCount: 0,
+                        verified: false,
+                        createdAt: new Date().toISOString(),
+                    };
+                }),
+                fetchWithTimeoutAndRetry(fetchOnchain, {
+                    ...FETCH_CONFIG.onchain,
+                    sourceName: `${config.onchain.chain} On-chain (${config.name})`,
+                }).catch((err) => {
+                    console.error(
+                        `${config.onchain.chain} on-chain fetch failed for ${config.name} after retries:`,
+                        err instanceof TimeoutError
+                            ? `Timeout after ${FETCH_CONFIG.onchain.timeoutMs}ms`
+                            : err.message
+                    );
+                    return {
+                        contractAddress: config.onchain.address,
+                        chain: config.onchain.chain,
+                        transactionCount24h: 0,
+                        transactionCount7d: 0,
+                        transactionCount30d: 0,
+                        uniqueWallets24h: 0,
+                        uniqueWallets7d: 0,
+                        uniqueWallets30d: 0,
+                    };
+                }),
+            ]);
+
+        // Extract values from settled promises
+        const github =
+            githubResult.status === "fulfilled"
+                ? githubResult.value
+                : {
+                      totalContributors: 0,
+                      activeContributors30d: 0,
+                      totalCommits30d: 0,
+                      avgCommitsPerDay: 0,
+                      topContributors: [],
+                      commitActivity: [],
+                  };
+
+        const twitter =
+            twitterResult.status === "fulfilled"
+                ? twitterResult.value
+                : {
+                      followers: 0,
+                      following: 0,
+                      tweetCount: 0,
+                      verified: false,
+                      createdAt: new Date().toISOString(),
+                  };
+
+        const onchain =
+            onchainResult.status === "fulfilled"
+                ? onchainResult.value
+                : {
+                      contractAddress: config.onchain.address,
+                      chain: config.onchain.chain,
+                      transactionCount24h: 0,
+                      transactionCount7d: 0,
+                      transactionCount30d: 0,
+                      uniqueWallets24h: 0,
+                      uniqueWallets7d: 0,
+                      uniqueWallets30d: 0,
+                  };
+
+        // Log success status
+        if (githubResult.status === "fulfilled") {
+            console.log(
+                `✓ GitHub data fetched successfully for ${config.name}`
+            );
+        }
+        if (twitterResult.status === "fulfilled") {
+            console.log(
+                `✓ Twitter data fetched successfully for ${config.name}`
+            );
+        }
+        if (onchainResult.status === "fulfilled") {
+            console.log(
+                `✓ ${config.onchain.chain} on-chain data fetched successfully for ${config.name}`
+            );
+        }
 
         // Add derived fields to onchain data
         (onchain as any).monthlyActiveUsers = onchain.uniqueWallets30d || 0;
@@ -225,7 +314,7 @@ export function convertToCompany(
         trend:
             isPrivateDev && hasWebActivity
                 ? "up"
-                : (config.defaults?.trend ?? "stable"),
+                : config.defaults?.trend ?? "stable",
         isListed: false,
         news: data.news,
     };
