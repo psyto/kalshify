@@ -42,7 +42,19 @@ export function CompanyCard({ company }: CompanyCardProps) {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
-                        <div className="text-4xl">{company.logo}</div>
+                        <div className="w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-muted flex items-center justify-center">
+                            {company.logo ? (
+                                <img
+                                    src={company.logo}
+                                    alt={`${company.name} logo`}
+                                    className="w-full h-full object-contain"
+                                />
+                            ) : (
+                                <div className="text-2xl font-bold text-muted-foreground">
+                                    {company.name.charAt(0)}
+                                </div>
+                            )}
+                        </div>
                         <div>
                             <h3 className="font-semibold text-foreground group-hover:text-purple-600 transition-colors">
                                 {company.name}

@@ -83,8 +83,18 @@ export function SpotlightSection({
                                     <div className="text-lg font-bold text-muted-foreground/40 w-6">
                                         #{index + 1}
                                     </div>
-                                    <div className="text-2xl">
-                                        {company.logo}
+                                    <div className="w-10 h-10 flex-shrink-0 rounded-lg overflow-hidden bg-muted flex items-center justify-center">
+                                        {company.logo ? (
+                                            <img
+                                                src={company.logo}
+                                                alt={`${company.name} logo`}
+                                                className="w-full h-full object-contain"
+                                            />
+                                        ) : (
+                                            <div className="text-lg font-bold text-muted-foreground">
+                                                {company.name.charAt(0)}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2">
@@ -183,7 +193,19 @@ export function CategoryLeaderCard({
                 >
                     {category}
                 </span>
-                <div className="text-2xl">{company.logo}</div>
+                <div className="w-8 h-8 flex-shrink-0 rounded-lg overflow-hidden bg-muted flex items-center justify-center">
+                    {company.logo ? (
+                        <img
+                            src={company.logo}
+                            alt={`${company.name} logo`}
+                            className="w-full h-full object-contain"
+                        />
+                    ) : (
+                        <div className="text-base font-bold text-muted-foreground">
+                            {company.name.charAt(0)}
+                        </div>
+                    )}
+                </div>
             </div>
             <h4 className="font-semibold text-foreground mb-1">
                 {company.name}

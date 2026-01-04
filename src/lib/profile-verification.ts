@@ -3,9 +3,7 @@
  * Handles verification of company profile ownership via domain, GitHub, or wallet
  */
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/db";
 
 export type VerificationType = "domain" | "github" | "wallet";
 
@@ -58,6 +56,16 @@ export async function verifyGitHubOwnership(
 ): Promise<VerificationResult> {
   try {
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const DEMO_MODE = process.env.NODE_ENV === "development";
+
+    // DEMO MODE: Skip verification in development
+    if (DEMO_MODE && githubUsername.trim()) {
+      console.log(`[DEMO MODE] Bypassing GitHub verification for ${githubUsername} in ${githubOrg}`);
+      return {
+        verified: true,
+        proof: `[DEMO] GitHub user ${githubUsername} verified for ${githubOrg}`,
+      };
+    }
 
     if (!GITHUB_TOKEN) {
       return {
@@ -134,29 +142,57 @@ export async function verifyWalletOwnership(
 }
 
 /**
- * Get company data from config to verify against
+ * Get company data from database to verify against
  */
 export async function getCompanyVerificationData(companySlug: string) {
   try {
-    // Read company data from JSON file
-    const fs = await import("fs");
-    const path = await import("path");
+    const company = await prisma.company.findUnique({
+      where: { slug: companySlug },
+      select: {
+        slug: true,
+        name: true,
+        website: true,
+      },
+    });
 
-    const dataPath = path.join(process.cwd(), "data", "companies", `${companySlug}.json`);
-
-    if (!fs.existsSync(dataPath)) {
+    if (!company) {
       return null;
     }
 
-    const data = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+    // Map of company slugs to their GitHub org (from the social links map in company page)
+    const githubOrgMap: Record<string, string> = {
+      orca: "orca-so",
+      jupiter: "jup-ag",
+      uniswap: "Uniswap",
+      morpho: "morpho-org",
+      euler: "euler-xyz",
+      rocketpool: "rocket-pool",
+      blur: "blur-io",
+      safe: "safe-global",
+      drift: "drift-labs",
+      marginfi: "marginfi",
+      kamino: "Kamino-Finance",
+      tensor: "tensor-hq",
+      lido: "lidofinance",
+      zora: "ourzora",
+      zerox: "0xProject",
+      parallel: "ParallelNFT",
+      velodrome: "velodrome-finance",
+      metaplex: "metaplex-foundation",
+      jito: "jito-foundation",
+      staratlas: "staratlasmeta",
+      aurory: "AuroryProject",
+      mangomarkets: "blockworks-foundation",
+      fabrknt: "fabrknt",
+    };
 
     return {
-      slug: companySlug,
-      name: data.name,
-      website: data.website,
-      githubOrg: data.github?.org,
+      slug: company.slug,
+      name: company.name,
+      website: company.website,
+      githubOrg: githubOrgMap[companySlug.toLowerCase()],
       // Extract domain from website
-      domain: data.website ? new URL(data.website).hostname : null,
+      domain: company.website ? new URL(company.website).hostname : null,
     };
   } catch (error) {
     console.error("Error loading company data:", error);

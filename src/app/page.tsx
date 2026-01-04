@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { Logo } from "@/components/logo";
+import { LandingHeader } from "@/components/landing-header";
+import { SynergyCTA, SynergyCTACard } from "@/components/synergy-cta";
 
 // Mark page as dynamic since it uses database
 export const dynamic = "force-dynamic";
@@ -69,51 +71,7 @@ export default async function SuiteLandingPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-muted to-background">
             {/* Header */}
-            <header className="border-b border-border bg-card sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <Logo size="sm" />
-                        <div className="flex items-center gap-6">
-                            <a
-                                href="https://x.com/fabrknt"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-foreground transition-colors"
-                                aria-label="X (Twitter)"
-                            >
-                                <svg
-                                    className="h-5 w-5"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                </svg>
-                            </a>
-                            <a
-                                href="https://github.com/fabrknt"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-foreground transition-colors"
-                                aria-label="GitHub"
-                            >
-                                <Github className="h-5 w-5" />
-                            </a>
-                            <Link
-                                href="/cindex"
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                                Index
-                            </Link>
-                            <Link
-                                href="/synergy"
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                                Synergy
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <LandingHeader />
 
             {/* Hero Section */}
             <div className="border-b border-border bg-card">
@@ -135,7 +93,7 @@ export default async function SuiteLandingPage() {
                             Verify Web3.
                         </h1>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                            Before You Trust It.
+                            Discover Synergy.
                         </h2>
                         <p className="text-xl md:text-2xl font-semibold text-muted-foreground mb-2">
                             Pitch decks lie.{" "}
@@ -146,11 +104,11 @@ export default async function SuiteLandingPage() {
                         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                             FABRKNT helps{" "}
                             <strong className="text-foreground">
-                                Web3 Corp Dev teams, investors, and founders
+                                Web3 teams
                             </strong>{" "}
-                            verify companies using real on-chain activity,
-                            GitHub signals, and social data — fully automated,
-                            no self-reporting.
+                            make confident decisions with verified company data
+                            and AI-powered synergy discovery — no self-reporting,
+                            just real signals.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
@@ -161,14 +119,7 @@ export default async function SuiteLandingPage() {
                                 Explore Verified Companies
                                 <ArrowRight className="h-5 w-5" />
                             </Link>
-                            <Link
-                                href="/synergy"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-semibold text-lg"
-                            >
-                                <Link2 className="h-6 w-6" />
-                                Find Real Synergies
-                                <ArrowRight className="h-5 w-5" />
-                            </Link>
+                            <SynergyCTA variant="primary" />
                         </div>
                     </div>
                 </div>
@@ -178,7 +129,7 @@ export default async function SuiteLandingPage() {
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-4xl mx-auto text-center mb-8">
                     <p className="text-lg text-muted-foreground">
-                        Built for people who make irreversible decisions
+                        Built for teams making million-dollar decisions
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -381,14 +332,14 @@ export default async function SuiteLandingPage() {
                                     SYNERGY
                                 </h2>
                                 <p className="text-sm text-muted-foreground">
-                                    Quiet M&A & Partnerships
+                                    Discover Verified Connections
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
-                            Discover acquisition targets and partnership
-                            opportunities — without broadcasting intent.
+                            Find acquisition targets, integration partners, and strategic
+                            opportunities—quietly, using verified data.
                         </p>
 
                         <div className="space-y-4 mb-6">
@@ -404,7 +355,7 @@ export default async function SuiteLandingPage() {
                                 <Users className="h-5 w-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Strategic partnerships and integrations
+                                        Integration and acquisition opportunities
                                     </p>
                                 </div>
                             </div>
@@ -419,20 +370,14 @@ export default async function SuiteLandingPage() {
                         </div>
 
                         <p className="text-sm text-muted-foreground mb-6">
-                            AI-powered compatibility analysis based on{" "}
+                            AI-powered compatibility scoring based on{" "}
                             <strong className="text-foreground">
-                                verified index scores
+                                verified data
                             </strong>
-                            , not narratives.
+                            , not pitch decks.
                         </p>
 
-                        <Link
-                            href="/synergy"
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition-colors font-medium w-full justify-center"
-                        >
-                            Find Real Opportunities
-                            <ArrowRight className="h-5 w-5" />
-                        </Link>
+                        <SynergyCTACard />
                     </div>
                 </div>
             </div>
@@ -455,8 +400,8 @@ export default async function SuiteLandingPage() {
                                     Verify
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    We automatically analyze on-chain data,
-                                    GitHub activity, and social signals.
+                                    Automated analysis of on-chain data,
+                                    GitHub activity, and social signals
                                 </p>
                             </div>
                             <div className="text-center">
@@ -466,11 +411,11 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    Score
+                                    Index
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Companies receive transparent, comparable
-                                    index scores.
+                                    Companies ranked on real metrics,
+                                    not marketing claims
                                 </p>
                             </div>
                             <div className="text-center">
@@ -480,11 +425,11 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    Connect
+                                    Discover
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Use verified data to approach acquisitions
-                                    and partnerships with confidence.
+                                    AI-powered synergy matching based on
+                                    verified compatibility
                                 </p>
                             </div>
                         </div>
@@ -608,7 +553,7 @@ export default async function SuiteLandingPage() {
             <div className="container mx-auto px-4 py-16">
                 <div className="max-w-3xl mx-auto text-center bg-gradient-to-r from-purple-50 to-cyan-50 rounded-lg border border-purple-200 p-12">
                     <h2 className="text-3xl font-bold text-foreground mb-4">
-                        Stop trusting claims.
+                        Stop guessing.
                     </h2>
                     <h2 className="text-3xl font-bold text-purple-600 mb-8">
                         Start verifying.
@@ -621,13 +566,7 @@ export default async function SuiteLandingPage() {
                             Explore Verified Companies
                             <ArrowRight className="h-5 w-5" />
                         </Link>
-                        <Link
-                            href="/synergy"
-                            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-50 transition-colors font-medium"
-                        >
-                            Find Strategic Synergies
-                            <ArrowRight className="h-5 w-5" />
-                        </Link>
+                        <SynergyCTA variant="secondary" />
                     </div>
                     <p className="text-sm text-muted-foreground italic border-t border-purple-200 pt-6">
                         FABRKNT does not rank narratives.
@@ -718,20 +657,7 @@ export default async function SuiteLandingPage() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link
-                                        href="/synergy"
-                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        Synergy
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/synergy/opportunities"
-                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        Opportunities
-                                    </Link>
+                                    <SynergyCTA variant="footer" />
                                 </li>
                             </ul>
                         </div>

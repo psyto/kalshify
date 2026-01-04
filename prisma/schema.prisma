@@ -202,12 +202,41 @@ model Match {
   partnershipType String?  // 'integration' | 'co-marketing' | 'merger' | 'revenue_share'
   partnershipMetrics Json?   // Track KPIs (revenue, users, etc.)
 
+  // Relations
+  conversation  Conversation?
+
   // Prevent duplicate matches (A-B is same as B-A)
   @@unique([companyASlug, companyBSlug])
   @@index([companyASlug])
   @@index([companyBSlug])
   @@index([status])
   @@index([matchedAt])
+}
+
+// Conversation - Chat between matched companies
+model Conversation {
+  id        String    @id @default(cuid())
+  matchId   String    @unique
+  match     Match     @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([matchId])
+}
+
+// Message - Individual messages in a conversation
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderSlug     String       // companySlug of sender
+  content        String       @db.Text
+  read           Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+  @@index([senderSlug])
 }
 
 // Listing model - Matches existing mock data structure

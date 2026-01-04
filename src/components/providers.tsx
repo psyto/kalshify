@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { SessionProvider } from "./providers/session-provider";
+import { AuthProvider } from "./providers/session-provider";
 import { queryClient } from "@/lib/query-client";
 import { getWagmiConfig } from "@/lib/wagmi-config";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -23,18 +23,18 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    // Prevent hydration issues by not rendering providers until mounted
+    // Always wrap with AuthProvider, but conditionally render Web3 providers
     if (!mounted || !config) {
-        return <>{children}</>;
+        return <AuthProvider>{children}</AuthProvider>;
     }
 
     return (
-        <SessionProvider>
+        <AuthProvider>
             <WagmiProvider config={config}>
                 <QueryClientProvider client={queryClient}>
                     <RainbowKitProvider>{children}</RainbowKitProvider>
                 </QueryClientProvider>
             </WagmiProvider>
-        </SessionProvider>
+        </AuthProvider>
     );
 }

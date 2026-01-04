@@ -4,13 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
+import { useSession, signOut } from "next-auth/react";
+import { LogIn, LogOut, User } from "lucide-react";
 
-export default function DashboardLayout({
+export default function SynergyLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { data: session, status } = useSession();
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-muted to-background">
@@ -19,12 +22,12 @@ export default function DashboardLayout({
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <Logo size="sm" />
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-4">
                             <a
                                 href="https://x.com/fabrknt"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-foreground transition-colors"
+                                className="text-muted-foreground hover:text-foreground transition-colors hidden sm:block"
                                 aria-label="X (Twitter)"
                             >
                                 <svg
@@ -37,16 +40,48 @@ export default function DashboardLayout({
                             </a>
                             <Link
                                 href="/cindex"
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block"
                             >
                                 Index
                             </Link>
                             <Link
                                 href="/synergy"
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                className="text-sm font-medium text-green-600 hover:text-green-700 transition-colors hidden sm:block"
                             >
                                 Synergy
                             </Link>
+
+                            {/* Auth UI */}
+                            {status === "loading" ? (
+                                <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
+                            ) : session ? (
+                                <div className="flex items-center gap-2">
+                                    <div className="hidden md:flex flex-col items-end">
+                                        <span className="text-xs font-medium text-foreground">
+                                            {session.user?.name || session.user?.email}
+                                        </span>
+                                        <span className="text-[10px] text-muted-foreground">
+                                            Signed in
+                                        </span>
+                                    </div>
+                                    <button
+                                        onClick={() => signOut({ callbackUrl: "/" })}
+                                        className="p-2 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                                        title="Sign Out"
+                                    >
+                                        <LogOut className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            ) : (
+                                <Link
+                                    href="/auth/signin"
+                                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
+                                >
+                                    <LogIn className="h-4 w-4" />
+                                    <span>Sign In</span>
+                                </Link>
+                            )}
+
                             <button
                                 onClick={() => setSidebarOpen(!sidebarOpen)}
                                 className="lg:hidden text-muted-foreground hover:text-foreground transition-colors"

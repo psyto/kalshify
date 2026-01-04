@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,6 +29,7 @@ export function ClaimProfileButton({
   website,
 }: ClaimProfileButtonProps) {
   const { data: session } = useSession();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [claimed, setClaimed] = useState(false);
 
@@ -46,7 +48,7 @@ export function ClaimProfileButton({
   if (!session) {
     return (
       <Button variant="default" asChild>
-        <a href="/auth/signin?callbackUrl=/claim-profile">
+        <a href="/auth/signin?callbackUrl=/dashboard/claim-company">
           Sign In to Claim Profile
         </a>
       </Button>
@@ -76,6 +78,10 @@ export function ClaimProfileButton({
           onSuccess={() => {
             setClaimed(true);
             setOpen(false);
+            // Redirect to synergy discovery after a short delay
+            setTimeout(() => {
+              router.push("/synergy/discover");
+            }, 1000);
           }}
         />
       </DialogContent>

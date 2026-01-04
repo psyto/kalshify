@@ -185,9 +185,12 @@ export default async function CindexPage() {
     return (
         <div className="space-y-8">
             {/* Header */}
-            <div className="text-center">
-                <div className="flex justify-center mb-4">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-800 text-sm font-semibold">
+            <div>
+                <div className="flex items-center gap-3 mb-2">
+                    <h1 className="text-3xl font-bold text-foreground">
+                        INDEX
+                    </h1>
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-semibold">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
@@ -195,13 +198,10 @@ export default async function CindexPage() {
                         Preview
                     </span>
                 </div>
-                <h1 className="text-4xl font-bold text-foreground mb-4">
-                    INDEX
-                </h1>
                 <p className="text-sm text-muted-foreground mb-2">
                     Web3 Company Verification
                 </p>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                <p className="text-muted-foreground">
                     An automated index that shows what Web3 companies actually
                     do — not what they say.
                 </p>

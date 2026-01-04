@@ -8,6 +8,58 @@ const nextConfig = {
         // "@fabrknt/api",
         // "@fabrknt/blockchain",
     ],
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cryptologos.cc',
+            },
+            {
+                protocol: 'https',
+                hostname: 'pbs.twimg.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'avatars.githubusercontent.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'assets.coingecko.com',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.io',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.com',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.global',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.fi',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.net',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.ag',
+            },
+            {
+                protocol: 'https',
+                hostname: '*.trade',
+            },
+        ],
+    },
     experimental: {
         serverActions: {
             bodySizeLimit: "2mb",

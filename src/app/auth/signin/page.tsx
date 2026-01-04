@@ -1,10 +1,15 @@
 "use client";
 
+import { Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
-export default function SignInPage() {
+function SignInForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="w-full max-w-md space-y-8 px-4">
@@ -17,7 +22,7 @@ export default function SignInPage() {
 
         <div className="space-y-4">
           <Button
-            onClick={() => signIn("github", { callbackUrl: "/" })}
+            onClick={() => signIn("github", { callbackUrl })}
             variant="outline"
             className="w-full"
             size="lg"
@@ -27,7 +32,7 @@ export default function SignInPage() {
           </Button>
 
           <Button
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => signIn("google", { callbackUrl })}
             variant="outline"
             className="w-full"
             size="lg"
@@ -59,5 +64,19 @@ export default function SignInPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-background">
+          <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
+        </div>
+      }
+    >
+      <SignInForm />
+    </Suspense>
   );
 }

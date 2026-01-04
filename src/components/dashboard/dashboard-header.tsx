@@ -1,7 +1,9 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { ChevronRight, Menu } from 'lucide-react';
+import { ChevronRight, Menu, LogIn, LogOut, User } from 'lucide-react';
+import { useSession, signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 interface DashboardHeaderProps {
   onMenuClick: () => void;
@@ -9,6 +11,7 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
 
   // Generate breadcrumbs from pathname
   const pathSegments = pathname.split('/').filter(Boolean);
@@ -65,14 +68,40 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
           )}
         </nav>
       </div>
-      {/* Suite Badge */}
+      {/* User Auth */}
       <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
         <span className="rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-800 hidden sm:inline">
           PREVIEW
         </span>
-        <div className="text-xs text-muted-foreground/75 hidden md:block">
-          <span className="font-medium text-foreground">Fabrknt Suite</span>
-        </div>
+        {status === 'loading' ? (
+          <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
+        ) : session ? (
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex flex-col items-end">
+              <span className="text-xs font-medium text-foreground">
+                {session.user?.name || session.user?.email}
+              </span>
+              <span className="text-[10px] text-muted-foreground">
+                Signed in
+              </span>
+            </div>
+            <button
+              onClick={() => signOut()}
+              className="p-2 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+              title="Sign Out"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/auth/signin"
+            className="flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
+          >
+            <LogIn className="h-4 w-4" />
+            <span className="hidden sm:inline">Sign In</span>
+          </Link>
+        )}
       </div>
     </div>
   );

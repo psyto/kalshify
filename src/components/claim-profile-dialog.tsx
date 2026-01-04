@@ -40,22 +40,35 @@ export function ClaimProfileDialog({
     setLoading(true);
 
     try {
-      const response = await fetch("/api/profiles/claim", {
+      // Claim the profile (MVP: uses same endpoint as claim-company page)
+      const response = await fetch("/api/profile/claim", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           companySlug,
           verificationType: "github",
-          verificationData: {
-            githubUsername: githubUsername.trim(),
-          },
+          verificationProof: `GitHub: ${githubUsername.trim()}`,
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Verification failed");
+        throw new Error(data.error || "Failed to claim company");
+      }
+
+      // Auto-verify for MVP (in production, GitHub org membership would be checked)
+      const verifyResponse = await fetch("/api/profile/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          companySlug,
+          verificationProof: `GitHub verified: ${githubUsername.trim()} (MVP auto-approved)`,
+        }),
+      });
+
+      if (!verifyResponse.ok) {
+        console.error("Auto-verification failed, but claim succeeded");
       }
 
       toast({
@@ -112,9 +125,8 @@ export function ClaimProfileDialog({
           <div className="space-y-2">
             <h4 className="font-semibold">Verify via GitHub</h4>
             <p className="text-sm text-muted-foreground">
-              Prove you're a member of the{" "}
-              <code className="bg-muted px-1 rounded">{githubOrg}</code> GitHub
-              organization.
+              Enter your GitHub username to verify you represent{" "}
+              <strong>{companyName}</strong>.
             </p>
           </div>
 
@@ -128,17 +140,19 @@ export function ClaimProfileDialog({
                 onChange={(e) => setGithubUsername(e.target.value)}
                 disabled={loading}
               />
-              <p className="text-xs text-muted-foreground mt-1">
-                Must be a member of the {githubOrg} organization
-              </p>
+              {githubOrg && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Note: In production, we verify membership in {githubOrg} organization
+                </p>
+              )}
             </div>
 
             <div className="bg-muted p-3 rounded-lg space-y-2">
               <p className="text-sm font-medium">How it works:</p>
               <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
-                <li>We check if your GitHub user is a member of {githubOrg}</li>
-                <li>If verified, you can claim this profile</li>
-                <li>You'll get access to partnership matching features</li>
+                <li>Enter your GitHub username</li>
+                <li>We verify your identity (MVP: auto-approved)</li>
+                <li>You get access to Synergy partnership features</li>
               </ol>
             </div>
 

@@ -12,8 +12,15 @@ import {
     TrendingUp,
     Home,
     Target,
+    UserPlus,
+    Sparkles,
+    MessageCircle,
+    Lock,
+    Award,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 const indexNav = [
     { name: "Spotlight", href: "/cindex", icon: TrendingUp },
@@ -21,13 +28,12 @@ const indexNav = [
 ];
 
 const synergyNav = [
-    { name: "Spotlight", href: "/synergy", icon: TrendingUp },
-    { name: "Opportunities", href: "/synergy/opportunities", icon: Target },
-    { name: "My Opportunities", href: "/synergy/seller", icon: Building2 },
+    { name: "Discover", href: "/synergy/discover", icon: Sparkles },
+    { name: "Connections", href: "/synergy/connections", icon: UserPlus },
     {
-        name: "Partners",
-        href: "/synergy/partners",
-        icon: Users,
+        name: "Messages",
+        href: "/synergy/messages",
+        icon: MessageCircle,
         disabled: true,
     },
 ];
@@ -41,6 +47,24 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
     const pathname = usePathname();
     const isIndex = pathname.startsWith("/cindex");
     const isSynergy = pathname.startsWith("/synergy");
+    const { data: session } = useSession();
+    const [hasClaimed, setHasClaimed] = useState(false);
+
+    // Check if user has claimed a company
+    useEffect(() => {
+        if (session) {
+            fetch("/api/profile/status")
+                .then((res) => res.json())
+                .then((data) => {
+                    setHasClaimed(data.hasClaimed);
+                })
+                .catch((error) => {
+                    console.error("Error checking profile status:", error);
+                });
+        } else {
+            setHasClaimed(false);
+        }
+    }, [session]);
 
     return (
         <>
@@ -80,6 +104,23 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                             Home
                         </Link>
 
+                        {/* Claim Company - Only show if signed in and hasn't claimed yet */}
+                        {session && !hasClaimed && (
+                            <Link
+                                href="/dashboard/claim-company"
+                                onClick={onClose}
+                                className={cn(
+                                    "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all border-2 border-dashed",
+                                    pathname === "/dashboard/claim-company"
+                                        ? "bg-green-50 border-green-600 text-green-700"
+                                        : "border-green-300 text-green-700 hover:bg-green-50 hover:border-green-600"
+                                )}
+                            >
+                                <Award className="mr-3 h-5 w-5" />
+                                Claim Your Company
+                            </Link>
+                        )}
+
                         {/* INDEX Section */}
                         <div>
                             <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -105,7 +146,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                             className={cn(
                                                 "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all",
                                                 isActive
-                                                    ? "text-white bg-purple-600 shadow-lg shadow-purple-600/40"
+                                                    ? "text-white bg-green-600 shadow-lg shadow-green-600/40"
                                                     : "text-foreground/90 hover:bg-gray-50 hover:text-foreground"
                                             )}
                                         >
@@ -120,8 +161,14 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                         {/* SYNERGY Section */}
                         <div>
                             <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                <Link2 className="h-4 w-4 text-cyan-600" />
+                                <Link2 className="h-4 w-4 text-green-600" />
                                 Synergy
+                                {!session && (
+                                    <span className="ml-auto text-[10px] normal-case text-orange-600 flex items-center gap-1">
+                                        <Lock className="h-3 w-3" />
+                                        Sign in
+                                    </span>
+                                )}
                             </div>
                             <div className="space-y-1">
                                 {synergyNav.map((item) => {
@@ -149,20 +196,28 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                         );
                                     }
 
+                                    // If not signed in, redirect to sign-in page
+                                    const href = !session
+                                        ? `/auth/signin?callbackUrl=${encodeURIComponent(item.href)}`
+                                        : item.href;
+
                                     return (
                                         <Link
                                             key={item.name}
-                                            href={item.href}
+                                            href={href}
                                             onClick={onClose}
                                             className={cn(
                                                 "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all",
                                                 isActive
-                                                    ? "text-white bg-cyan-600 shadow-lg shadow-cyan-600/40"
+                                                    ? "text-white bg-green-600 shadow-lg shadow-green-600/40"
                                                     : "text-foreground/90 hover:bg-gray-50 hover:text-foreground"
                                             )}
                                         >
                                             <Icon className="mr-3 h-5 w-5" />
                                             {item.name}
+                                            {!session && (
+                                                <Lock className="ml-auto h-3.5 w-3.5 text-orange-600" />
+                                            )}
                                         </Link>
                                     );
                                 })}
@@ -174,10 +229,10 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                     <div className="border-t border-border p-4">
                         <div className="text-xs text-muted-foreground/75">
                             <div className="font-medium text-foreground">
-                                Fabrknt Suite
+                                FABRKNT
                             </div>
                             <div className="mt-1">Index + Synergy</div>
-                            <div className="mt-1 text-gray-600">Preview</div>
+                            <div className="mt-1 text-gray-600">Beta</div>
                         </div>
                     </div>
                 </div>
@@ -200,6 +255,22 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                         <Home className="mr-3 h-5 w-5" />
                         Home
                     </Link>
+
+                    {/* Claim Company - Only show if signed in and hasn't claimed yet */}
+                    {session && !hasClaimed && (
+                        <Link
+                            href="/dashboard/claim-company"
+                            className={cn(
+                                "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all border-2 border-dashed",
+                                pathname === "/dashboard/claim-company"
+                                    ? "bg-green-50 border-green-600 text-green-700"
+                                    : "border-green-300 text-green-700 hover:bg-green-50 hover:border-green-600"
+                            )}
+                        >
+                            <Award className="mr-3 h-5 w-5" />
+                            Claim Your Company
+                        </Link>
+                    )}
 
                     {/* INDEX Section */}
                     <div>
@@ -238,8 +309,14 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                     {/* SYNERGY Section */}
                     <div>
                         <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                            <Link2 className="h-4 w-4 text-cyan-600" />
+                            <Link2 className="h-4 w-4 text-green-600" />
                             Synergy
+                            {!session && (
+                                <span className="ml-auto text-[10px] normal-case text-orange-600 flex items-center gap-1">
+                                    <Lock className="h-3 w-3" />
+                                    Sign in
+                                </span>
+                            )}
                         </div>
                         <div className="space-y-1">
                             {synergyNav.map((item) => {
@@ -265,19 +342,27 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                                     );
                                 }
 
+                                // If not signed in, redirect to sign-in page
+                                const href = !session
+                                    ? `/auth/signin?callbackUrl=${encodeURIComponent(item.href)}`
+                                    : item.href;
+
                                 return (
                                     <Link
                                         key={item.name}
-                                        href={item.href}
+                                        href={href}
                                         className={cn(
                                             "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all",
                                             isActive
-                                                ? "text-white bg-cyan-600 shadow-lg shadow-cyan-600/40"
+                                                ? "text-white bg-green-600 shadow-lg shadow-green-600/40"
                                                 : "text-foreground/90 hover:bg-gray-50 hover:text-foreground"
                                         )}
                                     >
                                         <Icon className="mr-3 h-5 w-5" />
                                         {item.name}
+                                        {!session && (
+                                            <Lock className="ml-auto h-3.5 w-3.5 text-orange-600" />
+                                        )}
                                     </Link>
                                 );
                             })}
@@ -289,10 +374,10 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                 <div className="border-t border-border p-4">
                     <div className="text-xs text-muted-foreground/75">
                         <div className="font-medium text-foreground">
-                            Fabrknt Suite
+                            FABRKNT
                         </div>
                         <div className="mt-1">Index + Synergy</div>
-                        <div className="mt-1 text-gray-600">Preview</div>
+                        <div className="mt-1 text-gray-600">Beta</div>
                     </div>
                 </div>
             </div>

@@ -261,7 +261,12 @@ Format your response as JSON:
       // Use Gemini directly
       const model = (this.llmService as any).model;
       if (!model) {
-        throw new Error("LLM not available");
+        console.warn("LLM not available, using fallback");
+        return {
+          synergy_description: `${company.name} and ${partner.name} could explore partnership opportunities in the ${company.category} space.`,
+          synergy_score: 65,
+          reasoning: "AI analysis unavailable - using fallback",
+        };
       }
 
       const result = await model.generateContent(prompt);
@@ -279,14 +284,30 @@ Format your response as JSON:
         synergy_score: 60,
         reasoning: "AI analysis unavailable",
       };
-    } catch (error) {
-      console.error("AI synergy generation error:", error);
+    } catch (error: any) {
+      // Check if it's a quota error
+      if (error.message?.includes("quota") || error.message?.includes("429")) {
+        console.warn("AI quota exceeded, using fallback synergy descriptions");
+      } else {
+        console.error("AI synergy generation error:", error);
+      }
+
+      // Generate a smarter fallback based on categories
+      const sameCategoryBonus = company.category === partner.category ? 15 : 0;
+      const fallbackScore = 55 + sameCategoryBonus;
+
+      let synergyDesc = "";
+      if (company.category === partner.category) {
+        synergyDesc = `${company.name} and ${partner.name} are both in the ${company.category} space, offering opportunities for collaboration, integration, or strategic partnership.`;
+      } else {
+        synergyDesc = `${company.name} (${company.category}) and ${partner.name} (${partner.category}) could explore cross-category partnerships and ecosystem growth opportunities.`;
+      }
 
       // Fallback
       return {
-        synergy_description: `Potential partnership between ${company.category} companies`,
-        synergy_score: 60,
-        reasoning: "Automated estimation",
+        synergy_description: synergyDesc,
+        synergy_score: fallbackScore,
+        reasoning: "Automated estimation (AI unavailable)",
       };
     }
   }

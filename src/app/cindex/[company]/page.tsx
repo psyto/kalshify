@@ -418,7 +418,19 @@ export default async function CompanyProfilePage({ params }: PageProps) {
 
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-4">
-                            <div className="text-6xl">{company.logo}</div>
+                            <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-muted flex items-center justify-center">
+                                {company.logo ? (
+                                    <img
+                                        src={company.logo}
+                                        alt={`${company.name} logo`}
+                                        className="w-full h-full object-contain"
+                                    />
+                                ) : (
+                                    <div className="text-4xl font-bold text-muted-foreground">
+                                        {company.name.charAt(0)}
+                                    </div>
+                                )}
+                            </div>
                             <div>
                                 <h1 className="text-3xl font-bold text-foreground">
                                     {company.name}
