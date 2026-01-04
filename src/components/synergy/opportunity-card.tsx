@@ -9,9 +9,11 @@ export interface OpportunityCardData {
   partnerSlug: string;
   partnerName: string;
   partnerCategory: string;
+  partnerChain?: string;
   partnerLogo?: string;
   partnerDescription?: string;
   matchScore: number;
+  partnerOverallScore?: number;
   opportunityType: string;
   compatibility: {
     synergy: string;
@@ -119,18 +121,37 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
             <h3 className="font-semibold text-foreground group-hover:text-cyan-400 transition-colors truncate">
               {opportunity.partnerName}
             </h3>
-            <div className="flex items-center gap-2 mt-1">
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", categoryColor)}>
                 {opportunity.partnerCategory.toUpperCase()}
               </span>
+              {opportunity.partnerChain && (
+                <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 capitalize">
+                  {opportunity.partnerChain}
+                </span>
+              )}
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", typeColor)}>
                 {typeLabel}
               </span>
             </div>
           </div>
         </div>
-        <div className={cn("px-3 py-1 rounded-full border font-bold text-sm", matchScoreColor)}>
-          {opportunity.matchScore}
+        <div className="flex flex-col gap-1.5 items-end">
+          <div className={cn("px-3 py-1 rounded-full border font-bold text-sm", matchScoreColor)}>
+            Match {opportunity.matchScore}
+          </div>
+          {opportunity.partnerOverallScore !== undefined && (
+            <div className={cn(
+              "px-3 py-1 rounded-full border font-bold text-xs",
+              opportunity.partnerOverallScore >= 40
+                ? "bg-green-50 text-green-700 border-green-300"
+                : opportunity.partnerOverallScore >= 10
+                ? "bg-yellow-50 text-yellow-700 border-yellow-300"
+                : "bg-red-50 text-red-700 border-red-300"
+            )}>
+              Score {opportunity.partnerOverallScore}
+            </div>
+          )}
         </div>
       </div>
 

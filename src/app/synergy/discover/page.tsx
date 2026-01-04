@@ -115,14 +115,17 @@ export default async function SynergyDiscoveryPage() {
   const opportunities: OpportunityCardData[] = matches.map((match) => {
     const partner = allCompanies.find((c) => c.slug === match.partnerSlug);
     const indexData = (partner?.indexData as any) || {};
+    const chain = indexData?.onchain?.chain || "ethereum";
 
     return {
       partnerSlug: match.partnerSlug,
       partnerName: match.partnerName,
       partnerCategory: partner?.category || "infrastructure",
+      partnerChain: chain,
       partnerLogo: partner?.logo || undefined,
       partnerDescription: partner?.description || undefined,
       matchScore: match.matchScore,
+      partnerOverallScore: partner?.overallScore ?? undefined,
       opportunityType: match.partnershipType,
       compatibility: match.compatibility,
       projectedImpact: match.projectedImpact,
