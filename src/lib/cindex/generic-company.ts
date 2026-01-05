@@ -385,6 +385,7 @@ export function convertToCompany(
         slug: config.slug,
         name: config.name,
         category: config.category,
+        chain: data.onchain.chain || "ethereum", // Extract from onchain data
         description: config.description,
         logo: config.logo,
         website: config.website,
