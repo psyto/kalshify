@@ -125,7 +125,18 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", categoryColor)}>
                 {opportunity.partnerCategory.toUpperCase()}
               </span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 capitalize">
+              <span
+                className="text-xs px-2 py-0.5 rounded-full border capitalize"
+                style={{
+                  display: 'inline-block',
+                  minWidth: '60px',
+                  backgroundColor: '#dbeafe',
+                  color: '#2563eb',
+                  borderColor: '#93c5fd'
+                }}
+                data-chain={opportunity.partnerChain}
+                data-debug="chain-badge"
+              >
                 {opportunity.partnerChain || "ethereum"}
               </span>
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", typeColor)}>
