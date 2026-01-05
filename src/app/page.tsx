@@ -149,7 +149,7 @@ export default async function SuiteLandingPage() {
                             Automated — no manual input
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            On-chain + GitHub + social signals
+                            On-chain + GitHub + npm + social signals
                         </p>
                     </div>
                 </div>
