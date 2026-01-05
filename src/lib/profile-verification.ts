@@ -57,6 +57,16 @@ export async function verifyGitHubOwnership(
 ): Promise<VerificationResult> {
   try {
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const IS_DEV = process.env.NODE_ENV === "development";
+
+    // DEVELOPMENT MODE: Allow testing without actual org membership
+    if (IS_DEV && process.env.SKIP_GITHUB_VERIFICATION === "true") {
+      console.log(`[DEV MODE] Bypassing GitHub verification for ${githubUsername} in ${githubOrg}`);
+      return {
+        verified: true,
+        proof: `[DEV MODE] GitHub user ${githubUsername} verified for ${githubOrg} (bypassed)`,
+      };
+    }
 
     if (!GITHUB_TOKEN) {
       return {
