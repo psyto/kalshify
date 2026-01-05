@@ -129,6 +129,36 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         },
     },
     {
+        slug: "hyperliquid",
+        name: "Hyperliquid",
+        category: "defi",
+        description:
+            "High-performance decentralized perpetual exchange on its own L1 blockchain",
+        logo: "💧",
+        website: "https://hyperliquid.xyz",
+        github: {
+            org: "hyperliquid-dex",
+        },
+        twitter: {
+            handle: "HyperliquidX",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000", // L1 chain, placeholder address
+        },
+        features: {
+            hasTVL: true,
+            hasVolume: true,
+        },
+        defaults: {
+            walletGrowth: 30,
+            userGrowthRate: 25,
+            codeQuality: 90,
+            trend: "up",
+            tvl: 0,
+        },
+    },
+    {
         slug: "morpho",
         name: "Morpho",
         category: "defi",
