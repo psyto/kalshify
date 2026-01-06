@@ -69,67 +69,465 @@ export interface CompanyConfig {
 
 export const COMPANY_CONFIGS: CompanyConfig[] = [
     {
-        slug: "uniswap",
-        name: "Uniswap",
-        category: "defi",
-        subcategory: "dex",
+        slug: "adamik",
+        name: "Adamik",
+        category: "infrastructure",
+        subcategory: "dev-tools",
         description:
-            "Leading decentralized exchange protocol enabling permissionless token swaps on Ethereum and Layer 2s",
-        logo: "🦄",
-        website: "https://uniswap.org",
+            "A universal API startup that allows developers to connect to 40+ blockchains via a single, standardized interface",
+        logo: "🔌",
+        website: "https://adamik.io",
         github: {
-            org: "Uniswap",
-            customMetricsFunction: "getUniswapMetrics",
+            org: "adamikio",
         },
         twitter: {
-            handle: "Uniswap",
+            handle: "adamikio",
         },
         onchain: {
             chain: "ethereum",
-            address: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
-            customMetricsFunction: "getUniswapMetrics",
-        },
-        blogUrl: "https://blog.uniswap.org",
-        features: {
-            hasTVL: true,
+            address: "0x0000000000000000000000000000000000000000",
         },
         defaults: {
             walletGrowth: 15,
             userGrowthRate: 15,
-            codeQuality: 90,
+            codeQuality: 85,
             trend: "up",
-            tvl: 5000000000,
         },
     },
     {
-        slug: "jupiter",
-        name: "Jupiter",
-        category: "defi",
-        subcategory: "dex",
+        slug: "altlayer",
+        name: "AltLayer",
+        category: "infrastructure",
+        subcategory: "l2",
         description:
-            "Leading DEX aggregator on Solana providing best swap rates across all DEXs",
-        logo: "🪐",
-        website: "https://jup.ag",
+            "A Restaked Rollup provider that adds a layer of security to small Arbitrum-based chains",
+        logo: "🔒",
+        website: "https://altlayer.io",
         github: {
-            org: "jup-ag",
+            org: "alt-research",
         },
         twitter: {
-            handle: "JupiterExchange",
+            handle: "alt_layer",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "anza",
+        name: "Anza",
+        category: "infrastructure",
+        subcategory: "dev-tools",
+        description:
+            "A new, small development entity by Armani Ferrante focused solely on the core optimization of the Solana validator client",
+        logo: "⚡",
+        website: "https://anza.xyz",
+        github: {
+            org: "anza-xyz",
+        },
+        twitter: {
+            handle: "anza_xyz",
         },
         onchain: {
             chain: "solana",
-            address: "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4",
-            customMetricsFunction: "getJupiterMetrics",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 15,
+            userGrowthRate: 12,
+            codeQuality: 90,
+            trend: "up",
+        },
+    },
+    {
+        slug: "avantis",
+        name: "Avantis",
+        category: "defi",
+        subcategory: "derivatives",
+        description:
+            "A young, high-leverage synthetic perpetuals protocol built natively for the Base ecosystem",
+        logo: "📈",
+        website: "https://avantis.io",
+        github: {
+            org: "avantis-labs",
+        },
+        twitter: {
+            handle: "AvantisLabs",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+            hasVolume: true,
+        },
+        defaults: {
+            walletGrowth: 25,
+            userGrowthRate: 22,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "blockscout-base",
+        name: "Blockscout Base",
+        category: "infrastructure",
+        subcategory: "analytics",
+        description:
+            "The open-source explorer team, which remains a small, mission-driven alternative to Etherscan for Base",
+        logo: "🔍",
+        website: "https://base.blockscout.com",
+        github: {
+            org: "blockscout",
+        },
+        twitter: {
+            handle: "blockscoutcom",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "caldera",
+        name: "Caldera",
+        category: "infrastructure",
+        subcategory: "l2",
+        description:
+            "One of the main providers for Arbitrum Orbit infrastructure, helping small projects manage their own dedicated blockspace",
+        logo: "🌋",
+        website: "https://caldera.xyz",
+        github: {
+            org: "calderachain",
+        },
+        twitter: {
+            handle: "caldera",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "clockwork",
+        name: "Clockwork",
+        category: "infrastructure",
+        subcategory: "dev-tools",
+        description:
+            "A smart contract automation engine for Solana, allowing for scheduled tasks and event-driven triggers",
+        logo: "⏰",
+        website: "https://clockwork.xyz",
+        github: {
+            org: "clockwork-xyz",
+        },
+        twitter: {
+            handle: "clockwork_xyz",
+        },
+        onchain: {
+            chain: "solana",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 15,
+            userGrowthRate: 14,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "concentric",
+        name: "Concentric",
+        category: "defi",
+        subcategory: "yield",
+        description:
+            "Automated liquidity manager built on top of Aerodrome's Slipstream LPs on Base",
+        logo: "🎯",
+        website: "https://concentric.fi",
+        github: {
+            org: "concentric-fi",
+        },
+        twitter: {
+            handle: "ConcentricFi",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
         },
         features: {
             hasTVL: true,
         },
         defaults: {
-            walletGrowth: 20,
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "contango",
+        name: "Contango",
+        category: "defi",
+        subcategory: "derivatives",
+        description:
+            "A unique protocol that builds perpetuals out of spot lending markets (like Aave) to offer lower rates",
+        logo: "🔄",
+        website: "https://contango.xyz",
+        github: {
+            org: "contango-xyz",
+        },
+        twitter: {
+            handle: "contangoxyz",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 16,
+            userGrowthRate: 15,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "daimo",
+        name: "Daimo",
+        category: "infrastructure",
+        subcategory: "wallet",
+        description:
+            "A young startup building a P2P payment app (Venmo-style) using stablecoins natively on the Base network",
+        logo: "💸",
+        website: "https://daimo.com",
+        github: {
+            org: "daimo-eth",
+        },
+        twitter: {
+            handle: "daimo",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 22,
             userGrowthRate: 20,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "dolomite",
+        name: "Dolomite",
+        category: "defi",
+        subcategory: "lending",
+        description:
+            "A next-generation money market and DEX that allows for yield-bearing collateral—a step beyond traditional lending",
+        logo: "💎",
+        website: "https://dolomite.io",
+        github: {
+            org: "dolomite-exchange",
+        },
+        twitter: {
+            handle: "DolomiteProtocol",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "espresso-systems",
+        name: "Espresso Systems",
+        category: "infrastructure",
+        subcategory: "l2",
+        description:
+            "Developing a Shared Sequencer to help all the new Arbitrum Orbit chains talk to each other without delays",
+        logo: "☕",
+        website: "https://espressosys.com",
+        github: {
+            org: "EspressoSystems",
+        },
+        twitter: {
+            handle: "EspressoSys",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 15,
+            userGrowthRate: 14,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "flash-trade",
+        name: "Flash Trade",
+        category: "defi",
+        subcategory: "derivatives",
+        description:
+            "A younger, asset-backed perpetual exchange that uses a pool model for high-efficiency trading",
+        logo: "⚡",
+        website: "https://flash.trade",
+        github: {
+            org: "flash-trade",
+        },
+        twitter: {
+            handle: "FlashTrade_",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+            hasVolume: true,
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "fluid-instadapp",
+        name: "Fluid",
+        category: "defi",
+        subcategory: "lending",
+        description:
+            "A new modular DeFi protocol that combines lending, vaults, and smart accounts into one hyper-efficient layer by Instadapp",
+        logo: "💧",
+        website: "https://fluid.instadapp.io",
+        github: {
+            org: "Instadapp",
+        },
+        twitter: {
+            handle: "Instadapp",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "gelato",
+        name: "Gelato",
+        category: "infrastructure",
+        subcategory: "dev-tools",
+        description:
+            "Relay and Functions tools specifically being used by young Arbitrum projects to automate complex tasks",
+        logo: "🍦",
+        website: "https://gelato.network",
+        github: {
+            org: "gelatodigital",
+        },
+        twitter: {
+            handle: "gelatonetwork",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "goldsky",
+        name: "Goldsky",
+        category: "infrastructure",
+        subcategory: "data",
+        description:
+            "A real-time data indexing company that has become the subgraph alternative of choice for the Base community",
+        logo: "🌟",
+        website: "https://goldsky.com",
+        github: {
+            org: "goldsky-io",
+        },
+        twitter: {
+            handle: "goldskycom",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 22,
+            userGrowthRate: 20,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "helius",
+        name: "Helius",
+        category: "infrastructure",
+        subcategory: "data",
+        description:
+            "A small but dominant team providing the developer platform for Solana (RPCs, Webhooks, and data APIs)",
+        logo: "☀️",
+        website: "https://helius.dev",
+        github: {
+            org: "helius-labs",
+        },
+        twitter: {
+            handle: "heliuslabs",
+        },
+        onchain: {
+            chain: "solana",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 25,
+            userGrowthRate: 22,
             codeQuality: 90,
             trend: "up",
-            tvl: 0,
         },
     },
     {
@@ -138,7 +536,7 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         category: "defi",
         subcategory: "derivatives",
         description:
-            "High-performance decentralized perpetual exchange on its own L1 blockchain",
+            "A fast-growing, high-performance perpetual DEX that operates on its own dedicated L1/L3 stack",
         logo: "💧",
         website: "https://hyperliquid.xyz",
         github: {
@@ -149,7 +547,7 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         },
         onchain: {
             chain: "ethereum",
-            address: "0x0000000000000000000000000000000000000000", // L1 chain, placeholder address
+            address: "0x0000000000000000000000000000000000000000",
         },
         features: {
             hasTVL: true,
@@ -157,566 +555,620 @@ export const COMPANY_CONFIGS: CompanyConfig[] = [
         },
         defaults: {
             walletGrowth: 30,
-            userGrowthRate: 25,
-            codeQuality: 90,
-            trend: "up",
-            tvl: 0,
-        },
-    },
-    {
-        slug: "morpho",
-        name: "Morpho",
-        category: "defi",
-        subcategory: "lending",
-        description:
-            "Peer-to-peer lending protocol with optimized capital efficiency",
-        logo: "🔷",
-        website: "https://morpho.org",
-        github: {
-            org: "morpho-org",
-        },
-        twitter: {
-            handle: "MorphoLabs",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0x8888882f8f843896699869179fB6E4f7e3B58888",
-        },
-        blogUrl: "https://morpho.mirror.xyz",
-        features: {
-            hasTVL: true,
-        },
-        defaults: {
-            walletGrowth: 15,
-            userGrowthRate: 15,
+            userGrowthRate: 28,
             codeQuality: 90,
             trend: "up",
         },
     },
     {
-        slug: "euler",
-        name: "Euler",
-        category: "defi",
-        subcategory: "lending",
-        description: "Permissionless lending protocol on Ethereum",
-        logo: "📐",
-        website: "https://www.euler.finance",
-        github: {
-            org: "euler-xyz",
-        },
-        twitter: {
-            handle: "eulerfinance",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0x27182842E098f60e3D576794A5bFFb0777E025d3",
-        },
-        defaults: {
-            walletGrowth: 15,
-            userGrowthRate: 15,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "rocketpool",
-        name: "Rocket Pool",
-        category: "defi",
-        subcategory: "liquid-staking",
-        description: "Decentralized Ethereum staking protocol",
-        logo: "🚀",
-        website: "https://rocketpool.net",
-        github: {
-            org: "rocket-pool",
-        },
-        twitter: {
-            handle: "Rocket_Pool",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0xae78736Cd615f374D3085123A210448E74Fc6393",
-        },
-        defaults: {
-            walletGrowth: 15,
-            userGrowthRate: 15,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "blur",
-        name: "Blur",
-        category: "nft",
-        subcategory: "marketplace",
-        description: "NFT marketplace and aggregator",
-        logo: "💎",
-        website: "https://blur.io",
-        github: {
-            org: "blur-io",
-        },
-        twitter: {
-            handle: "blur_io",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0x0000000000A39bb272e79075ade645fdA5fdEe5F",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "safe",
-        name: "Safe",
-        category: "infrastructure",
-        subcategory: "wallet",
-        description: "Multi-sig wallet infrastructure",
-        logo: "🔒",
-        website: "https://safe.global",
-        github: {
-            org: "safe-global",
-        },
-        twitter: {
-            handle: "safe",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552",
-        },
-        defaults: {
-            walletGrowth: 15,
-            userGrowthRate: 15,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "orca",
-        name: "Orca",
+        slug: "infinex",
+        name: "Infinex",
         category: "defi",
         subcategory: "dex",
         description:
-            "User-friendly AMM and concentrated liquidity DEX on Solana",
-        logo: "🐋",
-        website: "https://www.orca.so",
+            "A user-layer DeFi project by Synthetix founders designed to make Base feel like a centralized exchange for retail users",
+        logo: "∞",
+        website: "https://infinex.io",
         github: {
-            org: "orca-so",
+            org: "infinex-xyz",
         },
         twitter: {
-            handle: "orca_so",
+            handle: "infinex_app",
         },
         onchain: {
-            chain: "solana",
-            address: "whirLbMiicVdio4qvUfM5DAg3K5nRp6oP2Y",
-            customMetricsFunction: "getOrcaMetrics",
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
         },
         features: {
             hasTVL: true,
         },
         defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
+            walletGrowth: 24,
+            userGrowthRate: 22,
+            codeQuality: 85,
             trend: "up",
         },
     },
     {
-        slug: "drift",
-        name: "Drift Protocol",
-        category: "defi",
-        subcategory: "derivatives",
-        description: "Decentralized perpetuals and spot trading on Solana",
-        logo: "🌊",
-        website: "https://www.drift.trade",
+        slug: "ironforge",
+        name: "Ironforge",
+        category: "infrastructure",
+        subcategory: "dev-tools",
+        description:
+            "A cloud-based developer platform that simplifies the deployment and monitoring of Solana programs",
+        logo: "🔨",
+        website: "https://ironforge.cloud",
         github: {
-            org: "drift-labs",
+            org: "ironforge-cloud",
         },
         twitter: {
-            handle: "DriftProtocol",
+            handle: "ironforgecloud",
         },
         onchain: {
             chain: "solana",
-            address: "dRiftyHA39bWEY4nXUvNnprgNa8gvhcteAdT",
-            customMetricsFunction: "getDriftMetrics",
-        },
-        features: {
-            hasTVL: true,
+            address: "0x0000000000000000000000000000000000000000",
         },
         defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 85,
             trend: "up",
         },
     },
     {
-        slug: "marginfi",
-        name: "MarginFi",
+        slug: "juice-finance",
+        name: "Juice Finance",
         category: "defi",
         subcategory: "yield",
-        description: "Lending and borrowing protocol on Solana",
-        logo: "💰",
-        website: "https://marginfi.com",
-        github: {
-            org: "marginfi",
-        },
-        twitter: {
-            handle: "marginfi",
-        },
-        onchain: {
-            chain: "solana",
-            address: "MFv2hWf31Z9kbCa1snEPYctwafyhdvnV7F",
-            customMetricsFunction: "getMarginFiMetrics",
-        },
-        features: {
-            hasTVL: true,
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "kamino",
-        name: "Kamino Finance",
-        category: "defi",
-        subcategory: "lending",
-        description: "Automated liquidity management",
-        logo: "🌊",
-        website: "https://kamino.finance",
-        github: {
-            org: "Kamino-Finance",
-        },
-        twitter: {
-            handle: "KaminoFinance",
-        },
-        onchain: {
-            chain: "solana",
-            address: "KLend2g3cP87fffoy8q1mQqGKjrxjC8boSy",
-            customMetricsFunction: "getKaminoMetrics",
-        },
-        features: {
-            hasTVL: true,
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "tensor",
-        name: "Tensor",
-        category: "nft",
-        subcategory: "marketplace",
-        description: "NFT marketplace on Solana",
-        logo: "🎯",
-        website: "https://www.tensor.trade",
-        github: {
-            org: "tensor-hq",
-        },
-        twitter: {
-            handle: "tensor_hq",
-        },
-        onchain: {
-            chain: "solana",
-            address: "TSWAPaqyCSx2KABk68Shruf4rp7CxcNi8hAsbdwmHbZv",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "lido",
-        name: "Lido",
-        category: "defi",
-        subcategory: "liquid-staking",
-        description: "Liquid staking protocol for Ethereum",
-        logo: "🌊",
-        website: "https://lido.fi",
-        github: {
-            org: "lidofinance",
-        },
-        twitter: {
-            handle: "LidoFinance",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
-        },
-        blogUrl: "https://blog.lido.fi",
-        features: {
-            hasTVL: true,
-        },
-        defaults: {
-            walletGrowth: 15,
-            userGrowthRate: 15,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "zora",
-        name: "Zora",
-        category: "nft",
-        subcategory: "marketplace",
-        description: "NFT marketplace and protocol",
-        logo: "✨",
-        website: "https://zora.co",
-        github: {
-            org: "ourzora",
-        },
-        twitter: {
-            handle: "zora",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0xE7E9Ea069b77e960B457D9b9810408EBC281B242",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "zerox",
-        name: "0x Protocol",
-        category: "infrastructure",
-        subcategory: "dex",
-        description: "DEX aggregation and liquidity protocol",
-        logo: "0️⃣",
-        website: "https://0x.org",
-        github: {
-            org: "0xProject",
-        },
-        twitter: {
-            handle: "0xProject",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0xDef1C0ded9bec7F1a1670819833240f027b25EfF",
-        },
-        defaults: {
-            walletGrowth: 15,
-            userGrowthRate: 15,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "metaplex",
-        name: "Metaplex",
-        category: "infrastructure",
-        subcategory: "dev-tools",
-        description: "NFT standard and tools on Solana",
-        logo: "🎨",
-        website: "https://www.metaplex.com",
-        github: {
-            org: "metaplex-foundation",
-        },
-        twitter: {
-            handle: "metaplex",
-        },
-        onchain: {
-            chain: "solana",
-            address: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "parallel",
-        name: "Parallel",
-        category: "gaming",
-        subcategory: "card-game",
-        description: "Sci-fi card game on Ethereum",
-        logo: "🎮",
-        website: "https://parallel.life",
-        github: {
-            org: "ParallelNFT",
-        },
-        twitter: {
-            handle: "ParallelTCG",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0x76BE3b62873462d2142405439777e971754E8E77",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "velodrome",
-        name: "Velodrome",
-        category: "defi",
-        subcategory: "dex",
-        description: "AMM and ve(3,3) model on Optimism",
-        logo: "🏁",
-        website: "https://velodrome.finance",
-        github: {
-            org: "velodrome-finance",
-        },
-        twitter: {
-            handle: "VelodromeFi",
-        },
-        onchain: {
-            chain: "ethereum",
-            address: "0x9c12939390052919aF3155f41Bf4160Fd3666A6f",
-        },
-        defaults: {
-            walletGrowth: 15,
-            userGrowthRate: 15,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "jito",
-        name: "Jito",
-        category: "infrastructure",
-        subcategory: "validator",
-        description: "MEV infrastructure on Solana",
-        logo: "⚡",
-        website: "https://www.jito.wtf",
-        github: {
-            org: "jito-foundation",
-        },
-        twitter: {
-            handle: "jito_sol",
-        },
-        onchain: {
-            chain: "solana",
-            address: "Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "staratlas",
-        name: "Star Atlas",
-        category: "gaming",
-        subcategory: "mmo",
-        description: "Space MMO on Solana",
-        logo: "🌌",
-        website: "https://staratlas.com",
-        github: {
-            org: "staratlasmeta",
-        },
-        twitter: {
-            handle: "staratlas",
-        },
-        onchain: {
-            chain: "solana",
-            address: "ATLASXkqGSx5B2YvY1Y4K1mcn1dY6VxTqzkJp5YXW1i",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "aurory",
-        name: "Aurory",
-        category: "gaming",
-        subcategory: "rpg",
-        description: "RPG and NFT game on Solana",
-        logo: "🎴",
-        website: "https://aurory.io",
-        github: {
-            org: "AuroryProject",
-        },
-        twitter: {
-            handle: "AuroryProject",
-        },
-        onchain: {
-            chain: "solana",
-            address: "AURYxxLd8c4qFd3s2Q1a1n4ZWLJ7XfyqTxq6HgFjE1",
-        },
-        defaults: {
-            walletGrowth: 20,
-            userGrowthRate: 20,
-            codeQuality: 90,
-            trend: "up",
-        },
-    },
-    {
-        slug: "fabrknt",
-        name: "Fabrknt",
-        category: "infrastructure",
-        subcategory: "dev-tools",
         description:
-            "The Foundational Foundry for Agentic Code & Future Economies",
-        logo: "🏭",
-        website: "https://www.fabrknt.com",
+            "An innovative yield-farming enhancer that allows users to access high-leverage points-farming and yield on top of other protocols",
+        logo: "🧃",
+        website: "https://www.juice.finance",
         github: {
-            org: "fabrknt",
-            customMetricsFunction: "getFabrkntMetrics",
+            org: "juice-finance",
         },
         twitter: {
-            handle: "fabrknt",
+            handle: "JuiceFinance",
         },
         onchain: {
             chain: "ethereum",
             address: "0x0000000000000000000000000000000000000000",
         },
-        blogUrl: "https://www.fabrknt.com",
         features: {
-            useCrawler: true,
-        },
-        defaults: {
-            walletGrowth: 0,
-            userGrowthRate: 0,
-            codeQuality: 90,
-            trend: "stable",
-        },
-    },
-    {
-        slug: "mangomarkets",
-        name: "Mango Markets",
-        category: "defi",
-        subcategory: "derivatives",
-        description: "Decentralized trading platform on Solana",
-        logo: "🥭",
-        website: "https://mango.markets",
-        github: {
-            org: "blockworks-foundation",
-        },
-        twitter: {
-            handle: "mangomarkets",
-        },
-        onchain: {
-            chain: "solana",
-            address: "4MangoMjqJ2firMokCjjGgoK8d4MXcrgL7XJaL3w6fVg",
+            hasTVL: true,
         },
         defaults: {
             walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "lagrange",
+        name: "Lagrange",
+        category: "infrastructure",
+        subcategory: "security",
+        description:
+            "A ZK-infrastructure project enabling cross-chain state proofs, allowing dApps to prove data from one chain to another securely",
+        logo: "🔐",
+        website: "https://lagrange.dev",
+        github: {
+            org: "lagrange-labs",
+        },
+        twitter: {
+            handle: "lagrangedev",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 16,
+            userGrowthRate: 14,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "lobby",
+        name: "Lobby",
+        category: "infrastructure",
+        subcategory: "identity",
+        description:
+            "A developer-focused tool building social infrastructure for DAOs and on-chain organizations",
+        logo: "🏛️",
+        website: "https://lobby.so",
+        github: {
+            org: "lobby-so",
+        },
+        twitter: {
+            handle: "lobbyso",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 15,
+            userGrowthRate: 14,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "meteora",
+        name: "Meteora",
+        category: "defi",
+        subcategory: "dex",
+        description:
+            "A dynamic liquidity provider protocol focused on maximizing yield for LPs through DLMM (Dynamic Liquidity Market Maker) technology",
+        logo: "🌠",
+        website: "https://meteora.ag",
+        github: {
+            org: "MeteoraAg",
+        },
+        twitter: {
+            handle: "MeteoraAG",
+        },
+        onchain: {
+            chain: "solana",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 22,
+            userGrowthRate: 20,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "napier-finance",
+        name: "Napier Finance",
+        category: "defi",
+        subcategory: "yield",
+        description:
+            "A liquidity hub for yield trading that introduces a new primitive for yield curves on Ethereum",
+        logo: "📊",
+        website: "https://napier.finance",
+        github: {
+            org: "napier-v2",
+        },
+        twitter: {
+            handle: "napierfinance",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 16,
+            userGrowthRate: 15,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "openfort",
+        name: "Openfort",
+        category: "infrastructure",
+        subcategory: "wallet",
+        description:
+            "A Wallet-as-a-Service provider that helps game developers on Base hide the blockchain from their users",
+        logo: "🎮",
+        website: "https://openfort.xyz",
+        github: {
+            org: "openfort-xyz",
+        },
+        twitter: {
+            handle: "openfortxyz",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "parcl",
+        name: "Parcl",
+        category: "defi",
+        subcategory: "rwa",
+        description:
+            "A real-estate focused DeFi platform that lets users trade square footage prices of global cities",
+        logo: "🏘️",
+        website: "https://parcl.co",
+        github: {
+            org: "ParclFinance",
+        },
+        twitter: {
+            handle: "Parcl",
+        },
+        onchain: {
+            chain: "solana",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "peapods-finance",
+        name: "Peapods Finance",
+        category: "defi",
+        subcategory: "yield",
+        description:
+            "An emerging Volatility-as-a-Service protocol that enables decentralized index funds with a focus on yield generation",
+        logo: "🫛",
+        website: "https://peapods.finance",
+        github: {
+            org: "peapods-finance",
+        },
+        twitter: {
+            handle: "PeapodsFinance",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 15,
+            userGrowthRate: 14,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "phoenix-ellipsis",
+        name: "Phoenix",
+        category: "defi",
+        subcategory: "dex",
+        description:
+            "A fully on-chain, limit order book DEX by Ellipsis Labs that is significantly faster and more lean than previous iterations",
+        logo: "🔥",
+        website: "https://phoenix.trade",
+        github: {
+            org: "Ellipsis-Labs",
+        },
+        twitter: {
+            handle: "PhoenixTrade",
+        },
+        onchain: {
+            chain: "solana",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+            hasVolume: true,
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "pimlico",
+        name: "Pimlico",
+        category: "infrastructure",
+        subcategory: "wallet",
+        description:
+            "The current leader in ERC-4337 (Account Abstraction) infrastructure, making gasless apps possible on Base",
+        logo: "🔑",
+        website: "https://pimlico.io",
+        github: {
+            org: "pimlicolabs",
+        },
+        twitter: {
+            handle: "pimlicoHQ",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 22,
             userGrowthRate: 20,
             codeQuality: 90,
+            trend: "up",
+        },
+    },
+    {
+        slug: "ramses-exchange",
+        name: "Ramses Exchange",
+        category: "defi",
+        subcategory: "dex",
+        description:
+            "A ve(3,3) DEX (similar to Aerodrome) but focused on the Arbitrum ecosystem and its unique L3 chains",
+        logo: "🏛️",
+        website: "https://ramses.exchange",
+        github: {
+            org: "RamsesExchange",
+        },
+        twitter: {
+            handle: "RamsesExchange",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "sanctum",
+        name: "Sanctum",
+        category: "defi",
+        subcategory: "liquid-staking",
+        description:
+            "A protocol building the Liquid Staking Infinity layer, allowing anyone to create their own liquid staking token (LST)",
+        logo: "⛪",
+        website: "https://sanctum.so",
+        github: {
+            org: "sanctumlabs",
+        },
+        twitter: {
+            handle: "sanctumso",
+        },
+        onchain: {
+            chain: "solana",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "spire",
+        name: "Spire",
+        category: "infrastructure",
+        subcategory: "l2",
+        description:
+            "A Rollup-as-a-service focused on app-specific L3s that settle directly to Ethereum or its major L2s",
+        logo: "🗼",
+        website: "https://spire.dev",
+        github: {
+            org: "spire-labs",
+        },
+        twitter: {
+            handle: "spiredev",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 16,
+            userGrowthRate: 14,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "squads",
+        name: "Squads",
+        category: "infrastructure",
+        subcategory: "wallet",
+        description:
+            "The infrastructure behind most Solana treasuries; a multi-sig and smart account platform for teams",
+        logo: "👥",
+        website: "https://squads.so",
+        github: {
+            org: "Squads-Protocol",
+        },
+        twitter: {
+            handle: "SquadsProtocol",
+        },
+        onchain: {
+            chain: "solana",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 20,
+            userGrowthRate: 18,
+            codeQuality: 90,
+            trend: "up",
+        },
+    },
+    {
+        slug: "steakhouse-financial",
+        name: "Steakhouse Financial",
+        category: "defi",
+        subcategory: "lending",
+        description:
+            "Building managed lending vaults on Morpho Blue Base deployments",
+        logo: "🥩",
+        website: "https://steakhouse.financial",
+        github: {
+            org: "steakhouse-financial",
+        },
+        twitter: {
+            handle: "SteakhouseFi",
+        },
+        onchain: {
+            chain: "base",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 16,
+            userGrowthRate: 15,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "swaap",
+        name: "Swaap",
+        category: "defi",
+        subcategory: "dex",
+        description:
+            "A market-making protocol that protects liquidity providers from toxic flow (arbitrageurs)",
+        logo: "🔀",
+        website: "https://swaap.finance",
+        github: {
+            org: "swaap-labs",
+        },
+        twitter: {
+            handle: "Swaap_Protocol",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 15,
+            userGrowthRate: 14,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "term-finance",
+        name: "Term Finance",
+        category: "defi",
+        subcategory: "lending",
+        description:
+            "A protocol bringing fixed-rate lending to Ethereum through periodic auctions, targeting institutional-style predictability",
+        logo: "📅",
+        website: "https://term.finance",
+        github: {
+            org: "term-finance",
+        },
+        twitter: {
+            handle: "TermFinance",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 15,
+            userGrowthRate: 14,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "voltius",
+        name: "Voltius",
+        category: "infrastructure",
+        subcategory: "security",
+        description:
+            "A young US-based startup using AI/ML to automate smart contract audits and threat detection",
+        logo: "🛡️",
+        website: "https://voltius.io",
+        github: {
+            org: "voltius-labs",
+        },
+        twitter: {
+            handle: "voltiuslabs",
+        },
+        onchain: {
+            chain: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 16,
+            userGrowthRate: 15,
+            codeQuality: 88,
+            trend: "up",
+        },
+    },
+    {
+        slug: "winr-protocol",
+        name: "Winr Protocol",
+        category: "defi",
+        subcategory: "derivatives",
+        description:
+            "A decentralized gaming-liquidity engine that powers on-chain betting and casino-style dApps on Arbitrum",
+        logo: "🎲",
+        website: "https://winr.games",
+        github: {
+            org: "WINRProtocol",
+        },
+        twitter: {
+            handle: "winr_protocol",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        features: {
+            hasTVL: true,
+        },
+        defaults: {
+            walletGrowth: 18,
+            userGrowthRate: 16,
+            codeQuality: 85,
+            trend: "up",
+        },
+    },
+    {
+        slug: "zeeve",
+        name: "Zeeve",
+        category: "infrastructure",
+        subcategory: "l2",
+        description:
+            "A specialized Rollup-as-a-Service that helps small teams launch their own Arbitrum Orbit chains in minutes",
+        logo: "⚙️",
+        website: "https://zeeve.io",
+        github: {
+            org: "Zeeve-App",
+        },
+        twitter: {
+            handle: "ZeeveInc",
+        },
+        onchain: {
+            chain: "arbitrum",
+            address: "0x0000000000000000000000000000000000000000",
+        },
+        defaults: {
+            walletGrowth: 16,
+            userGrowthRate: 15,
+            codeQuality: 85,
             trend: "up",
         },
     },
