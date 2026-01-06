@@ -9,6 +9,7 @@ export interface OpportunityCardData {
   partnerSlug: string;
   partnerName: string;
   partnerCategory: string;
+  partnerSubcategory?: string;
   partnerChain?: string;
   partnerLogo?: string;
   partnerDescription?: string;
@@ -125,6 +126,11 @@ export function OpportunityCard({ opportunity, onAction, disabled = false }: Opp
               <span className={cn("text-xs px-2 py-0.5 rounded-full border", categoryColor)}>
                 {opportunity.partnerCategory.toUpperCase()}
               </span>
+              {opportunity.partnerSubcategory && (
+                <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">
+                  {opportunity.partnerSubcategory.replace(/-/g, ' ').toUpperCase()}
+                </span>
+              )}
               <span
                 className="text-xs px-2 py-0.5 rounded-full border capitalize"
                 style={{

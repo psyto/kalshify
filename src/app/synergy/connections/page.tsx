@@ -94,6 +94,7 @@ export default async function ConnectionsPage() {
           slug: true,
           name: true,
           category: true,
+          subcategory: true,
           description: true,
           logo: true,
           website: true,

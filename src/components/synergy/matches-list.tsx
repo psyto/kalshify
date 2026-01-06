@@ -18,6 +18,7 @@ interface Partner {
   slug: string;
   name: string;
   category: string;
+  subcategory: string | null;
   chain: string | null;
   description: string | null;
   logo: string | null;
@@ -195,10 +196,15 @@ function MatchCard({ match, onClick }: { match: Match; onClick: () => void }) {
           <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
             {partner.name}
           </h3>
-          <div className="flex gap-1.5 mt-1">
+          <div className="flex gap-1.5 mt-1 flex-wrap">
             <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 capitalize">
               {partner.category}
             </span>
+            {partner.subcategory && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">
+                {partner.subcategory.replace(/-/g, ' ').toUpperCase()}
+              </span>
+            )}
             <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 capitalize">
               {partner.chain || "ethereum"}
             </span>
