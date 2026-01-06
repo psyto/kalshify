@@ -19,7 +19,7 @@ import {
 } from "@/lib/api/solana";
 import { calculateIndexScore } from "./calculators/score-calculator";
 import { IndexData, IndexScore } from "@/lib/api/types";
-import { Company } from "./companies";
+import { Company, Chain } from "./companies";
 import { CompanyConfig } from "./company-configs";
 import { CrawlerService } from "./crawler";
 import { LLMService } from "./llm";
@@ -385,7 +385,8 @@ export function convertToCompany(
         slug: config.slug,
         name: config.name,
         category: config.category,
-        chain: data.onchain.chain || "ethereum", // Extract from onchain data
+        subcategory: config.subcategory,
+        chains: (config.chains || [data.onchain.chain || "ethereum"]) as Chain[],
         description: config.description,
         logo: config.logo,
         website: config.website,
