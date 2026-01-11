@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, LogIn, LogOut, Lock, Brain, GitBranch, Link2 } from "lucide-react";
+import { Github, LogIn, LogOut, Lock, Percent, Building2, Link2 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { Logo } from "@/components/logo";
 
@@ -40,19 +40,18 @@ export function LandingHeader() {
               <Github className="h-5 w-5" />
             </a>
             <Link
-              href="/cindex"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
-            >
-              <Brain className="h-3.5 w-3.5" />
-              Index
-            </Link>
-            <Link
               href="/curate"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
             >
-              <GitBranch className="h-3.5 w-3.5" />
-              Curate
-              <span className="text-[10px] px-1 py-0.5 rounded bg-cyan-400/10 text-cyan-400 border border-cyan-400/30">Beta</span>
+              <Percent className="h-3.5 w-3.5" />
+              Yields
+            </Link>
+            <Link
+              href="/curate/protocols"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
+            >
+              <Building2 className="h-3.5 w-3.5" />
+              Protocols
             </Link>
             <Link
               href="/synergy"

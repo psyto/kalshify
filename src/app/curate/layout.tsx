@@ -2,7 +2,7 @@ import { CurateLayoutClient } from "@/components/curate/curate-layout-client";
 
 export const metadata = {
     title: "Curate | FABRKNT",
-    description: "Explore Web3 project dependencies and ecosystem connections",
+    description: "DeFi Yield Intelligence - Risk scoring, APY stability analysis, and liquidity risk assessment",
 };
 
 export default function CurateLayout({

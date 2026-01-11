@@ -15,26 +15,24 @@ const baseUrl =
 
 export const metadata: Metadata = {
     title: {
-        default: "Fabrknt - Web3 Index & Synergy Platform",
+        default: "Fabrknt - DeFi Intelligence Platform",
         template: "%s | Fabrknt",
     },
     description:
-        "AI-powered Web3 company index and synergy platform for M&A, partnerships, and strategic collaborations. 100% verified on-chain and off-chain data.",
+        "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, liquidity risk assessment, and verified protocol data.",
     keywords: [
-        "Web3",
-        "Blockchain",
-        "M&A",
-        "Partnerships",
-        "Company Index",
-        "On-chain Data",
         "DeFi",
-        "NFT",
-        "DAO",
+        "DeFi Intelligence",
+        "Yield Curator",
+        "Risk Scoring",
+        "APY Stability",
+        "Liquidity Risk",
+        "Protocol Verification",
+        "On-chain Data",
         "Solana",
         "Ethereum",
-        "Web3 Acquisitions",
-        "Blockchain M&A",
-        "Crypto Partnerships",
+        "DeFi Analytics",
+        "Yield Farming",
     ],
     authors: [{ name: "Fabrknt" }],
     creator: "Fabrknt",
@@ -48,23 +46,23 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: baseUrl,
         siteName: "Fabrknt",
-        title: "Fabrknt - Web3 Index & Synergy Platform",
+        title: "Fabrknt - DeFi Intelligence Platform",
         description:
-            "AI-powered Web3 company index and synergy platform for M&A, partnerships, and strategic collaborations. 100% verified on-chain and off-chain data.",
+            "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, liquidity risk assessment, and verified protocol data.",
         images: [
             {
                 url: "/og-image.png",
                 width: 1200,
                 height: 630,
-                alt: "Fabrknt - Web3 Index & Synergy Platform",
+                alt: "Fabrknt - DeFi Intelligence Platform",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Fabrknt - Web3 Index & Synergy Platform",
+        title: "Fabrknt - DeFi Intelligence Platform",
         description:
-            "AI-powered Web3 company index and synergy platform for M&A, partnerships, and strategic collaborations. 100% verified on-chain and off-chain data.",
+            "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, liquidity risk assessment, and verified protocol data.",
         creator: "@fabrknt",
         site: "@fabrknt",
         images: ["/og-image.png"],
@@ -104,12 +102,12 @@ const structuredData = {
     name: "Fabrknt",
     url: baseUrl,
     description:
-        "AI-powered Web3 company index and synergy platform for M&A, partnerships, and strategic collaborations.",
+        "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, and verified protocol data.",
     potentialAction: {
         "@type": "SearchAction",
         target: {
             "@type": "EntryPoint",
-            urlTemplate: `${baseUrl}/cindex?q={search_term_string}`,
+            urlTemplate: `${baseUrl}/curate/protocols?q={search_term_string}`,
         },
         "query-input": "required name=search_term_string",
     },

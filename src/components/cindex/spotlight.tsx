@@ -78,8 +78,8 @@ export function SpotlightSection({
                     companies.map((company, index) => (
                         <Link
                             key={company.slug}
-                            href={`/cindex/${company.slug}`}
-                            className="block p-3 rounded-lg border border-border hover:border-purple-300 hover:shadow-md transition-all"
+                            href={`/curate/protocol/${company.slug}`}
+                            className="block p-3 rounded-lg border border-border hover:border-cyan-400/50 hover:shadow-md transition-all"
                         >
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3 flex-1">
@@ -166,10 +166,10 @@ export function SpotlightSection({
 
             <div className="mt-4 pt-4 border-t border-border">
                 <Link
-                    href="/cindex/companies"
-                    className="flex items-center justify-center gap-2 text-sm text-purple-600 hover:text-purple-700 font-medium"
+                    href="/curate/protocols"
+                    className="flex items-center justify-center gap-2 text-sm text-cyan-600 hover:text-cyan-700 font-medium"
                 >
-                    View All Companies
+                    View All Protocols
                     <ArrowRight className="h-4 w-4" />
                 </Link>
             </div>
@@ -206,8 +206,8 @@ export function CategoryLeaderCard({
     }
     return (
         <Link
-            href={`/cindex/${company.slug}`}
-            className="block bg-card rounded-lg border border-border p-4 hover:border-purple-300 hover:shadow-md transition-all"
+            href={`/curate/protocol/${company.slug}`}
+            className="block bg-card rounded-lg border border-border p-4 hover:border-cyan-400/50 hover:shadow-md transition-all"
         >
             <div className="flex items-center justify-between mb-3">
                 <span

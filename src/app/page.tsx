@@ -1,15 +1,15 @@
 import Link from "next/link";
 import {
     ArrowRight,
-    Brain,
+    Percent,
     Link2,
     TrendingUp,
     Shield,
     Users,
     Building2,
     Github,
-    GitBranch,
-    Network,
+    Activity,
+    Droplet,
 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { Logo } from "@/components/logo";
@@ -117,11 +117,11 @@ export default async function SuiteLandingPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
-                                href="/cindex"
+                                href="/curate"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold text-lg border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
                             >
-                                <Brain className="h-6 w-6" />
-                                Explore Verified Companies
+                                <Percent className="h-6 w-6" />
+                                Explore DeFi Intelligence
                                 <ArrowRight className="h-5 w-5" />
                             </Link>
                             <SynergyCTA variant="primary" />
@@ -209,7 +209,7 @@ export default async function SuiteLandingPage() {
                             </div>
                         </div>
                         <p className="text-center text-lg font-semibold text-muted-foreground">
-                            Most Web3 decisions are still made on unverified
+                            Most DeFi decisions are still made on unverified
                             claims.
                         </p>
                     </div>
@@ -252,85 +252,12 @@ export default async function SuiteLandingPage() {
 
             {/* Products Section */}
             <div className="container mx-auto px-4 pt-4 pb-16">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                    {/* INDEX Product */}
-                    <div className="bg-card rounded-lg border border-border p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    {/* CURATE Product - Main Product */}
+                    <div className="bg-card rounded-lg border border-cyan-400/30 p-8 shadow-lg shadow-cyan-400/5">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
-                                <Brain className="h-8 w-8 text-cyan-400" />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-foreground">
-                                    INDEX
-                                </h2>
-                                <p className="text-sm text-muted-foreground">
-                                    DeFi Protocol Intelligence
-                                </p>
-                            </div>
-                        </div>
-
-                        <p className="text-muted-foreground mb-6">
-                            An automated index that shows what DeFi protocols
-                            actually do — not what they say.
-                        </p>
-
-                        <div className="space-y-4 mb-6">
-                            <div className="flex items-start gap-3">
-                                <TrendingUp className="h-5 w-5 text-cyan-400 mt-0.5" />
-                                <div>
-                                    <p className="font-semibold text-foreground">
-                                        On-chain growth
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Wallet activity, protocol usage, real
-                                        traction
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <Users className="h-5 w-5 text-cyan-400 mt-0.5" />
-                                <div>
-                                    <p className="font-semibold text-foreground">
-                                        Team & code health
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        GitHub commits, contributors, retention,
-                                        npm downloads
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <Shield className="h-5 w-5 text-cyan-400 mt-0.5" />
-                                <div>
-                                    <p className="font-semibold text-foreground">
-                                        Signal integrity
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Cross-verified via blockchain and public
-                                        APIs
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <p className="text-sm font-semibold text-cyan-400 mb-6">
-                            If it can't be verified, it doesn't count.
-                        </p>
-
-                        <Link
-                            href="/cindex"
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-purple-500 text-white hover:bg-purple-400 transition-all font-bold w-full justify-center border border-purple-400 shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40"
-                        >
-                            Explore the Index
-                            <ArrowRight className="h-5 w-5" />
-                        </Link>
-                    </div>
-
-                    {/* CURATE Product */}
-                    <div className="bg-card rounded-lg border border-border p-8">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
-                                <GitBranch className="h-8 w-8 text-cyan-400" />
+                                <Percent className="h-8 w-8 text-cyan-400" />
                             </div>
                             <div>
                                 <div className="flex items-center gap-2">
@@ -342,47 +269,58 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    DeFi Yield Intelligence
+                                    DeFi Intelligence Platform
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
-                            Risk scoring, APY stability analysis, and liquidity risk
-                            assessment that DeFiLlama doesn't provide.
+                            Risk scoring, APY stability analysis, liquidity risk assessment,
+                            and verified protocol data — the intelligence layer DeFiLlama doesn't provide.
                         </p>
 
-                        <div className="space-y-4 mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div className="flex items-start gap-3">
-                                <Shield className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <Shield className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Risk Scoring
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        Composite risk scores for 5,000+ yield pools
+                                        Composite scores for 5,000+ pools
                                     </p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <TrendingUp className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <Activity className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         APY Stability
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        30-day volatility analysis and trend detection
+                                        30-day volatility and trends
                                     </p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <Network className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <Droplet className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Liquidity Risk
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        Exit-ability ratings and slippage estimates
+                                        Exit-ability and slippage estimates
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Building2 className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                                <div>
+                                    <p className="font-semibold text-foreground">
+                                        Protocol Verification
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        GitHub, on-chain, social signals
                                     </p>
                                 </div>
                             </div>
@@ -392,39 +330,48 @@ export default async function SuiteLandingPage() {
                             Curator intelligence, not just raw data.
                         </p>
 
-                        <Link
-                            href="/curate"
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold w-full justify-center border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
-                        >
-                            Explore Curate
-                            <ArrowRight className="h-5 w-5" />
-                        </Link>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <Link
+                                href="/curate"
+                                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold justify-center border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40 flex-1"
+                            >
+                                Explore Yields
+                                <ArrowRight className="h-5 w-5" />
+                            </Link>
+                            <Link
+                                href="/curate/protocols"
+                                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-slate-800 text-white hover:bg-slate-700 transition-all font-bold justify-center border border-slate-700 flex-1"
+                            >
+                                Browse Protocols
+                                <ArrowRight className="h-5 w-5" />
+                            </Link>
+                        </div>
                     </div>
 
                     {/* SYNERGY Product */}
                     <div className="bg-card rounded-lg border border-border p-8">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
-                                <Link2 className="h-8 w-8 text-cyan-400" />
+                            <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+                                <Link2 className="h-8 w-8 text-emerald-500" />
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-foreground">
                                     SYNERGY
                                 </h2>
                                 <p className="text-sm text-muted-foreground">
-                                    Discover Verified Connections
+                                    Partnership Discovery
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
                             Find acquisition targets, integration partners, and strategic
-                            opportunities—quietly, using verified data.
+                            opportunities — quietly, using verified data.
                         </p>
 
                         <div className="space-y-4 mb-6">
                             <div className="flex items-start gap-3">
-                                <Building2 className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <Building2 className="h-5 w-5 text-emerald-500 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Corp Dev teams scouting quietly
@@ -432,7 +379,7 @@ export default async function SuiteLandingPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <Users className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <Users className="h-5 w-5 text-emerald-500 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Integration and acquisition opportunities
@@ -440,7 +387,7 @@ export default async function SuiteLandingPage() {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
-                                <Shield className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <Shield className="h-5 w-5 text-emerald-500 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
                                         Early M&A conversations
@@ -469,10 +416,10 @@ export default async function SuiteLandingPage() {
                         <h2 className="text-3xl font-bold text-foreground text-center mb-12">
                             How it works
                         </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div className="text-center">
-                                <div className="w-16 h-16 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
-                                    <span className="text-2xl font-bold text-purple-500 font-mono">
+                                <div className="w-16 h-16 rounded-full bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center mx-auto mb-4">
+                                    <span className="text-2xl font-bold text-cyan-400 font-mono">
                                         1
                                     </span>
                                 </div>
@@ -480,50 +427,36 @@ export default async function SuiteLandingPage() {
                                     Verify
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Automated analysis of on-chain data,
+                                    We automatically analyze on-chain data,
                                     GitHub activity, npm downloads, and social signals
-                                </p>
-                            </div>
-                            <div className="text-center">
-                                <div className="w-16 h-16 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
-                                    <span className="text-2xl font-bold text-purple-500 font-mono">
-                                        2
-                                    </span>
-                                </div>
-                                <h3 className="text-lg font-semibold text-foreground mb-2">
-                                    Index
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Companies ranked on real metrics,
-                                    not marketing claims
                                 </p>
                             </div>
                             <div className="text-center">
                                 <div className="w-16 h-16 rounded-full bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center mx-auto mb-4">
                                     <span className="text-2xl font-bold text-cyan-400 font-mono">
-                                        3
+                                        2
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
                                     Curate
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Analyze yields with risk scoring,
-                                    stability, and liquidity assessment
+                                    Browse yield pools with risk scoring,
+                                    APY stability, and liquidity risk assessment
                                 </p>
                             </div>
                             <div className="text-center">
                                 <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto mb-4">
                                     <span className="text-2xl font-bold text-emerald-500 font-mono">
-                                        4
+                                        3
                                     </span>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">
                                     Discover
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    AI-powered synergy matching based on
-                                    verified compatibility
+                                    Find synergy opportunities with AI-powered
+                                    compatibility matching
                                 </p>
                             </div>
                         </div>
@@ -635,7 +568,7 @@ export default async function SuiteLandingPage() {
                             <div>
                                 <p className="text-2xl mb-2">🌐</p>
                                 <p className="text-sm font-semibold text-foreground mb-1">
-                                    Built for Web3, by Web3
+                                    Built for DeFi curators
                                 </p>
                             </div>
                         </div>
@@ -654,10 +587,10 @@ export default async function SuiteLandingPage() {
                     </h2>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                         <Link
-                            href="/cindex"
+                            href="/curate"
                             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
                         >
-                            Explore Verified Companies
+                            Explore DeFi Intelligence
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                         <SynergyCTA variant="secondary" />
@@ -736,27 +669,18 @@ export default async function SuiteLandingPage() {
                             <ul className="space-y-2">
                                 <li>
                                     <Link
-                                        href="/cindex"
-                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        Index
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/cindex/companies"
-                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        Company Directory
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
                                         href="/curate"
-                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
-                                        Curate
-                                        <span className="text-[10px] px-1 py-0.5 rounded bg-cyan-400/10 text-cyan-400 border border-cyan-400/30">Beta</span>
+                                        Yields
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/curate/protocols"
+                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                        Protocol Directory
                                     </Link>
                                 </li>
                                 <li>

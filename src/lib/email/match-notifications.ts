@@ -213,7 +213,7 @@ export async function sendWelcomeEmail(data: {
       </p>
 
       <p style="font-size: 16px; color: #374151; line-height: 1.6; margin: 0 0 24px 0;">
-        You've successfully claimed <strong>${companyName}</strong>. You can now discover AI-powered synergy opportunities with other Web3 companies.
+        You've successfully claimed <strong>${companyName}</strong>. You can now discover AI-powered synergy opportunities with other DeFi protocols.
       </p>
 
       <div style="background-color: #f3f4f6; border-radius: 8px; padding: 16px; margin-bottom: 24px;">

@@ -7,7 +7,7 @@ import {
     Link2,
     Users,
     X,
-    Brain,
+    Percent,
     List,
     TrendingUp,
     Home,
@@ -17,18 +17,14 @@ import {
     MessageCircle,
     Lock,
     Award,
-    GitBranch,
-    Network,
-    Search,
-    DollarSign,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-const indexNav = [
-    { name: "Spotlight", href: "/cindex", icon: TrendingUp },
-    { name: "Companies", href: "/cindex/companies", icon: List },
+const curateNav = [
+    { name: "Yields", href: "/curate", icon: Percent },
+    { name: "Protocols", href: "/curate/protocols", icon: Building2 },
 ];
 
 const synergyNav = [
@@ -42,12 +38,6 @@ const synergyNav = [
     },
 ];
 
-const curateNav = [
-    { name: "Graph", href: "/curate", icon: Network },
-    { name: "Explorer", href: "/curate/explorer", icon: Search },
-    { name: "DeFi", href: "/curate/defi", icon: DollarSign },
-];
-
 interface DashboardSidebarProps {
     isOpen: boolean;
     onClose: () => void;
@@ -55,9 +45,8 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
     const pathname = usePathname();
-    const isIndex = pathname.startsWith("/cindex");
-    const isSynergy = pathname.startsWith("/synergy");
     const isCurate = pathname.startsWith("/curate");
+    const isSynergy = pathname.startsWith("/synergy");
     const { data: session } = useSession();
     const [hasClaimed, setHasClaimed] = useState(false);
 
@@ -106,7 +95,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                             onClick={onClose}
                             className={cn(
                                 "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all",
-                                !isIndex && !isSynergy && !isCurate
+                                !isCurate && !isSynergy
                                     ? "bg-gray-100 text-foreground"
                                     : "text-foreground/90 hover:bg-gray-50 hover:text-foreground"
                             )}
@@ -132,51 +121,11 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                             </Link>
                         )}
 
-                        {/* INDEX Section */}
-                        <div>
-                            <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                <Brain className="h-4 w-4 text-purple-600" />
-                                Index
-                            </div>
-                            <div className="space-y-1">
-                                {indexNav.map((item) => {
-                                    const isActive =
-                                        item.href === "/cindex"
-                                            ? pathname === "/cindex"
-                                            : pathname === item.href ||
-                                              pathname.startsWith(
-                                                  item.href + "/"
-                                              );
-                                    const Icon = item.icon;
-
-                                    return (
-                                        <Link
-                                            key={item.name}
-                                            href={item.href}
-                                            onClick={onClose}
-                                            className={cn(
-                                                "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all",
-                                                isActive
-                                                    ? "text-white bg-purple-600 shadow-lg shadow-purple-600/40"
-                                                    : "text-foreground/90 hover:bg-gray-50 hover:text-foreground"
-                                            )}
-                                        >
-                                            <Icon className="mr-3 h-5 w-5" />
-                                            {item.name}
-                                        </Link>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
                         {/* CURATE Section */}
                         <div>
                             <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                <GitBranch className="h-4 w-4 text-cyan-600" />
+                                <Percent className="h-4 w-4 text-cyan-600" />
                                 Curate
-                                <span className="ml-auto text-[10px] normal-case text-cyan-600 flex items-center gap-1">
-                                    Beta
-                                </span>
                             </div>
                             <div className="space-y-1">
                                 {curateNav.map((item) => {
@@ -298,7 +247,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                         href="/"
                         className={cn(
                             "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all",
-                            !isIndex && !isSynergy && !isCurate
+                            !isCurate && !isSynergy
                                 ? "bg-gray-100 text-foreground"
                                 : "text-foreground/90 hover:bg-gray-50 hover:text-foreground"
                         )}
@@ -323,44 +272,10 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                         </Link>
                     )}
 
-                    {/* INDEX Section */}
-                    <div>
-                        <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                            <Brain className="h-4 w-4 text-purple-600" />
-                            Index
-                        </div>
-                        <div className="space-y-1">
-                            {indexNav.map((item) => {
-                                const isActive =
-                                    item.href === "/cindex"
-                                        ? pathname === "/cindex"
-                                        : pathname === item.href ||
-                                          pathname.startsWith(item.href + "/");
-                                const Icon = item.icon;
-
-                                return (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        className={cn(
-                                            "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all",
-                                            isActive
-                                                ? "text-white bg-purple-600 shadow-lg shadow-purple-600/40"
-                                                : "text-foreground/90 hover:bg-gray-50 hover:text-foreground"
-                                        )}
-                                    >
-                                        <Icon className="mr-3 h-5 w-5" />
-                                        {item.name}
-                                    </Link>
-                                );
-                            })}
-                        </div>
-                    </div>
-
                     {/* CURATE Section */}
                     <div>
                         <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                            <GitBranch className="h-4 w-4 text-cyan-600" />
+                            <Percent className="h-4 w-4 text-cyan-600" />
                             Curate
                         </div>
                         <div className="space-y-1">

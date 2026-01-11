@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { useSession, signOut } from "next-auth/react";
-import { LogIn, LogOut, Lock, FolderTree, Brain, Link2 } from "lucide-react";
+import { LogIn, LogOut, Lock, FolderTree, Building2, Link2, Percent } from "lucide-react";
 
 export function CurateLayoutClient({
     children,
@@ -40,18 +40,18 @@ export function CurateLayoutClient({
                                 </svg>
                             </a>
                             <Link
-                                href="/cindex"
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
-                            >
-                                <Brain className="h-3.5 w-3.5" />
-                                Index
-                            </Link>
-                            <Link
                                 href="/curate"
                                 className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors hidden sm:flex items-center gap-1.5"
                             >
-                                <FolderTree className="h-3.5 w-3.5" />
-                                Curate
+                                <Percent className="h-3.5 w-3.5" />
+                                Yields
+                            </Link>
+                            <Link
+                                href="/curate/protocols"
+                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
+                            >
+                                <Building2 className="h-3.5 w-3.5" />
+                                Protocols
                             </Link>
                             <Link
                                 href="/synergy"
