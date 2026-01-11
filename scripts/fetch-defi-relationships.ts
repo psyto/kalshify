@@ -13,6 +13,7 @@ import * as path from "path";
 // DeFiLlama API endpoints
 const DEFILLAMA_PROTOCOLS_API = "https://api.llama.fi/protocols";
 const DEFILLAMA_YIELDS_API = "https://yields.llama.fi/pools";
+const DEFILLAMA_CHART_API = "https://yields.llama.fi/chart"; // /{poolId} for historical data
 
 // Types
 interface DefiLlamaProtocol {
@@ -47,6 +48,28 @@ interface YieldPool {
     stablecoin?: boolean;
 }
 
+// Historical chart data point from DeFiLlama
+interface ChartDataPoint {
+    timestamp: string;
+    tvlUsd: number;
+    apy: number;
+    apyBase: number | null;
+    apyReward: number | null;
+    il7d: number | null;
+    apyBase7d: number | null;
+}
+
+// APY Stability metrics
+interface ApyStability {
+    score: number;              // 0-100, higher = more stable
+    volatility: number;         // Standard deviation of APY
+    avgApy: number;             // Average APY over period
+    minApy: number;             // Minimum APY observed
+    maxApy: number;             // Maximum APY observed
+    trend: "up" | "down" | "stable";  // Recent trend direction
+    dataPoints: number;         // Number of data points used
+}
+
 interface PoolDependency {
     type: "protocol" | "asset" | "oracle" | "chain";
     name: string;
@@ -74,12 +97,14 @@ interface ProcessedYieldPool {
     stablecoin: boolean;
     ilRisk: string;
     poolMeta: string;
-    // New fields for curator decision making
+    // Risk scoring fields
     riskScore: number;           // 1-100, lower = safer
     riskLevel: "low" | "medium" | "high" | "very_high";
     riskBreakdown: RiskBreakdown;
     dependencies: PoolDependency[];
     underlyingAssets: string[];
+    // APY Stability fields (from historical data)
+    apyStability: ApyStability | null;  // null if no historical data available
 }
 
 interface DefiRelationship {
@@ -200,6 +225,139 @@ async function fetchYieldPools(): Promise<YieldPool[]> {
     console.log(`   ✅ Fetched ${pools.length} yield pools`);
 
     return pools;
+}
+
+async function fetchPoolHistory(poolId: string): Promise<ChartDataPoint[]> {
+    try {
+        const response = await fetch(`${DEFILLAMA_CHART_API}/${poolId}`);
+        if (!response.ok) {
+            return [];
+        }
+        const data = await response.json();
+        return data.data || [];
+    } catch {
+        return [];
+    }
+}
+
+function calculateApyStability(history: ChartDataPoint[], days: number = 30): ApyStability | null {
+    if (!history || history.length < 7) {
+        return null; // Not enough data for meaningful stability calculation
+    }
+
+    // Get last N days of data
+    const recentHistory = history.slice(-days);
+    const apyValues = recentHistory
+        .map(d => d.apy)
+        .filter(apy => apy !== null && apy !== undefined && !isNaN(apy) && apy >= 0);
+
+    if (apyValues.length < 7) {
+        return null;
+    }
+
+    // Calculate statistics
+    const avg = apyValues.reduce((a, b) => a + b, 0) / apyValues.length;
+    const min = Math.min(...apyValues);
+    const max = Math.max(...apyValues);
+
+    // Calculate standard deviation
+    const squaredDiffs = apyValues.map(apy => Math.pow(apy - avg, 2));
+    const avgSquaredDiff = squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length;
+    const stdDev = Math.sqrt(avgSquaredDiff);
+
+    // Calculate coefficient of variation (CV) for normalized volatility
+    // CV = (stdDev / mean) * 100, but handle zero/low mean cases
+    const cv = avg > 0.1 ? (stdDev / avg) * 100 : stdDev * 10;
+
+    // Calculate trend (compare first week avg vs last week avg)
+    const firstWeek = apyValues.slice(0, 7);
+    const lastWeek = apyValues.slice(-7);
+    const firstWeekAvg = firstWeek.reduce((a, b) => a + b, 0) / firstWeek.length;
+    const lastWeekAvg = lastWeek.reduce((a, b) => a + b, 0) / lastWeek.length;
+
+    let trend: "up" | "down" | "stable";
+    const trendThreshold = 0.1; // 10% change threshold
+    if (lastWeekAvg > firstWeekAvg * (1 + trendThreshold)) {
+        trend = "up";
+    } else if (lastWeekAvg < firstWeekAvg * (1 - trendThreshold)) {
+        trend = "down";
+    } else {
+        trend = "stable";
+    }
+
+    // Convert CV to stability score (0-100, higher = more stable)
+    // CV of 0% = 100 score (perfect stability)
+    // CV of 50% = 50 score (moderate volatility)
+    // CV of 100%+ = 0 score (high volatility)
+    const stabilityScore = Math.max(0, Math.min(100, 100 - cv));
+
+    return {
+        score: Math.round(stabilityScore),
+        volatility: Math.round(stdDev * 100) / 100,
+        avgApy: Math.round(avg * 100) / 100,
+        minApy: Math.round(min * 100) / 100,
+        maxApy: Math.round(max * 100) / 100,
+        trend,
+        dataPoints: apyValues.length,
+    };
+}
+
+async function fetchHistoricalDataForPools(
+    pools: ProcessedYieldPool[],
+    maxPools: number = 500
+): Promise<Map<string, ApyStability>> {
+    console.log(`\n📈 Fetching historical APY data for top ${maxPools} pools...`);
+
+    // Only fetch for pools with significant TVL to avoid rate limits
+    const topPools = pools
+        .filter(p => p.tvlUsd >= 1_000_000) // $1M+ TVL
+        .slice(0, maxPools);
+
+    console.log(`   Processing ${topPools.length} pools with >$1M TVL`);
+
+    const stabilityMap = new Map<string, ApyStability>();
+    let processed = 0;
+    let withData = 0;
+
+    // Process in batches to avoid overwhelming the API
+    const batchSize = 10;
+    const delayBetweenBatches = 500; // 500ms between batches
+
+    for (let i = 0; i < topPools.length; i += batchSize) {
+        const batch = topPools.slice(i, i + batchSize);
+
+        // Fetch batch in parallel
+        const results = await Promise.all(
+            batch.map(async (pool) => {
+                const history = await fetchPoolHistory(pool.id);
+                const stability = calculateApyStability(history);
+                return { poolId: pool.id, stability };
+            })
+        );
+
+        // Store results
+        for (const { poolId, stability } of results) {
+            if (stability) {
+                stabilityMap.set(poolId, stability);
+                withData++;
+            }
+        }
+
+        processed += batch.length;
+
+        // Progress update every 100 pools
+        if (processed % 100 === 0 || processed === topPools.length) {
+            console.log(`   Progress: ${processed}/${topPools.length} pools (${withData} with stability data)`);
+        }
+
+        // Delay between batches (skip on last batch)
+        if (i + batchSize < topPools.length) {
+            await new Promise(resolve => setTimeout(resolve, delayBetweenBatches));
+        }
+    }
+
+    console.log(`   ✅ Got stability data for ${withData} pools`);
+    return stabilityMap;
 }
 
 function buildParentChildRelationships(protocols: DefiLlamaProtocol[]): DefiRelationship[] {
@@ -499,6 +657,7 @@ function processYieldPools(pools: YieldPool[], protocolSlugs: Set<string>): Proc
             riskBreakdown: breakdown,
             dependencies,
             underlyingAssets,
+            apyStability: null, // Will be populated with historical data
         });
     }
 
@@ -574,6 +733,17 @@ async function main() {
         const protocolSlugs = new Set(Object.keys(protocolData));
         const processedYields = processYieldPools(yieldPools, protocolSlugs);
         console.log(`   📊 Processed ${processedYields.length} yield pools with >$100K TVL`);
+
+        // Fetch historical data for APY stability scores
+        const stabilityMap = await fetchHistoricalDataForPools(processedYields, 500);
+
+        // Attach stability data to pools
+        for (const pool of processedYields) {
+            const stability = stabilityMap.get(pool.id);
+            if (stability) {
+                pool.apyStability = stability;
+            }
+        }
 
         // Get unique chains from yields
         const chains = [...new Set(processedYields.map(y => y.chain))].sort();
@@ -684,6 +854,63 @@ async function main() {
                 ? `$${(pool.tvlUsd / 1_000_000_000).toFixed(1)}B`
                 : `$${(pool.tvlUsd / 1_000_000).toFixed(0)}M`;
             console.log(`   Risk:${pool.riskScore} | ${pool.project} | ${pool.symbol} | ${pool.apy.toFixed(2)}% APY | ${tvlStr}`);
+        }
+
+        // Print APY stability distribution
+        const poolsWithStability = processedYields.filter(p => p.apyStability !== null);
+        console.log(`\n📈 APY STABILITY (${poolsWithStability.length} pools with data):`);
+
+        const stabilityCounts = { high: 0, medium: 0, low: 0, volatile: 0 };
+        for (const pool of poolsWithStability) {
+            const score = pool.apyStability!.score;
+            if (score >= 80) stabilityCounts.high++;
+            else if (score >= 50) stabilityCounts.medium++;
+            else if (score >= 20) stabilityCounts.low++;
+            else stabilityCounts.volatile++;
+        }
+        console.log(`   High Stability (80-100):    ${stabilityCounts.high} pools`);
+        console.log(`   Medium Stability (50-79):   ${stabilityCounts.medium} pools`);
+        console.log(`   Low Stability (20-49):      ${stabilityCounts.low} pools`);
+        console.log(`   Volatile (<20):             ${stabilityCounts.volatile} pools`);
+
+        // Print most stable pools with good APY
+        console.log("\n📊 MOST STABLE + HIGH APY (Stability > 70, APY > 5%):");
+        const stableHighApy = processedYields
+            .filter(p => p.apyStability && p.apyStability.score >= 70 && p.apy >= 5)
+            .sort((a, b) => (b.apyStability!.score * b.apy) - (a.apyStability!.score * a.apy))
+            .slice(0, 10);
+        for (const pool of stableHighApy) {
+            const tvlStr = pool.tvlUsd > 1_000_000_000
+                ? `$${(pool.tvlUsd / 1_000_000_000).toFixed(1)}B`
+                : `$${(pool.tvlUsd / 1_000_000).toFixed(0)}M`;
+            const stability = pool.apyStability!;
+            const trendIcon = stability.trend === "up" ? "↑" : stability.trend === "down" ? "↓" : "→";
+            console.log(`   Stab:${stability.score} ${trendIcon} | ${pool.project} | ${pool.symbol} | ${pool.apy.toFixed(2)}% APY (${stability.minApy}-${stability.maxApy}%) | ${tvlStr}`);
+        }
+
+        // Print optimal curator picks (low risk + high stability + decent APY)
+        console.log("\n🎯 OPTIMAL CURATOR PICKS (Low Risk + High Stability + APY > 3%):");
+        const optimalPicks = processedYields
+            .filter(p =>
+                p.riskLevel === "low" &&
+                p.apyStability &&
+                p.apyStability.score >= 60 &&
+                p.apy >= 3
+            )
+            .sort((a, b) => {
+                // Score = APY * stability * (100 - risk) / 10000
+                const scoreA = a.apy * a.apyStability!.score * (100 - a.riskScore);
+                const scoreB = b.apy * b.apyStability!.score * (100 - b.riskScore);
+                return scoreB - scoreA;
+            })
+            .slice(0, 10);
+        for (const pool of optimalPicks) {
+            const tvlStr = pool.tvlUsd > 1_000_000_000
+                ? `$${(pool.tvlUsd / 1_000_000_000).toFixed(1)}B`
+                : `$${(pool.tvlUsd / 1_000_000).toFixed(0)}M`;
+            const stability = pool.apyStability!;
+            const trendIcon = stability.trend === "up" ? "↑" : stability.trend === "down" ? "↓" : "→";
+            console.log(`   Risk:${pool.riskScore} Stab:${stability.score}${trendIcon} | ${pool.project} | ${pool.symbol} | ${pool.apy.toFixed(2)}% APY | ${tvlStr}`);
         }
 
         console.log("\n" + "=".repeat(60));

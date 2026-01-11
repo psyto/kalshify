@@ -39,6 +39,16 @@ interface RiskBreakdown {
     protocolScore: number;
 }
 
+interface ApyStability {
+    score: number;              // 0-100, higher = more stable
+    volatility: number;         // Standard deviation of APY
+    avgApy: number;             // Average APY over period
+    minApy: number;             // Minimum APY observed
+    maxApy: number;             // Maximum APY observed
+    trend: "up" | "down" | "stable";  // Recent trend direction
+    dataPoints: number;         // Number of data points used
+}
+
 interface YieldPool {
     id: string;
     chain: string;
@@ -57,6 +67,7 @@ interface YieldPool {
     riskBreakdown: RiskBreakdown;
     dependencies: PoolDependency[];
     underlyingAssets: string[];
+    apyStability: ApyStability | null;
 }
 
 interface DefiRelationshipData {
@@ -103,8 +114,13 @@ export async function GET(request: Request) {
     const stablecoinOnly = searchParams.get("stablecoinOnly") === "true";
     const riskLevel = searchParams.get("riskLevel"); // low, medium, high, very_high
     const maxRiskScore = parseInt(searchParams.get("maxRiskScore") || "100");
-    const sortBy = searchParams.get("sortBy") || "tvl"; // tvl, apy, risk
+    const sortBy = searchParams.get("sortBy") || "tvl"; // tvl, apy, risk, stability
     const yieldLimit = parseInt(searchParams.get("yieldLimit") || "100");
+
+    // Stability filters
+    const minStability = parseInt(searchParams.get("minStability") || "0");
+    const stableOnly = searchParams.get("stableOnly") === "true"; // Only pools with stability data
+    const trend = searchParams.get("trend"); // up, down, stable
 
     const data = loadDefiData();
 
@@ -193,11 +209,35 @@ export async function GET(request: Request) {
         filteredYields = filteredYields.filter(y => y.riskScore <= maxRiskScore);
     }
 
+    // Stability filtering
+    if (stableOnly) {
+        filteredYields = filteredYields.filter(y => y.apyStability !== null);
+    }
+
+    if (minStability > 0) {
+        filteredYields = filteredYields.filter(y =>
+            y.apyStability && y.apyStability.score >= minStability
+        );
+    }
+
+    if (trend) {
+        filteredYields = filteredYields.filter(y =>
+            y.apyStability && y.apyStability.trend === trend
+        );
+    }
+
     // Sort yields
     if (sortBy === "apy") {
         filteredYields = filteredYields.sort((a, b) => b.apy - a.apy);
     } else if (sortBy === "risk") {
         filteredYields = filteredYields.sort((a, b) => a.riskScore - b.riskScore);
+    } else if (sortBy === "stability") {
+        // Sort by stability score (highest first), pools without data go to end
+        filteredYields = filteredYields.sort((a, b) => {
+            const aScore = a.apyStability?.score ?? -1;
+            const bScore = b.apyStability?.score ?? -1;
+            return bScore - aScore;
+        });
     } else {
         filteredYields = filteredYields.sort((a, b) => b.tvlUsd - a.tvlUsd);
     }

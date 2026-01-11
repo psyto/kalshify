@@ -5,6 +5,7 @@ import { DependencyGraph, GraphNode, GraphLink } from "@/components/curate/depen
 import {
     Network,
     TrendingUp,
+    TrendingDown,
     Link2,
     Loader2,
     DollarSign,
@@ -19,6 +20,8 @@ import {
     ChevronDown,
     ChevronUp,
     Layers,
+    Activity,
+    ArrowRight,
 } from "lucide-react";
 
 interface PoolDependency {
@@ -33,6 +36,16 @@ interface RiskBreakdown {
     stableScore: number;
     ilScore: number;
     protocolScore: number;
+}
+
+interface ApyStability {
+    score: number;
+    volatility: number;
+    avgApy: number;
+    minApy: number;
+    maxApy: number;
+    trend: "up" | "down" | "stable";
+    dataPoints: number;
 }
 
 interface DefiProtocol {
@@ -71,6 +84,7 @@ interface YieldPool {
     riskBreakdown: RiskBreakdown;
     dependencies: PoolDependency[];
     underlyingAssets: string[];
+    apyStability: ApyStability | null;
 }
 
 interface DefiGraphData {
@@ -158,6 +172,37 @@ function RiskBadge({ level, score }: { level: string; score: number }) {
     );
 }
 
+function StabilityBadge({ stability }: { stability: ApyStability | null }) {
+    if (!stability) {
+        return (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-slate-700/50 text-slate-500 border border-slate-600/30">
+                —
+            </span>
+        );
+    }
+
+    const { score, trend } = stability;
+
+    // Color based on stability score (higher = more stable = better)
+    const getColors = () => {
+        if (score >= 80) return { bg: "bg-green-500/10", text: "text-green-400", border: "border-green-500/30" };
+        if (score >= 50) return { bg: "bg-cyan-500/10", text: "text-cyan-400", border: "border-cyan-500/30" };
+        if (score >= 20) return { bg: "bg-yellow-500/10", text: "text-yellow-400", border: "border-yellow-500/30" };
+        return { bg: "bg-orange-500/10", text: "text-orange-400", border: "border-orange-500/30" };
+    };
+
+    const colors = getColors();
+    const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : ArrowRight;
+
+    return (
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium ${colors.bg} ${colors.text} border ${colors.border}`}>
+            <Activity className="h-3 w-3" />
+            {score}
+            <TrendIcon className="h-3 w-3 ml-0.5" />
+        </span>
+    );
+}
+
 function DependencyChips({ dependencies }: { dependencies: PoolDependency[] }) {
     const protocols = dependencies.filter(d => d.type === "protocol");
     const assets = dependencies.filter(d => d.type === "asset");
@@ -189,11 +234,11 @@ function DependencyChips({ dependencies }: { dependencies: PoolDependency[] }) {
 }
 
 function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
-    const { riskBreakdown } = pool;
+    const { riskBreakdown, apyStability } = pool;
 
     return (
         <div className="bg-slate-800/50 p-4 border-t border-slate-700">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Risk Breakdown */}
                 <div>
                     <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
@@ -238,6 +283,56 @@ function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
                             </span>
                         </div>
                     </div>
+                </div>
+
+                {/* APY Stability */}
+                <div>
+                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                        <Activity className="h-4 w-4 text-cyan-400" />
+                        APY Stability (Higher = More Stable)
+                    </h4>
+                    {apyStability ? (
+                        <div className="space-y-2">
+                            <div className="flex justify-between text-xs">
+                                <span className="text-slate-400">Stability Score</span>
+                                <span className={apyStability.score >= 80 ? "text-green-400" : apyStability.score >= 50 ? "text-cyan-400" : apyStability.score >= 20 ? "text-yellow-400" : "text-orange-400"}>
+                                    {apyStability.score}/100
+                                </span>
+                            </div>
+                            <div className="flex justify-between text-xs">
+                                <span className="text-slate-400">APY Volatility (σ)</span>
+                                <span className="text-slate-300">±{apyStability.volatility}%</span>
+                            </div>
+                            <div className="flex justify-between text-xs">
+                                <span className="text-slate-400">30-Day Avg APY</span>
+                                <span className="text-slate-300">{apyStability.avgApy}%</span>
+                            </div>
+                            <div className="flex justify-between text-xs">
+                                <span className="text-slate-400">APY Range</span>
+                                <span className="text-slate-300">{apyStability.minApy}% - {apyStability.maxApy}%</span>
+                            </div>
+                            <div className="flex justify-between text-xs">
+                                <span className="text-slate-400">Recent Trend</span>
+                                <span className={`flex items-center gap-1 ${
+                                    apyStability.trend === "up" ? "text-green-400" :
+                                    apyStability.trend === "down" ? "text-red-400" : "text-slate-400"
+                                }`}>
+                                    {apyStability.trend === "up" && <TrendingUp className="h-3 w-3" />}
+                                    {apyStability.trend === "down" && <TrendingDown className="h-3 w-3" />}
+                                    {apyStability.trend === "stable" && <ArrowRight className="h-3 w-3" />}
+                                    {apyStability.trend.charAt(0).toUpperCase() + apyStability.trend.slice(1)}
+                                </span>
+                            </div>
+                            <div className="flex justify-between text-xs">
+                                <span className="text-slate-400">Data Points</span>
+                                <span className="text-slate-500">{apyStability.dataPoints} days</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-xs text-slate-500 italic">
+                            No historical data available for this pool.
+                        </div>
+                    )}
                 </div>
 
                 {/* Dependencies */}
@@ -291,7 +386,7 @@ function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
 }
 
 type TabType = "yields" | "graph";
-type SortField = "tvl" | "apy" | "risk";
+type SortField = "tvl" | "apy" | "risk" | "stability";
 
 export default function DefiRelationshipsPage() {
     const [graphData, setGraphData] = useState<DefiGraphData | null>(null);
@@ -497,6 +592,7 @@ export default function DefiRelationshipsPage() {
                                     <option value="tvl">Sort by TVL</option>
                                     <option value="apy">Sort by APY</option>
                                     <option value="risk">Sort by Risk (Safest)</option>
+                                    <option value="stability">Sort by Stability</option>
                                 </select>
                             </div>
 
@@ -583,6 +679,7 @@ export default function DefiRelationshipsPage() {
                                         <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase">TVL</th>
                                         <th className="text-right px-4 py-3 text-xs font-semibold text-slate-400 uppercase">APY</th>
                                         <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Risk</th>
+                                        <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Stability</th>
                                         <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase hidden lg:table-cell">Dependencies</th>
                                         <th className="text-center px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Details</th>
                                     </tr>
@@ -620,6 +717,9 @@ export default function DefiRelationshipsPage() {
                                                 <td className="px-4 py-3 text-center">
                                                     <RiskBadge level={pool.riskLevel} score={pool.riskScore} />
                                                 </td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <StabilityBadge stability={pool.apyStability} />
+                                                </td>
                                                 <td className="px-4 py-3 hidden lg:table-cell">
                                                     <DependencyChips dependencies={pool.dependencies} />
                                                 </td>
@@ -638,7 +738,7 @@ export default function DefiRelationshipsPage() {
                                             </tr>
                                             {expandedPool === pool.id && (
                                                 <tr key={`${pool.id}-expanded`}>
-                                                    <td colSpan={7} className="p-0">
+                                                    <td colSpan={8} className="p-0">
                                                         <ExpandedPoolDetails pool={pool} />
                                                     </td>
                                                 </tr>
