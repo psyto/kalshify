@@ -27,6 +27,8 @@ import {
 } from "lucide-react";
 import { WatchlistButton } from "@/components/curate/watchlist-button";
 import { ApyHistoryChart } from "@/components/curate/apy-history-chart";
+import { CompareBar } from "@/components/curate/compare-bar";
+import { PoolComparisonPanel } from "@/components/curate/pool-comparison-panel";
 
 interface PoolDependency {
     type: "protocol" | "asset" | "oracle" | "chain";
@@ -425,6 +427,10 @@ export default function CuratePage() {
     const [watchlistPoolIds, setWatchlistPoolIds] = useState<Set<string>>(new Set());
     const [watchlistLoading, setWatchlistLoading] = useState(false);
 
+    // Comparison state
+    const [selectedPoolIds, setSelectedPoolIds] = useState<Set<string>>(new Set());
+    const [comparisonOpen, setComparisonOpen] = useState(false);
+
     // Filters
     const [chain, setChain] = useState("");
     const [minTvl, setMinTvl] = useState(1_000_000);
@@ -468,6 +474,19 @@ export default function CuratePage() {
         });
     }, []);
 
+    // Handle pool selection for comparison
+    const handlePoolSelect = useCallback((poolId: string) => {
+        setSelectedPoolIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(poolId)) {
+                next.delete(poolId);
+            } else if (next.size < 3) {
+                next.add(poolId);
+            }
+            return next;
+        });
+    }, []);
+
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
@@ -505,6 +524,9 @@ export default function CuratePage() {
         }
         return true;
     }) || [];
+
+    // Get selected pools data for comparison
+    const selectedPools = filteredYields.filter((pool) => selectedPoolIds.has(pool.id));
 
     const riskStats = filteredYields.reduce(
         (acc, y) => {
@@ -756,6 +778,7 @@ export default function CuratePage() {
                             <table className="w-full">
                                 <thead className="bg-slate-800/50">
                                     <tr>
+                                        <th className="text-center px-2 py-3 w-10"></th>
                                         <th className="text-center px-2 py-3 text-xs font-semibold text-slate-400 uppercase w-10"></th>
                                         <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Pool</th>
                                         <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase">Chain</th>
@@ -772,6 +795,15 @@ export default function CuratePage() {
                                     {filteredYields.map((pool) => (
                                         <Fragment key={pool.id}>
                                             <tr className="hover:bg-slate-800/30 transition-colors">
+                                                <td className="px-2 py-3 text-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedPoolIds.has(pool.id)}
+                                                        onChange={() => handlePoolSelect(pool.id)}
+                                                        disabled={!selectedPoolIds.has(pool.id) && selectedPoolIds.size >= 3}
+                                                        className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-0 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                                                    />
+                                                </td>
                                                 <td className="px-2 py-3 text-center">
                                                     <WatchlistButton
                                                         poolId={pool.id}
@@ -836,7 +868,7 @@ export default function CuratePage() {
                                             </tr>
                                             {expandedPool === pool.id && (
                                                 <tr>
-                                                    <td colSpan={10} className="p-0">
+                                                    <td colSpan={11} className="p-0">
                                                         <ExpandedPoolDetails pool={pool} />
                                                     </td>
                                                 </tr>
@@ -862,6 +894,20 @@ export default function CuratePage() {
                     </div>
                 </>
             )}
+
+            {/* Compare Bar */}
+            <CompareBar
+                count={selectedPoolIds.size}
+                onCompare={() => setComparisonOpen(true)}
+                onClear={() => setSelectedPoolIds(new Set())}
+            />
+
+            {/* Comparison Panel */}
+            <PoolComparisonPanel
+                pools={selectedPools}
+                isOpen={comparisonOpen}
+                onClose={() => setComparisonOpen(false)}
+            />
         </div>
     );
 }
