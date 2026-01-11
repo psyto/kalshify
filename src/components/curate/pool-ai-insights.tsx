@@ -17,9 +17,10 @@ interface PoolInsight {
 
 interface PoolAIInsightsProps {
     poolId: string;
+    isLoggedIn?: boolean;
 }
 
-export function PoolAIInsights({ poolId }: PoolAIInsightsProps) {
+export function PoolAIInsights({ poolId, isLoggedIn = true }: PoolAIInsightsProps) {
     const [insight, setInsight] = useState<PoolInsight | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -51,8 +52,24 @@ export function PoolAIInsights({ poolId }: PoolAIInsightsProps) {
     };
 
     useEffect(() => {
-        fetchInsight();
-    }, [poolId]);
+        if (isLoggedIn) {
+            fetchInsight();
+        }
+    }, [poolId, isLoggedIn]);
+
+    if (!isLoggedIn) {
+        return (
+            <div className="bg-slate-800/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="h-4 w-4 text-cyan-400" />
+                    <h4 className="text-sm font-semibold text-white">AI Analysis</h4>
+                </div>
+                <p className="text-sm text-slate-400">
+                    Sign in to access AI-powered pool insights and risk analysis.
+                </p>
+            </div>
+        );
+    }
 
     if (loading) {
         return (

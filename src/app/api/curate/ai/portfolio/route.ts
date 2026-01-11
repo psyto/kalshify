@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
 import { getYieldAdvisor } from "@/lib/ai/yield-advisor";
 import { PortfolioRequest, PoolForAI } from "@/lib/ai/types";
 
@@ -36,6 +37,11 @@ async function fetchPools(): Promise<PoolForAI[]> {
 
 export async function POST(request: Request) {
     try {
+        const user = await getCurrentUser();
+        if (!user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const advisor = getYieldAdvisor();
 
         if (!advisor.isAvailable()) {

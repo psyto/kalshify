@@ -29,6 +29,7 @@ interface AIRecommendationsSectionProps {
     hasPreferences: boolean;
     onSetPreferences: () => void;
     onPoolClick: (poolId: string) => void;
+    isLoggedIn?: boolean;
 }
 
 function formatTvl(tvl: number): string {
@@ -48,6 +49,7 @@ export function AIRecommendationsSection({
     hasPreferences,
     onSetPreferences,
     onPoolClick,
+    isLoggedIn = true,
 }: AIRecommendationsSectionProps) {
     const [recommendations, setRecommendations] = useState<PoolRecommendation[]>([]);
     const [summary, setSummary] = useState<string>("");
@@ -80,10 +82,10 @@ export function AIRecommendationsSection({
     };
 
     useEffect(() => {
-        if (hasPreferences) {
+        if (hasPreferences && isLoggedIn) {
             fetchRecommendations();
         }
-    }, [hasPreferences]);
+    }, [hasPreferences, isLoggedIn]);
 
     if (!hasPreferences) {
         return (
@@ -101,6 +103,11 @@ export function AIRecommendationsSection({
                 >
                     Set Preferences
                 </button>
+                {!isLoggedIn && (
+                    <p className="text-xs text-slate-500 mt-2">
+                        Sign in to save preferences and get personalized recommendations
+                    </p>
+                )}
             </div>
         );
     }

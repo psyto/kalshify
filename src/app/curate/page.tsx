@@ -136,6 +136,7 @@ function formatSafeAllocation(amount: number): string {
 }
 
 function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
+    const { data: session } = useSession();
     const { riskBreakdown, apyStability, liquidityRisk } = pool;
 
     return (
@@ -247,7 +248,7 @@ function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
 
             {/* AI Insights */}
             <div className="mt-6">
-                <PoolAIInsights poolId={pool.id} />
+                <PoolAIInsights poolId={pool.id} isLoggedIn={!!session?.user} />
             </div>
         </div>
     );
@@ -636,13 +637,12 @@ export default function CuratePage() {
             )}
 
             {/* AI Recommendations Section */}
-            {session?.user && (
-                <AIRecommendationsSection
-                    hasPreferences={hasPreferences}
-                    onSetPreferences={() => setPreferencesOpen(true)}
-                    onPoolClick={handleExpandFromPick}
-                />
-            )}
+            <AIRecommendationsSection
+                hasPreferences={hasPreferences}
+                onSetPreferences={() => setPreferencesOpen(true)}
+                onPoolClick={handleExpandFromPick}
+                isLoggedIn={!!session?.user}
+            />
 
             {/* All Pools Section */}
             <div className="flex items-center justify-between">
@@ -650,15 +650,13 @@ export default function CuratePage() {
                     <BarChart3 className="h-4 w-4 text-slate-500" />
                     <h2 className="text-sm font-semibold text-white">All Pools</h2>
                 </div>
-                {session?.user && (
-                    <button
-                        onClick={() => setPortfolioOpen(true)}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 rounded-lg text-sm text-purple-300 hover:border-purple-500/50 transition-colors"
-                    >
-                        <Sparkles className="h-4 w-4" />
-                        Portfolio Optimizer
-                    </button>
-                )}
+                <button
+                    onClick={() => setPortfolioOpen(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 rounded-lg text-sm text-purple-300 hover:border-purple-500/50 transition-colors"
+                >
+                    <Sparkles className="h-4 w-4" />
+                    Portfolio Optimizer
+                </button>
             </div>
 
             {/* Filters Row */}
@@ -926,6 +924,7 @@ export default function CuratePage() {
                 onClose={() => setPreferencesOpen(false)}
                 onSave={handleSavePreferences}
                 initialPreferences={userPreferences || undefined}
+                isLoggedIn={!!session?.user}
             />
 
             {/* Portfolio Optimizer */}
@@ -933,6 +932,7 @@ export default function CuratePage() {
                 isOpen={portfolioOpen}
                 onClose={() => setPortfolioOpen(false)}
                 onPoolClick={handleExpandFromPick}
+                isLoggedIn={!!session?.user}
             />
         </div>
     );

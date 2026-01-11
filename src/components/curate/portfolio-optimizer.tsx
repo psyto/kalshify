@@ -38,6 +38,7 @@ interface PortfolioOptimizerProps {
     isOpen: boolean;
     onClose: () => void;
     onPoolClick: (poolId: string) => void;
+    isLoggedIn?: boolean;
 }
 
 const RISK_COLORS: Record<string, string> = {
@@ -53,7 +54,7 @@ function formatUsd(amount: number): string {
     return `$${amount.toFixed(0)}`;
 }
 
-export function PortfolioOptimizer({ isOpen, onClose, onPoolClick }: PortfolioOptimizerProps) {
+export function PortfolioOptimizer({ isOpen, onClose, onPoolClick, isLoggedIn = true }: PortfolioOptimizerProps) {
     const [step, setStep] = useState<"input" | "loading" | "result">("input");
     const [totalAllocation, setTotalAllocation] = useState<string>("10000");
     const [riskTolerance, setRiskTolerance] = useState<"conservative" | "moderate" | "aggressive">("moderate");
@@ -218,10 +219,16 @@ export function PortfolioOptimizer({ isOpen, onClose, onPoolClick }: PortfolioOp
 
                                     <button
                                         onClick={handleOptimize}
-                                        className="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-medium rounded-lg transition-colors"
+                                        disabled={!isLoggedIn}
+                                        className="w-full py-3 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-medium rounded-lg transition-colors"
                                     >
                                         Optimize Portfolio
                                     </button>
+                                    {!isLoggedIn && (
+                                        <p className="text-xs text-center text-slate-500 mt-2">
+                                            Sign in to optimize your portfolio
+                                        </p>
+                                    )}
                                 </div>
                             )}
 

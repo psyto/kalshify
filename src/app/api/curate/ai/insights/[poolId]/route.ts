@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { getYieldAdvisor } from "@/lib/ai/yield-advisor";
 import { PoolForAI, PoolInsight } from "@/lib/ai/types";
@@ -102,6 +103,11 @@ export async function GET(
     { params }: { params: Promise<{ poolId: string }> }
 ) {
     try {
+        const user = await getCurrentUser();
+        if (!user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const { poolId } = await params;
 
         // Check cache first
@@ -201,6 +207,11 @@ export async function POST(
     { params }: { params: Promise<{ poolId: string }> }
 ) {
     try {
+        const user = await getCurrentUser();
+        if (!user?.id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const { poolId } = await params;
 
         // Delete cache to force regeneration

@@ -18,6 +18,7 @@ interface UserPreferencesPanelProps {
     onClose: () => void;
     onSave: (preferences: UserPreferences) => void;
     initialPreferences?: UserPreferences;
+    isLoggedIn?: boolean;
 }
 
 const CHAIN_OPTIONS = [
@@ -45,6 +46,7 @@ export function UserPreferencesPanel({
     onClose,
     onSave,
     initialPreferences,
+    isLoggedIn = true,
 }: UserPreferencesPanelProps) {
     const [preferences, setPreferences] = useState<UserPreferences>(
         initialPreferences || DEFAULT_PREFERENCES
@@ -254,12 +256,17 @@ export function UserPreferencesPanel({
                             {/* Save Button */}
                             <button
                                 onClick={handleSave}
-                                disabled={saving}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-slate-900 font-medium rounded-lg transition-colors"
+                                disabled={saving || !isLoggedIn}
+                                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-medium rounded-lg transition-colors"
                             >
                                 <Save className="h-4 w-4" />
                                 {saving ? "Saving..." : "Save Preferences"}
                             </button>
+                            {!isLoggedIn && (
+                                <p className="text-xs text-center text-slate-500 mt-2">
+                                    Sign in to save your preferences
+                                </p>
+                            )}
                         </div>
                     </motion.div>
                 </>
