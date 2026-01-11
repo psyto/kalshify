@@ -4,6 +4,10 @@ import { prisma } from "@/lib/db";
 import { getYieldAdvisor } from "@/lib/ai/yield-advisor";
 import { PoolForAI, PoolInsight } from "@/lib/ai/types";
 import { Prisma } from "@prisma/client";
+import { fetchPoolsForAI } from "@/lib/curate/fetch-pools";
+
+// DeFiLlama history API
+const DEFILLAMA_CHART_API = "https://yields.llama.fi/chart";
 
 // Fetch a specific pool and similar pools
 async function fetchPoolData(poolId: string): Promise<{
@@ -11,36 +15,8 @@ async function fetchPoolData(poolId: string): Promise<{
     similarPools: PoolForAI[];
     historicalData?: { date: string; apy: number }[];
 }> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-
-    // Fetch all pools
-    const poolsResponse = await fetch(`${baseUrl}/api/curate/defi?yieldLimit=200&minTvl=100000`, {
-        cache: "no-store",
-    });
-
-    if (!poolsResponse.ok) {
-        throw new Error("Failed to fetch pools");
-    }
-
-    const poolsData = await poolsResponse.json();
-    const pools: PoolForAI[] = poolsData.yields.map((p: Record<string, unknown>) => ({
-        id: p.id,
-        chain: p.chain,
-        project: p.project,
-        symbol: p.symbol,
-        tvlUsd: p.tvlUsd,
-        apy: p.apy,
-        apyBase: p.apyBase,
-        apyReward: p.apyReward,
-        stablecoin: p.stablecoin,
-        ilRisk: p.ilRisk,
-        riskScore: p.riskScore,
-        riskLevel: p.riskLevel,
-        riskBreakdown: p.riskBreakdown,
-        liquidityRisk: p.liquidityRisk,
-        apyStability: p.apyStability,
-        underlyingAssets: p.underlyingAssets,
-    }));
+    // Fetch pools directly from DeFiLlama (avoids self-referencing HTTP in serverless)
+    const pools = await fetchPoolsForAI({ limit: 200, minTvl: 100_000 });
 
     const pool = pools.find(p => p.id === poolId) || null;
 
@@ -57,18 +33,22 @@ async function fetchPoolData(poolId: string): Promise<{
         )
         .slice(0, 5);
 
-    // Fetch historical data
+    // Fetch historical data directly from DeFiLlama
     let historicalData: { date: string; apy: number }[] | undefined;
     try {
-        const historyResponse = await fetch(`${baseUrl}/api/curate/defi/history/${poolId}?days=30`, {
-            cache: "no-store",
+        const historyResponse = await fetch(`${DEFILLAMA_CHART_API}/${poolId}`, {
+            next: { revalidate: 300 }
         });
         if (historyResponse.ok) {
             const historyData = await historyResponse.json();
-            historicalData = historyData.data?.map((d: { timestamp: string; apy: number }) => ({
-                date: d.timestamp,
-                apy: d.apy,
-            }));
+            // Get last 30 days of data
+            const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+            historicalData = historyData.data
+                ?.filter((d: { timestamp: string }) => new Date(d.timestamp).getTime() > thirtyDaysAgo)
+                ?.map((d: { timestamp: string; apy: number }) => ({
+                    date: d.timestamp,
+                    apy: d.apy,
+                }));
         }
     } catch {
         // History fetch failed, continue without it

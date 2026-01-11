@@ -1,39 +1,8 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getYieldAdvisor } from "@/lib/ai/yield-advisor";
-import { PortfolioRequest, PoolForAI } from "@/lib/ai/types";
-
-// Fetch pools from the existing defi endpoint
-async function fetchPools(): Promise<PoolForAI[]> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/curate/defi?yieldLimit=150&minTvl=1000000`, {
-        cache: "no-store",
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to fetch pools");
-    }
-
-    const data = await response.json();
-    return data.yields.map((pool: Record<string, unknown>) => ({
-        id: pool.id,
-        chain: pool.chain,
-        project: pool.project,
-        symbol: pool.symbol,
-        tvlUsd: pool.tvlUsd,
-        apy: pool.apy,
-        apyBase: pool.apyBase,
-        apyReward: pool.apyReward,
-        stablecoin: pool.stablecoin,
-        ilRisk: pool.ilRisk,
-        riskScore: pool.riskScore,
-        riskLevel: pool.riskLevel,
-        riskBreakdown: pool.riskBreakdown,
-        liquidityRisk: pool.liquidityRisk,
-        apyStability: pool.apyStability,
-        underlyingAssets: pool.underlyingAssets,
-    }));
-}
+import { PortfolioRequest } from "@/lib/ai/types";
+import { fetchPoolsForAI } from "@/lib/curate/fetch-pools";
 
 export async function POST(request: Request) {
     try {
@@ -84,8 +53,8 @@ export async function POST(request: Request) {
             );
         }
 
-        // Fetch pools
-        const pools = await fetchPools();
+        // Fetch pools directly from DeFiLlama (avoids self-referencing HTTP in serverless)
+        const pools = await fetchPoolsForAI({ limit: 150, minTvl: 1_000_000 });
 
         // Get portfolio optimization from AI
         const result = await advisor.optimizePortfolio(pools, portfolioRequest);
