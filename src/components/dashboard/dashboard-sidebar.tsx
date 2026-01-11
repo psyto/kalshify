@@ -231,8 +231,8 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                             <div className="font-medium text-foreground">
                                 FABRKNT
                             </div>
-                            <div className="mt-1">Index + Curate + Synergy</div>
-                            <div className="mt-1 text-gray-600">Beta</div>
+                            <div className="mt-1">DeFi Intelligence Platform</div>
+                            <div className="mt-1 text-cyan-600">Preview</div>
                         </div>
                     </div>
                 </div>
@@ -376,8 +376,8 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                         <div className="font-medium text-foreground">
                             FABRKNT
                         </div>
-                        <div className="mt-1">Index + Curate + Synergy</div>
-                        <div className="mt-1 text-gray-600">Beta</div>
+                        <div className="mt-1">DeFi Intelligence Platform</div>
+                        <div className="mt-1 text-cyan-600">Preview</div>
                     </div>
                 </div>
             </div>

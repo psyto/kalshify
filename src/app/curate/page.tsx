@@ -517,9 +517,9 @@ export default function CuratePage() {
                         PREVIEW
                     </span>
                 </div>
-                <p className="text-sm text-muted-foreground mb-2">DeFi Yield Intelligence</p>
+                <p className="text-sm text-muted-foreground mb-2">Risk Scoring & Yield Analysis</p>
                 <p className="text-muted-foreground">
-                    Risk scoring, APY stability analysis, and liquidity risk assessment for DeFi curators.
+                    The intelligence layer for DeFi curators. Risk scoring, APY stability, liquidity risk — building toward AI-powered curation.
                 </p>
             </div>
 

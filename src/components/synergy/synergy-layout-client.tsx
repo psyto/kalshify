@@ -5,16 +5,15 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { useSession, signOut } from "next-auth/react";
-import { LogIn, LogOut, Lock, Link2, Percent } from "lucide-react";
+import { LogIn, LogOut, Percent, Link2 } from "lucide-react";
 
-export function CurateLayoutClient({
+export function SynergyLayoutClient({
     children,
 }: {
     children: React.ReactNode;
 }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { data: session, status } = useSession();
-    const isProduction = process.env.NODE_ENV === "production";
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-muted to-background">
@@ -41,19 +40,17 @@ export function CurateLayoutClient({
                             </a>
                             <Link
                                 href="/curate"
-                                className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors hidden sm:flex items-center gap-1.5"
+                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
                             >
                                 <Percent className="h-3.5 w-3.5" />
                                 Curate
                             </Link>
                             <Link
                                 href="/synergy"
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
-                                title={!session ? "Sign in required" : "Synergy"}
+                                className="text-sm font-medium text-green-600 hover:text-green-700 transition-colors hidden sm:flex items-center gap-1.5"
                             >
                                 <Link2 className="h-3.5 w-3.5" />
                                 Synergy
-                                {!session && <Lock className="h-3 w-3 text-muted-foreground/50" />}
                             </Link>
 
                             {/* Auth UI */}
@@ -79,18 +76,8 @@ export function CurateLayoutClient({
                                 </div>
                             ) : (
                                 <Link
-                                    href={isProduction ? "#" : "/auth/signin"}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-md transition-colors text-sm font-medium ${
-                                        isProduction
-                                            ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50"
-                                            : "bg-cyan-600 text-white hover:bg-cyan-700"
-                                    }`}
-                                    onClick={(e) => {
-                                        if (isProduction) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                    title={isProduction ? "Sign in is disabled in production" : "Sign In"}
+                                    href="/auth/signin"
+                                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
                                 >
                                     <LogIn className="h-4 w-4" />
                                     <span>Sign In</span>

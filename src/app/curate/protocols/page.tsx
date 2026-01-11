@@ -25,7 +25,7 @@ export default async function ProtocolsPage() {
                         Protocol Directory
                     </h1>
                     <p className="text-sm text-muted-foreground mb-2">
-                        DeFi Protocol Verification
+                        Verified Protocol Intelligence
                     </p>
                     <p className="text-muted-foreground mt-2">
                         No protocols found. Please check your database connection.
@@ -50,11 +50,10 @@ export default async function ProtocolsPage() {
                     Protocol Directory
                 </h1>
                 <p className="text-sm text-muted-foreground mb-2">
-                    DeFi Protocol Verification
+                    Verified Protocol Intelligence
                 </p>
                 <p className="text-muted-foreground mt-2">
-                    An automated index that shows what DeFi protocols actually
-                    do — not what they say.
+                    Automated data collection showing what protocols actually do — not what they say. The foundation for AI-powered curation.
                 </p>
             </div>
 

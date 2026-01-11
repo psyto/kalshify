@@ -158,12 +158,27 @@ export default async function SynergyDiscoveryPage() {
   const swipedPartners = existingSwipes.map((s) => s.partnerSlug);
 
   return (
-    <ProfessionalDiscovery
-      userCompanySlug={company.slug}
-      userCompanyName={company.name}
-      userCompanyCategory={company.category}
-      opportunities={opportunities}
-      existingSwipes={swipedPartners}
-    />
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-foreground mb-2">
+          Discover Opportunities
+        </h1>
+        <p className="text-sm text-muted-foreground mb-2">
+          AI-Powered Partnership Matching
+        </p>
+        <p className="text-muted-foreground">
+          Find synergies with protocols that complement your strengths. Verified data, not pitch decks.
+        </p>
+      </div>
+
+      <ProfessionalDiscovery
+        userCompanySlug={company.slug}
+        userCompanyName={company.name}
+        userCompanyCategory={company.category}
+        opportunities={opportunities}
+        existingSwipes={swipedPartners}
+      />
+    </div>
   );
 }

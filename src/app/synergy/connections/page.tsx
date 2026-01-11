@@ -146,7 +146,20 @@ export default async function ConnectionsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-muted">
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-foreground mb-2">
+          Your Connections
+        </h1>
+        <p className="text-sm text-muted-foreground mb-2">
+          Mutual Interest Matches
+        </p>
+        <p className="text-muted-foreground">
+          Protocols that expressed mutual interest. Start conversations with verified partners.
+        </p>
+      </div>
+
       <MatchesList
         userCompany={{
           slug: company.slug,

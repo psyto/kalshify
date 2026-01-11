@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, LogIn, LogOut, Lock, Percent, Building2, Link2 } from "lucide-react";
+import { Github, LogIn, LogOut, Lock, Percent, Link2 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { Logo } from "@/components/logo";
 
@@ -44,14 +44,7 @@ export function LandingHeader() {
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
             >
               <Percent className="h-3.5 w-3.5" />
-              Yields
-            </Link>
-            <Link
-              href="/curate/protocols"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-1.5"
-            >
-              <Building2 className="h-3.5 w-3.5" />
-              Protocols
+              Curate
             </Link>
             <Link
               href="/synergy"

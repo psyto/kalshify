@@ -91,29 +91,18 @@ export default async function SuiteLandingPage() {
                                 PREVIEW
                             </span>
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
-                            Verify DeFi.
+                        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+                            DeFi Intelligence Platform
                         </h1>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-                            Curate Yields.
-                        </h2>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                            Discover Synergy.
-                        </h2>
-                        <p className="text-xl md:text-2xl font-semibold text-muted-foreground mb-2">
-                            Pitch decks lie.{" "}
-                            <span className="text-cyan-400 font-bold">
-                                On-chain data doesn't.
-                            </span>
+                        <p className="text-xl md:text-2xl text-muted-foreground mb-4 max-w-2xl mx-auto">
+                            Risk scoring. Yield analysis. Opportunity discovery.
                         </p>
-                        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                            FABRKNT helps{" "}
-                            <strong className="text-foreground">
-                                DeFi curators and protocol teams
-                            </strong>{" "}
-                            make confident decisions with verified protocol data,
-                            risk scoring, and yield intelligence — no self-reporting,
-                            just real signals.
+                        <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+                            Building the foundation for{" "}
+                            <span className="text-cyan-400 font-semibold">
+                                AI-powered curation
+                            </span>
+                            .
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link
@@ -171,46 +160,44 @@ export default async function SuiteLandingPage() {
                 <div className="container mx-auto px-4 py-16">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-3xl font-bold text-foreground text-center mb-8">
-                            DeFi has a trust problem
+                            DeFi has an intelligence gap
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div className="flex items-start gap-3">
-                                <span className="text-2xl">📈</span>
-                                <div>
-                                    <p className="font-semibold text-foreground mb-1">
-                                        User numbers are inflated
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <span className="text-2xl">💻</span>
-                                <div>
-                                    <p className="font-semibold text-foreground mb-1">
-                                        GitHub looks active — until you check
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <span className="text-2xl">🤝</span>
-                                <div>
-                                    <p className="font-semibold text-foreground mb-1">
-                                        "Strategic partnerships" don't exist
-                                    </p>
-                                </div>
-                            </div>
                             <div className="flex items-start gap-3">
                                 <span className="text-2xl">📊</span>
                                 <div>
                                     <p className="font-semibold text-foreground mb-1">
-                                        M&A and investments start with slides,
-                                        not reality
+                                        APY looks great — until it drops 80% next week
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">💧</span>
+                                <div>
+                                    <p className="font-semibold text-foreground mb-1">
+                                        TVL is high — but you can't exit without 5% slippage
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">⚠️</span>
+                                <div>
+                                    <p className="font-semibold text-foreground mb-1">
+                                        Risk is unclear — no standardized scoring
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <span className="text-2xl">🔍</span>
+                                <div>
+                                    <p className="font-semibold text-foreground mb-1">
+                                        Opportunities exist — but discovery is manual
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <p className="text-center text-lg font-semibold text-muted-foreground">
-                            Most DeFi decisions are still made on unverified
-                            claims.
+                            Raw data exists. Intelligence doesn't.
                         </p>
                     </div>
                 </div>
@@ -220,32 +207,46 @@ export default async function SuiteLandingPage() {
             <div className="container mx-auto px-4 py-16">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-3xl font-bold text-foreground mb-4">
-                        FABRKNT fixes the first step
+                        FABRKNT bridges the gap
                     </h2>
-                    <p className="text-lg text-muted-foreground mb-4">
-                        FABRKNT is a{" "}
-                        <strong className="text-foreground">
-                            DeFi Intelligence platform
-                        </strong>{" "}
-                        built for{" "}
-                        <strong className="text-foreground">
-                            curators and protocol teams
-                        </strong>
+                    <p className="text-lg text-muted-foreground mb-8">
+                        Three pillars of DeFi intelligence, building toward{" "}
+                        <span className="text-cyan-400 font-semibold">
+                            AI-powered curation
+                        </span>
                         .
                     </p>
-                    <div className="flex flex-wrap justify-center gap-4 text-muted-foreground mb-4">
-                        <span className="px-4 py-2 bg-muted rounded-lg">
-                            No forms.
-                        </span>
-                        <span className="px-4 py-2 bg-muted rounded-lg">
-                            No pitch decks.
-                        </span>
-                        <span className="px-4 py-2 bg-muted rounded-lg">
-                            No self-reported metrics.
-                        </span>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div className="bg-card rounded-lg border border-border p-6">
+                            <Shield className="h-8 w-8 text-cyan-400 mx-auto mb-3" />
+                            <h3 className="font-semibold text-foreground mb-2">
+                                Risk Scoring
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                Composite scores combining TVL, APY sustainability, IL risk, and protocol maturity
+                            </p>
+                        </div>
+                        <div className="bg-card rounded-lg border border-border p-6">
+                            <Activity className="h-8 w-8 text-cyan-400 mx-auto mb-3" />
+                            <h3 className="font-semibold text-foreground mb-2">
+                                Yield Analysis
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                APY stability, liquidity risk, exit-ability ratings, and slippage estimates
+                            </p>
+                        </div>
+                        <div className="bg-card rounded-lg border border-emerald-500/30 p-6">
+                            <Link2 className="h-8 w-8 text-emerald-500 mx-auto mb-3" />
+                            <h3 className="font-semibold text-foreground mb-2">
+                                Opportunity Discovery
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                AI-powered matching for partnerships, integrations, and strategic opportunities
+                            </p>
+                        </div>
                     </div>
-                    <p className="text-lg font-semibold text-cyan-400 mb-0">
-                        Only signals that can be verified.
+                    <p className="text-sm text-muted-foreground">
+                        100% automated verification. No self-reported metrics.
                     </p>
                 </div>
             </div>
@@ -276,7 +277,7 @@ export default async function SuiteLandingPage() {
 
                         <p className="text-muted-foreground mb-6">
                             Risk scoring, APY stability analysis, liquidity risk assessment,
-                            and verified protocol data — the intelligence layer DeFiLlama doesn't provide.
+                            and verified protocol data — the intelligence layer for DeFi curators.
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -472,32 +473,30 @@ export default async function SuiteLandingPage() {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="bg-card rounded-lg border border-border p-6 text-center">
-                            <Building2 className="h-12 w-12 text-cyan-400 mx-auto mb-4" />
-                            <h3 className="text-lg font-semibold text-foreground mb-2">
-                                Corp Dev & M&A Teams
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                                Avoid bad first calls. Screen candidates before
-                                outreach.
-                            </p>
-                        </div>
-                        <div className="bg-card rounded-lg border border-border p-6 text-center">
                             <TrendingUp className="h-12 w-12 text-cyan-400 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-foreground mb-2">
-                                DeFi Curators & Funds
+                                DeFi Curators
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                                Risk scoring and yield intelligence for position management.
+                                Risk scoring and yield intelligence for smarter position management.
                             </p>
                         </div>
                         <div className="bg-card rounded-lg border border-border p-6 text-center">
-                            <Users className="h-12 w-12 text-emerald-500 mx-auto mb-4" />
+                            <Users className="h-12 w-12 text-cyan-400 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-foreground mb-2">
                                 Protocol Teams
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                                Get discovered for what you actually build — not
-                                how well you sell.
+                                Get discovered for what you actually build — verified, not marketed.
+                            </p>
+                        </div>
+                        <div className="bg-card rounded-lg border border-border p-6 text-center">
+                            <Building2 className="h-12 w-12 text-emerald-500 mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-foreground mb-2">
+                                Corp Dev Teams
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                Find integration and acquisition opportunities with verified data.
                             </p>
                         </div>
                     </div>
@@ -512,16 +511,15 @@ export default async function SuiteLandingPage() {
                             Our belief
                         </h2>
                         <p className="text-2xl font-bold text-cyan-400 mb-8">
-                            DeFi deserves better signals.
+                            DeFi intelligence will be automated.
                         </p>
                         <div className="space-y-2 text-lg text-muted-foreground mb-8">
                             <p>Verification beats trust.</p>
                             <p>Data beats narratives.</p>
-                            <p>Transparency compounds.</p>
+                            <p>AI scales human judgment.</p>
                         </div>
                         <p className="text-muted-foreground">
-                            FABRKNT is built in public — because credibility
-                            matters.
+                            We're building the foundation for AI-powered curation — one verified data point at a time.
                         </p>
                     </div>
                 </div>
@@ -535,22 +533,20 @@ export default async function SuiteLandingPage() {
                             About FABRKNT
                         </h2>
                         <p className="text-lg text-muted-foreground">
-                            FABRKNT is building the future of{" "}
+                            Building the intelligence layer for{" "}
                             <strong className="text-foreground">
-                                DeFi intelligence and verification
+                                AI-powered DeFi curation
                             </strong>
                             .
                         </p>
                     </div>
                     <div className="bg-card rounded-lg border border-border p-8">
                         <p className="text-muted-foreground mb-6 text-center">
-                            Our mission is to{" "}
+                            Today, we provide{" "}
                             <strong className="text-foreground">
-                                provide DeFi curators with the intelligence
-                                they need
-                            </strong>{" "}
-                            to make better decisions on risk, yield stability,
-                            and exit liquidity.
+                                risk scoring, yield analysis, and opportunity discovery
+                            </strong>
+                            . Tomorrow, AI will curate at scale — and we're building the verified data foundation it needs.
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                             <div>
@@ -560,15 +556,15 @@ export default async function SuiteLandingPage() {
                                 </p>
                             </div>
                             <div>
-                                <p className="text-2xl mb-2">🚫</p>
+                                <p className="text-2xl mb-2">🧠</p>
                                 <p className="text-sm font-semibold text-foreground mb-1">
-                                    No self-reported metrics
+                                    AI-ready data layer
                                 </p>
                             </div>
                             <div>
-                                <p className="text-2xl mb-2">🌐</p>
+                                <p className="text-2xl mb-2">🎯</p>
                                 <p className="text-sm font-semibold text-foreground mb-1">
-                                    Built for DeFi curators
+                                    Built for curators
                                 </p>
                             </div>
                         </div>
@@ -580,10 +576,10 @@ export default async function SuiteLandingPage() {
             <div className="container mx-auto px-4 py-16">
                 <div className="max-w-3xl mx-auto text-center bg-card/50 backdrop-blur-sm rounded-lg border border-cyan-400/30 p-12 shadow-lg shadow-cyan-400/10">
                     <h2 className="text-3xl font-bold text-foreground mb-4">
-                        Stop guessing.
+                        From raw data to intelligence.
                     </h2>
                     <h2 className="text-3xl font-bold text-cyan-400 mb-8">
-                        Start verifying.
+                        From intelligence to AI-powered curation.
                     </h2>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                         <Link
@@ -596,9 +592,9 @@ export default async function SuiteLandingPage() {
                         <SynergyCTA variant="secondary" />
                     </div>
                     <p className="text-sm text-muted-foreground italic border-t border-border pt-6">
-                        FABRKNT does not rank narratives.
+                        Verified data. Automated scoring. AI-ready.
                         <br />
-                        We index reality.
+                        The foundation is being built.
                     </p>
                 </div>
             </div>
@@ -672,15 +668,7 @@ export default async function SuiteLandingPage() {
                                         href="/curate"
                                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
-                                        Yields
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/curate/protocols"
-                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        Protocol Directory
+                                        Curate
                                     </Link>
                                 </li>
                                 <li>
