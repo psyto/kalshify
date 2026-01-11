@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Percent, Shield, Activity, TrendingUp, Github } from "lucide-react";
+import { ArrowRight, Sparkles, Shield, Brain, PieChart, TrendingUp, Github, LogIn } from "lucide-react";
 import { Logo } from "@/components/logo";
 
 export default function LandingPage() {
@@ -11,6 +11,13 @@ export default function LandingPage() {
                     <div className="flex items-center justify-between">
                         <Logo size="sm" />
                         <div className="flex items-center gap-4">
+                            <Link
+                                href="/login"
+                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                <LogIn className="h-4 w-4" />
+                                Sign In
+                            </Link>
                             <a
                                 href="https://x.com/fabrknt"
                                 target="_blank"
@@ -37,54 +44,95 @@ export default function LandingPage() {
             </header>
 
             {/* Hero */}
-            <main className="flex-1 flex items-center justify-center">
+            <main className="flex-1">
                 <div className="container mx-auto px-4 py-16 md:py-24">
-                    <div className="max-w-3xl mx-auto text-center">
+                    <div className="max-w-4xl mx-auto text-center">
                         <div className="flex justify-center mb-6">
-                            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 text-sm font-semibold font-mono">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-                                </span>
-                                PREVIEW
+                            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-gradient-to-r from-purple-500/10 to-cyan-500/10 text-cyan-400 border border-cyan-400/30 text-sm font-semibold font-mono">
+                                <Sparkles className="h-4 w-4" />
+                                AI-POWERED
                             </span>
                         </div>
 
                         <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
-                            DeFi Yield Intelligence
+                            DeFi Yield Curation
+                            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+                                Powered by AI
+                            </span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-                            Risk scoring. APY stability. Liquidity analysis.
+                        <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto">
+                            Personalized yield recommendations, intelligent risk analysis, and portfolio optimization - all powered by AI.
                         </p>
 
-                        {/* Value props */}
-                        <div className="flex flex-wrap justify-center gap-6 mb-10 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-2">
-                                <Shield className="h-4 w-4 text-cyan-400" />
-                                <span>5,000+ pools scored</span>
+                        {/* AI Features */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 max-w-3xl mx-auto">
+                            <div className="bg-card border border-border rounded-xl p-5 text-left">
+                                <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center mb-3">
+                                    <Brain className="h-5 w-5 text-purple-400" />
+                                </div>
+                                <h3 className="font-semibold text-foreground mb-1">AI Recommendations</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Get personalized pool suggestions based on your risk tolerance and preferences.
+                                </p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <Activity className="h-4 w-4 text-cyan-400" />
-                                <span>30-day APY trends</span>
+                            <div className="bg-card border border-border rounded-xl p-5 text-left">
+                                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-3">
+                                    <Shield className="h-5 w-5 text-cyan-400" />
+                                </div>
+                                <h3 className="font-semibold text-foreground mb-1">Smart Risk Insights</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    AI-generated analysis explaining risks and opportunities in plain English.
+                                </p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <TrendingUp className="h-4 w-4 text-cyan-400" />
-                                <span>Historical charts</span>
+                            <div className="bg-card border border-border rounded-xl p-5 text-left">
+                                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center mb-3">
+                                    <PieChart className="h-5 w-5 text-green-400" />
+                                </div>
+                                <h3 className="font-semibold text-foreground mb-1">Portfolio Optimizer</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    AI suggests optimal allocation across pools to maximize risk-adjusted returns.
+                                </p>
                             </div>
                         </div>
 
-                        {/* CTA */}
-                        <Link
-                            href="/curate"
-                            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-cyan-400 text-slate-950 hover:bg-cyan-300 transition-all font-bold text-lg border border-cyan-300 shadow-lg shadow-cyan-400/20 hover:shadow-cyan-400/40"
-                        >
-                            <Percent className="h-6 w-6" />
-                            Explore Yields
-                            <ArrowRight className="h-5 w-5" />
-                        </Link>
+                        {/* Stats */}
+                        <div className="flex flex-wrap justify-center gap-8 mb-10 text-sm">
+                            <div className="text-center">
+                                <p className="text-2xl font-bold text-cyan-400">5,000+</p>
+                                <p className="text-muted-foreground">Pools Analyzed</p>
+                            </div>
+                            <div className="text-center">
+                                <p className="text-2xl font-bold text-purple-400">30-day</p>
+                                <p className="text-muted-foreground">APY Trends</p>
+                            </div>
+                            <div className="text-center">
+                                <p className="text-2xl font-bold text-green-400">Real-time</p>
+                                <p className="text-muted-foreground">Risk Scoring</p>
+                            </div>
+                        </div>
+
+                        {/* CTAs */}
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <Link
+                                href="/curate"
+                                className="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-500 text-white hover:from-purple-400 hover:to-cyan-400 transition-all font-bold text-lg shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40"
+                            >
+                                <Sparkles className="h-5 w-5" />
+                                Explore CURATE
+                                <ArrowRight className="h-5 w-5" />
+                            </Link>
+                            <Link
+                                href="/login"
+                                className="inline-flex items-center gap-2 px-6 py-4 rounded-lg border border-border text-foreground hover:bg-card transition-all font-medium"
+                            >
+                                <LogIn className="h-5 w-5" />
+                                Sign In for AI Features
+                            </Link>
+                        </div>
 
                         <p className="mt-6 text-sm text-muted-foreground">
-                            No sign-up required. 100% automated data.
+                            <TrendingUp className="inline h-4 w-4 mr-1" />
+                            Browse pools freely. Sign in to unlock AI-powered recommendations.
                         </p>
                     </div>
                 </div>
