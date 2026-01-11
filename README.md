@@ -1,244 +1,192 @@
-# FABRKNT: DeFi Intelligence Platform
+# FABRKNT: AI-Powered DeFi Curation Platform
 
-**Verify DeFi. Curate Yields. Discover Synergy.**
-
-**Pitch decks lie. On-chain data doesn't.**
+**Curate DeFi yields intelligently with AI.**
 
 **Domain:** `www.fabrknt.com`
 
 ---
 
-## 1. Project Overview
+## Overview
 
-**Project Name:** FABRKNT
+FABRKNT is an AI-powered DeFi yield curation platform that helps curators, investors, and protocol teams make smarter decisions using real-time risk scoring, APY stability analysis, and AI-driven recommendations.
 
-**Concept:** A DeFi Intelligence platform built for **early verification**. We help **DeFi curators, investors, and protocol teams** verify protocols using real on-chain activity, GitHub signals, and yield data — fully automated, no self-reporting.
+**Core Product:** **CURATE** — AI-powered yield intelligence with personalized recommendations, natural language risk insights, and portfolio optimization.
 
-**Products:** Three integrated products: **INDEX** (DeFi Protocol Intelligence), **CURATE** (DeFi Yield Curator Intelligence), and **SYNERGY** (Professional Partnership Discovery). INDEX provides automated verification that shows what DeFi protocols actually do — not what they say. CURATE delivers curator intelligence with risk scoring, APY stability analysis, and liquidity risk assessment. SYNERGY leverages INDEX and CURATE data to discover synergy opportunities with verified protocols.
-
-**Architecture:** **Index → Curate → Synergy** - INDEX serves as the data foundation, CURATE adds yield intelligence for curators, and SYNERGY powers compatibility analysis and recommendations.
-
-**Positioning:** **AI × Verified Data × DeFi Intelligence** - Maximizing automation through AI to enable intelligent curator decisions and strategic connections in the DeFi market.
+**Positioning:** **AI × Verified Data × DeFi Intelligence**
 
 ---
 
-## 2. Market Opportunity
+## AI-Powered Features
 
-### DeFi Market Growth
+### 1. Personalized Recommendations
 
-The DeFi market continues to mature, with Total Value Locked (TVL) exceeding $100B across major protocols. As the market consolidates, curators and investors need better tools to evaluate risk, stability, and exit liquidity.
+Get AI-curated pool suggestions based on your preferences:
+- Risk tolerance (conservative, moderate, aggressive)
+- Preferred chains
+- APY range
+- Stablecoin preference
 
-### Curator Intelligence Gap
+*Requires login*
 
-DeFi curators managing significant capital face challenges:
+### 2. Smart Risk Insights
 
--   **Risk Assessment:** No standardized risk scoring across protocols
--   **Yield Stability:** APY volatility is hidden in historical data
--   **Exit Liquidity:** No tools to estimate slippage at different position sizes
--   **Protocol Due Diligence:** Manual verification of team health and on-chain activity
+AI-generated analysis explaining each pool in plain English:
+- Risk explanation and breakdown
+- Opportunities and warnings
+- APY stability analysis
+- Comparison vs. similar pools
+- Overall verdict
 
-### Our Solution
+*Requires login*
 
-FABRKNT provides the intelligence layer that DeFiLlama doesn't:
+### 3. Portfolio Optimizer
 
--   **Composite Risk Scores:** Single metric (0-100) combining TVL, APY sustainability, IL risk, protocol maturity
--   **APY Stability Analysis:** 30-day volatility, trend direction, stability scores
--   **Liquidity Risk Index:** Exit-ability ratings, slippage estimates, safe allocation guidance
--   **Protocol Verification:** Automated GitHub and on-chain activity analysis
+AI suggests optimal allocation across pools:
+- Input your total allocation amount
+- Choose risk tolerance and diversification level
+- Get AI-recommended portfolio with expected yields
+- View risk warnings and diversification score
 
----
-
-## 3. Platform Architecture: Index → Curate → Synergy
-
-### 3.1. INDEX: DeFi Protocol Intelligence
-
-**INDEX** is an automated index that shows what DeFi protocols actually do — not what they say.
-
-**What we verify:**
-
--   **On-chain growth**
-    TVL trends, transaction activity, wallet metrics
-
--   **Team & code health**
-    GitHub commits, contributors, retention, code quality
-
--   **Signal integrity**
-    Cross-verified via blockchain and public APIs
-
-**If it can't be verified, it doesn't count.**
-
-**Categories:**
--   **DeFi:** DEX, lending, liquid staking, derivatives, yield, RWA, stablecoin, bridge
--   **DeFi Infrastructure:** L1, L2, oracle, dev-tools, data, security, wallet, analytics
-
-### 3.2. CURATE: DeFi Yield Curator Intelligence
-
-**CURATE** provides the intelligence layer for DeFi curators — risk scoring, yield stability, and exit liquidity analysis that DeFiLlama doesn't provide.
-
-**What we analyze:**
-
--   **Risk Scoring**
-    Composite risk score (0-100) based on TVL, APY sustainability, IL risk, stablecoin exposure, protocol maturity
-
--   **APY Stability**
-    30-day volatility analysis, coefficient of variation, trend direction (up/down/stable)
-
--   **Liquidity Risk**
-    Exit-ability rating, max safe allocation, slippage estimates at $100K to $10M positions
-
--   **Dependency Mapping**
-    Chain, protocol, oracle, and asset dependencies with risk classification
-
-**Curator-focused, not retail-focused.**
-
-**Key Features:**
-
--   5,000+ yield pools from DeFiLlama with risk assessment
--   APY stability scores based on historical volatility
--   Liquidity risk index for exit strategy planning
--   Filter by risk level, stability, exitability, chain
--   Sort by TVL, APY, risk, stability, or liquidity
-
-### 3.3. SYNERGY: Professional Partnership Discovery
-
-**SYNERGY** enables discovery of synergy opportunities with verified DeFi protocols — powered by AI-driven compatibility analysis.
-
-**Built for:**
-
--   Protocol teams seeking integrations
--   DeFi investors evaluating opportunities
--   Corp Dev teams scouting partnerships
+*Requires login*
 
 ---
 
-## 4. Unique Value Proposition
+## CURATE: DeFi Yield Intelligence
 
-### The Problem We Solve
+Beyond AI features, CURATE provides comprehensive yield intelligence:
 
-DeFi curators face information asymmetry:
+### Risk Scoring
+- **Composite Risk Score (0-100):** TVL risk, APY sustainability, IL risk, stablecoin exposure, protocol maturity
+- **Risk Breakdown:** Detailed scoring for each factor
 
--   APY looks attractive — until it drops 80% next week
--   TVL is high — but you can't exit without 5% slippage
--   Protocol seems safe — until you check the GitHub
--   Risk is unclear — no standardized scoring
+### APY Stability Analysis
+- 30-day historical charts
+- Volatility analysis and trend direction
+- Stability scores
 
-**Most DeFi decisions are still made on incomplete data.**
+### Liquidity Risk Assessment
+- Exit-ability ratings (excellent to poor)
+- Max safe allocation guidance
+- Slippage estimates at $100K to $10M positions
 
-### Our Solution
+### Pool Comparison
+- Side-by-side comparison of multiple pools
+- Highlight best values across metrics
 
-**FABRKNT provides curator intelligence.**
+### Watchlist
+- Save pools for monitoring
+- Quick access to tracked yields
 
-**DeFiLlama provides raw data. FABRKNT provides answers:**
+---
 
--   Is this APY sustainable? → **APY Stability Score**
--   Can I exit safely? → **Liquidity Risk Index**
--   How risky is this? → **Composite Risk Score**
--   How much should I allocate? → **Safe Allocation Guidance**
+## Data Coverage
 
-### Curate Differentiators vs DeFiLlama
+- **5,000+** yield pools analyzed
+- **30-day** APY trends
+- **Real-time** risk scoring
+- Data sourced from DeFiLlama APIs
 
-| Feature | DeFiLlama | FABRKNT Curate |
+---
+
+## CURATE vs DeFiLlama
+
+| Feature | DeFiLlama | FABRKNT CURATE |
 |---------|-----------|----------------|
+| AI Recommendations | ❌ | ✅ Personalized |
+| Natural Language Insights | ❌ | ✅ AI-generated |
+| Portfolio Optimization | ❌ | ✅ AI-powered |
 | Composite Risk Score | ❌ | ✅ 0-100 score |
-| APY Stability Analysis | ❌ Raw chart | ✅ Stability score, trend |
+| APY Stability Analysis | ❌ Raw chart | ✅ Stability score |
 | Liquidity Risk Index | ❌ Only TVL | ✅ Exit-ability rating |
 | Safe Allocation Guidance | ❌ | ✅ Max position size |
 | Slippage Estimates | ❌ | ✅ At $100K-$10M |
-| Dependency Mapping | ❌ | ✅ Chain, protocol, oracle |
+| Pool Comparison | ❌ | ✅ Side-by-side |
 
 ---
 
-## 5. Technical Specifications
+## Tech Stack
 
-### Tech Stack
-
--   **Frontend:** Next.js 16, Tailwind CSS, Shadcn UI
--   **Hosting:** Vercel
--   **Backend:** PostgreSQL (Supabase)
--   **Data Sources:** DeFiLlama APIs, GitHub API, on-chain RPCs
--   **Visualization:** react-force-graph, recharts
-
-### Data Pipeline
-
--   **DeFiLlama Integration:** 600+ protocols, 5,000+ yield pools
--   **APY Historical Data:** 30-day charts via `/chart/{poolId}`
--   **Risk Calculation:** Real-time scoring based on TVL, APY, IL, protocol factors
--   **Liquidity Analysis:** Protocol-aware slippage estimation
-
-### API Endpoints
-
--   `GET /api/curate/defi` - Yield pools with risk scoring
--   `GET /api/cindex/search` - Protocol search with filters
--   `GET /api/cindex/companies/{slug}` - Protocol details
+- **Frontend:** Next.js 16, React 19, Tailwind CSS
+- **AI:** Anthropic Claude API
+- **Database:** PostgreSQL (Supabase)
+- **Hosting:** Vercel
+- **Data Sources:** DeFiLlama APIs
+- **Authentication:** NextAuth.js
 
 ---
 
-## 6. Getting Started
+## Getting Started
 
-### For DeFi Curators
+### For Users
 
-1. **Explore CURATE**
-   - Browse yield pools with risk scoring
-   - Filter by chain, risk level, APY stability, exitability
-   - View detailed risk breakdown and liquidity analysis
-
-2. **Verify Protocols in INDEX**
-   - Check team health (GitHub activity)
-   - View on-chain metrics
-   - See overall verification score
-
-### For Protocol Teams
-
-1. **Get Verified in INDEX**
-   - Your protocol is automatically tracked
-   - Claim your profile to access dashboard
-   - Receive transparent verification score
-
-2. **Discover Opportunities in SYNERGY**
-   - Find integration partners
-   - View compatibility analysis
-   - Connect with verified protocols
+1. **Browse Pools** — Explore 5,000+ yield pools with risk scoring (no login required)
+2. **Sign In** — Unlock AI-powered features
+3. **Set Preferences** — Configure your risk tolerance and preferences
+4. **Get AI Recommendations** — Receive personalized pool suggestions
+5. **Optimize Portfolio** — Use AI to allocate across pools
 
 ### Development
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Add your ANTHROPIC_API_KEY, DATABASE_URL, etc.
 
 # Run development server
-npm run dev
-
-# Fetch DeFi data
-npm run fetch:defi
+pnpm dev
 
 # Type check
-npm run type-check
+pnpm type-check
+
+# Build for production
+pnpm build
+```
+
+### Environment Variables
+
+```env
+# Database
+DATABASE_URL=postgresql://...
+
+# Authentication
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret
+
+# AI
+ANTHROPIC_API_KEY=sk-ant-...
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 ---
 
-## 7. Our Belief
+## API Endpoints
 
-**DeFi deserves better signals.**
+### Public Endpoints
 
--   Verification beats trust.
--   Data beats narratives.
--   Transparency compounds.
+- `GET /api/curate/defi` — Yield pools with risk scoring
+- `GET /api/curate/defi/history/{poolId}` — Historical APY data
 
-**FABRKNT is built in public — because credibility matters.**
+### Authenticated Endpoints (AI Features)
 
-> FABRKNT does not rank narratives.
-> We index reality.
-
----
-
-## 8. Contact & Resources
-
--   **Website:** [www.fabrknt.com](https://www.fabrknt.com)
--   **GitHub:** [github.com/fabrknt](https://github.com/fabrknt)
--   **X (Twitter):** [@fabrknt](https://x.com/fabrknt)
+- `GET /api/curate/ai/preferences` — Get user preferences
+- `PUT /api/curate/ai/preferences` — Update preferences
+- `POST /api/curate/ai/recommendations` — Get AI recommendations
+- `GET /api/curate/ai/insights/{poolId}` — Get AI pool insights
+- `POST /api/curate/ai/portfolio` — Optimize portfolio
 
 ---
 
-**Stop trusting claims.**
-**Start verifying.**
+## Contact & Resources
+
+- **Website:** [www.fabrknt.com](https://www.fabrknt.com)
+- **GitHub:** [github.com/fabrknt](https://github.com/fabrknt)
+- **X (Twitter):** [@fabrknt](https://x.com/fabrknt)
+
+---
+
+**DeFi yields, curated by AI.**
