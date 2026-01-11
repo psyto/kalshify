@@ -118,7 +118,7 @@ export function PortfolioOptimizer({ isOpen, onClose, onPoolClick }: PortfolioOp
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl md:max-h-[90vh] bg-slate-900 border border-slate-700 rounded-xl z-50 overflow-hidden flex flex-col"
+                        className="fixed inset-4 md:inset-auto md:left-1/2 md:top-[5vh] md:-translate-x-1/2 md:w-full md:max-w-2xl md:max-h-[90vh] bg-slate-900 border border-slate-700 rounded-xl z-50 overflow-hidden flex flex-col"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between p-4 border-b border-slate-700">

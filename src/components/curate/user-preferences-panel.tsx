@@ -111,7 +111,7 @@ export function UserPreferencesPanel({
                             </button>
                         </div>
 
-                        <div className="p-4 space-y-6">
+                        <div className="p-4 pb-8 space-y-6">
                             {/* Risk Tolerance */}
                             <div>
                                 <label className="block text-sm font-medium text-white mb-3">

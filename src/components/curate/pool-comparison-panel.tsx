@@ -182,7 +182,7 @@ export function PoolComparisonPanel({ pools, isOpen, onClose }: PoolComparisonPa
                             </button>
                         </div>
 
-                        <div className="p-4">
+                        <div className="p-4 pb-8">
                             {/* Pool Headers */}
                             <div className="grid grid-cols-4 gap-2 mb-4">
                                 <div />
