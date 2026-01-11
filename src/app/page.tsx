@@ -92,10 +92,10 @@ export default async function SuiteLandingPage() {
                             </span>
                         </div>
                         <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
-                            Verify Web3.
+                            Verify DeFi.
                         </h1>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-                            Curate Dependencies.
+                            Curate Yields.
                         </h2>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
                             Discover Synergy.
@@ -109,10 +109,10 @@ export default async function SuiteLandingPage() {
                         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                             FABRKNT helps{" "}
                             <strong className="text-foreground">
-                                Web3 teams
+                                DeFi curators and protocol teams
                             </strong>{" "}
-                            make confident decisions with verified company data
-                            and AI-powered synergy discovery — no self-reporting,
+                            make confident decisions with verified protocol data,
+                            risk scoring, and yield intelligence — no self-reporting,
                             just real signals.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -143,7 +143,7 @@ export default async function SuiteLandingPage() {
                             {totalCompanies}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            Web3 companies fully verified
+                            DeFi protocols fully verified
                         </p>
                     </div>
                     <div className="text-center">
@@ -171,7 +171,7 @@ export default async function SuiteLandingPage() {
                 <div className="container mx-auto px-4 py-16">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-3xl font-bold text-foreground text-center mb-8">
-                            Web3 has a trust problem
+                            DeFi has a trust problem
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div className="flex items-start gap-3">
@@ -225,11 +225,11 @@ export default async function SuiteLandingPage() {
                     <p className="text-lg text-muted-foreground mb-4">
                         FABRKNT is a{" "}
                         <strong className="text-foreground">
-                            Web3 Index, Curate & Synergy platform
+                            DeFi Intelligence platform
                         </strong>{" "}
                         built for{" "}
                         <strong className="text-foreground">
-                            early verification
+                            curators and protocol teams
                         </strong>
                         .
                     </p>
@@ -264,13 +264,13 @@ export default async function SuiteLandingPage() {
                                     INDEX
                                 </h2>
                                 <p className="text-sm text-muted-foreground">
-                                    Web3 Company Verification
+                                    DeFi Protocol Intelligence
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
-                            An automated index that shows what Web3 companies
+                            An automated index that shows what DeFi protocols
                             actually do — not what they say.
                         </p>
 
@@ -342,54 +342,54 @@ export default async function SuiteLandingPage() {
                                     </span>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    Web3 Dependency Graph
+                                    DeFi Yield Intelligence
                                 </p>
                             </div>
                         </div>
 
                         <p className="text-muted-foreground mb-6">
-                            Visualize how Web3 projects are interconnected through
-                            dependencies, SDK usage, and shared technology stacks.
+                            Risk scoring, APY stability analysis, and liquidity risk
+                            assessment that DeFiLlama doesn't provide.
                         </p>
 
                         <div className="space-y-4 mb-6">
                             <div className="flex items-start gap-3">
-                                <Network className="h-5 w-5 text-cyan-400 mt-0.5" />
-                                <div>
-                                    <p className="font-semibold text-foreground">
-                                        Dependency Graph
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Interactive visualization of project connections
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <GitBranch className="h-5 w-5 text-cyan-400 mt-0.5" />
-                                <div>
-                                    <p className="font-semibold text-foreground">
-                                        Tech Stack Explorer
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        Find projects using the same packages
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
                                 <Shield className="h-5 w-5 text-cyan-400 mt-0.5" />
                                 <div>
                                     <p className="font-semibold text-foreground">
-                                        Ecosystem Maps
+                                        Risk Scoring
                                     </p>
                                     <p className="text-sm text-muted-foreground">
-                                        Chain-specific ecosystem views
+                                        Composite risk scores for 5,000+ yield pools
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <TrendingUp className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <div>
+                                    <p className="font-semibold text-foreground">
+                                        APY Stability
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        30-day volatility analysis and trend detection
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Network className="h-5 w-5 text-cyan-400 mt-0.5" />
+                                <div>
+                                    <p className="font-semibold text-foreground">
+                                        Liquidity Risk
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        Exit-ability ratings and slippage estimates
                                     </p>
                                 </div>
                             </div>
                         </div>
 
                         <p className="text-sm font-semibold text-cyan-400 mb-6">
-                            Technical relationships reveal partnership potential.
+                            Curator intelligence, not just raw data.
                         </p>
 
                         <Link
@@ -508,8 +508,8 @@ export default async function SuiteLandingPage() {
                                     Curate
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Map dependencies and technical relationships
-                                    between projects
+                                    Analyze yields with risk scoring,
+                                    stability, and liquidity assessment
                                 </p>
                             </div>
                             <div className="text-center">
@@ -551,16 +551,16 @@ export default async function SuiteLandingPage() {
                         <div className="bg-card rounded-lg border border-border p-6 text-center">
                             <TrendingUp className="h-12 w-12 text-cyan-400 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-foreground mb-2">
-                                Web3 Investors & Funds
+                                DeFi Curators & Funds
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                                Run pre-DD before the pitch deck arrives.
+                                Risk scoring and yield intelligence for position management.
                             </p>
                         </div>
                         <div className="bg-card rounded-lg border border-border p-6 text-center">
                             <Users className="h-12 w-12 text-emerald-500 mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-foreground mb-2">
-                                Web3 Founders
+                                Protocol Teams
                             </h3>
                             <p className="text-sm text-muted-foreground">
                                 Get discovered for what you actually build — not
@@ -579,7 +579,7 @@ export default async function SuiteLandingPage() {
                             Our belief
                         </h2>
                         <p className="text-2xl font-bold text-cyan-400 mb-8">
-                            Web3 deserves better signals.
+                            DeFi deserves better signals.
                         </p>
                         <div className="space-y-2 text-lg text-muted-foreground mb-8">
                             <p>Verification beats trust.</p>
@@ -604,7 +604,7 @@ export default async function SuiteLandingPage() {
                         <p className="text-lg text-muted-foreground">
                             FABRKNT is building the future of{" "}
                             <strong className="text-foreground">
-                                Web3 verification and synergy
+                                DeFi intelligence and verification
                             </strong>
                             .
                         </p>
@@ -613,11 +613,11 @@ export default async function SuiteLandingPage() {
                         <p className="text-muted-foreground mb-6 text-center">
                             Our mission is to{" "}
                             <strong className="text-foreground">
-                                democratize access to trustworthy Web3 company
-                                data
+                                provide DeFi curators with the intelligence
+                                they need
                             </strong>{" "}
-                            and enable better decisions across M&A,
-                            partnerships, and investments.
+                            to make better decisions on risk, yield stability,
+                            and exit liquidity.
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                             <div>
@@ -687,7 +687,7 @@ export default async function SuiteLandingPage() {
                                 </span>
                             </div>
                             <p className="text-sm text-muted-foreground mb-4">
-                                Web3 Index & Synergy Platform
+                                DeFi Intelligence Platform
                             </p>
                             <p className="text-sm text-muted-foreground mb-4">
                                 We are{" "}

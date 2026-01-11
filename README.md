@@ -1,6 +1,6 @@
-# FABRKNT: Web3 Index, Curate & Synergy Platform
+# FABRKNT: DeFi Intelligence Platform
 
-**Verify Web3. Curate Dependencies. Discover Synergy.**
+**Verify DeFi. Curate Yields. Discover Synergy.**
 
 **Pitch decks lie. On-chain data doesn't.**
 
@@ -12,377 +12,214 @@
 
 **Project Name:** FABRKNT
 
-**Concept:** A Web3 Index & Synergy platform built for **early verification**. We help **Web3 Corp Dev teams, investors, and founders** verify companies using real on-chain activity, GitHub signals, and social data — fully automated, no self-reporting.
+**Concept:** A DeFi Intelligence platform built for **early verification**. We help **DeFi curators, investors, and protocol teams** verify protocols using real on-chain activity, GitHub signals, and yield data — fully automated, no self-reporting.
 
-**Products:** Three integrated products: **INDEX** (Web3 Company Verification), **CURATE** (Dependency Graph & Tech Stack Analysis), and **SYNERGY** (Professional Partnership Discovery). INDEX provides automated verification that shows what Web3 companies actually do — not what they say. CURATE maps how projects are interconnected through dependencies, SDK usage, and shared technology stacks. SYNERGY leverages INDEX and CURATE data to discover synergy opportunities with verified companies — enabling strategic connections through AI-powered compatibility analysis.
+**Products:** Three integrated products: **INDEX** (DeFi Protocol Intelligence), **CURATE** (DeFi Yield Curator Intelligence), and **SYNERGY** (Professional Partnership Discovery). INDEX provides automated verification that shows what DeFi protocols actually do — not what they say. CURATE delivers curator intelligence with risk scoring, APY stability analysis, and liquidity risk assessment. SYNERGY leverages INDEX and CURATE data to discover synergy opportunities with verified protocols.
 
-**Architecture:** **Index → Curate → Synergy** - INDEX serves as the data foundation, CURATE adds technical relationship mapping, and SYNERGY powers compatibility analysis and recommendations. Every synergy opportunity is backed by verified INDEX data and technical relationship insights from CURATE, ensuring transparency and trust.
+**Architecture:** **Index → Curate → Synergy** - INDEX serves as the data foundation, CURATE adds yield intelligence for curators, and SYNERGY powers compatibility analysis and recommendations.
 
-**Positioning:** **AI × Verified Data × Professional Discovery** - Maximizing automation through AI to enable intelligent partnership discovery and strategic connections in the Web3 market, where information asymmetry is high.
+**Positioning:** **AI × Verified Data × DeFi Intelligence** - Maximizing automation through AI to enable intelligent curator decisions and strategic connections in the DeFi market.
 
 ---
 
 ## 2. Market Opportunity
 
-### Web3 Market Growth
+### DeFi Market Growth
 
-The Web3 market is estimated to be between **$3.47 billion and $7.23 billion** as of 2025, with projections to expand to **$41.4 billion – $42.3 billion by 2030** (CAGR of approximately 42%–45%).
+The DeFi market continues to mature, with Total Value Locked (TVL) exceeding $100B across major protocols. As the market consolidates, curators and investors need better tools to evaluate risk, stability, and exit liquidity.
 
-### SME Segment Opportunity
+### Curator Intelligence Gap
 
-The growth rate of SMEs within the Web3 market is particularly noteworthy. While large enterprises currently lead with a 60.9% market share, the **SME segment is projected to grow at an average annual rate of 54.6% through 2030**, outstripping the pace of large corporations.
+DeFi curators managing significant capital face challenges:
 
--   **Active Seed and Small-Scale Deals:** Approximately 36.4% of funding rounds are concentrated in the $1M to $5M range, making the seed round the most active phase.
--   **The Necessity of Consolidation:** Many small projects face resource shortages and intensifying competition. We have entered a "Consolidation Phase" where SMEs with high technical capabilities are being absorbed into larger ecosystems.
+-   **Risk Assessment:** No standardized risk scoring across protocols
+-   **Yield Stability:** APY volatility is hidden in historical data
+-   **Exit Liquidity:** No tools to estimate slippage at different position sizes
+-   **Protocol Due Diligence:** Manual verification of team health and on-chain activity
 
-### Global Market Positioning
+### Our Solution
 
-The platform serves the global Web3 ecosystem, focusing on SMEs that require efficient, data-driven partnership discovery and strategic connections. As the market moves from "speculation to utility" and "isolation to integration," an infrastructure where AI bridges the gap between technology and business based on verified data is indispensable for the development of the global Web3 ecosystem.
+FABRKNT provides the intelligence layer that DeFiLlama doesn't:
 
----
-
-## 3. AI Automation & Efficiency
-
-The vision of "maximizing automation through AI" drastically improves the cost and time efficiency of partnership discovery and due diligence processes in the Web3 market.
-
-### Quantitative Evaluation of AI-Driven Efficiency
-
--   **Accelerated Sourcing and Evaluation:** By using AI algorithms to identify targets, the time required to locate and evaluate companies can be reduced by **over 50%**.
--   **High-Speed Document Processing:** AI agents utilizing Natural Language Processing (NLP) can process thousands of financial and legal documents in minutes to extract inconsistencies or legal risks. This shortens the review period for mid-market deals from weeks to days.
--   **Democratization of Technical Evaluation:** AI auditing tools detect smart contract vulnerabilities and assign security scores (0–100%). Furthermore, they translate complex code into language understandable by non-technical investors and executives.
-
-### Three-Tier Data Integration
-
-AI seamlessly combines three layers of data to provide a holistic view:
-
-1. **On-chain:** Real-time monitoring of "Smart Money" movements and TVL trends via APIs (e.g., Nansen, Dune). Verified on-chain protocol fees, transaction volumes, and wallet quality metrics.
-2. **Off-chain:** Traditional financial and legal information, GitHub activity, team contribution data, and service activity metrics (DAU/WAU/MAU).
-3. **Online:** Sentiment analysis to distinguish between bot activity (airdrop farming) and genuine community growth. Social media metrics and community engagement data.
+-   **Composite Risk Scores:** Single metric (0-100) combining TVL, APY sustainability, IL risk, protocol maturity
+-   **APY Stability Analysis:** 30-day volatility, trend direction, stability scores
+-   **Liquidity Risk Index:** Exit-ability ratings, slippage estimates, safe allocation guidance
+-   **Protocol Verification:** Automated GitHub and on-chain activity analysis
 
 ---
 
-## 4. Platform Architecture: Index → Curate → Synergy
+## 3. Platform Architecture: Index → Curate → Synergy
 
-The platform operates on a three-tier architecture where **Index** serves as the data foundation, **Curate** maps technical relationships, and **Synergy** enables partnership discovery.
+### 3.1. INDEX: DeFi Protocol Intelligence
 
-### 4.1. INDEX: Web3 Company Verification
-
-**INDEX** is an automated index that shows what Web3 companies actually do — not what they say.
+**INDEX** is an automated index that shows what DeFi protocols actually do — not what they say.
 
 **What we verify:**
 
--   **On-chain growth**  
-    Wallet activity, protocol usage, real traction
+-   **On-chain growth**
+    TVL trends, transaction activity, wallet metrics
 
--   **Team & code health**  
+-   **Team & code health**
     GitHub commits, contributors, retention, code quality
 
--   **Signal integrity**  
+-   **Signal integrity**
     Cross-verified via blockchain and public APIs
 
 **If it can't be verified, it doesn't count.**
 
-**The "Fabrknt Score":** An aggregate index score (0-100) calculated from:
+**Categories:**
+-   **DeFi:** DEX, lending, liquid staking, derivatives, yield, RWA, stablecoin, bridge
+-   **DeFi Infrastructure:** L1, L2, oracle, dev-tools, data, security, wallet, analytics
 
--   **Growth Score:** On-chain conversion efficiency, wallet quality, and service activity metrics (DAU/WAU/MAU)
--   **Team Health Score:** Team contribution consistency and developer activity
--   **Revenue Verification:** Verified on-chain protocol fees or Stripe data
+### 3.2. CURATE: DeFi Yield Curator Intelligence
 
-**Key Features:**
+**CURATE** provides the intelligence layer for DeFi curators — risk scoring, yield stability, and exit liquidity analysis that DeFiLlama doesn't provide.
 
--   Automated analysis of on-chain data, GitHub activity, and social metrics
--   Real-time monitoring and updates
--   Comprehensive company directory with verified index scores
--   Transparent, auditable data sources
+**What we analyze:**
 
-### 4.2. CURATE: Web3 Dependency Graph (Beta)
+-   **Risk Scoring**
+    Composite risk score (0-100) based on TVL, APY sustainability, IL risk, stablecoin exposure, protocol maturity
 
-**CURATE** visualizes how Web3 projects are interconnected through dependencies, SDK usage, and shared technology stacks — revealing technical relationships that signal partnership potential.
+-   **APY Stability**
+    30-day volatility analysis, coefficient of variation, trend direction (up/down/stable)
 
-**What we map:**
+-   **Liquidity Risk**
+    Exit-ability rating, max safe allocation, slippage estimates at $100K to $10M positions
 
--   **Dependency Graph**
-    Interactive network visualization of project connections
+-   **Dependency Mapping**
+    Chain, protocol, oracle, and asset dependencies with risk classification
 
--   **Tech Stack Explorer**
-    Search and filter shared packages across Web3 projects
-
--   **Ecosystem Maps**
-    Chain-specific views (Solana, Ethereum, Base, etc.)
-
-**Technical relationships reveal partnership potential.**
+**Curator-focused, not retail-focused.**
 
 **Key Features:**
 
--   Analysis of package.json dependencies from GitHub repositories
--   Interactive force-graph visualization with project clustering
--   SDK usage detection and relationship mapping
--   Ecosystem filtering by blockchain network
--   Integration with INDEX for company metadata
+-   5,000+ yield pools from DeFiLlama with risk assessment
+-   APY stability scores based on historical volatility
+-   Liquidity risk index for exit strategy planning
+-   Filter by risk level, stability, exitability, chain
+-   Sort by TVL, APY, risk, stability, or liquidity
 
-### 4.3. SYNERGY: Professional Partnership Discovery
+### 3.3. SYNERGY: Professional Partnership Discovery
 
-**SYNERGY** enables discovery of synergy opportunities with verified Web3 companies — powered by AI-driven compatibility analysis.
+**SYNERGY** enables discovery of synergy opportunities with verified DeFi protocols — powered by AI-driven compatibility analysis.
 
 **Built for:**
 
--   Corp Dev teams seeking strategic partnerships
--   Technical integrations and ecosystem collaborations
--   Co-marketing and growth partnerships
--   Strategic business connections
-
-**Key Features:**
-
--   **AI-Powered Recommendations:** Automated compatibility scoring based on **verified INDEX data**, not self-reported metrics
--   **Professional Discovery Grid:** Browse and filter opportunities with advanced search and ranking capabilities
--   **Real-Time Messaging:** Connect directly with matched companies through in-platform chat
--   **Compatibility Analysis:** See detailed synergy assessments including technical fit, audience overlap, and projected impact
--   **Verified Metrics:** Every opportunity displays live INDEX scores (Growth Score, Team Health Score, Overall Score)
-
-### 4.4. Partnership Types & Use Cases
-
-**SYNERGY** supports diverse partnership opportunities across the Web3 ecosystem:
-
--   **Technical Integration:** Connect companies with complementary tech stacks (e.g., Zero-Knowledge Proofs, DePIN, Layer 2 solutions)
--   **Strategic Alliances:** Discover companies based on complementary capabilities and strategic fit, using INDEX data to assess compatibility
--   **Co-Marketing Partnerships:** Find partners with aligned audiences for collaborative growth campaigns
--   **Ecosystem Collaborations:** Build connections across protocols, chains, and verticals
--   **Investment & M&A:** Identify potential acquisition targets or investment opportunities with verified traction
-
-### 4.5. M&A Transaction Protocol (Optional)
-
-For companies pursuing acquisition transactions, SYNERGY supports on-chain deal execution:
-
--   **Atomic Escrow:** Smart contract-based swap where purchase price (Stablecoins) is exchanged for project assets
--   **Asset Packaging:**
-    -   **Smart Contract Ownership:** Transfer of `Admin/Owner` roles
-    -   **Digital Assets:** ENS domains, GitHub organization access, and social accounts
-
-_Note: Most partnerships begin with discovery and messaging. Transaction protocol is available for M&A deals._
+-   Protocol teams seeking integrations
+-   DeFi investors evaluating opportunities
+-   Corp Dev teams scouting partnerships
 
 ---
 
-## 5. Design System & Aesthetics
-
--   **Visual Identity:** Full consistency with `www.fabrknt.com` - professional, data-driven interface
--   **Verified Metrics Display:** Every synergy opportunity card displays real-time INDEX scores (Growth Score, Team Health Score, Overall Score)
--   **Professional Architecture:** Clean, functional design optimized for executive decision-making—no "crypto-hype" aesthetics
--   **Discovery-First UX:** Grid-based layouts with advanced filtering, search, and sorting capabilities
-
----
-
-## 6. Index → Curate → Synergy Data Flow
-
-**INDEX** collects and verifies data, **CURATE** maps technical relationships, and **SYNERGY** uses both for AI-powered compatibility analysis and recommendations:
-
-| Data Source        | What It Provides                                                                      | Impact on Partnership Discovery                                                     |
-| ------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **INDEX: Growth Metrics** | Verified On-chain ROI / Marketing efficiency + Service activity metrics (DAU/WAU/MAU) | Proves product-market fit, scalability, and real user traction for partnership decisions |
-| **INDEX: Team Health**    | Team contribution score / Developer activity / Code quality                           | Validates sustainable development capacity and technical partnership readiness     |
-| **CURATE: Dependencies**  | Shared packages, SDK usage, technical stack overlap                                   | Reveals technical compatibility and integration opportunities                       |
-| **CURATE: Ecosystem**     | Chain-specific project clustering and relationship mapping                            | Identifies ecosystem synergies and cross-chain opportunities                        |
-| **Overall Score**         | Automated compatibility analysis combining INDEX + CURATE data                        | Enables intelligent opportunity matching based on verified data and technical fit   |
-
----
-
-## 7. Technical Specifications
-
-### 7.1. Tech Stack
-
--   **Frontend:** Next.js 14, Tailwind CSS, Shadcn UI.
--   **Hosting:** Vercel (optimized for Next.js)
--   **Backend:** Amazon RDS PostgreSQL as the central database for INDEX and SYNERGY.
--   **API:** AWS API Gateway + Lambda for serverless APIs
--   **Background Workers:** AWS Lambda triggered by EventBridge for data aggregation and monitoring
--   **Blockchain:** **Escrow:** Custom Solidity/Rust contracts for atomic swaps (deployed via Lambda).
--   **Validation:** Cross-chain API calls to verify TRACE/PULSE on-chain badges (SBTs) via Lambda.
--   **Authentication:** Amazon Cognito with wallet-based authentication
--   **Storage:** Amazon S3 for company assets, logos, and documents
--   **Monitoring:** Amazon CloudWatch for logs and metrics
-
-### 7.2. AI Analysis Engine
-
--   **Multi-Chain Integration:** Support for 40+ EVM chains
--   **Automated Target Extraction:** AI algorithms identify and score promising unlisted Web3 projects
--   **Long List Generation:** Automated candidate generation from various data sources
--   **Post-Alliance Monitoring:** Continuous analysis of on-chain activity to evaluate partnership synergies
-
-### 7.3. Unified API Structure
-
--   `GET /api/v1/index/companies`: Get verified company index data
--   `GET /api/v1/index/companies/{id}`: Get detailed index for a specific company
--   `GET /api/v1/synergy/opportunities`: Get M&A and partnership opportunities (powered by Index data)
--   `GET /api/v1/synergy/opportunities/{id}`: Get detailed opportunity with full index metrics
--   `POST /api/v1/escrow/init`: Deploys a new escrow instance for a deal
-
----
-
-## 8. Unique Value Proposition
+## 4. Unique Value Proposition
 
 ### The Problem We Solve
 
-Web3 has a trust problem:
+DeFi curators face information asymmetry:
 
--   User numbers are inflated
--   GitHub looks active — until you check
--   "Strategic partnerships" don't exist
--   M&A and investments start with slides, not reality
+-   APY looks attractive — until it drops 80% next week
+-   TVL is high — but you can't exit without 5% slippage
+-   Protocol seems safe — until you check the GitHub
+-   Risk is unclear — no standardized scoring
 
-**Most Web3 decisions are still made on unverified claims.**
+**Most DeFi decisions are still made on incomplete data.**
 
 ### Our Solution
 
-**FABRKNT fixes the first step.**
+**FABRKNT provides curator intelligence.**
 
-**No forms.**  
-**No pitch decks.**  
-**No self-reported metrics.**
+**DeFiLlama provides raw data. FABRKNT provides answers:**
 
-**Only signals that can be verified.**
+-   Is this APY sustainable? → **APY Stability Score**
+-   Can I exit safely? → **Liquidity Risk Index**
+-   How risky is this? → **Composite Risk Score**
+-   How much should I allocate? → **Safe Allocation Guidance**
 
-### Our Approach
+### Curate Differentiators vs DeFiLlama
 
--   **100% automated verification**  
-    No manual input, no manipulation—just trustworthy, transparent index.
-
--   **No self-reported metrics**  
-    We only use data that can be independently verified.
-
--   **Built for Web3, by Web3**  
-    We understand the unique challenges of the Web3 ecosystem.
-
-### AI-Powered Automation
-
--   **50%+ Time Reduction:** Accelerated sourcing and evaluation through AI algorithms
--   **Weeks to Days:** Document processing speed improvements for mid-market deals
--   **Automated Verification:** 100% automated verification using on-chain data, GitHub activity, and social metrics
-
-### Who We Serve
-
--   **Corp Dev & M&A Teams:** Avoid bad first calls. Screen candidates before outreach.
--   **Web3 Investors & Funds:** Run pre-DD before the pitch deck arrives.
--   **Web3 Founders:** Get discovered for what you actually build — not how well you sell.
+| Feature | DeFiLlama | FABRKNT Curate |
+|---------|-----------|----------------|
+| Composite Risk Score | ❌ | ✅ 0-100 score |
+| APY Stability Analysis | ❌ Raw chart | ✅ Stability score, trend |
+| Liquidity Risk Index | ❌ Only TVL | ✅ Exit-ability rating |
+| Safe Allocation Guidance | ❌ | ✅ Max position size |
+| Slippage Estimates | ❌ | ✅ At $100K-$10M |
+| Dependency Mapping | ❌ | ✅ Chain, protocol, oracle |
 
 ---
 
-## 9. The FABRKNT Ecosystem Vision
+## 5. Technical Specifications
 
-**FABRKNT** operates on a data-driven architecture where **INDEX** provides verification, **CURATE** maps relationships, and **SYNERGY** enables discovery.
+### Tech Stack
 
-### The Index → Curate → Synergy Flow
+-   **Frontend:** Next.js 16, Tailwind CSS, Shadcn UI
+-   **Hosting:** Vercel
+-   **Backend:** PostgreSQL (Supabase)
+-   **Data Sources:** DeFiLlama APIs, GitHub API, on-chain RPCs
+-   **Visualization:** react-force-graph, recharts
 
-1. **INDEX** collects and verifies comprehensive company data:
+### Data Pipeline
 
-    - Growth metrics (on-chain activity, wallet growth, user growth rates)
-    - Team health (GitHub activity, contributors, code quality)
-    - Overall verification scores (0-100)
+-   **DeFiLlama Integration:** 600+ protocols, 5,000+ yield pools
+-   **APY Historical Data:** 30-day charts via `/chart/{poolId}`
+-   **Risk Calculation:** Real-time scoring based on TVL, APY, IL, protocol factors
+-   **Liquidity Analysis:** Protocol-aware slippage estimation
 
-2. **CURATE** maps technical relationships between projects:
+### API Endpoints
 
-    - Dependency analysis from GitHub repositories
-    - SDK usage detection and relationship mapping
-    - Ecosystem clustering by blockchain network
-    - Shared technology stack identification
-
-3. **SYNERGY** leverages INDEX and CURATE data to enable intelligent partnership discovery:
-
-    - AI-powered compatibility analysis based on verified INDEX scores
-    - Technical compatibility insights from CURATE dependency mapping
-    - Opportunity recommendations using complementary capabilities
-    - Automated synergy assessment using real-time metrics
-
-4. **Result:** Companies can discover and connect with strategic partners using complete transparency—seeing authenticated team health, growth metrics, and technical compatibility for every opportunity.
-
-This data-driven approach eliminates information asymmetry and enables high-trust business connections in Web3, supporting ecosystem integration and strategic partnerships. **INDEX is the foundation; CURATE reveals relationships; SYNERGY is the engine that creates connections.**
+-   `GET /api/curate/defi` - Yield pools with risk scoring
+-   `GET /api/cindex/search` - Protocol search with filters
+-   `GET /api/cindex/companies/{slug}` - Protocol details
 
 ---
 
-## 10. Implementation Roadmap
+## 6. Getting Started
 
-### Phase 1: Core Platform ✅
+### For DeFi Curators
 
--   INDEX: Automated company verification with growth and team health metrics
--   SYNERGY: Professional partnership discovery with AI-powered recommendations
--   Opportunity cards displaying verified INDEX scores
+1. **Explore CURATE**
+   - Browse yield pools with risk scoring
+   - Filter by chain, risk level, APY stability, exitability
+   - View detailed risk breakdown and liquidity analysis
 
-### Phase 2: Discovery & Messaging Features ✅
+2. **Verify Protocols in INDEX**
+   - Check team health (GitHub activity)
+   - View on-chain metrics
+   - See overall verification score
 
--   Professional discovery grid with filtering and search
--   Real-time messaging system for matched companies
--   Compatibility analysis and AI-powered synergy scoring
--   Connection management and partnership tracking
-
-### Phase 3: CURATE - Dependency Mapping (Beta)
-
--   CURATE: Web3 dependency graph visualization
--   Tech Stack Explorer for searching shared packages
--   Ecosystem Maps for chain-specific views
--   GitHub package.json analysis pipeline
--   Integration with INDEX company data
-
-### Phase 4: AI Enhancement (In Progress)
-
--   AI document processing (NLP for financial/legal docs)
--   Sentiment analysis integration
--   Automated target extraction algorithms
--   Enhanced SME scoring system
--   CURATE-powered technical compatibility scoring
-
----
-
-## 11. Getting Started
-
-### How It Works
-
-1. **Verify**
-   We automatically analyze on-chain data, GitHub activity, and social signals to verify what Web3 companies actually do.
-
-2. **Index**
-   Companies receive transparent, comparable verification scores based on growth metrics and team health.
-
-3. **Curate**
-   Map dependencies and technical relationships between projects to reveal partnership potential and ecosystem connections.
-
-4. **Discover**
-   AI-powered recommendations surface synergy opportunities with verified companies—enabling strategic connections through data-driven compatibility analysis.
-
-### For Companies Seeking Partnerships
+### For Protocol Teams
 
 1. **Get Verified in INDEX**
-   - Your company is automatically tracked (if not, claim your profile)
-   - INDEX verifies your growth metrics, team health, and on-chain activity
-   - Receive a transparent verification score (0-100)
+   - Your protocol is automatically tracked
+   - Claim your profile to access dashboard
+   - Receive transparent verification score
 
-2. **Claim Your Profile**
-   - Authenticate via wallet to claim your company profile
-   - Access your synergy dashboard
-   - View companies interested in connecting with you
+2. **Discover Opportunities in SYNERGY**
+   - Find integration partners
+   - View compatibility analysis
+   - Connect with verified protocols
 
-3. **Discover Opportunities in SYNERGY**
-   - Browse AI-powered synergy recommendations
-   - Filter by opportunity type (Integration, Co-Marketing, Strategic Alliance, M&A)
-   - View detailed compatibility analysis for each opportunity
-   - See verified INDEX scores for every potential partner
+### Development
 
-4. **Express Interest & Connect**
-   - Express interest in promising opportunities
-   - When both companies show mutual interest, unlock direct messaging
-   - Collaborate through in-platform chat
-   - Move partnerships forward with verified data transparency
+```bash
+# Install dependencies
+npm install
 
-### For Researchers & Investors
+# Run development server
+npm run dev
 
-1. **Explore the INDEX**
-   - Browse the comprehensive directory of verified Web3 companies
-   - Filter by category, growth score, team health, and more
-   - View detailed verification reports with on-chain metrics
-   - Compare companies using standardized, auditable data
+# Fetch DeFi data
+npm run fetch:defi
+
+# Type check
+npm run type-check
+```
 
 ---
 
-## 12. Our Belief
+## 7. Our Belief
 
-**Web3 deserves better signals.**
+**DeFi deserves better signals.**
 
 -   Verification beats trust.
 -   Data beats narratives.
@@ -390,26 +227,12 @@ This data-driven approach eliminates information asymmetry and enables high-trus
 
 **FABRKNT is built in public — because credibility matters.**
 
-> FABRKNT does not rank narratives.  
+> FABRKNT does not rank narratives.
 > We index reality.
 
 ---
 
-## 13. Contributing
-
-This is part of the FABRKNT ecosystem. For contributions, please refer to the main FABRKNT repository.
-
-**FABRKNT is built in public — because credibility matters.**
-
----
-
-## 14. License
-
-See LICENSE file in the repository root.
-
----
-
-## 15. Contact & Resources
+## 8. Contact & Resources
 
 -   **Website:** [www.fabrknt.com](https://www.fabrknt.com)
 -   **GitHub:** [github.com/fabrknt](https://github.com/fabrknt)
@@ -417,5 +240,5 @@ See LICENSE file in the repository root.
 
 ---
 
-**Stop trusting claims.**  
+**Stop trusting claims.**
 **Start verifying.**

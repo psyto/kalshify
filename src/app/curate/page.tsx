@@ -104,10 +104,10 @@ export default function CuratePage() {
                     </span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-2">
-                    Web3 Dependency Graph
+                    DeFi Protocol Dependency Graph
                 </p>
                 <p className="text-muted-foreground">
-                    Explore how Web3 projects are connected through shared dependencies and SDK usage.
+                    Explore how DeFi protocols are connected through shared dependencies and SDK usage.
                 </p>
             </div>
 
