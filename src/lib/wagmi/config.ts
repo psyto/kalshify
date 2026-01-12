@@ -1,5 +1,5 @@
 import { http, createConfig, createStorage } from "wagmi";
-import { mainnet, base } from "wagmi/chains";
+import { mainnet, base, sepolia, baseSepolia } from "wagmi/chains";
 import { injected, walletConnect } from "wagmi/connectors";
 
 // WalletConnect project ID - get from https://cloud.walletconnect.com
@@ -42,16 +42,22 @@ export const wagmiConfig = createConfig({
 
 // Supported chain IDs for Morpho
 export const SUPPORTED_CHAIN_IDS = [mainnet.id, base.id] as const;
+export const DEV_CHAIN_IDS = [sepolia.id, baseSepolia.id, mainnet.id, base.id] as const;
 export type SupportedChainId = (typeof SUPPORTED_CHAIN_IDS)[number];
+export type DevChainId = (typeof DEV_CHAIN_IDS)[number];
 
 // Chain names for display
-export const CHAIN_NAMES: Record<SupportedChainId, string> = {
+export const CHAIN_NAMES: Record<number, string> = {
     [mainnet.id]: "Ethereum",
     [base.id]: "Base",
+    [sepolia.id]: "Sepolia",
+    [baseSepolia.id]: "Base Sepolia",
 };
 
 // Block explorers
-export const BLOCK_EXPLORERS: Record<SupportedChainId, string> = {
+export const BLOCK_EXPLORERS: Record<number, string> = {
     [mainnet.id]: "https://etherscan.io",
     [base.id]: "https://basescan.org",
+    [sepolia.id]: "https://sepolia.etherscan.io",
+    [baseSepolia.id]: "https://sepolia.basescan.org",
 };

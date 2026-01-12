@@ -1,4 +1,4 @@
-import { mainnet, base } from "wagmi/chains";
+import { mainnet, base, sepolia, baseSepolia } from "wagmi/chains";
 
 // Morpho contract addresses
 export const MORPHO_ADDRESSES = {
@@ -15,8 +15,11 @@ export const MORPHO_ADDRESSES = {
     morphoRegistry: "0x3696c5eAe4a7Ffd04Ea163564571E9CD8Ed9364e" as const,
 } as const;
 
-// Supported chains for Morpho
+// Supported chains for Morpho (production)
 export const MORPHO_SUPPORTED_CHAINS = [mainnet.id, base.id] as const;
+
+// Supported chains for Morpho (development - includes testnets)
+export const MORPHO_DEV_CHAINS = [sepolia.id, baseSepolia.id, mainnet.id, base.id] as const;
 
 // Chain-specific addresses (if they differ)
 export const CHAIN_ADDRESSES: Record<
@@ -31,6 +34,15 @@ export const CHAIN_ADDRESSES: Record<
         metaMorphoFactory: MORPHO_ADDRESSES.metaMorphoFactory,
     },
     [base.id]: {
+        morphoBlue: MORPHO_ADDRESSES.morphoBlue,
+        metaMorphoFactory: MORPHO_ADDRESSES.metaMorphoFactory,
+    },
+    // Testnets use the same contract addresses
+    [sepolia.id]: {
+        morphoBlue: MORPHO_ADDRESSES.morphoBlue,
+        metaMorphoFactory: MORPHO_ADDRESSES.metaMorphoFactory,
+    },
+    [baseSepolia.id]: {
         morphoBlue: MORPHO_ADDRESSES.morphoBlue,
         metaMorphoFactory: MORPHO_ADDRESSES.metaMorphoFactory,
     },
@@ -67,6 +79,17 @@ export const VAULT_ASSETS: Record<
     [base.id]: [
         { symbol: "USDC", address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", decimals: 6 },
         { symbol: "USDbC", address: "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA", decimals: 6 },
+        { symbol: "WETH", address: "0x4200000000000000000000000000000000000006", decimals: 18 },
+    ],
+    // Sepolia testnet tokens
+    [sepolia.id]: [
+        { symbol: "USDC", address: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238", decimals: 6 },
+        { symbol: "WETH", address: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9", decimals: 18 },
+        { symbol: "DAI", address: "0x68194a729C2450ad26072b3D33ADaCbcef39D574", decimals: 18 },
+    ],
+    // Base Sepolia testnet tokens
+    [baseSepolia.id]: [
+        { symbol: "USDC", address: "0x036CbD53842c5426634e7929541eC2318f3dCF7e", decimals: 6 },
         { symbol: "WETH", address: "0x4200000000000000000000000000000000000006", decimals: 18 },
     ],
 };

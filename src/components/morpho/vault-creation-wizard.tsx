@@ -3,14 +3,21 @@
 import { useState, useEffect } from "react";
 import { useAccount, useChainId, useWriteContract, useWaitForTransactionReceipt, useSwitchChain } from "wagmi";
 import { parseUnits, keccak256, encodePacked } from "viem";
-import { mainnet, base } from "wagmi/chains";
+import { mainnet, base, sepolia, baseSepolia } from "wagmi/chains";
 import {
-    MORPHO_ADDRESSES,
+    CHAIN_ADDRESSES,
     META_MORPHO_FACTORY_ABI,
     VAULT_ASSETS,
 } from "@/lib/morpho/constants";
-import { CHAIN_NAMES } from "@/lib/wagmi/config";
+import { CHAIN_NAMES, BLOCK_EXPLORERS } from "@/lib/wagmi/config";
 import { ArrowLeft, ArrowRight, Check, Loader2, AlertTriangle, Wallet } from "lucide-react";
+
+const isProduction = process.env.NODE_ENV === "production";
+
+// Available chains based on environment
+const AVAILABLE_CHAINS = isProduction
+    ? [mainnet, base]
+    : [sepolia, baseSepolia, mainnet, base];
 
 interface VaultCreationWizardProps {
     onClose: () => void;
@@ -26,7 +33,7 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
 
     // Wizard state
     const [step, setStep] = useState<Step>("chain");
-    const [selectedChain, setSelectedChain] = useState<number>(mainnet.id);
+    const [selectedChain, setSelectedChain] = useState<number>(AVAILABLE_CHAINS[0].id);
     const [selectedAsset, setSelectedAsset] = useState<string>("");
     const [vaultName, setVaultName] = useState("");
     const [vaultSymbol, setVaultSymbol] = useState("");
@@ -56,12 +63,15 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
     const handleDeploy = async () => {
         if (!address || !selectedAsset || !vaultName || !vaultSymbol) return;
 
+        const chainAddresses = CHAIN_ADDRESSES[selectedChain];
+        if (!chainAddresses) return;
+
         setStep("deploying");
 
         const salt = generateSalt();
 
         writeContract({
-            address: MORPHO_ADDRESSES.metaMorphoFactory,
+            address: chainAddresses.metaMorphoFactory,
             abi: META_MORPHO_FACTORY_ABI,
             functionName: "createMetaMorpho",
             args: [
@@ -206,7 +216,7 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
                                 Choose which network to deploy your vault on
                             </p>
                             <div className="grid grid-cols-2 gap-3 mt-4">
-                                {[mainnet, base].map((chain) => (
+                                {AVAILABLE_CHAINS.map((chain) => (
                                     <button
                                         key={chain.id}
                                         onClick={() => handleChainSelect(chain.id)}
@@ -218,10 +228,14 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
                                     >
                                         <div className="text-left">
                                             <div className="font-medium text-white">
-                                                {CHAIN_NAMES[chain.id as 1 | 8453]}
+                                                {CHAIN_NAMES[chain.id]}
                                             </div>
                                             <div className="text-xs text-slate-400 mt-1">
-                                                {chain.id === mainnet.id ? "Higher liquidity" : "Lower gas fees"}
+                                                {chain.id === sepolia.id || chain.id === baseSepolia.id
+                                                    ? "Testnet"
+                                                    : chain.id === mainnet.id
+                                                    ? "Higher liquidity"
+                                                    : "Lower gas fees"}
                                             </div>
                                         </div>
                                         {selectedChain === chain.id && (
@@ -334,7 +348,7 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
                                 <div className="flex justify-between">
                                     <span className="text-slate-400">Chain</span>
                                     <span className="text-white font-medium">
-                                        {CHAIN_NAMES[selectedChain as 1 | 8453]}
+                                        {CHAIN_NAMES[selectedChain]}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
@@ -380,7 +394,7 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
                                 <div className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400 text-sm">
                                     <AlertTriangle className="h-4 w-4" />
                                     <span>
-                                        Please switch to {CHAIN_NAMES[selectedChain as 1 | 8453]} to deploy
+                                        Please switch to {CHAIN_NAMES[selectedChain]} to deploy
                                     </span>
                                 </div>
                             )}
@@ -441,11 +455,7 @@ export function VaultCreationWizard({ onClose, onSuccess }: VaultCreationWizardP
 
                             {txHash && (
                                 <a
-                                    href={`${
-                                        selectedChain === mainnet.id
-                                            ? "https://etherscan.io"
-                                            : "https://basescan.org"
-                                    }/tx/${txHash}`}
+                                    href={`${BLOCK_EXPLORERS[selectedChain]}/tx/${txHash}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="mt-4 text-sm text-cyan-400 hover:text-cyan-300"
