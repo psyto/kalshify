@@ -711,6 +711,15 @@ export default function CuratePage() {
                 </div>
             </div>
 
+            {/* Smart Picks Section - shows curated picks or AI recommendations */}
+            <AIRecommendationsSection
+                hasPreferences={hasPreferences}
+                onSetPreferences={() => setPreferencesOpen(true)}
+                onPoolClick={handleExpandFromPick}
+                isLoggedIn={!!session?.user}
+                curatedPicks={curatedPicks}
+            />
+
             {/* Protocol Comparison Section */}
             <ProtocolComparison onProtocolClick={(slug) => {
                 setProtocolFilter(slug);
@@ -726,15 +735,6 @@ export default function CuratePage() {
 
             {/* DeFi Tools Section with Quick IL Calculator */}
             <QuickILCalculator />
-
-            {/* Smart Picks Section - shows curated picks or AI recommendations */}
-            <AIRecommendationsSection
-                hasPreferences={hasPreferences}
-                onSetPreferences={() => setPreferencesOpen(true)}
-                onPoolClick={handleExpandFromPick}
-                isLoggedIn={!!session?.user}
-                curatedPicks={curatedPicks}
-            />
 
             {/* All Pools Section */}
             <div id="pool-table-section" className="flex items-center justify-between">
