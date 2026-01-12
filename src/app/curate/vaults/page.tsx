@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
@@ -49,7 +48,6 @@ interface VaultData {
 
 // Content component that uses wagmi hooks (only rendered after mount)
 function VaultsPageContent() {
-    const { data: session, status: sessionStatus } = useSession();
     const { isConnected } = useAccount();
     const isProduction = process.env.NODE_ENV === "production";
 
@@ -61,11 +59,6 @@ function VaultsPageContent() {
 
     // Fetch user's vaults
     const fetchVaults = async () => {
-        if (!session?.user) {
-            setLoading(false);
-            return;
-        }
-
         try {
             setError(null);
             const response = await fetch("/api/morpho/vaults");
@@ -83,10 +76,8 @@ function VaultsPageContent() {
     };
 
     useEffect(() => {
-        if (sessionStatus !== "loading") {
-            fetchVaults();
-        }
-    }, [session?.user, sessionStatus]);
+        fetchVaults();
+    }, []);
 
     const handleRefresh = () => {
         setRefreshing(true);
@@ -102,7 +93,7 @@ function VaultsPageContent() {
     };
 
     // Loading state
-    if (sessionStatus === "loading" || loading) {
+    if (loading) {
         return (
             <div className="space-y-6">
                 <Header onCreateClick={() => {}} showCreate={false} />
@@ -113,27 +104,6 @@ function VaultsPageContent() {
         );
     }
 
-    // Not signed in
-    if (!session?.user) {
-        return (
-            <div className="space-y-6">
-                <Header onCreateClick={() => {}} showCreate={false} showWalletButton={true} />
-                <div className="flex flex-col items-center justify-center h-96 bg-slate-900/50 border border-slate-800 rounded-xl">
-                    <Wallet className="h-12 w-12 text-slate-600 mb-4" />
-                    <h3 className="text-lg font-medium text-white mb-2">Sign in Required</h3>
-                    <p className="text-slate-400 text-sm mb-6 text-center max-w-md">
-                        Sign in to view and manage your Morpho vaults
-                    </p>
-                    <Link
-                        href="/auth/signin"
-                        className="px-6 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium rounded-lg transition-colors"
-                    >
-                        Sign In
-                    </Link>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="space-y-6">
