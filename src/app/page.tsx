@@ -662,9 +662,16 @@ export default function CuratePage() {
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                         <div className="max-w-2xl">
                             {/* Badges */}
-                            <div className="flex gap-2 mb-3">
+                            <div className="flex flex-wrap gap-2 mb-3">
                                 <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[10px] font-medium uppercase tracking-wide">
                                     Solana
+                                </span>
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
+                                    <Shield className="h-2.5 w-2.5" />
+                                    Non-Custodial
+                                </span>
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] font-medium uppercase tracking-wide">
+                                    Read-Only
                                 </span>
                             </div>
 

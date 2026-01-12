@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { useSession, signOut } from "next-auth/react";
-import { LogIn, LogOut, Github } from "lucide-react";
+import { LogIn, LogOut, Github, MessageCircle } from "lucide-react";
 // import { SolanaConnectButton } from "@/components/solana";
 
 export function CurateLayoutClient({
@@ -45,6 +45,26 @@ export function CurateLayoutClient({
                                 >
                                     Tools
                                 </Link>
+                                <Link
+                                    href="/how-it-works"
+                                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                                        pathname === "/how-it-works"
+                                            ? "bg-muted text-foreground"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    }`}
+                                >
+                                    How It Works
+                                </Link>
+                                <Link
+                                    href="/about"
+                                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                                        pathname === "/about"
+                                            ? "bg-muted text-foreground"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    }`}
+                                >
+                                    About
+                                </Link>
                             </nav>
                         </div>
                         <div className="flex items-center gap-4">
@@ -72,6 +92,16 @@ export function CurateLayoutClient({
                                 aria-label="GitHub"
                             >
                                 <Github className="h-5 w-5" />
+                            </a>
+                            {/* Discord - TODO: Replace with real Discord invite link */}
+                            <a
+                                href="https://discord.gg/fabrknt"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-muted-foreground hover:text-foreground transition-colors hidden sm:block"
+                                aria-label="Discord"
+                            >
+                                <MessageCircle className="h-5 w-5" />
                             </a>
 
                             {/* Divider */}
