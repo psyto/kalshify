@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { useSession, signOut } from "next-auth/react";
 import { LogIn, LogOut, Github } from "lucide-react";
-import { SolanaConnectButton } from "@/components/solana";
+// import { SolanaConnectButton } from "@/components/solana";
 
 export function CurateLayoutClient({
     children,
@@ -67,8 +67,8 @@ export function CurateLayoutClient({
                             {/* Divider */}
                             <div className="hidden sm:block h-5 w-px bg-border" />
 
-                            {/* Solana Wallet */}
-                            <SolanaConnectButton className="!bg-gradient-to-r !from-purple-500 !to-cyan-500 !rounded-lg !px-4 !py-2 !text-sm !font-medium hover:!opacity-90 !transition-opacity" />
+                            {/* Solana Wallet - hidden until we have wallet-required features */}
+                            {/* <SolanaConnectButton className="!bg-gradient-to-r !from-purple-500 !to-cyan-500 !rounded-lg !px-4 !py-2 !text-sm !font-medium hover:!opacity-90 !transition-opacity" /> */}
 
                             {/* Auth UI */}
                             {status === "loading" ? (
