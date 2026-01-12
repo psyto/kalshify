@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Calculator, TrendingUp, TrendingDown, AlertTriangle, Info, X } from "lucide-react";
+import { Calculator, AlertTriangle, Info, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ILCalculatorProps {
-    isOpen: boolean;
-    onClose: () => void;
+    isOpen?: boolean;
+    onClose?: () => void;
     initialTokenA?: string;
     initialTokenB?: string;
+    standalone?: boolean;
 }
 
 // Calculate Impermanent Loss
@@ -93,7 +94,8 @@ function ILChart({ priceChange, isConcentrated }: { priceChange: number; isConce
     );
 }
 
-export function ILCalculator({ isOpen, onClose, initialTokenA = "SOL", initialTokenB = "USDC" }: ILCalculatorProps) {
+// Inner content component (reusable for both modal and standalone)
+function ILCalculatorContent({ initialTokenA = "SOL", initialTokenB = "USDC" }: { initialTokenA?: string; initialTokenB?: string }) {
     const [tokenA, setTokenA] = useState(initialTokenA);
     const [tokenB, setTokenB] = useState(initialTokenB);
     const [initialPriceA, setInitialPriceA] = useState(100);
@@ -130,6 +132,251 @@ export function ILCalculator({ isOpen, onClose, initialTokenA = "SOL", initialTo
         return holdValue * (1 - ilPercent / 100);
     }, [holdValue, ilPercent]);
 
+    return (
+        <div className="space-y-6">
+            {/* Info box */}
+            <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex gap-3">
+                <Info className="h-5 w-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-blue-200">
+                    <p className="font-medium mb-1">What is Impermanent Loss?</p>
+                    <p className="text-blue-300/80">
+                        IL occurs when the price ratio of tokens in a liquidity pool changes from when you deposited.
+                        The larger the price change, the more IL you experience. It&apos;s &quot;impermanent&quot; because it only
+                        becomes permanent when you withdraw.
+                    </p>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Input Section */}
+                <div className="space-y-4">
+                    <h3 className="text-sm font-medium text-white">Position Setup</h3>
+
+                    {/* Token Pair */}
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <label className="block text-xs text-slate-400 mb-1">Token A</label>
+                            <input
+                                type="text"
+                                value={tokenA}
+                                onChange={(e) => setTokenA(e.target.value.toUpperCase())}
+                                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs text-slate-400 mb-1">Token B</label>
+                            <input
+                                type="text"
+                                value={tokenB}
+                                onChange={(e) => setTokenB(e.target.value.toUpperCase())}
+                                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Deposit Amount */}
+                    <div>
+                        <label className="block text-xs text-slate-400 mb-1">Deposit Amount (USD)</label>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+                            <input
+                                type="number"
+                                value={depositAmount}
+                                onChange={(e) => setDepositAmount(Number(e.target.value))}
+                                className="w-full pl-7 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Prices */}
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <label className="block text-xs text-slate-400 mb-1">Initial {tokenA} Price</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+                                <input
+                                    type="number"
+                                    value={initialPriceA}
+                                    onChange={(e) => setInitialPriceA(Number(e.target.value))}
+                                    className="w-full pl-7 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-xs text-slate-400 mb-1">Current {tokenA} Price</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+                                <input
+                                    type="number"
+                                    value={currentPriceA}
+                                    onChange={(e) => setCurrentPriceA(Number(e.target.value))}
+                                    className="w-full pl-7 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Concentrated Liquidity Toggle */}
+                    <div className="bg-slate-800/50 rounded-lg p-3 space-y-3">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={isConcentrated}
+                                onChange={(e) => setIsConcentrated(e.target.checked)}
+                                className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-orange-500"
+                            />
+                            <span className="text-sm text-white">Concentrated Liquidity (CLMM)</span>
+                        </label>
+                        {isConcentrated && (
+                            <div>
+                                <label className="block text-xs text-slate-400 mb-1">
+                                    Concentration Factor (1x = standard AMM)
+                                </label>
+                                <input
+                                    type="range"
+                                    min="1"
+                                    max="10"
+                                    step="0.5"
+                                    value={concentrationRange}
+                                    onChange={(e) => setConcentrationRange(Number(e.target.value))}
+                                    className="w-full"
+                                />
+                                <div className="flex justify-between text-xs text-slate-500">
+                                    <span>1x</span>
+                                    <span className="text-orange-400">{concentrationRange}x</span>
+                                    <span>10x</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Quick Price Change Buttons */}
+                    <div>
+                        <label className="block text-xs text-slate-400 mb-2">Quick Price Scenarios</label>
+                        <div className="flex flex-wrap gap-2">
+                            {[-50, -25, -10, 10, 25, 50, 100, 200].map((change) => (
+                                <button
+                                    key={change}
+                                    onClick={() => setCurrentPriceA(initialPriceA * (1 + change / 100))}
+                                    className={`px-3 py-1 text-xs rounded-lg transition-colors ${
+                                        Math.abs(priceChange - change) < 1
+                                            ? "bg-orange-500 text-white"
+                                            : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+                                    }`}
+                                >
+                                    {change > 0 ? "+" : ""}{change}%
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Results Section */}
+                <div className="space-y-4">
+                    <h3 className="text-sm font-medium text-white">Results</h3>
+
+                    {/* IL Chart */}
+                    <ILChart priceChange={priceChange} isConcentrated={isConcentrated} />
+
+                    {/* Results Cards */}
+                    <div className="grid grid-cols-2 gap-3">
+                        <div className="bg-slate-800/50 rounded-lg p-3">
+                            <p className="text-xs text-slate-400 mb-1">Price Change</p>
+                            <p className={`text-xl font-bold ${
+                                priceChange >= 0 ? "text-green-400" : "text-red-400"
+                            }`}>
+                                {priceChange >= 0 ? "+" : ""}{priceChange.toFixed(1)}%
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-3">
+                            <p className="text-xs text-slate-400 mb-1">Impermanent Loss</p>
+                            <p className="text-xl font-bold text-red-400">
+                                {ilPercent.toFixed(2)}%
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Value Comparison */}
+                    <div className="bg-slate-800/50 rounded-lg p-4 space-y-3">
+                        <h4 className="text-sm font-medium text-white">Value Comparison</h4>
+
+                        <div className="space-y-2">
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-slate-400">If you just held:</span>
+                                <span className="text-sm text-white font-medium">
+                                    ${holdValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm text-slate-400">LP Position Value:</span>
+                                <span className="text-sm text-white font-medium">
+                                    ${lpValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                </span>
+                            </div>
+                            <div className="border-t border-slate-700 pt-2 flex justify-between items-center">
+                                <span className="text-sm text-slate-400">IL Cost:</span>
+                                <span className="text-sm text-red-400 font-medium">
+                                    -${ilValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                                </span>
+                            </div>
+                        </div>
+
+                        {ilPercent > 5 && (
+                            <div className="flex items-start gap-2 mt-3 p-2 bg-yellow-500/10 border border-yellow-500/30 rounded">
+                                <AlertTriangle className="h-4 w-4 text-yellow-400 flex-shrink-0 mt-0.5" />
+                                <p className="text-xs text-yellow-200">
+                                    {ilPercent > 20
+                                        ? "Severe IL! Consider if trading fees can offset this loss."
+                                        : "Significant IL. Make sure pool APY covers this loss."}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* IL Reference Table */}
+                    <div className="bg-slate-800/50 rounded-lg p-4">
+                        <h4 className="text-sm font-medium text-white mb-3">IL Reference Table</h4>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+                            {IL_TABLE.map((row) => {
+                                const il = isConcentrated
+                                    ? calculateConcentratedIL(row.change, concentrationRange)
+                                    : calculateIL(row.change);
+                                return (
+                                    <div key={row.change} className="flex justify-between">
+                                        <span className={row.change >= 0 ? "text-green-400" : "text-red-400"}>
+                                            {row.label}
+                                        </span>
+                                        <span className="text-slate-300">
+                                            {(Math.abs(il) * 100).toFixed(2)}% IL
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export function ILCalculator({ isOpen = false, onClose, initialTokenA = "SOL", initialTokenB = "USDC", standalone = false }: ILCalculatorProps) {
+    // Standalone mode - render directly without modal wrapper
+    if (standalone) {
+        return (
+            <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-6">
+                    <Calculator className="h-5 w-5 text-orange-400" />
+                    <h2 className="text-lg font-semibold text-white">
+                        Impermanent Loss Calculator
+                    </h2>
+                </div>
+                <ILCalculatorContent initialTokenA={initialTokenA} initialTokenB={initialTokenB} />
+            </div>
+        );
+    }
+
+    // Modal mode
     return (
         <AnimatePresence>
             {isOpen && (
@@ -168,229 +415,8 @@ export function ILCalculator({ isOpen, onClose, initialTokenA = "SOL", initialTo
 
                         {/* Content */}
                         <div className="flex-1 overflow-y-auto p-6">
-                            <div className="max-w-4xl mx-auto space-y-6">
-                                {/* Info box */}
-                                <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex gap-3">
-                                    <Info className="h-5 w-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                                    <div className="text-sm text-blue-200">
-                                        <p className="font-medium mb-1">What is Impermanent Loss?</p>
-                                        <p className="text-blue-300/80">
-                                            IL occurs when the price ratio of tokens in a liquidity pool changes from when you deposited.
-                                            The larger the price change, the more IL you experience. It's "impermanent" because it only
-                                            becomes permanent when you withdraw.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                    {/* Input Section */}
-                                    <div className="space-y-4">
-                                        <h3 className="text-sm font-medium text-white">Position Setup</h3>
-
-                                        {/* Token Pair */}
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div>
-                                                <label className="block text-xs text-slate-400 mb-1">Token A</label>
-                                                <input
-                                                    type="text"
-                                                    value={tokenA}
-                                                    onChange={(e) => setTokenA(e.target.value.toUpperCase())}
-                                                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-xs text-slate-400 mb-1">Token B</label>
-                                                <input
-                                                    type="text"
-                                                    value={tokenB}
-                                                    onChange={(e) => setTokenB(e.target.value.toUpperCase())}
-                                                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        {/* Deposit Amount */}
-                                        <div>
-                                            <label className="block text-xs text-slate-400 mb-1">Deposit Amount (USD)</label>
-                                            <div className="relative">
-                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
-                                                <input
-                                                    type="number"
-                                                    value={depositAmount}
-                                                    onChange={(e) => setDepositAmount(Number(e.target.value))}
-                                                    className="w-full pl-7 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        {/* Prices */}
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div>
-                                                <label className="block text-xs text-slate-400 mb-1">Initial {tokenA} Price</label>
-                                                <div className="relative">
-                                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
-                                                    <input
-                                                        type="number"
-                                                        value={initialPriceA}
-                                                        onChange={(e) => setInitialPriceA(Number(e.target.value))}
-                                                        className="w-full pl-7 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label className="block text-xs text-slate-400 mb-1">Current {tokenA} Price</label>
-                                                <div className="relative">
-                                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
-                                                    <input
-                                                        type="number"
-                                                        value={currentPriceA}
-                                                        onChange={(e) => setCurrentPriceA(Number(e.target.value))}
-                                                        className="w-full pl-7 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-orange-500"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Concentrated Liquidity Toggle */}
-                                        <div className="bg-slate-800/50 rounded-lg p-3 space-y-3">
-                                            <label className="flex items-center gap-2 cursor-pointer">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={isConcentrated}
-                                                    onChange={(e) => setIsConcentrated(e.target.checked)}
-                                                    className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-orange-500"
-                                                />
-                                                <span className="text-sm text-white">Concentrated Liquidity (CLMM)</span>
-                                            </label>
-                                            {isConcentrated && (
-                                                <div>
-                                                    <label className="block text-xs text-slate-400 mb-1">
-                                                        Concentration Factor (1x = standard AMM)
-                                                    </label>
-                                                    <input
-                                                        type="range"
-                                                        min="1"
-                                                        max="10"
-                                                        step="0.5"
-                                                        value={concentrationRange}
-                                                        onChange={(e) => setConcentrationRange(Number(e.target.value))}
-                                                        className="w-full"
-                                                    />
-                                                    <div className="flex justify-between text-xs text-slate-500">
-                                                        <span>1x</span>
-                                                        <span className="text-orange-400">{concentrationRange}x</span>
-                                                        <span>10x</span>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Quick Price Change Buttons */}
-                                        <div>
-                                            <label className="block text-xs text-slate-400 mb-2">Quick Price Scenarios</label>
-                                            <div className="flex flex-wrap gap-2">
-                                                {[-50, -25, -10, 10, 25, 50, 100, 200].map((change) => (
-                                                    <button
-                                                        key={change}
-                                                        onClick={() => setCurrentPriceA(initialPriceA * (1 + change / 100))}
-                                                        className={`px-3 py-1 text-xs rounded-lg transition-colors ${
-                                                            Math.abs(priceChange - change) < 1
-                                                                ? "bg-orange-500 text-white"
-                                                                : "bg-slate-800 text-slate-400 hover:bg-slate-700"
-                                                        }`}
-                                                    >
-                                                        {change > 0 ? "+" : ""}{change}%
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Results Section */}
-                                    <div className="space-y-4">
-                                        <h3 className="text-sm font-medium text-white">Results</h3>
-
-                                        {/* IL Chart */}
-                                        <ILChart priceChange={priceChange} isConcentrated={isConcentrated} />
-
-                                        {/* Results Cards */}
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div className="bg-slate-800/50 rounded-lg p-3">
-                                                <p className="text-xs text-slate-400 mb-1">Price Change</p>
-                                                <p className={`text-xl font-bold ${
-                                                    priceChange >= 0 ? "text-green-400" : "text-red-400"
-                                                }`}>
-                                                    {priceChange >= 0 ? "+" : ""}{priceChange.toFixed(1)}%
-                                                </p>
-                                            </div>
-                                            <div className="bg-slate-800/50 rounded-lg p-3">
-                                                <p className="text-xs text-slate-400 mb-1">Impermanent Loss</p>
-                                                <p className="text-xl font-bold text-red-400">
-                                                    {ilPercent.toFixed(2)}%
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        {/* Value Comparison */}
-                                        <div className="bg-slate-800/50 rounded-lg p-4 space-y-3">
-                                            <h4 className="text-sm font-medium text-white">Value Comparison</h4>
-
-                                            <div className="space-y-2">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-slate-400">If you just held:</span>
-                                                    <span className="text-sm text-white font-medium">
-                                                        ${holdValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                                                    </span>
-                                                </div>
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-slate-400">LP Position Value:</span>
-                                                    <span className="text-sm text-white font-medium">
-                                                        ${lpValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                                                    </span>
-                                                </div>
-                                                <div className="border-t border-slate-700 pt-2 flex justify-between items-center">
-                                                    <span className="text-sm text-slate-400">IL Cost:</span>
-                                                    <span className="text-sm text-red-400 font-medium">
-                                                        -${ilValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            {ilPercent > 5 && (
-                                                <div className="flex items-start gap-2 mt-3 p-2 bg-yellow-500/10 border border-yellow-500/30 rounded">
-                                                    <AlertTriangle className="h-4 w-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-                                                    <p className="text-xs text-yellow-200">
-                                                        {ilPercent > 20
-                                                            ? "Severe IL! Consider if trading fees can offset this loss."
-                                                            : "Significant IL. Make sure pool APY covers this loss."}
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* IL Reference Table */}
-                                        <div className="bg-slate-800/50 rounded-lg p-4">
-                                            <h4 className="text-sm font-medium text-white mb-3">IL Reference Table</h4>
-                                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
-                                                {IL_TABLE.map((row) => {
-                                                    const il = isConcentrated
-                                                        ? calculateConcentratedIL(row.change, concentrationRange)
-                                                        : calculateIL(row.change);
-                                                    return (
-                                                        <div key={row.change} className="flex justify-between">
-                                                            <span className={row.change >= 0 ? "text-green-400" : "text-red-400"}>
-                                                                {row.label}
-                                                            </span>
-                                                            <span className="text-slate-300">
-                                                                {(Math.abs(il) * 100).toFixed(2)}% IL
-                                                            </span>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="max-w-4xl mx-auto">
+                                <ILCalculatorContent initialTokenA={initialTokenA} initialTokenB={initialTokenB} />
                             </div>
                         </div>
                     </motion.div>

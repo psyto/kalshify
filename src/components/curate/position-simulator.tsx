@@ -29,6 +29,7 @@ interface PoolData {
 interface PositionSimulatorProps {
     pools?: PoolData[];
     onClose?: () => void;
+    standalone?: boolean;
 }
 
 interface SimulationResult {
@@ -84,7 +85,7 @@ const TIME_PERIODS = [
     { days: 365, label: "1 year" },
 ];
 
-export function PositionSimulator({ pools = [], onClose }: PositionSimulatorProps) {
+export function PositionSimulator({ pools = [], onClose, standalone = false }: PositionSimulatorProps) {
     const [depositAmount, setDepositAmount] = useState<string>("1000");
     const [selectedPoolId, setSelectedPoolId] = useState<string>(pools[0]?.poolId || "");
     const [customApy, setCustomApy] = useState<string>("");

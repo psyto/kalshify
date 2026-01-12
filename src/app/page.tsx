@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, Fragment, useCallback, useMemo } from "react";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import {
     TrendingUp,
@@ -19,7 +20,6 @@ import {
     BarChart3,
     Calculator,
     LineChart,
-    X,
 } from "lucide-react";
 import { WatchlistButton } from "@/components/curate/watchlist-button";
 import { ApyHistoryChart } from "@/components/curate/apy-history-chart";
@@ -32,10 +32,8 @@ import { PortfolioOptimizer } from "@/components/curate/portfolio-optimizer";
 import { ProtocolComparison } from "@/components/curate/protocol-comparison";
 import { BacktestPanel } from "@/components/curate/backtest-panel";
 import { ProtocolRiskBadge } from "@/components/curate/protocol-risk-badge";
-import { SolanaMetricsPanel, ILRiskIndicator, TvlTrendIndicator } from "@/components/curate/solana-yield-metrics";
+import { SolanaMetricsPanel } from "@/components/curate/solana-yield-metrics";
 import { LSTComparison } from "@/components/curate/lst-comparison";
-import { ILCalculator } from "@/components/curate/il-calculator";
-import { PositionSimulator } from "@/components/curate/position-simulator";
 import { CurateLayoutClient } from "@/components/curate/curate-layout-client";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
@@ -430,10 +428,6 @@ export default function CuratePage() {
     // AI Features state
     const [preferencesOpen, setPreferencesOpen] = useState(false);
     const [portfolioOpen, setPortfolioOpen] = useState(false);
-
-    // Calculator states
-    const [ilCalculatorOpen, setIlCalculatorOpen] = useState(false);
-    const [positionSimulatorOpen, setPositionSimulatorOpen] = useState(false);
     const [hasPreferences, setHasPreferences] = useState(false);
     const [userPreferences, setUserPreferences] = useState<{
         riskTolerance: "conservative" | "moderate" | "aggressive";
@@ -665,8 +659,8 @@ export default function CuratePage() {
 
             {/* DeFi Tools Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button
-                    onClick={() => setIlCalculatorOpen(true)}
+                <Link
+                    href="/tools#il-calculator"
                     className="group flex items-center gap-4 p-4 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl hover:border-orange-500/50 hover:shadow-lg hover:shadow-orange-500/10 transition-all"
                 >
                     <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg flex items-center justify-center group-hover:from-orange-500/30 group-hover:to-red-500/30 transition-colors">
@@ -676,10 +670,10 @@ export default function CuratePage() {
                         <h3 className="text-white font-semibold">IL Calculator</h3>
                         <p className="text-sm text-slate-400">Calculate impermanent loss for LP positions</p>
                     </div>
-                </button>
+                </Link>
 
-                <button
-                    onClick={() => setPositionSimulatorOpen(true)}
+                <Link
+                    href="/tools#position-simulator"
                     className="group flex items-center gap-4 p-4 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10 transition-all"
                 >
                     <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-cyan-500/20 rounded-lg flex items-center justify-center group-hover:from-green-500/30 group-hover:to-cyan-500/30 transition-colors">
@@ -689,7 +683,7 @@ export default function CuratePage() {
                         <h3 className="text-white font-semibold">Position Simulator</h3>
                         <p className="text-sm text-slate-400">Project returns with IL impact over time</p>
                     </div>
-                </button>
+                </Link>
             </div>
 
             {/* Curated Picks Section */}
@@ -1048,39 +1042,6 @@ export default function CuratePage() {
                 onClose={() => setBacktestOpen(false)}
                 selectedPoolIds={Array.from(selectedPoolIds)}
             />
-
-            {/* IL Calculator Modal */}
-            <ILCalculator
-                isOpen={ilCalculatorOpen}
-                onClose={() => setIlCalculatorOpen(false)}
-            />
-
-            {/* Position Simulator Modal */}
-            {positionSimulatorOpen && (
-                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto">
-                        <button
-                            onClick={() => setPositionSimulatorOpen(false)}
-                            className="absolute top-4 right-4 z-10 p-2 bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
-                        >
-                            <X className="h-5 w-5" />
-                        </button>
-                        <PositionSimulator
-                            pools={graphData?.yields.slice(0, 20).map(p => ({
-                                poolId: p.id,
-                                symbol: p.symbol,
-                                project: p.project,
-                                apy: p.apy,
-                                apyBase: p.apyBase,
-                                apyReward: p.apyReward,
-                                tvlUsd: p.tvlUsd,
-                                isConcentratedLiquidity: p.ilRiskInfo?.isConcentratedLiquidity,
-                            })) || []}
-                            onClose={() => setPositionSimulatorOpen(false)}
-                        />
-                    </div>
-                </div>
-            )}
         </div>
         </CurateLayoutClient>
     );

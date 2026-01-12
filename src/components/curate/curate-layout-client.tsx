@@ -35,6 +35,16 @@ export function CurateLayoutClient({
                                 >
                                     Yields
                                 </Link>
+                                <Link
+                                    href="/tools"
+                                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                                        pathname === "/tools"
+                                            ? "bg-muted text-foreground"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    }`}
+                                >
+                                    Tools
+                                </Link>
                             </nav>
                         </div>
                         <div className="flex items-center gap-4">
