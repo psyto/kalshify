@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Coins, Shield, Zap, Users, TrendingUp, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { Coins, Shield, Zap, Users, ChevronDown, ChevronUp } from "lucide-react";
 import { getAllLSTs, type LSTData } from "@/lib/solana/yield-context";
 
 interface LSTComparisonProps {
@@ -166,9 +166,6 @@ export function LSTComparison({ onLSTClick }: LSTComparisonProps) {
     const sortedLSTs = [...lsts].sort((a, b) => b.marketCap - a.marketCap);
 
     // Calculate best in each category
-    const bestApy = sortedLSTs.reduce((best, lst) =>
-        (lst.stakingApy + (lst.mevBoost || 0)) > (best.stakingApy + (best.mevBoost || 0)) ? lst : best
-    );
     const bestDecentralization = sortedLSTs.reduce((best, lst) =>
         lst.validatorCount > best.validatorCount ? lst : best
     );
@@ -188,15 +185,7 @@ export function LSTComparison({ onLSTClick }: LSTComparisonProps) {
             </div>
 
             {/* Quick comparison highlights */}
-            <div className="grid grid-cols-3 gap-3">
-                <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-lg p-3">
-                    <div className="flex items-center gap-2 text-green-400 mb-1">
-                        <TrendingUp className="h-4 w-4" />
-                        <span className="text-xs uppercase">Highest APY</span>
-                    </div>
-                    <p className="text-white font-semibold">{bestApy.name}</p>
-                    <p className="text-sm text-green-400">{(bestApy.stakingApy + (bestApy.mevBoost || 0)).toFixed(2)}%</p>
-                </div>
+            <div className="grid grid-cols-2 gap-3">
                 <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-lg p-3">
                     <div className="flex items-center gap-2 text-blue-400 mb-1">
                         <Users className="h-4 w-4" />

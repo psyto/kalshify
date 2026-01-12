@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, GitCompare, Trophy, Shield, TrendingUp, Target } from "lucide-react";
+import { Loader2, GitCompare } from "lucide-react";
 import { SolanaProtocolCard } from "./solana-protocol-card";
 
 interface ProtocolSummary {
@@ -113,46 +113,6 @@ export function ProtocolComparison({ onProtocolClick }: ProtocolComparisonProps)
                     <span>{protocols.length} protocols</span>
                     <span>{metadata.totalPools} pools</span>
                     <span>{formatTvl(metadata.totalTvl)} TVL</span>
-                </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-4 gap-3">
-                <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="flex items-center gap-2 text-cyan-400 mb-1">
-                        <Trophy className="h-4 w-4" />
-                        <span className="text-xs uppercase">Highest TVL</span>
-                    </div>
-                    <p className="text-white font-medium">
-                        {protocols.find((p) => p.slug === comparison.highestTvl)?.name || "-"}
-                    </p>
-                </div>
-                <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="flex items-center gap-2 text-green-400 mb-1">
-                        <TrendingUp className="h-4 w-4" />
-                        <span className="text-xs uppercase">Highest APY</span>
-                    </div>
-                    <p className="text-white font-medium">
-                        {protocols.find((p) => p.slug === comparison.highestApy)?.name || "-"}
-                    </p>
-                </div>
-                <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="flex items-center gap-2 text-blue-400 mb-1">
-                        <Shield className="h-4 w-4" />
-                        <span className="text-xs uppercase">Lowest Risk</span>
-                    </div>
-                    <p className="text-white font-medium">
-                        {protocols.find((p) => p.slug === comparison.lowestRisk)?.name || "-"}
-                    </p>
-                </div>
-                <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="flex items-center gap-2 text-purple-400 mb-1">
-                        <Target className="h-4 w-4" />
-                        <span className="text-xs uppercase">Best Value</span>
-                    </div>
-                    <p className="text-white font-medium">
-                        {protocols.find((p) => p.slug === comparison.bestRiskAdjusted)?.name || "-"}
-                    </p>
                 </div>
             </div>
 
