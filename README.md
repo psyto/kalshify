@@ -1,106 +1,106 @@
-# FABRKNT: AI-Powered DeFi Curation Platform
+# FABRKNT: Risk-First DeFi Yield Intelligence
 
-**Curate DeFi yields intelligently with AI.**
+**Find sustainable yields, not just high APYs.**
 
-**Domain:** `www.fabrknt.com`
+**Domain:** [www.fabrknt.com](https://www.fabrknt.com)
 
 ---
 
-## Overview
+## What is Fabrknt?
 
-FABRKNT is an AI-powered DeFi yield curation platform that helps curators, investors, and protocol teams make smarter decisions using real-time risk scoring, APY stability analysis, and AI-driven recommendations.
+Fabrknt is a DeFi yield intelligence platform focused on **Solana**. Instead of chasing the highest APY, we help you find sustainable, low-risk yield opportunities through rigorous analysis and AI-powered insights.
 
-**Core Product:** **CURATE** — AI-powered yield intelligence with personalized recommendations, natural language risk insights, and portfolio optimization.
+**Our approach:** Risk-adjusted yield analysis, not raw APY chasing.
 
-**Positioning:** **AI × Verified Data × DeFi Intelligence**
+---
+
+## Core Features
+
+### Smart Picks
+AI-curated pool recommendations based on risk-adjusted analysis:
+- **Algorithmic picks** for all users (no login required)
+- **Personalized recommendations** based on your preferences (requires login)
+- Ranked by risk-adjusted returns, not raw APY
+
+### Top Protocols
+Compare major Solana protocols at a glance:
+- **Kamino**, **Marginfi**, **Meteora**, **Save**, and more
+- Protocol-level TVL, average APY, pool counts
+- Click to filter the pool table by protocol
+
+### LST Comparison
+Deep dive into Solana liquid staking tokens:
+- Compare Jito, Marinade, and other LSTs
+- MEV yield breakdown and validator decentralization
+- Peg stability and instant unstake availability
+
+### Quick IL Calculator
+Inline impermanent loss estimation:
+- Enter price change to see potential IL
+- Formula: `IL = 2 * sqrt(price_ratio) / (1 + price_ratio) - 1`
+- Educational context for LP decisions
+
+### Pool Table
+Comprehensive pool listing with intelligent defaults:
+- **Low-risk pools by default** (risk score <= 20)
+- APY change alerts (badges when APY drops 20%+ or rises 30%+)
+- Filter by protocol, risk level, chain
+- Sort by TVL, APY, risk score
 
 ---
 
 ## AI-Powered Features
 
-### 1. Personalized Recommendations
-
-Get AI-curated pool suggestions based on your preferences:
-- Risk tolerance (conservative, moderate, aggressive)
-- Preferred chains
-- APY range
-- Stablecoin preference
-
-*Requires login*
-
-### 2. Smart Risk Insights
-
-AI-generated analysis explaining each pool in plain English:
+### Smart Risk Insights
+AI-generated analysis in plain English (requires login):
 - Risk explanation and breakdown
-- Opportunities and warnings
-- APY stability analysis
+- APY sustainability analysis
 - Comparison vs. similar pools
-- Overall verdict
+- Actionable verdict
 
-*Requires login*
-
-### 3. Portfolio Optimizer
-
-AI suggests optimal allocation across pools:
-- Input your total allocation amount
-- Choose risk tolerance and diversification level
-- Get AI-recommended portfolio with expected yields
-- View risk warnings and diversification score
-
-*Requires login*
+### Portfolio Optimizer
+AI suggests optimal allocation (requires login):
+- Input total amount and risk tolerance
+- Get diversified portfolio suggestions
+- View expected yields and risk warnings
 
 ---
 
-## CURATE: DeFi Yield Intelligence
+## Risk Scoring
 
-Beyond AI features, CURATE provides comprehensive yield intelligence:
+Our composite risk score (0-100) evaluates:
 
-### Risk Scoring
-- **Composite Risk Score (0-100):** TVL risk, APY sustainability, IL risk, stablecoin exposure, protocol maturity
-- **Risk Breakdown:** Detailed scoring for each factor
+| Factor | Weight | Description |
+|--------|--------|-------------|
+| TVL Risk | 25% | Liquidity depth and exit-ability |
+| APY Sustainability | 25% | Historical volatility and trends |
+| IL Risk | 20% | Impermanent loss exposure for LPs |
+| Stablecoin Exposure | 15% | Stability of underlying assets |
+| Protocol Maturity | 15% | Age, audits, track record |
 
-### APY Stability Analysis
-- 30-day historical charts
-- Volatility analysis and trend direction
-- Stability scores
-
-### Liquidity Risk Assessment
-- Exit-ability ratings (excellent to poor)
-- Max safe allocation guidance
-- Slippage estimates at $100K to $10M positions
-
-### Pool Comparison
-- Side-by-side comparison of multiple pools
-- Highlight best values across metrics
-
-### Watchlist
-- Save pools for monitoring
-- Quick access to tracked yields
+**Risk Levels:**
+- **Low** (0-20): Conservative, stable yields
+- **Medium** (21-40): Balanced risk-reward
+- **High** (41+): Higher risk, potentially higher returns
 
 ---
 
-## Data Coverage
+## Trust & Security
 
-- **200+** yield pools analyzed
-- **30-day** APY trends
-- **Real-time** risk scoring
-- Data sourced from DeFiLlama APIs
+| Principle | Description |
+|-----------|-------------|
+| **Read-Only** | We never request wallet permissions |
+| **Non-Custodial** | Your keys, your funds. We never touch assets |
+| **Transparent** | Our methodology is open. See [How It Works](/how-it-works) |
 
 ---
 
-## CURATE vs DeFiLlama
+## Pages
 
-| Feature | DeFiLlama | FABRKNT CURATE |
-|---------|-----------|----------------|
-| AI Recommendations | ❌ | ✅ Personalized |
-| Natural Language Insights | ❌ | ✅ AI-generated |
-| Portfolio Optimization | ❌ | ✅ AI-powered |
-| Composite Risk Score | ❌ | ✅ 0-100 score |
-| APY Stability Analysis | ❌ Raw chart | ✅ Stability score |
-| Liquidity Risk Index | ❌ Only TVL | ✅ Exit-ability rating |
-| Safe Allocation Guidance | ❌ | ✅ Max position size |
-| Slippage Estimates | ❌ | ✅ At $100K-$10M |
-| Pool Comparison | ❌ | ✅ Side-by-side |
+- **/** — Yields dashboard with Smart Picks, protocols, and pool table
+- **/tools** — IL Calculator and Position Simulator
+- **/how-it-works** — Methodology and risk scoring explanation
+- **/about** — Team and mission
 
 ---
 
@@ -110,8 +110,7 @@ Beyond AI features, CURATE provides comprehensive yield intelligence:
 - **AI:** Anthropic Claude API
 - **Database:** PostgreSQL (Supabase)
 - **Hosting:** Vercel
-- **Data Sources:** DeFiLlama APIs
-- **Authentication:** NextAuth.js
+- **Data Sources:** DeFiLlama APIs, on-chain data
 
 ---
 
@@ -119,11 +118,10 @@ Beyond AI features, CURATE provides comprehensive yield intelligence:
 
 ### For Users
 
-1. **Browse Pools** — Explore 200+ yield pools with risk scoring (no login required)
-2. **Sign In** — Unlock AI-powered features
-3. **Set Preferences** — Configure your risk tolerance and preferences
-4. **Get AI Recommendations** — Receive personalized pool suggestions
-5. **Optimize Portfolio** — Use AI to allocate across pools
+1. **Browse Pools** — Explore yield pools filtered by low risk by default
+2. **Compare Protocols** — Click protocol cards to filter the table
+3. **Check IL** — Use Quick IL Calculator for LP positions
+4. **Sign In** — Unlock personalized AI recommendations
 
 ### Development
 
@@ -170,14 +168,25 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 - `GET /api/curate/defi` — Yield pools with risk scoring
 - `GET /api/curate/defi/history/{poolId}` — Historical APY data
+- `GET /api/curate/protocols` — Protocol aggregation and comparison
 
-### Authenticated Endpoints (AI Features)
+### Authenticated Endpoints
 
 - `GET /api/curate/ai/preferences` — Get user preferences
 - `PUT /api/curate/ai/preferences` — Update preferences
 - `POST /api/curate/ai/recommendations` — Get AI recommendations
 - `GET /api/curate/ai/insights/{poolId}` — Get AI pool insights
 - `POST /api/curate/ai/portfolio` — Optimize portfolio
+
+---
+
+## Team
+
+**Hiroyuki Saito** — Founder
+Banking & enterprise software background. AWS certified, Stanford blockchain certification. Building at the intersection of institutional finance and DeFi. Based in Tokyo.
+
+- X (Twitter): [@psyto](https://x.com/psyto)
+- LinkedIn: [hiroyuki-saito](https://www.linkedin.com/in/hiroyuki-saito/)
 
 ---
 
@@ -189,4 +198,4 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ---
 
-**DeFi yields, curated by AI.**
+**Sustainable DeFi yields through intelligent risk analysis.**
