@@ -34,6 +34,7 @@ import { BacktestPanel } from "@/components/curate/backtest-panel";
 import { ProtocolRiskBadge } from "@/components/curate/protocol-risk-badge";
 import { SolanaMetricsPanel } from "@/components/curate/solana-yield-metrics";
 import { LSTComparison } from "@/components/curate/lst-comparison";
+import { AlternativeYields } from "@/components/curate/alternative-yields";
 import { CurateLayoutClient } from "@/components/curate/curate-layout-client";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
@@ -732,6 +733,9 @@ export default function CuratePage() {
 
             {/* LST Comparison Section */}
             <LSTComparison />
+
+            {/* Restaking & Perp LP Section */}
+            <AlternativeYields />
 
             {/* DeFi Tools Section with Quick IL Calculator */}
             <QuickILCalculator />
