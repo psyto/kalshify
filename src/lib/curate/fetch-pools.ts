@@ -285,3 +285,230 @@ export async function fetchPoolsForAI(options?: {
         .sort((a, b) => b.tvlUsd - a.tvlUsd)
         .slice(0, limit);
 }
+
+// Types for alternative yields
+interface AlternativeYield {
+    id: string;
+    name: string;
+    symbol: string;
+    category: "restaking" | "perp_lp" | "rwa";
+    protocol: string;
+    chain: string;
+    tvlUsd: number;
+    apy: number;
+    apyBreakdown?: {
+        base?: number;
+        mev?: number;
+        ncn?: number;
+        fees?: number;
+    };
+    riskLevel: "low" | "medium" | "high";
+    description: string;
+}
+
+interface JLPData {
+    tvl: number;
+    fees30d: number;
+    apy: number;
+}
+
+interface FragmetricToken {
+    address: string;
+    symbol: string;
+    displayName: string;
+    data: {
+        apy: number;
+        tvlAsUSD: number;
+        mintAddress: string;
+    };
+    updatedAt: string;
+}
+
+async function fetchJLPData(): Promise<JLPData | null> {
+    try {
+        const tvlResponse = await fetch(
+            "https://api.llama.fi/protocol/jupiter-perpetual-exchange",
+            { next: { revalidate: 300 } }
+        );
+        if (!tvlResponse.ok) return null;
+        const tvlData = await tvlResponse.json();
+        const tvl = tvlData.currentChainTvls?.Solana || 0;
+
+        const feesResponse = await fetch(
+            "https://api.llama.fi/summary/fees/jupiter-perpetual-exchange",
+            { next: { revalidate: 300 } }
+        );
+        if (!feesResponse.ok) return null;
+        const feesData = await feesResponse.json();
+        const fees30d = feesData.total30d || 0;
+
+        const jlpFees30d = fees30d * 0.75;
+        const apy = tvl > 0 ? (jlpFees30d * 12 / tvl) * 100 : 0;
+
+        return { tvl, fees30d, apy };
+    } catch {
+        return null;
+    }
+}
+
+async function fetchFragmetricData(): Promise<FragmetricToken[]> {
+    try {
+        const response = await fetch(
+            "https://api.fragmetric.xyz/v1/public/feeds?types=FRAGMETRIC_RESTAKED_TOKEN",
+            { next: { revalidate: 300 } }
+        );
+        if (!response.ok) return [];
+        const data = await response.json();
+        return Object.values(data) as FragmetricToken[];
+    } catch {
+        return [];
+    }
+}
+
+/**
+ * Fetch alternative yields (restaking, perp LP) and convert to PoolForAI format
+ */
+export async function fetchAlternativeYieldsForAI(): Promise<PoolForAI[]> {
+    const pools: PoolForAI[] = [];
+
+    // Fetch JLP data
+    const jlpData = await fetchJLPData();
+    if (jlpData && jlpData.tvl > 0 && jlpData.apy > 0) {
+        const riskLevel = jlpData.tvl > 500_000_000 ? "medium" : "high";
+        const riskScore = riskLevel === "medium" ? 35 : 50;
+
+        pools.push({
+            id: "jlp-native",
+            chain: "Solana",
+            project: "Jupiter",
+            symbol: "JLP",
+            tvlUsd: jlpData.tvl,
+            apy: Math.round(jlpData.apy * 100) / 100,
+            apyBase: Math.round(jlpData.apy * 100) / 100,
+            apyReward: 0,
+            stablecoin: false,
+            ilRisk: "yes", // Exposure to multiple assets
+            riskScore,
+            riskLevel,
+            category: "perp_lp",
+            categoryDescription: "Perpetual exchange LP - earns 75% of trading fees with exposure to SOL, ETH, BTC, stablecoins",
+            riskBreakdown: {
+                tvlScore: 5, // Very high TVL
+                apyScore: 15, // High APY from fees
+                stableScore: 10, // Multi-asset exposure
+                ilScore: 5, // Some IL risk from rebalancing
+                protocolScore: 0, // Established protocol
+            },
+            liquidityRisk: {
+                score: 15,
+                maxSafeAllocation: jlpData.tvl * 0.02,
+                exitabilityRating: "good",
+                slippageEstimates: {
+                    at100k: 0.1,
+                    at500k: 0.3,
+                    at1m: 0.5,
+                },
+            },
+            underlyingAssets: ["SOL", "ETH", "BTC", "USDC", "USDT"],
+        });
+    }
+
+    // Fetch Fragmetric data
+    const fragmetricTokens = await fetchFragmetricData();
+    for (const token of fragmetricTokens) {
+        if (token.data.tvlAsUSD < 100000) continue; // Skip very small pools
+        const apy = Math.round(token.data.apy * 10000) / 100;
+        if (apy <= 0) continue; // Skip zero APY
+
+        const riskLevel = token.data.tvlAsUSD > 20_000_000 ? "medium" : "high";
+        const riskScore = riskLevel === "medium" ? 38 : 55;
+
+        // Determine underlying asset
+        const symbolMap: Record<string, { name: string; underlying: string; description: string }> = {
+            fragSOL: {
+                name: "Fragmetric Restaked SOL",
+                underlying: "SOL",
+                description: "Liquid restaking for SOL - earns staking + MEV + NCN rewards",
+            },
+            fragJTO: {
+                name: "Fragmetric Restaked JTO",
+                underlying: "JTO",
+                description: "Stake JTO to secure TipRouter NCN - earns MEV rewards",
+            },
+            fragBTC: {
+                name: "Fragmetric Restaked BTC",
+                underlying: "BTC",
+                description: "Restaked BTC on Solana with additional yield",
+            },
+        };
+
+        const info = symbolMap[token.symbol] || {
+            name: token.displayName,
+            underlying: token.symbol.replace("frag", ""),
+            description: `Fragmetric restaking token: ${token.symbol}`,
+        };
+
+        pools.push({
+            id: `fragmetric-${token.symbol.toLowerCase()}`,
+            chain: "Solana",
+            project: "Fragmetric",
+            symbol: token.symbol,
+            tvlUsd: token.data.tvlAsUSD,
+            apy,
+            apyBase: apy * 0.7, // ~70% from staking
+            apyReward: apy * 0.3, // ~30% from MEV/NCN
+            stablecoin: false,
+            ilRisk: "no", // Liquid staking, no IL
+            riskScore,
+            riskLevel,
+            category: "restaking",
+            categoryDescription: info.description,
+            riskBreakdown: {
+                tvlScore: token.data.tvlAsUSD > 20_000_000 ? 15 : 25,
+                apyScore: 10,
+                stableScore: 10,
+                ilScore: 0, // No IL for liquid staking
+                protocolScore: 8, // Newer protocol
+            },
+            liquidityRisk: {
+                score: 40,
+                maxSafeAllocation: token.data.tvlAsUSD * 0.02,
+                exitabilityRating: "moderate",
+                slippageEstimates: {
+                    at100k: 0.5,
+                    at500k: 1.5,
+                    at1m: 3.0,
+                },
+            },
+            underlyingAssets: [info.underlying],
+        });
+    }
+
+    return pools;
+}
+
+/**
+ * Fetch all pools including alternative yields for AI recommendations
+ */
+export async function fetchAllPoolsForAI(options?: {
+    limit?: number;
+    minTvl?: number;
+    includeAlternativeYields?: boolean;
+}): Promise<PoolForAI[]> {
+    const limit = options?.limit ?? 150;
+    const includeAltYields = options?.includeAlternativeYields ?? true;
+
+    // Fetch main pools
+    const mainPools = await fetchPoolsForAI({ limit: limit - 10, minTvl: options?.minTvl });
+
+    if (!includeAltYields) {
+        return mainPools;
+    }
+
+    // Fetch alternative yields
+    const altYields = await fetchAlternativeYieldsForAI();
+
+    // Merge and sort by TVL
+    const allPools = [...mainPools, ...altYields];
+    return allPools.sort((a, b) => b.tvlUsd - a.tvlUsd).slice(0, limit);
+}

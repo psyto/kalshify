@@ -19,10 +19,12 @@ export function buildRecommendationsPrompt(
         })
         .slice(0, 30); // Limit to top 30 to manage token usage
 
-    const poolsText = filteredPools.map(p => `
+    const poolsText = filteredPools.map(p => {
+        const categoryInfo = p.category ? `\n- Category: ${p.category}${p.categoryDescription ? ` (${p.categoryDescription})` : ""}` : "";
+        return `
 Pool ID: ${p.id}
 - Project: ${p.project} (${p.chain})
-- Symbol: ${p.symbol}
+- Symbol: ${p.symbol}${categoryInfo}
 - APY: ${p.apy.toFixed(2)}% (Base: ${p.apyBase.toFixed(2)}%, Reward: ${p.apyReward.toFixed(2)}%)
 - TVL: $${(p.tvlUsd / 1_000_000).toFixed(1)}M
 - Risk Score: ${p.riskScore}/100 (${p.riskLevel})
@@ -31,7 +33,8 @@ Pool ID: ${p.id}
 - Liquidity Score: ${p.liquidityRisk.score}/100
 - Max Safe Allocation: $${(p.liquidityRisk.maxSafeAllocation / 1_000).toFixed(0)}K
 - APY Trend: ${p.apyStability?.trend || "unknown"}
-`).join("\n---\n");
+`;
+    }).join("\n---\n");
 
     return `You are a DeFi yield analyst. Analyze these yield pools and rank the TOP 5 for this investor.
 
@@ -45,13 +48,18 @@ ${preferences.maxAllocationUsd ? `- Max Allocation: $${preferences.maxAllocation
 ## Available Pools (${filteredPools.length} matching filters)
 ${poolsText}
 
+## Yield Categories
+- **lending/lp**: Traditional DeFi lending and liquidity pools
+- **restaking**: Liquid restaking (e.g., Fragmetric) - extra yield from securing NCNs, no IL risk
+- **perp_lp**: Perpetual exchange LP (e.g., Jupiter JLP) - earns trading fees, multi-asset exposure
+
 ## Selection Criteria
 For ${preferences.riskTolerance} investors:
 ${preferences.riskTolerance === "conservative" ?
-    "- Prioritize established protocols and stablecoins\n- Risk score should be under 25\n- Base APY (not reward) is more important" :
+    "- Prioritize established protocols and stablecoins\n- Risk score should be under 25\n- Base APY (not reward) is more important\n- Avoid perp_lp due to volatility exposure" :
 preferences.riskTolerance === "moderate" ?
-    "- Balance risk and reward\n- Risk score ideally under 40\n- Mix of base and reward APY acceptable" :
-    "- Higher APY acceptable with higher risk\n- Risk score up to 60 acceptable\n- Growth potential over stability"}
+    "- Balance risk and reward\n- Risk score ideally under 40\n- Mix of base and reward APY acceptable\n- restaking and perp_lp can diversify yield sources" :
+    "- Higher APY acceptable with higher risk\n- Risk score up to 60 acceptable\n- Growth potential over stability\n- perp_lp and restaking are good options for higher yields"}
 
 ## Task
 Select the TOP 5 pools best suited for this investor. Consider:

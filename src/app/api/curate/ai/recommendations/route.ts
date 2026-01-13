@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getYieldAdvisor } from "@/lib/ai/yield-advisor";
 import { UserPreferences } from "@/lib/ai/types";
-import { fetchPoolsForAI } from "@/lib/curate/fetch-pools";
+import { fetchAllPoolsForAI } from "@/lib/curate/fetch-pools";
 
 export async function POST(request: Request) {
     try {
@@ -30,8 +30,8 @@ export async function POST(request: Request) {
             maxAllocationUsd: body.preferences?.maxAllocationUsd,
         };
 
-        // Fetch pools directly from DeFiLlama (avoids self-referencing HTTP in serverless)
-        const pools = await fetchPoolsForAI({ limit: 100, minTvl: 1_000_000 });
+        // Fetch pools from DeFiLlama + alternative yields (restaking, perp LP)
+        const pools = await fetchAllPoolsForAI({ limit: 100, minTvl: 1_000_000, includeAlternativeYields: true });
 
         // Get recommendations from AI
         const result = await advisor.getPersonalizedRecommendations(pools, preferences);

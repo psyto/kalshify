@@ -34,16 +34,19 @@ export function buildPortfolioPrompt(
         })
         .slice(0, 25);
 
-    const poolsText = filteredPools.map(p => `
+    const poolsText = filteredPools.map(p => {
+        const categoryInfo = p.category ? `\n- Category: ${p.category}${p.categoryDescription ? ` (${p.categoryDescription})` : ""}` : "";
+        return `
 Pool: ${p.id}
-- ${p.project} (${p.chain}): ${p.symbol}
+- ${p.project} (${p.chain}): ${p.symbol}${categoryInfo}
 - APY: ${p.apy.toFixed(2)}% (Base: ${p.apyBase.toFixed(2)}%, Reward: ${p.apyReward.toFixed(2)}%)
 - Risk: ${p.riskScore}/100 (${p.riskLevel})
 - TVL: $${(p.tvlUsd / 1_000_000).toFixed(1)}M
 - Safe Allocation: $${(p.liquidityRisk.maxSafeAllocation / 1_000).toFixed(0)}K
 - Stablecoin: ${p.stablecoin ? "Yes" : "No"}
 - IL Risk: ${p.ilRisk}
-`).join("\n");
+`;
+    }).join("\n");
 
     return `You are a DeFi portfolio manager. Construct an optimal yield allocation.
 
@@ -53,10 +56,15 @@ Pool: ${p.id}
 - Diversification: ${request.diversification} (${targetPoolCount} pools)
 - Max per Pool: ${maxPerPool}%
 
+## Yield Categories
+- **lending/lp**: Traditional DeFi lending and liquidity pools
+- **restaking**: Liquid restaking (e.g., Fragmetric) - extra yield from securing NCNs, no IL
+- **perp_lp**: Perpetual exchange LP (e.g., Jupiter JLP) - earns trading fees, multi-asset
+
 ## Risk Tolerance Guidelines
-- Conservative: Prioritize stablecoins, established protocols, base APY over rewards
-- Moderate: Balance stables and volatile assets, accept some reward dependency
-- Aggressive: Higher APY acceptable, can take IL risk, reward APY acceptable
+- Conservative: Prioritize stablecoins, established protocols, base APY over rewards. Avoid perp_lp.
+- Moderate: Balance stables and volatile assets, accept some reward dependency. Can include restaking.
+- Aggressive: Higher APY acceptable, can take IL risk. perp_lp and restaking are good options.
 
 ## Position Sizing Rules
 1. Never allocate more than 50% of a pool's maxSafeAllocation

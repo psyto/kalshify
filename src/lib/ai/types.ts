@@ -75,6 +75,9 @@ export interface PoolForAI {
     ilRisk: string;
     riskScore: number;
     riskLevel: "low" | "medium" | "high" | "very_high";
+    // Optional category for alternative yield types
+    category?: "lending" | "lp" | "staking" | "restaking" | "perp_lp";
+    categoryDescription?: string;
     riskBreakdown: {
         tvlScore: number;
         apyScore: number;

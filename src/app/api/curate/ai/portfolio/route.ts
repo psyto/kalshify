@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getYieldAdvisor } from "@/lib/ai/yield-advisor";
 import { PortfolioRequest } from "@/lib/ai/types";
-import { fetchPoolsForAI } from "@/lib/curate/fetch-pools";
+import { fetchAllPoolsForAI } from "@/lib/curate/fetch-pools";
 
 export async function POST(request: Request) {
     try {
@@ -53,8 +53,8 @@ export async function POST(request: Request) {
             );
         }
 
-        // Fetch pools directly from DeFiLlama (avoids self-referencing HTTP in serverless)
-        const pools = await fetchPoolsForAI({ limit: 150, minTvl: 1_000_000 });
+        // Fetch pools from DeFiLlama + alternative yields (restaking, perp LP)
+        const pools = await fetchAllPoolsForAI({ limit: 150, minTvl: 1_000_000, includeAlternativeYields: true });
 
         // Get portfolio optimization from AI
         const result = await advisor.optimizePortfolio(pools, portfolioRequest);
