@@ -44,7 +44,6 @@ import {
 } from "@/components/curate/learning";
 import { YieldSpreadsPanel } from "@/components/curate/yield-spreads-panel";
 import { CuratorSection } from "@/components/curate/curator-section";
-import { QuickStartStrategies } from "@/components/curate/quick-start-strategies";
 import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
@@ -688,6 +687,9 @@ export default function CuratePage() {
                                 </div>
                             </div>
 
+                            {/* Curator Strategies - Primary strategy selection */}
+                            <CuratorSection />
+
                             {/* Discovery Prompts - Guided exploration */}
                             {graphData?.yields && graphData.yields.length > 0 && (
                                 <DiscoveryPrompts
@@ -712,7 +714,10 @@ export default function CuratePage() {
                                 />
                             )}
 
-                            {/* AI Recommendations - Personalized picks */}
+                            {/* Yield Opportunities - Arbitrage insights */}
+                            <YieldSpreadsPanel />
+
+                            {/* AI Recommendations - Personalized picks (de-emphasized) */}
                             <AIRecommendationsSection
                                 hasPreferences={hasPreferences}
                                 onSetPreferences={() => setPreferencesOpen(true)}
@@ -723,15 +728,6 @@ export default function CuratePage() {
                                 isLoggedIn={!!session?.user}
                                 curatedPicks={curatedPicks}
                             />
-
-                            {/* Curator Strategies - Learn from experts */}
-                            <CuratorSection />
-
-                            {/* Quick Start Strategies - Pre-built allocations */}
-                            <QuickStartStrategies />
-
-                            {/* Yield Opportunities - Arbitrage insights */}
-                            <YieldSpreadsPanel />
                         </div>
                     ),
 

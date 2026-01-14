@@ -21,6 +21,14 @@ export async function GET() {
                     riskScore: primaryStrategy.profile.avgRiskScore,
                     riskTolerance: primaryStrategy.profile.riskTolerance,
                     topAssets: primaryStrategy.profile.focusAssets.slice(0, 4),
+                    // Include allocations for inline display
+                    allocations: primaryStrategy.allocations.map(a => ({
+                        pool: a.pool,
+                        asset: a.asset,
+                        allocation: a.allocation,
+                        apy: a.apy,
+                        riskLevel: a.riskLevel,
+                    })),
                 } : undefined;
 
                 return {

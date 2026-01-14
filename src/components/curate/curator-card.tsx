@@ -1,13 +1,23 @@
 "use client";
 
-import { Shield, TrendingUp, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { Shield, TrendingUp, ChevronDown, ChevronUp } from "lucide-react";
 import { CuratorProfile } from "@/lib/curate/curators";
+
+interface StrategyAllocation {
+    pool: string;
+    asset: string;
+    allocation: number;
+    apy: number;
+    riskLevel: "low" | "medium" | "high";
+}
 
 interface StrategyMetrics {
     avgApy: number;
     riskScore: number;
     riskTolerance: "conservative" | "moderate" | "aggressive";
     topAssets: string[];
+    allocations?: StrategyAllocation[];
 }
 
 interface CuratorCardProps {
@@ -16,10 +26,10 @@ interface CuratorCardProps {
     onViewStrategy?: () => void;
 }
 
-function formatAum(aum: number): string {
-    if (aum >= 1_000_000_000) return `$${(aum / 1_000_000_000).toFixed(1)}B`;
-    if (aum >= 1_000_000) return `$${(aum / 1_000_000).toFixed(0)}M`;
-    return `$${(aum / 1_000).toFixed(0)}K`;
+function formatDollar(amount: number): string {
+    if (amount >= 1000000) return `$${(amount / 1000000).toFixed(2)}M`;
+    if (amount >= 1000) return `$${(amount / 1000).toFixed(1)}K`;
+    return `$${amount.toLocaleString()}`;
 }
 
 const RISK_COLORS = {
@@ -29,30 +39,42 @@ const RISK_COLORS = {
 };
 
 const RISK_LABELS = {
-    conservative: "Low Risk",
-    moderate: "Medium Risk",
-    aggressive: "Higher Risk",
+    conservative: "Conservative",
+    moderate: "Balanced",
+    aggressive: "Aggressive",
+};
+
+const ALLOC_RISK_COLORS = {
+    low: "text-green-400",
+    medium: "text-yellow-400",
+    high: "text-orange-400",
 };
 
 export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: CuratorCardProps) {
+    const [investmentAmount, setInvestmentAmount] = useState<string>("10000");
+    const [showAllAllocations, setShowAllAllocations] = useState(false);
+
+    const amount = Number(investmentAmount) || 0;
+    const expectedYield = amount * ((strategyMetrics?.avgApy || 0) / 100);
+
+    const displayAllocations = strategyMetrics?.allocations || [];
+    const visibleAllocations = showAllAllocations ? displayAllocations : displayAllocations.slice(0, 3);
+
     return (
-        <div
-            className="bg-slate-800/50 border border-slate-700 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all cursor-pointer group"
-            onClick={onViewStrategy}
-        >
-            {/* Header with name and key metrics */}
-            <div className="p-4">
-                <div className="flex items-start justify-between mb-3">
+        <div className="bg-slate-800/50 border border-slate-700 rounded-xl overflow-hidden hover:border-slate-600 transition-all">
+            {/* Header */}
+            <div className="p-4 pb-3">
+                <div className="flex items-start justify-between mb-2">
                     <div>
-                        <h3 className="text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors">
+                        <h3 className="text-lg font-semibold text-white">
                             {curator.name}
                         </h3>
-                        <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs text-slate-500">Trust</span>
+                        <div className="flex items-center gap-3 mt-1">
                             <div className="flex items-center gap-1">
                                 <Shield className="h-3 w-3 text-green-400" />
-                                <span className="text-xs font-medium text-green-400">{curator.trustScore}</span>
+                                <span className="text-xs text-green-400">{curator.trustScore}</span>
                             </div>
+                            <span className="text-xs text-slate-500">{curator.trackRecord.split(",")[0]}</span>
                         </div>
                     </div>
                     {strategyMetrics && (
@@ -62,75 +84,85 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
                     )}
                 </div>
 
-                {/* APY and Key Stats */}
+                {/* APY highlight */}
                 {strategyMetrics && (
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                        <div className="bg-slate-900/50 rounded-lg p-3">
-                            <div className="text-xs text-slate-500 mb-1">Avg APY</div>
-                            <div className="flex items-center gap-1">
-                                <TrendingUp className="h-4 w-4 text-green-400" />
-                                <span className="text-xl font-bold text-green-400">
-                                    {strategyMetrics.avgApy.toFixed(1)}%
+                    <div className="flex items-center gap-2 mb-3">
+                        <TrendingUp className="h-4 w-4 text-green-400" />
+                        <span className="text-2xl font-bold text-green-400">
+                            {strategyMetrics.avgApy.toFixed(1)}%
+                        </span>
+                        <span className="text-sm text-slate-400">APY</span>
+                    </div>
+                )}
+            </div>
+
+            {/* Allocations - visible directly */}
+            {displayAllocations.length > 0 && (
+                <div className="px-4 pb-3">
+                    <div className="text-xs text-slate-500 mb-2">Allocation</div>
+                    <div className="space-y-1.5">
+                        {visibleAllocations.map((alloc, idx) => (
+                            <div key={idx} className="flex items-center justify-between text-sm">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-white font-medium w-10">{alloc.allocation}%</span>
+                                    <span className="text-slate-300">{alloc.asset}</span>
+                                </div>
+                                <span className={`text-xs ${ALLOC_RISK_COLORS[alloc.riskLevel]}`}>
+                                    {alloc.apy}%
                                 </span>
                             </div>
-                        </div>
-                        <div className="bg-slate-900/50 rounded-lg p-3">
-                            <div className="text-xs text-slate-500 mb-1">AUM</div>
-                            <div className="text-xl font-bold text-white">{formatAum(curator.aum)}+</div>
-                        </div>
+                        ))}
                     </div>
-                )}
-
-                {/* Description */}
-                <p className="text-sm text-slate-400 mb-4 line-clamp-2">
-                    {curator.description}
-                </p>
-
-                {/* Focus Assets */}
-                {strategyMetrics && strategyMetrics.topAssets.length > 0 && (
-                    <div className="mb-4">
-                        <div className="text-xs text-slate-500 mb-2">Focus Assets</div>
-                        <div className="flex flex-wrap gap-1.5">
-                            {strategyMetrics.topAssets.map((asset) => (
-                                <span
-                                    key={asset}
-                                    className="px-2 py-0.5 text-xs rounded-full bg-slate-700/50 text-slate-300"
-                                >
-                                    {asset}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Platforms */}
-                <div className="flex flex-wrap gap-1.5">
-                    {curator.platforms.slice(0, 3).map((platform) => (
-                        <span
-                            key={platform.protocol}
-                            className="px-2 py-0.5 text-xs rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                    {displayAllocations.length > 3 && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowAllAllocations(!showAllAllocations);
+                            }}
+                            className="flex items-center gap-1 text-xs text-slate-400 hover:text-white mt-2 transition-colors"
                         >
-                            {platform.protocol}
-                        </span>
-                    ))}
-                    {curator.platforms.length > 3 && (
-                        <span className="px-2 py-0.5 text-xs text-slate-500">
-                            +{curator.platforms.length - 3}
-                        </span>
+                            {showAllAllocations ? (
+                                <>Show less <ChevronUp className="h-3 w-3" /></>
+                            ) : (
+                                <>+{displayAllocations.length - 3} more <ChevronDown className="h-3 w-3" /></>
+                            )}
+                        </button>
                     )}
+                </div>
+            )}
+
+            {/* Investment Calculator - inline */}
+            <div className="px-4 py-3 bg-slate-900/50 border-t border-slate-700/50">
+                <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs text-slate-400">If you invest</span>
+                    <div className="relative flex-1">
+                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-slate-500 text-sm">$</span>
+                        <input
+                            type="text"
+                            value={investmentAmount}
+                            onChange={(e) => setInvestmentAmount(e.target.value.replace(/[^0-9]/g, ""))}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full bg-slate-800 border border-slate-600 rounded py-1 pl-5 pr-2 text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                            placeholder="10000"
+                        />
+                    </div>
+                </div>
+                <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-400">Expected annual yield</span>
+                    <span className="text-lg font-bold text-green-400">
+                        +{formatDollar(expectedYield)}<span className="text-xs font-normal text-slate-400">/yr</span>
+                    </span>
                 </div>
             </div>
 
             {/* Footer */}
-            <div className="px-4 py-3 bg-slate-900/30 border-t border-slate-700/50 flex items-center justify-between">
-                <span className="text-xs text-slate-500">
-                    {curator.trackRecord.split(",")[0]}
-                </span>
-                <span className="flex items-center gap-1 text-sm text-cyan-400 group-hover:text-cyan-300 transition-colors">
-                    View Strategy
-                    <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-            </div>
+            <button
+                onClick={onViewStrategy}
+                className="w-full px-4 py-2.5 bg-slate-900/30 border-t border-slate-700/50 text-sm text-cyan-400 hover:text-cyan-300 hover:bg-slate-800/50 transition-colors flex items-center justify-center gap-1"
+            >
+                Full Details & How to Replicate
+                <ChevronDown className="h-4 w-4 rotate-[-90deg]" />
+            </button>
         </div>
     );
 }
