@@ -42,6 +42,8 @@ import {
     RiskScoreExplainer,
     DiscoveryPrompts,
 } from "@/components/curate/learning";
+import { YieldSpreadsPanel } from "@/components/curate/yield-spreads-panel";
+import { CuratorSection } from "@/components/curate/curator-section";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
 interface PoolDependency {
@@ -746,6 +748,12 @@ export default function CuratePage() {
 
             {/* Restaking & Perp LP Section */}
             <AlternativeYields />
+
+            {/* Yield Opportunities - Cross-protocol arbitrage detection */}
+            <YieldSpreadsPanel />
+
+            {/* Curator Strategies - Learn from professional curators */}
+            <CuratorSection />
 
             {/* DeFi Tools Section with Quick IL Calculator */}
             <QuickILCalculator />
