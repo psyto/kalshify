@@ -45,6 +45,7 @@ import {
 import { YieldSpreadsPanel } from "@/components/curate/yield-spreads-panel";
 import { CuratorSection } from "@/components/curate/curator-section";
 import { LearnCurationSection } from "@/components/curate/learn-curation-section";
+import { StrategyBuilder } from "@/components/curate/strategy-builder";
 import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
@@ -1007,6 +1008,9 @@ export default function CuratePage() {
                         <div className="space-y-6">
                             {/* Learn Curation - 6 Core Principles */}
                             <LearnCurationSection />
+
+                            {/* Strategy Builder - Practice making allocations */}
+                            <StrategyBuilder />
 
                             {/* Protocol Comparison - Educational */}
                             <ProtocolComparison onProtocolClick={(slug) => filterPoolsByProtocol(slug)} />
