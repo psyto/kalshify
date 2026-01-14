@@ -29,6 +29,7 @@ export async function GET() {
                         apy: a.apy,
                         riskLevel: a.riskLevel,
                         reasoning: a.reasoning,
+                        principleIds: a.principleIds,
                     })),
                 } : undefined;
 

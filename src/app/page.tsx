@@ -44,6 +44,7 @@ import {
 } from "@/components/curate/learning";
 import { YieldSpreadsPanel } from "@/components/curate/yield-spreads-panel";
 import { CuratorSection } from "@/components/curate/curator-section";
+import { LearnCurationSection } from "@/components/curate/learn-curation-section";
 import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
@@ -1004,13 +1005,8 @@ export default function CuratePage() {
                     /* LEARN TAB - Educational content */
                     learn: (
                         <div className="space-y-6">
-                            {/* Section Header */}
-                            <div className="p-4 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-purple-500/20 rounded-xl">
-                                <h2 className="text-lg font-semibold text-white mb-1">Understand DeFi</h2>
-                                <p className="text-sm text-slate-400">
-                                    Compare protocols, understand risks, and find opportunities.
-                                </p>
-                            </div>
+                            {/* Learn Curation - 6 Core Principles */}
+                            <LearnCurationSection />
 
                             {/* Protocol Comparison - Educational */}
                             <ProtocolComparison onProtocolClick={(slug) => filterPoolsByProtocol(slug)} />

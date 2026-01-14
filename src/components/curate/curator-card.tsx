@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Shield, TrendingUp, ChevronRight, ChevronDown, Lightbulb } from "lucide-react";
 import { CuratorProfile } from "@/lib/curate/curators";
+import { PrincipleBadgeGroup, PrincipleModal, usePrincipleModal } from "./curation-principles";
 
 interface AllocationReasoning {
     whyThisAsset: string;
@@ -18,6 +19,7 @@ interface StrategyAllocation {
     apy: number;
     riskLevel: "low" | "medium" | "high";
     reasoning?: AllocationReasoning;
+    principleIds?: string[];
 }
 
 interface StrategyMetrics {
@@ -61,6 +63,7 @@ const ALLOC_RISK_COLORS = {
 export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: CuratorCardProps) {
     const [investmentAmount, setInvestmentAmount] = useState<string>("10000");
     const [expandedAllocation, setExpandedAllocation] = useState<number | null>(null);
+    const { selectedPrinciple, openPrinciple, closePrinciple } = usePrincipleModal();
 
     const amount = Number(investmentAmount) || 0;
     const expectedYield = amount * ((strategyMetrics?.avgApy || 0) / 100);
@@ -128,6 +131,15 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
                                 {/* Expanded reasoning */}
                                 {expandedAllocation === idx && alloc.reasoning && (
                                     <div className="mt-1 mb-2 ml-1 pl-3 border-l-2 border-cyan-500/30 space-y-2 text-xs">
+                                        {/* Principle badges */}
+                                        {alloc.principleIds && alloc.principleIds.length > 0 && (
+                                            <div className="mb-2">
+                                                <PrincipleBadgeGroup
+                                                    principleIds={alloc.principleIds}
+                                                    onPrincipleClick={openPrinciple}
+                                                />
+                                            </div>
+                                        )}
                                         <div>
                                             <div className="flex items-center gap-1 text-cyan-400 mb-0.5">
                                                 <Lightbulb className="h-3 w-3" />
@@ -187,6 +199,9 @@ export function CuratorCard({ curator, strategyMetrics, onViewStrategy }: Curato
                 Full Details & How to Replicate
                 <ChevronRight className="h-4 w-4" />
             </button>
+
+            {/* Principle detail modal */}
+            <PrincipleModal principle={selectedPrinciple} onClose={closePrinciple} />
         </div>
     );
 }

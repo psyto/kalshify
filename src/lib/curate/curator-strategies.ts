@@ -21,6 +21,7 @@ export interface StrategyAllocation {
     riskLevel: "low" | "medium" | "high";
     poolId?: string; // DeFiLlama pool ID if available
     reasoning?: AllocationReasoning; // Educational content explaining the choice
+    principleIds?: string[]; // Curation principles this allocation demonstrates
 }
 
 export interface StrategyChange {
@@ -84,6 +85,7 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Stablecoins don't lose value in market downturns, protecting your principal",
                 tradeoff: "Lower yield than volatile assets, but consistent and predictable returns",
             },
+            principleIds: ["risk-reward", "yield-sustainability"],
         },
         {
             pool: "SOL Lending",
@@ -97,6 +99,7 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Lending is lower risk than LPing - no impermanent loss, just utilization risk",
                 tradeoff: "SOL price volatility affects your portfolio value, even though lending itself is safe",
             },
+            principleIds: ["protocol-trust", "liquidity-depth"],
         },
         {
             pool: "JitoSOL Vault",
@@ -110,6 +113,7 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Liquid staking tokens maintain SOL exposure with better capital efficiency",
                 tradeoff: "Additional smart contract risk from Jito protocol, slightly less liquid than native SOL",
             },
+            principleIds: ["protocol-trust", "yield-sustainability"],
         },
         {
             pool: "ETH Lending",
@@ -123,6 +127,7 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Different asset class reduces correlation - when SOL drops, ETH might not",
                 tradeoff: "Lower APY than SOL markets, and bridged ETH has additional bridge risk",
             },
+            principleIds: ["diversification", "correlation"],
         },
         {
             pool: "USDT Lending",
@@ -136,6 +141,7 @@ const GAUNTLET_KAMINO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Two stablecoins reduce single-issuer risk (remember USDC depeg in March 2023)",
                 tradeoff: "Some consider USDT riskier than USDC due to reserve transparency concerns",
             },
+            principleIds: ["diversification", "protocol-trust"],
         },
     ],
     profile: {
@@ -193,6 +199,7 @@ const GAUNTLET_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Stablecoin majority protects against ETH price volatility",
                 tradeoff: "Missing potential ETH upside, but capital is protected in downturns",
             },
+            principleIds: ["risk-reward", "yield-sustainability"],
         },
         {
             pool: "Gauntlet WETH Prime",
@@ -206,6 +213,7 @@ const GAUNTLET_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Lending WETH is safer than LPing - you maintain full ETH exposure without IL",
                 tradeoff: "Lower APY than stablecoin lending, but you benefit if ETH appreciates",
             },
+            principleIds: ["correlation", "risk-reward"],
         },
         {
             pool: "Gauntlet wstETH",
@@ -219,6 +227,7 @@ const GAUNTLET_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Lido's wstETH is the most battle-tested liquid staking token on Ethereum",
                 tradeoff: "Additional Lido smart contract risk, and wstETH can trade at slight discount",
             },
+            principleIds: ["protocol-trust", "yield-sustainability"],
         },
     ],
     profile: {
@@ -260,6 +269,7 @@ const STEAKHOUSE_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Maximum capital preservation - ideal for treasuries that can't afford drawdowns",
                 tradeoff: "Very conservative - sacrificing yield for near-zero volatility",
             },
+            principleIds: ["yield-sustainability", "protocol-trust"],
         },
         {
             pool: "Steakhouse USDT",
@@ -273,6 +283,7 @@ const STEAKHOUSE_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "If Circle faces issues, USDT position remains unaffected",
                 tradeoff: "Tether's reserve transparency is lower, but trading volume is highest globally",
             },
+            principleIds: ["diversification", "protocol-trust"],
         },
         {
             pool: "Steakhouse DAI",
@@ -286,6 +297,7 @@ const STEAKHOUSE_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "If regulators target centralized stablecoins, DAI remains operational",
                 tradeoff: "Lower APY than USDC/USDT, and DAI has had minor depegs during extreme volatility",
             },
+            principleIds: ["diversification", "protocol-trust"],
         },
     ],
     profile: {
@@ -327,6 +339,7 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Lending rather than LPing limits downside to ETH price movements only",
                 tradeoff: "Full ETH price exposure - portfolio moves with ETH market",
             },
+            principleIds: ["risk-reward", "liquidity-depth"],
         },
         {
             pool: "RE7 wstETH",
@@ -340,6 +353,7 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Lido's wstETH is the most liquid and battle-tested LST",
                 tradeoff: "Layered smart contract risk (Lido + Morpho), but higher yield justifies it",
             },
+            principleIds: ["yield-sustainability", "protocol-trust"],
         },
         {
             pool: "RE7 USDC",
@@ -353,6 +367,7 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "When ETH drops, this 20% maintains value for buying opportunities",
                 tradeoff: "Lower allocation than conservative strategies, accepting more volatility",
             },
+            principleIds: ["correlation", "risk-reward"],
         },
         {
             pool: "RE7 cbETH",
@@ -366,6 +381,7 @@ const RE7_MORPHO_STRATEGY: CuratorStrategy = {
                 riskMitigation: "Diversifying LST providers reduces single-protocol dependency",
                 tradeoff: "cbETH is less liquid than wstETH and has additional Coinbase custody considerations",
             },
+            principleIds: ["diversification", "risk-reward"],
         },
     ],
     profile: {
