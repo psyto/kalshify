@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle, AlertCircle, Eye, Shield, FileText } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 
 const comparisons = [
     { elsewhere: "APY percentages", here: "Whether that APY is sustainable" },
@@ -13,22 +13,6 @@ const comparisons = [
 export function WhyLearnCuration() {
     return (
         <div className="space-y-6">
-            {/* Trust badges */}
-            <div className="flex items-center gap-4 text-xs text-slate-500">
-                <span className="flex items-center gap-1">
-                    <Eye className="h-3 w-3 text-green-500" />
-                    <span>Read-only</span>
-                </span>
-                <span className="flex items-center gap-1">
-                    <Shield className="h-3 w-3 text-green-500" />
-                    <span>Non-custodial</span>
-                </span>
-                <span className="flex items-center gap-1">
-                    <FileText className="h-3 w-3 text-green-500" />
-                    <span>Transparent</span>
-                </span>
-            </div>
-
             {/* Problem statement */}
             <div className="p-6 bg-slate-900/50 border border-slate-800 rounded-xl">
                 <div className="flex items-center gap-2 mb-3">

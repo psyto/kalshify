@@ -50,6 +50,7 @@ import { PrinciplesStrip } from "@/components/curate/principles-strip";
 import { ExploreHero } from "@/components/curate/explore-hero";
 import { LearnCurationSection } from "@/components/curate/learn-curation-section";
 import { LearnTabs } from "@/components/curate/learn-tabs";
+import { LearnHero } from "@/components/curate/learn-hero";
 import { ToolPicker } from "@/components/curate/tool-picker";
 import { WhyLearnCuration } from "@/components/curate/why-learn-curation";
 import { StrategyBuilder } from "@/components/curate/strategy-builder";
@@ -1021,6 +1022,8 @@ export default function CuratePage() {
 
                     /* LEARN TAB - Educational content */
                     learn: (
+                        <>
+                        <LearnHero />
                         <LearnTabs defaultTab={urlSubtab as "principles" | "practice" | "compare" | undefined}>
                             {{
                                 principles: (
@@ -1047,6 +1050,7 @@ export default function CuratePage() {
                                 ),
                             }}
                         </LearnTabs>
+                        </>
                     ),
                 }}
             </TabContent>
