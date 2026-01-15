@@ -10,11 +10,35 @@ We build learning tools for the Solana DeFi ecosystem. Our mission is to teach u
 
 **[fabrknt.com](https://www.fabrknt.com)** — A DeFi curation learning platform that helps you build real allocation skills:
 
+### Learn
 - **Curation Principles** — Six mental models that guide professional curators
 - **Curator Strategies** — See how Gauntlet, Steakhouse, and RE7 allocate—and *why*
-- **Strategy Builder** — Practice building allocations with real-time feedback
+- **Strategy Builder** — Practice building allocations with real-time feedback (A-F grading)
 - **Scenario Simulator** — Stress test strategies before committing capital
-- **Educational Tools** — Protocol comparisons, LST analysis, IL calculators
+
+### Explore
+- **Pool Browser** — 200+ Solana yield pools with risk scoring
+- **Pool Comparison** — Compare up to 3 pools side-by-side
+- **Backtest** — Historical performance testing (7/30/90 days)
+- **Watchlist** — Save and track pools with APY change alerts
+
+### Compare Tools
+- **Protocol Comparison** — Kamino, Marginfi, Meteora side-by-side
+- **LST Comparison** — Liquid staking tokens: APY, validators, MEV boost
+- **Yield Spreads** — Find APY differences across protocols
+- **IL Calculator** — Impermanent loss estimation
+
+### AI Features (Login Required)
+- **Portfolio Optimizer** — AI-suggested diversified allocations
+- **AI Pool Insights** — Plain-English risk analysis
+
+## Trust & Security
+
+| | |
+|---|---|
+| **Read-Only** | No wallet permissions |
+| **Non-Custodial** | Your keys, your funds |
+| **Transparent** | Open methodology |
 
 ## Our Philosophy
 
