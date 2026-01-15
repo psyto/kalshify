@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TrendingUp, ArrowRight, Shield, Droplets, Loader2, AlertCircle, Sparkles } from "lucide-react";
+import { TrendingUp, ArrowRight, Shield, Droplets, Loader2, AlertCircle, Sparkles, Eye, FileText } from "lucide-react";
 import { YieldSpread } from "@/lib/curate/yield-spreads";
 
 interface SpreadResponse {
@@ -168,6 +168,22 @@ export function YieldSpreadsPanel() {
         <div className="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden">
             {/* Header */}
             <div className="p-4 border-b border-slate-800">
+                {/* Trust badges */}
+                <div className="flex items-center gap-4 text-xs text-slate-500 mb-3">
+                    <span className="flex items-center gap-1">
+                        <Eye className="h-3 w-3 text-green-500" />
+                        <span>Read-only</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                        <Shield className="h-3 w-3 text-green-500" />
+                        <span>Non-custodial</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                        <FileText className="h-3 w-3 text-green-500" />
+                        <span>Transparent</span>
+                    </span>
+                </div>
+
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <TrendingUp className="h-5 w-5 text-green-400" />

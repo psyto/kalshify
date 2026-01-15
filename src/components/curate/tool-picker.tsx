@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, Building2, Droplet, TrendingUp, Coins, Calculator } from "lucide-react";
+import { ChevronLeft, Building2, Droplet, TrendingUp, Coins, Calculator, Eye, Shield, FileText } from "lucide-react";
 
 interface Tool {
     id: string;
@@ -104,6 +104,22 @@ export function ToolPicker({ children }: ToolPickerProps) {
 
     return (
         <div className="space-y-4">
+            {/* Trust badges */}
+            <div className="flex items-center gap-4 text-xs text-slate-500">
+                <span className="flex items-center gap-1">
+                    <Eye className="h-3 w-3 text-green-500" />
+                    <span>Read-only</span>
+                </span>
+                <span className="flex items-center gap-1">
+                    <Shield className="h-3 w-3 text-green-500" />
+                    <span>Non-custodial</span>
+                </span>
+                <span className="flex items-center gap-1">
+                    <FileText className="h-3 w-3 text-green-500" />
+                    <span>Transparent</span>
+                </span>
+            </div>
+
             <div className="text-sm text-slate-400">
                 Select a tool to analyze yield opportunities
             </div>

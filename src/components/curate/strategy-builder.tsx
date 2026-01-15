@@ -12,6 +12,8 @@ import {
     Info,
     ChevronDown,
     RotateCcw,
+    Eye,
+    FileText,
 } from "lucide-react";
 import {
     UserStrategy,
@@ -286,6 +288,21 @@ export function StrategyBuilder() {
                         <h2 className="text-xl font-bold text-white">Strategy Builder</h2>
                         <p className="text-sm text-slate-400">Create your own allocation and get real-time feedback</p>
                     </div>
+                </div>
+                {/* Trust badges */}
+                <div className="flex items-center gap-4 text-xs text-slate-500">
+                    <span className="flex items-center gap-1">
+                        <Eye className="h-3 w-3 text-green-500" />
+                        <span>Read-only</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                        <Shield className="h-3 w-3 text-green-500" />
+                        <span>Non-custodial</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                        <FileText className="h-3 w-3 text-green-500" />
+                        <span>Transparent</span>
+                    </span>
                 </div>
             </div>
 

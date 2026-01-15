@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Sparkles } from "lucide-react";
+import { X, Sparkles, Eye, Shield, FileText } from "lucide-react";
 
 const STORAGE_KEY = "fabrknt-welcome-dismissed";
 
@@ -44,10 +44,25 @@ export function WelcomeBanner() {
                     <h2 className="text-lg font-semibold text-white mb-1">
                         Learn DeFi curation from proven strategies
                     </h2>
-                    <p className="text-sm text-slate-400 leading-relaxed">
+                    <p className="text-sm text-slate-400 leading-relaxed mb-3">
                         See how top curators allocate capital, understand their reasoning, and practice building your own strategies. Explore curator strategies below, or visit the{" "}
                         <span className="text-cyan-400">Learn</span> tab to build your own.
                     </p>
+                    {/* Trust badges */}
+                    <div className="flex items-center gap-4 text-xs text-slate-500">
+                        <span className="flex items-center gap-1">
+                            <Eye className="h-3 w-3 text-green-500" />
+                            <span>Read-only</span>
+                        </span>
+                        <span className="flex items-center gap-1">
+                            <Shield className="h-3 w-3 text-green-500" />
+                            <span>Non-custodial</span>
+                        </span>
+                        <span className="flex items-center gap-1">
+                            <FileText className="h-3 w-3 text-green-500" />
+                            <span>Transparent</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

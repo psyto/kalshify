@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, GitCompare } from "lucide-react";
+import { Loader2, GitCompare, Eye, Shield, FileText } from "lucide-react";
 import { SolanaProtocolCard } from "./solana-protocol-card";
 
 interface ProtocolSummary {
@@ -103,6 +103,22 @@ export function ProtocolComparison({ onProtocolClick }: ProtocolComparisonProps)
 
     return (
         <div className="space-y-4">
+            {/* Trust badges */}
+            <div className="flex items-center gap-4 text-xs text-slate-500">
+                <span className="flex items-center gap-1">
+                    <Eye className="h-3 w-3 text-green-500" />
+                    <span>Read-only</span>
+                </span>
+                <span className="flex items-center gap-1">
+                    <Shield className="h-3 w-3 text-green-500" />
+                    <span>Non-custodial</span>
+                </span>
+                <span className="flex items-center gap-1">
+                    <FileText className="h-3 w-3 text-green-500" />
+                    <span>Transparent</span>
+                </span>
+            </div>
+
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

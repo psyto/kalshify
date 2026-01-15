@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Calculator, AlertTriangle, Info, X } from "lucide-react";
+import { Calculator, AlertTriangle, Info, X, Eye, Shield, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ILCalculatorProps {
@@ -365,6 +365,22 @@ export function ILCalculator({ isOpen = false, onClose, initialTokenA = "SOL", i
     if (standalone) {
         return (
             <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl p-6">
+                {/* Trust badges */}
+                <div className="flex items-center gap-4 text-xs text-slate-500 mb-4">
+                    <span className="flex items-center gap-1">
+                        <Eye className="h-3 w-3 text-green-500" />
+                        <span>Read-only</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                        <Shield className="h-3 w-3 text-green-500" />
+                        <span>Non-custodial</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                        <FileText className="h-3 w-3 text-green-500" />
+                        <span>Transparent</span>
+                    </span>
+                </div>
+
                 <div className="flex items-center gap-2 mb-6">
                     <Calculator className="h-5 w-5 text-orange-400" />
                     <h2 className="text-lg font-semibold text-white">

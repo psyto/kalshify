@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Filter } from "lucide-react";
+import { Eye, Shield, FileText } from "lucide-react";
 
 interface ExploreHeroProps {
     poolCount: number;
@@ -29,6 +29,21 @@ export function ExploreHero({ poolCount, lowRiskCount }: ExploreHeroProps) {
                         <div className="text-xs text-slate-500">low risk</div>
                     </div>
                 </div>
+            </div>
+            {/* Trust badges */}
+            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500">
+                <span className="flex items-center gap-1">
+                    <Eye className="h-3 w-3 text-green-500" />
+                    <span>Read-only</span>
+                </span>
+                <span className="flex items-center gap-1">
+                    <Shield className="h-3 w-3 text-green-500" />
+                    <span>Non-custodial</span>
+                </span>
+                <span className="flex items-center gap-1">
+                    <FileText className="h-3 w-3 text-green-500" />
+                    <span>Transparent</span>
+                </span>
             </div>
         </div>
     );

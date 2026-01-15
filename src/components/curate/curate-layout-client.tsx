@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { useSession, signOut } from "next-auth/react";
 import { LogIn, LogOut, Github, Menu, X, TrendingUp, Wrench, HelpCircle, Info } from "lucide-react";
-import { TrustFooter } from "./trust-footer";
 
 const NAV_LINKS = [
     { href: "/", label: "Yields", icon: TrendingUp, matchPaths: ["/", "/curate"] },
@@ -27,7 +26,7 @@ export function CurateLayoutClient({
     const isActivePath = (matchPaths: string[]) => matchPaths.includes(pathname);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-muted to-background flex flex-col">
+        <div className="min-h-screen bg-gradient-to-b from-muted to-background">
             {/* Top Menu Bar */}
             <header className="border-b border-border bg-card sticky top-0 z-50">
                 <div className="container mx-auto px-4 py-3">
@@ -233,12 +232,9 @@ export function CurateLayoutClient({
             )}
 
             {/* Page Content - Full width, no sidebar */}
-            <main className="container mx-auto px-4 py-6 flex-1">
+            <main className="container mx-auto px-4 py-6">
                 {children}
             </main>
-
-            {/* Trust Footer */}
-            <TrustFooter />
         </div>
     );
 }
