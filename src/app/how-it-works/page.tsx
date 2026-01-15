@@ -12,6 +12,14 @@ import {
     AlertTriangle,
     BarChart3,
     Clock,
+    BookOpen,
+    Users,
+    Hammer,
+    Activity,
+    Scale,
+    Grid3X3,
+    Droplet,
+    Link as LinkIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -22,17 +30,160 @@ export default function HowItWorksPage() {
                 {/* Hero */}
                 <div className="text-center py-8">
                     <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        How Fabrknt Works
+                        How FABRKNT Works
                     </h1>
                     <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                        Transparent methodology. No black boxes. Here's exactly how we analyze
-                        and score DeFi yield opportunities.
+                        Learn DeFi curation through curator strategies, mental models, and hands-on practice.
+                        Here's how we help you build real allocation skills.
                     </p>
                 </div>
 
-                {/* Overview */}
+                {/* Learning Flow */}
+                <section className="bg-gradient-to-br from-purple-900/20 to-slate-800 border border-purple-500/30 rounded-xl p-8">
+                    <h2 className="text-xl font-semibold text-white mb-6">The Learning Flow</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {[
+                            { icon: BookOpen, label: "1. Learn Principles", desc: "6 mental models curators use" },
+                            { icon: Users, label: "2. Study Curators", desc: "See how experts allocate & why" },
+                            { icon: Hammer, label: "3. Practice", desc: "Build strategies with feedback" },
+                            { icon: Activity, label: "4. Test", desc: "Stress test with scenarios" },
+                        ].map((step, i) => (
+                            <div key={i} className="text-center p-4 bg-slate-800/50 rounded-lg">
+                                <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <step.icon className="h-6 w-6 text-purple-400" />
+                                </div>
+                                <h3 className="text-white font-medium mb-1">{step.label}</h3>
+                                <p className="text-xs text-slate-400">{step.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Curation Principles */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <h2 className="text-xl font-semibold text-white mb-6">The Pipeline</h2>
+                    <div className="flex items-center gap-3 mb-6">
+                        <BookOpen className="h-6 w-6 text-cyan-400" />
+                        <h2 className="text-xl font-semibold text-white">6 Curation Principles</h2>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        These mental models guide how professional curators make allocation decisions:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {[
+                            { icon: Scale, name: "Risk/Reward Balance", desc: "Higher yield always comes with higher risk", color: "cyan" },
+                            { icon: Grid3X3, name: "Diversification", desc: "Spread risk across protocols and assets", color: "purple" },
+                            { icon: Clock, name: "Yield Sustainability", desc: "Base APY vs temporary token emissions", color: "green" },
+                            { icon: Shield, name: "Protocol Trust", desc: "TVL, audits, team track record", color: "yellow" },
+                            { icon: Droplet, name: "Liquidity Depth", desc: "Can you exit without slippage?", color: "blue" },
+                            { icon: LinkIcon, name: "Correlation", desc: "How positions move together", color: "orange" },
+                        ].map((principle, i) => (
+                            <div key={i} className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                                <div className={`w-8 h-8 bg-${principle.color}-500/20 rounded-lg flex items-center justify-center flex-shrink-0`}>
+                                    <principle.icon className={`h-4 w-4 text-${principle.color}-400`} />
+                                </div>
+                                <div>
+                                    <h3 className="text-white font-medium">{principle.name}</h3>
+                                    <p className="text-sm text-slate-400">{principle.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Curator Strategies */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <Users className="h-6 w-6 text-purple-400" />
+                        <h2 className="text-xl font-semibold text-white">Learn from Curators</h2>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        See how professional curators like Gauntlet, Steakhouse, and RE7 allocate capital:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Allocation Reasoning</h3>
+                            <p className="text-sm text-slate-400">
+                                Every position includes why they chose it, why that percentage,
+                                and what tradeoffs they accepted.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Principle Badges</h3>
+                            <p className="text-sm text-slate-400">
+                                See which mental models each allocation demonstrates. Connect
+                                theory to real decisions.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Historical Performance</h3>
+                            <p className="text-sm text-slate-400">
+                                Track record metrics: returns, max drawdown, Sharpe ratio,
+                                and benchmark comparisons.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <h3 className="text-white font-medium mb-2">Risk Profiles</h3>
+                            <p className="text-sm text-slate-400">
+                                Conservative, moderate, or aggressive—understand each curator's
+                                approach to risk.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Strategy Builder */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <Hammer className="h-6 w-6 text-green-400" />
+                        <h2 className="text-xl font-semibold text-white">Strategy Builder</h2>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Practice building your own allocation strategy with real-time feedback:
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <p className="text-2xl font-bold text-white mb-1">A-F</p>
+                            <p className="text-sm text-slate-400">Grading on diversification, risk, sustainability</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <p className="text-2xl font-bold text-white mb-1">Real-time</p>
+                            <p className="text-sm text-slate-400">Instant feedback as you adjust allocations</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
+                            <p className="text-2xl font-bold text-white mb-1">Compare</p>
+                            <p className="text-sm text-slate-400">See how your strategy differs from curators</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Scenario Simulator */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <Activity className="h-6 w-6 text-orange-400" />
+                        <h2 className="text-xl font-semibold text-white">Scenario Simulator</h2>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Stress test your strategy before committing capital:
+                    </p>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        {[
+                            { name: "Market Crash", change: "-30%" },
+                            { name: "Correction", change: "-15%" },
+                            { name: "Bull Run", change: "+50%" },
+                            { name: "Rewards End", change: "APY drop" },
+                            { name: "Depeg", change: "Stablecoin" },
+                        ].map((scenario, i) => (
+                            <div key={i} className="text-center p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                                <p className="text-sm font-medium text-white">{scenario.name}</p>
+                                <p className="text-xs text-slate-400">{scenario.change}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Data Pipeline */}
+                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
+                    <h2 className="text-xl font-semibold text-white mb-6">Data Pipeline</h2>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         {[
                             { icon: Database, label: "1. Collect", desc: "Aggregate pool data from protocols" },
@@ -51,43 +202,6 @@ export default function HowItWorksPage() {
                     </div>
                 </section>
 
-                {/* Data Sources */}
-                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Database className="h-6 w-6 text-blue-400" />
-                        <h2 className="text-xl font-semibold text-white">Data Sources</h2>
-                    </div>
-                    <p className="text-slate-300 mb-6">
-                        We aggregate data from trusted, publicly available sources:
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">DefiLlama API</h3>
-                            <p className="text-sm text-slate-400">
-                                TVL, APY, pool metadata, and historical yield data for 200+ protocols.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">Protocol Documentation</h3>
-                            <p className="text-sm text-slate-400">
-                                Audit reports, team info, tokenomics, and upgrade authorities.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">On-Chain Data</h3>
-                            <p className="text-sm text-slate-400">
-                                Program verification, multisig configs, and oracle dependencies.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2">Historical Analysis</h3>
-                            <p className="text-sm text-slate-400">
-                                30-day APY trends, volatility metrics, and TVL stability.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
                 {/* Risk Scoring */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
                     <div className="flex items-center gap-3 mb-6">
@@ -101,7 +215,7 @@ export default function HowItWorksPage() {
                         {[
                             {
                                 name: "TVL Risk",
-                                weight: "30%",
+                                weight: "25%",
                                 desc: "Lower TVL = higher risk. Pools under $1M get higher scores.",
                                 color: "bg-cyan-500",
                             },
@@ -112,20 +226,20 @@ export default function HowItWorksPage() {
                                 color: "bg-green-500",
                             },
                             {
-                                name: "Asset Volatility",
+                                name: "IL Risk",
                                 weight: "20%",
-                                desc: "Stablecoins = low risk. Volatile tokens = higher risk.",
-                                color: "bg-yellow-500",
-                            },
-                            {
-                                name: "Impermanent Loss",
-                                weight: "15%",
-                                desc: "LP pools with uncorrelated assets face IL risk.",
+                                desc: "LP pools with uncorrelated assets face impermanent loss risk.",
                                 color: "bg-orange-500",
                             },
                             {
-                                name: "Protocol Trust",
-                                weight: "10%",
+                                name: "Stablecoin Exposure",
+                                weight: "15%",
+                                desc: "Stablecoins = low volatility. Volatile tokens = higher risk.",
+                                color: "bg-yellow-500",
+                            },
+                            {
+                                name: "Protocol Maturity",
+                                weight: "15%",
                                 desc: "Audits, team reputation, time in market, upgrade authority.",
                                 color: "bg-purple-500",
                             },
@@ -165,59 +279,6 @@ export default function HowItWorksPage() {
                     </div>
                 </section>
 
-                {/* AI Recommendations */}
-                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Brain className="h-6 w-6 text-purple-400" />
-                        <h2 className="text-xl font-semibold text-white">AI-Powered Insights</h2>
-                    </div>
-                    <p className="text-slate-300 mb-6">
-                        Beyond raw scoring, we use AI to provide contextual analysis:
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2 flex items-center gap-2">
-                                <CheckCircle className="h-4 w-4 text-green-400" />
-                                Smart Picks
-                            </h3>
-                            <p className="text-sm text-slate-400">
-                                Algorithmically selected pools based on risk-adjusted returns,
-                                not just raw APY.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2 flex items-center gap-2">
-                                <TrendingUp className="h-4 w-4 text-cyan-400" />
-                                APY Stability Analysis
-                            </h3>
-                            <p className="text-sm text-slate-400">
-                                Track 30-day trends to identify sustainable yields vs.
-                                short-term promotions.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2 flex items-center gap-2">
-                                <AlertTriangle className="h-4 w-4 text-yellow-400" />
-                                Risk Alerts
-                            </h3>
-                            <p className="text-sm text-slate-400">
-                                Automatic badges when APY drops significantly or unusual
-                                activity is detected.
-                            </p>
-                        </div>
-                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                            <h3 className="text-white font-medium mb-2 flex items-center gap-2">
-                                <Layers className="h-4 w-4 text-purple-400" />
-                                Portfolio Optimization
-                            </h3>
-                            <p className="text-sm text-slate-400">
-                                AI suggests diversified allocations based on your risk
-                                tolerance and goals.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
                 {/* What We Don't Do */}
                 <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
                     <div className="flex items-center gap-3 mb-6">
@@ -241,42 +302,20 @@ export default function HowItWorksPage() {
                     </div>
                 </section>
 
-                {/* Update Frequency */}
-                <section className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <Clock className="h-6 w-6 text-cyan-400" />
-                        <h2 className="text-xl font-semibold text-white">Data Freshness</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                            <p className="text-2xl font-bold text-white mb-1">~15 min</p>
-                            <p className="text-sm text-slate-400">APY & TVL updates</p>
-                        </div>
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                            <p className="text-2xl font-bold text-white mb-1">Daily</p>
-                            <p className="text-sm text-slate-400">Risk score recalculation</p>
-                        </div>
-                        <div className="text-center p-4 bg-slate-800/50 rounded-lg">
-                            <p className="text-2xl font-bold text-white mb-1">Weekly</p>
-                            <p className="text-sm text-slate-400">Protocol trust reviews</p>
-                        </div>
-                    </div>
-                </section>
-
                 {/* CTA */}
                 <section className="text-center py-8 border-t border-slate-800">
                     <h2 className="text-xl font-semibold text-white mb-4">
-                        Questions about our methodology?
+                        Ready to learn?
                     </h2>
                     <p className="text-slate-400 mb-6">
-                        We're transparent about how we work. Reach out anytime.
+                        Start with the curation principles, then explore how curators apply them.
                     </p>
                     <div className="flex items-center justify-center gap-4">
                         <Link
                             href="/"
                             className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-medium rounded-lg transition-colors"
                         >
-                            Explore Yields
+                            Start Learning
                         </Link>
                         <Link
                             href="/about"
