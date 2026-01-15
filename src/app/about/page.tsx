@@ -14,7 +14,7 @@ export default function AboutPage() {
                         About Fabrknt
                     </h1>
                     <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                        Building trust in DeFi yield discovery through transparency and rigorous analysis.
+                        Personalized DeFi allocations in 30 seconds. Actionable recommendations, not data dumps.
                     </p>
                 </div>
 
@@ -24,12 +24,14 @@ export default function AboutPage() {
                         <Target className="h-6 w-6 text-cyan-400" />
                         <h2 className="text-xl font-semibold text-white">Our Mission</h2>
                     </div>
+                    <p className="text-slate-300 leading-relaxed mb-4">
+                        Most DeFi tools show you data. We tell you what to do with it.
+                    </p>
                     <p className="text-slate-300 leading-relaxed">
-                        {/* TODO: Replace with your mission statement */}
-                        DeFi yields are overwhelming. Hundreds of pools, constantly changing APYs, and hidden risks
-                        make it nearly impossible for users to make informed decisions. We built Fabrknt to solve this:
-                        an AI-powered analyst that filters the noise, surfaces sustainable opportunities, and helps you
-                        allocate with confidence.
+                        Fabrknt gives you a personalized DeFi allocation in 30 seconds—tell us your amount and risk
+                        tolerance, and we'll show you exactly where to put your money with step-by-step execution
+                        instructions. Want to learn instead? We also teach you how professional curators think,
+                        so you can build your own strategies with confidence.
                     </p>
                 </section>
 
@@ -44,12 +46,12 @@ export default function AboutPage() {
                             Coming from traditional banking and enterprise software, I saw how institutional
                             finance evaluates risk systematically—due diligence, stress testing, portfolio
                             diversification. But when I started exploring DeFi yields, I found a Wild West:
-                            flashy APYs with no context, hidden risks, and no standardized way to compare opportunities.
+                            flashy APYs with no context, hidden risks, and no clear answer to "where should I put my money?"
                         </p>
                         <p>
-                            I started building spreadsheets to track APY stability, protocol audits, and TVL trends.
-                            Then I realized: if I need this, others probably do too. Fabrknt is that spreadsheet
-                            turned into a product—bringing institutional-grade risk analysis to DeFi yield discovery.
+                            Most tools gave me more data, not answers. I wanted something that would just tell me
+                            what to do—like a financial advisor, but for DeFi. That's Fabrknt: actionable allocations
+                            based on your goals, with the option to learn the thinking behind them if you want to go deeper.
                         </p>
                     </div>
                 </section>
@@ -162,12 +164,12 @@ export default function AboutPage() {
 
                 {/* CTA */}
                 <section className="text-center py-8 border-t border-slate-800">
-                    <p className="text-slate-400 mb-4">Ready to explore yield opportunities?</p>
+                    <p className="text-slate-400 mb-4">Ready to get your personalized allocation?</p>
                     <Link
-                        href="/"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-medium rounded-lg transition-colors"
+                        href="/?tab=start"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-medium rounded-lg transition-colors"
                     >
-                        Start Exploring
+                        Get My Allocation
                     </Link>
                 </section>
             </div>
