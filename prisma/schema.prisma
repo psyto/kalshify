@@ -91,6 +91,9 @@ model User {
   // Morpho vaults
   morphoVaults    MorphoVault[]
 
+  // Allocation history
+  allocationHistory UserAllocationHistory[]
+
   @@index([walletAddress])
   @@index([email])
 }
@@ -469,6 +472,38 @@ model VaultAllocation {
 
   @@unique([vaultId, marketId])
   @@index([vaultId])
+}
+
+// User Allocation History - Track user's saved allocations over time
+model UserAllocationHistory {
+  id              String   @id @default(cuid())
+  userId          String
+
+  // Allocation details
+  riskTolerance   String   // "preserver" | "steady" | "balanced" | "growth" | "maximizer"
+  amount          Float    // Total amount allocated
+  allocations     Json     // Array of { poolId, poolName, protocol, asset, allocation, apy, riskScore }
+
+  // Calculated metrics
+  expectedApy     Float
+  weightedRiskScore Float
+
+  // Optional notes
+  notes           String?  @db.Text
+
+  // Status
+  isActive        Boolean  @default(true)  // Current active allocation
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, isActive])
+  @@index([createdAt])
 }
 
 // Allocation Snapshot - Track performance of recommended allocations
