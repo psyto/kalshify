@@ -227,8 +227,9 @@ export function StrategyBuilder() {
             };
         });
 
-        const riskPref = savedRisk === "conservative" ? "conservative" :
-                        savedRisk === "aggressive" ? "aggressive" : "moderate";
+        // Map 5-level risk to 3-level for strategy builder
+        const riskPref = (savedRisk === "preserver" || savedRisk === "steady") ? "conservative" :
+                        (savedRisk === "growth" || savedRisk === "maximizer") ? "aggressive" : "moderate";
 
         setStrategy({
             id: `user-strategy-${Date.now()}`,

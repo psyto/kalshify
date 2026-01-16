@@ -55,11 +55,11 @@ export function AllocationComparison() {
         return null;
     }
 
-    // Find the closest curator by risk tolerance
+    // Find the closest curator by risk tolerance (5-level system)
     const matchingCurator = CURATOR_ALLOCATIONS.find(c => {
-        if (riskTolerance === "conservative") return c.style === "Conservative";
-        if (riskTolerance === "moderate") return c.style === "Moderate";
-        return c.style === "Aggressive";
+        if (riskTolerance === "preserver" || riskTolerance === "steady") return c.style === "Conservative";
+        if (riskTolerance === "balanced") return c.style === "Moderate";
+        return c.style === "Aggressive"; // growth, maximizer
     }) || CURATOR_ALLOCATIONS[1];
 
     const { summary, allocations: userAllocations } = allocation;

@@ -10,9 +10,19 @@ import {
     Clock,
     Eye,
     FileText,
+    TrendingUp,
+    Rocket,
 } from "lucide-react";
 
-export type RiskTolerance = "conservative" | "moderate" | "aggressive";
+// 5-level risk tolerance system for granular allocation control
+export type RiskTolerance = "preserver" | "steady" | "balanced" | "growth" | "maximizer";
+
+// Backward compatibility mapping for existing code
+export const RISK_TOLERANCE_LEGACY_MAP: Record<string, RiskTolerance> = {
+    conservative: "preserver",
+    moderate: "balanced",
+    aggressive: "maximizer",
+};
 
 interface QuickStartProps {
     onSubmit: (amount: number, risk: RiskTolerance) => void;
@@ -22,50 +32,85 @@ interface QuickStartProps {
 const RISK_OPTIONS: {
     value: RiskTolerance;
     label: string;
+    shortLabel: string;
     description: string;
     icon: typeof Shield;
     color: string;
     bgColor: string;
     borderColor: string;
     expectedApy: string;
+    riskRange: string;
 }[] = [
     {
-        value: "conservative",
-        label: "Safe",
-        description: "Stable yields, minimal risk",
+        value: "preserver",
+        label: "Preserver",
+        shortLabel: "Safe",
+        description: "Capital protection first",
         icon: Shield,
         color: "text-green-400",
         bgColor: "bg-green-500/10",
         borderColor: "border-green-500/30",
-        expectedApy: "4-7%",
+        expectedApy: "4-6%",
+        riskRange: "Very Low",
     },
     {
-        value: "moderate",
+        value: "steady",
+        label: "Steady",
+        shortLabel: "Stable",
+        description: "Stable growth, minimal volatility",
+        icon: Shield,
+        color: "text-emerald-400",
+        bgColor: "bg-emerald-500/10",
+        borderColor: "border-emerald-500/30",
+        expectedApy: "6-8%",
+        riskRange: "Low",
+    },
+    {
+        value: "balanced",
         label: "Balanced",
-        description: "Mix of stable and growth",
+        shortLabel: "Balanced",
+        description: "Mix of stability and growth",
         icon: Zap,
         color: "text-yellow-400",
         bgColor: "bg-yellow-500/10",
         borderColor: "border-yellow-500/30",
-        expectedApy: "7-12%",
+        expectedApy: "8-12%",
+        riskRange: "Medium",
     },
     {
-        value: "aggressive",
+        value: "growth",
         label: "Growth",
-        description: "Higher risk, higher potential",
-        icon: Flame,
+        shortLabel: "Growth",
+        description: "Accepts volatility for returns",
+        icon: TrendingUp,
         color: "text-orange-400",
         bgColor: "bg-orange-500/10",
         borderColor: "border-orange-500/30",
-        expectedApy: "12-25%+",
+        expectedApy: "12-18%",
+        riskRange: "Higher",
+    },
+    {
+        value: "maximizer",
+        label: "Maximizer",
+        shortLabel: "Max",
+        description: "Maximum yield, highest risk",
+        icon: Rocket,
+        color: "text-red-400",
+        bgColor: "bg-red-500/10",
+        borderColor: "border-red-500/30",
+        expectedApy: "18%+",
+        riskRange: "High",
     },
 ];
+
+// Export for use in other components
+export { RISK_OPTIONS };
 
 const AMOUNT_PRESETS = [1000, 5000, 10000, 25000, 50000, 100000];
 
 export function QuickStart({ onSubmit, isLoading }: QuickStartProps) {
     const [amount, setAmount] = useState<string>("10000");
-    const [risk, setRisk] = useState<RiskTolerance>("moderate");
+    const [risk, setRisk] = useState<RiskTolerance>("balanced");
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = () => {
@@ -79,6 +124,7 @@ export function QuickStart({ onSubmit, isLoading }: QuickStartProps) {
     };
 
     const selectedRiskOption = RISK_OPTIONS.find(r => r.value === risk)!;
+    const selectedIndex = RISK_OPTIONS.findIndex(r => r.value === risk);
 
     return (
         <div className="max-w-2xl mx-auto">
@@ -134,42 +180,80 @@ export function QuickStart({ onSubmit, isLoading }: QuickStartProps) {
                     </div>
                 </div>
 
-                {/* Risk Selection */}
+                {/* Risk Selection - 5 Level Slider */}
                 <div>
                     <label className="block text-sm font-medium text-white mb-3">
                         What&apos;s your risk tolerance?
                     </label>
-                    <div className="grid grid-cols-3 gap-3">
-                        {RISK_OPTIONS.map(option => {
+
+                    {/* Risk Level Buttons */}
+                    <div className="flex gap-1 mb-4">
+                        {RISK_OPTIONS.map((option, index) => {
                             const Icon = option.icon;
                             const isSelected = risk === option.value;
                             return (
                                 <button
                                     key={option.value}
                                     onClick={() => setRisk(option.value)}
-                                    className={`relative p-4 rounded-xl border-2 transition-all ${
+                                    className={`flex-1 py-3 px-2 rounded-lg border-2 transition-all ${
                                         isSelected
                                             ? `${option.bgColor} ${option.borderColor}`
                                             : "bg-slate-800/50 border-slate-700 hover:border-slate-600"
                                     }`}
                                 >
-                                    <div className="flex flex-col items-center text-center">
-                                        <div className={`w-10 h-10 rounded-full ${option.bgColor} flex items-center justify-center mb-2`}>
-                                            <Icon className={`h-5 w-5 ${option.color}`} />
-                                        </div>
-                                        <span className={`font-semibold ${isSelected ? option.color : "text-white"}`}>
-                                            {option.label}
-                                        </span>
-                                        <span className="text-xs text-slate-500 mt-1">
-                                            {option.description}
-                                        </span>
-                                        <span className={`text-xs mt-2 ${isSelected ? option.color : "text-slate-400"}`}>
-                                            ~{option.expectedApy} APY
+                                    <div className="flex flex-col items-center">
+                                        <Icon className={`h-4 w-4 mb-1 ${isSelected ? option.color : "text-slate-500"}`} />
+                                        <span className={`text-xs font-medium ${isSelected ? option.color : "text-slate-400"}`}>
+                                            {option.shortLabel}
                                         </span>
                                     </div>
                                 </button>
                             );
                         })}
+                    </div>
+
+                    {/* Visual Risk Bar */}
+                    <div className="relative mb-4">
+                        <div className="flex h-2 rounded-full overflow-hidden">
+                            {RISK_OPTIONS.map((option, index) => (
+                                <div
+                                    key={option.value}
+                                    className={`flex-1 transition-opacity ${
+                                        index <= selectedIndex ? "opacity-100" : "opacity-30"
+                                    }`}
+                                    style={{
+                                        backgroundColor: index === 0 ? "#22c55e" :
+                                                        index === 1 ? "#10b981" :
+                                                        index === 2 ? "#eab308" :
+                                                        index === 3 ? "#f97316" : "#ef4444"
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Selected Risk Details */}
+                    <div className={`p-4 rounded-xl ${selectedRiskOption.bgColor} border ${selectedRiskOption.borderColor}`}>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <selectedRiskOption.icon className={`h-5 w-5 ${selectedRiskOption.color}`} />
+                                <span className={`font-semibold ${selectedRiskOption.color}`}>
+                                    {selectedRiskOption.label}
+                                </span>
+                            </div>
+                            <span className={`text-sm px-2 py-0.5 rounded-full ${selectedRiskOption.bgColor} ${selectedRiskOption.color}`}>
+                                {selectedRiskOption.riskRange} Risk
+                            </span>
+                        </div>
+                        <p className="text-sm text-slate-400 mb-2">
+                            {selectedRiskOption.description}
+                        </p>
+                        <div className="flex items-center justify-between text-sm">
+                            <span className="text-slate-500">Expected APY</span>
+                            <span className={`font-semibold ${selectedRiskOption.color}`}>
+                                ~{selectedRiskOption.expectedApy}
+                            </span>
+                        </div>
                     </div>
                 </div>
 

@@ -32,7 +32,7 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
     const [step, setStep] = useState<FlowStep>(() => hasAllocation ? "recommendation" : "input");
     const [isLoading, setIsLoading] = useState(false);
     const [amount, setAmount] = useState<number>(() => savedAllocation?.summary.totalAmount || 0);
-    const [riskTolerance, setRiskToleranceState] = useState<RiskTolerance>(() => savedRisk || "moderate");
+    const [riskTolerance, setRiskToleranceState] = useState<RiskTolerance>(() => savedRisk || "balanced");
     const [recommendation, setRecommendation] = useState<AllocationRecommendation | null>(savedAllocation);
 
     // Sync with context when it changes

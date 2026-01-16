@@ -59,6 +59,7 @@ import { ActionableFlow } from "@/components/curate/actionable-flow";
 import { AllocationBanner } from "@/components/curate/allocation-banner";
 import { AllocationComparison } from "@/components/curate/allocation-comparison";
 import { BackToAllocationButton } from "@/components/curate/back-to-allocation-button";
+import { PerformanceCard } from "@/components/curate/performance-card";
 import { useAllocation } from "@/contexts/allocation-context";
 import { getProtocolSlug } from "@/lib/solana/protocols";
 
@@ -714,6 +715,8 @@ function CuratePageContent() {
                             <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
                             {/* Allocation comparison - show if user has allocation */}
                             <AllocationComparison />
+                            {/* Performance tracking - build trust through transparency */}
+                            <PerformanceCard compact />
                             {/* Welcome banner - dismissible one-time intro */}
                             <WelcomeBanner />
                             {/* Curation principles - quick reference */}

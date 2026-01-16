@@ -1,16 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import {
     TrendingUp,
     Shield,
     AlertTriangle,
     ChevronRight,
+    ChevronDown,
     PieChart,
     CheckCircle,
     Info,
     RefreshCw,
+    Lightbulb,
+    Scale,
+    XCircle,
+    ArrowRight,
 } from "lucide-react";
 import { RiskTolerance } from "./quick-start";
+
+// Enhanced reasoning structure for each allocation
+export interface EnhancedReasoning {
+    whyThisPool: string;           // Why we chose this specific pool
+    whyThisPercentage: string;     // Why this allocation percentage
+    alternativesConsidered: {      // What else we looked at
+        pool: string;
+        protocol: string;
+        whyNot: string;
+    }[];
+    riskMitigation: string;        // How risk is managed in this position
+    tradeoff: string;              // What you're giving up
+}
 
 export interface RecommendedAllocation {
     poolId: string;
@@ -21,7 +40,8 @@ export interface RecommendedAllocation {
     apy: number;
     riskLevel: "low" | "medium" | "high";
     riskScore: number;
-    reasoning: string;
+    reasoning: string;              // Short one-liner (backward compat)
+    enhancedReasoning?: EnhancedReasoning;  // Detailed reasoning
     url?: string; // link to protocol
 }
 
@@ -65,6 +85,98 @@ function formatCurrency(amount: number): string {
     return `$${amount.toFixed(0)}`;
 }
 
+// Component to display enhanced reasoning for a single allocation
+function AllocationReasoningPanel({
+    alloc,
+    isExpanded,
+    onToggle
+}: {
+    alloc: RecommendedAllocation;
+    isExpanded: boolean;
+    onToggle: () => void;
+}) {
+    const reasoning = alloc.enhancedReasoning;
+
+    if (!reasoning) {
+        return (
+            <p className="text-sm text-slate-400 mt-1">{alloc.reasoning}</p>
+        );
+    }
+
+    return (
+        <div className="mt-1">
+            <button
+                onClick={(e) => { e.stopPropagation(); onToggle(); }}
+                className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+                <Lightbulb className="h-3 w-3" />
+                <span>Why this choice?</span>
+                <ChevronDown className={`h-3 w-3 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+            </button>
+
+            {isExpanded && (
+                <div className="mt-3 space-y-3 pl-3 border-l-2 border-cyan-500/30">
+                    {/* Why this pool */}
+                    <div>
+                        <div className="flex items-center gap-1 text-xs text-cyan-400 mb-1">
+                            <CheckCircle className="h-3 w-3" />
+                            <span className="font-medium">Why {alloc.poolName}?</span>
+                        </div>
+                        <p className="text-sm text-slate-300">{reasoning.whyThisPool}</p>
+                    </div>
+
+                    {/* Why this percentage */}
+                    <div>
+                        <div className="flex items-center gap-1 text-xs text-slate-400 mb-1">
+                            <Scale className="h-3 w-3" />
+                            <span className="font-medium">Why {alloc.allocation}%?</span>
+                        </div>
+                        <p className="text-sm text-slate-400">{reasoning.whyThisPercentage}</p>
+                    </div>
+
+                    {/* Alternatives considered */}
+                    {reasoning.alternativesConsidered.length > 0 && (
+                        <div>
+                            <div className="flex items-center gap-1 text-xs text-slate-500 mb-1">
+                                <XCircle className="h-3 w-3" />
+                                <span className="font-medium">Alternatives we considered</span>
+                            </div>
+                            <div className="space-y-1">
+                                {reasoning.alternativesConsidered.map((alt, idx) => (
+                                    <div key={idx} className="flex items-start gap-2 text-xs">
+                                        <ArrowRight className="h-3 w-3 text-slate-600 mt-0.5 shrink-0" />
+                                        <span className="text-slate-500">
+                                            <span className="text-slate-400">{alt.pool}</span> ({alt.protocol}): {alt.whyNot}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Risk mitigation */}
+                    <div>
+                        <div className="flex items-center gap-1 text-xs text-green-400/70 mb-1">
+                            <Shield className="h-3 w-3" />
+                            <span className="font-medium">Risk mitigation</span>
+                        </div>
+                        <p className="text-sm text-slate-400">{reasoning.riskMitigation}</p>
+                    </div>
+
+                    {/* Tradeoff */}
+                    <div>
+                        <div className="flex items-center gap-1 text-xs text-yellow-400/70 mb-1">
+                            <AlertTriangle className="h-3 w-3" />
+                            <span className="font-medium">Tradeoff</span>
+                        </div>
+                        <p className="text-sm text-slate-400">{reasoning.tradeoff}</p>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
 export function RecommendationDisplay({
     recommendation,
     riskTolerance,
@@ -72,6 +184,7 @@ export function RecommendationDisplay({
     onViewDetails,
 }: RecommendationDisplayProps) {
     const { allocations, summary, insights, warnings } = recommendation;
+    const [expandedPool, setExpandedPool] = useState<string | null>(null);
 
     return (
         <div className="max-w-3xl mx-auto space-y-6">
@@ -148,34 +261,46 @@ export function RecommendationDisplay({
                     {allocations.map((alloc, idx) => (
                         <div
                             key={alloc.poolId}
-                            className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
-                            onClick={() => onViewDetails(alloc.poolId)}
+                            className={`p-4 bg-slate-800/50 rounded-xl transition-colors ${
+                                expandedPool === alloc.poolId ? "bg-slate-800" : "hover:bg-slate-800/70"
+                            }`}
                         >
-                            {/* Color indicator */}
-                            <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${ALLOCATION_COLORS[idx % ALLOCATION_COLORS.length]}`} />
+                            <div
+                                className="flex items-center gap-4 cursor-pointer"
+                                onClick={() => onViewDetails(alloc.poolId)}
+                            >
+                                {/* Color indicator */}
+                                <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${ALLOCATION_COLORS[idx % ALLOCATION_COLORS.length]} shrink-0`} />
 
-                            {/* Pool info */}
-                            <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-medium text-white">{alloc.poolName}</span>
-                                    <span className="text-sm text-slate-500">{alloc.protocol}</span>
-                                    <span className={`text-xs px-1.5 py-0.5 rounded border ${RISK_COLORS[alloc.riskLevel]}`}>
-                                        {alloc.riskLevel}
-                                    </span>
+                                {/* Pool info */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <span className="font-medium text-white">{alloc.poolName}</span>
+                                        <span className="text-sm text-slate-500">{alloc.protocol}</span>
+                                        <span className={`text-xs px-1.5 py-0.5 rounded border ${RISK_COLORS[alloc.riskLevel]}`}>
+                                            {alloc.riskLevel}
+                                        </span>
+                                    </div>
+                                    <AllocationReasoningPanel
+                                        alloc={alloc}
+                                        isExpanded={expandedPool === alloc.poolId}
+                                        onToggle={() => setExpandedPool(
+                                            expandedPool === alloc.poolId ? null : alloc.poolId
+                                        )}
+                                    />
                                 </div>
-                                <p className="text-sm text-slate-400 mt-1">{alloc.reasoning}</p>
-                            </div>
 
-                            {/* Allocation & APY */}
-                            <div className="text-right">
-                                <p className="text-lg font-bold text-white">{alloc.allocation}%</p>
-                                <p className="text-sm text-green-400">{alloc.apy.toFixed(1)}% APY</p>
-                                <p className="text-xs text-slate-500">
-                                    {formatCurrency(summary.totalAmount * alloc.allocation / 100)}
-                                </p>
-                            </div>
+                                {/* Allocation & APY */}
+                                <div className="text-right shrink-0">
+                                    <p className="text-lg font-bold text-white">{alloc.allocation}%</p>
+                                    <p className="text-sm text-green-400">{alloc.apy.toFixed(1)}% APY</p>
+                                    <p className="text-xs text-slate-500">
+                                        {formatCurrency(summary.totalAmount * alloc.allocation / 100)}
+                                    </p>
+                                </div>
 
-                            <ChevronRight className="h-5 w-5 text-slate-500" />
+                                <ChevronRight className="h-5 w-5 text-slate-500 shrink-0" />
+                            </div>
                         </div>
                     ))}
                 </div>

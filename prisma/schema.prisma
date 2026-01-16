@@ -471,3 +471,34 @@ model VaultAllocation {
   @@index([vaultId])
 }
 
+// Allocation Snapshot - Track performance of recommended allocations
+model AllocationSnapshot {
+  id              String   @id @default(cuid())
+
+  // Snapshot identification
+  date            DateTime @db.Date
+  riskProfile     String   // "conservative" | "moderate" | "aggressive"
+
+  // Allocation data at snapshot time
+  allocations     Json     // Array of { poolId, poolName, protocol, asset, allocation, apy, riskScore }
+
+  // Expected metrics at time of snapshot
+  expectedApy     Float    // Weighted average APY at snapshot
+  weightedRiskScore Float  // Weighted average risk score
+
+  // Actual performance (updated after time passes)
+  actualReturn7d  Float?   // Actual return after 7 days
+  actualReturn30d Float?   // Actual return after 30 days
+
+  // Pool-level performance tracking
+  poolPerformance Json?    // Array of { poolId, expectedApy, actualApy7d, actualApy30d }
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([date, riskProfile])
+  @@index([date])
+  @@index([riskProfile])
+}
+
