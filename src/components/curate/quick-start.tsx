@@ -12,6 +12,8 @@ import {
     FileText,
     TrendingUp,
     Rocket,
+    FlaskConical,
+    CheckCircle,
 } from "lucide-react";
 
 // 5-level risk tolerance system for granular allocation control
@@ -128,11 +130,49 @@ export function QuickStart({ onSubmit, isLoading }: QuickStartProps) {
 
     return (
         <div className="max-w-2xl mx-auto">
+            {/* Paper Trading Journey */}
+            <div className="mb-8 p-6 bg-gradient-to-br from-purple-900/30 to-cyan-900/30 border border-purple-500/30 rounded-xl">
+                <div className="flex items-center gap-2 mb-3">
+                    <FlaskConical className="h-5 w-5 text-purple-400" />
+                    <h2 className="text-lg font-semibold text-white">Recommended: Start with Paper Trading</h2>
+                </div>
+                <p className="text-sm text-slate-300 mb-5">
+                    New to DeFi? Test strategies without risking real money. Track your paper portfolio over time, build confidence, then invest when ready.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                        <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <Zap className="h-4 w-4 text-purple-400" />
+                        </div>
+                        <p className="text-sm font-medium text-white">1. Try</p>
+                        <p className="text-xs text-slate-400 mt-0.5">Get a free allocation</p>
+                    </div>
+                    <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                        <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <Eye className="h-4 w-4 text-purple-400" />
+                        </div>
+                        <p className="text-sm font-medium text-white">2. Track</p>
+                        <p className="text-xs text-slate-400 mt-0.5">Save & watch performance</p>
+                    </div>
+                    <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                        <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <CheckCircle className="h-4 w-4 text-purple-400" />
+                        </div>
+                        <p className="text-sm font-medium text-white">3. Trust</p>
+                        <p className="text-xs text-slate-400 mt-0.5">Build confidence</p>
+                    </div>
+                    <div className="text-center p-3 bg-slate-800/50 rounded-lg border border-cyan-500/20">
+                        <div className="w-8 h-8 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <Rocket className="h-4 w-4 text-cyan-400" />
+                        </div>
+                        <p className="text-sm font-medium text-white">4. Trade</p>
+                        <p className="text-xs text-slate-400 mt-0.5">Execute when ready</p>
+                    </div>
+                </div>
+            </div>
+
             {/* Header */}
             <div className="text-center mb-8">
-                <p className="text-slate-500 text-sm mb-4">
-                    Stop browsing dashboards. Start planning your strategy.
-                </p>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-sm mb-4">
                     <Clock className="h-4 w-4" />
                     Takes 30 seconds
@@ -140,8 +180,8 @@ export function QuickStart({ onSubmit, isLoading }: QuickStartProps) {
                 <h1 className="text-3xl font-bold text-white mb-3">
                     Get Your Personalized DeFi Allocation
                 </h1>
-                <p className="text-slate-400 text-lg">
-                    See exactly where to put your money. Not ready? Save it and track performance first.
+                <p className="text-slate-400">
+                    Enter your amount and risk preference below
                 </p>
             </div>
 

@@ -34,6 +34,9 @@ import {
     History,
     Target,
     Play,
+    FlaskConical,
+    Eye,
+    Rocket,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -47,7 +50,7 @@ export default function GuidePage() {
                         FABRKNT Guide
                     </h1>
                     <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                        Everything you need to get personalized DeFi allocations and build your own strategies.
+                        Paper trade DeFi strategies risk-free. Track performance over time. Invest when confident.
                     </p>
                 </div>
 
@@ -106,6 +109,7 @@ export default function GuidePage() {
                             <p className="text-[10px] text-orange-500 uppercase tracking-wider mb-2 font-medium">Track</p>
                             <div className="flex flex-wrap gap-2">
                                 {[
+                                    { id: "paper-portfolio", label: "Paper Portfolio", icon: FlaskConical },
                                     { id: "insights-dashboard", label: "Insights", icon: Target },
                                     { id: "allocation-history", label: "History", icon: History },
                                     { id: "watchlist", label: "Watchlist", icon: Bookmark },
@@ -138,6 +142,57 @@ export default function GuidePage() {
                     </div>
                 </nav>
 
+                {/* Recommended Path - Paper Trading Journey */}
+                <section className="bg-gradient-to-br from-purple-900/30 to-cyan-900/30 border border-purple-500/30 rounded-xl p-8">
+                    <div className="flex items-center gap-3 mb-4">
+                        <FlaskConical className="h-6 w-6 text-purple-400" />
+                        <h2 className="text-xl font-semibold text-white">Recommended: Start with Paper Trading</h2>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        New to DeFi? Test strategies without risking real money. Track your paper portfolio over time, build confidence, then invest when ready.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                            <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Zap className="h-5 w-5 text-purple-400" />
+                            </div>
+                            <h3 className="text-white font-medium mb-1">1. Try</h3>
+                            <p className="text-xs text-slate-400">Get a free allocation recommendation</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                            <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Eye className="h-5 w-5 text-purple-400" />
+                            </div>
+                            <h3 className="text-white font-medium mb-1">2. Track</h3>
+                            <p className="text-xs text-slate-400">Save to Paper Portfolio and watch performance</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                            <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <CheckCircle className="h-5 w-5 text-purple-400" />
+                            </div>
+                            <h3 className="text-white font-medium mb-1">3. Trust</h3>
+                            <p className="text-xs text-slate-400">Build confidence over weeks or months</p>
+                        </div>
+                        <div className="text-center p-4 bg-slate-800/50 rounded-lg border border-purple-500/20">
+                            <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <Rocket className="h-5 w-5 text-cyan-400" />
+                            </div>
+                            <h3 className="text-white font-medium mb-1">4. Trade</h3>
+                            <p className="text-xs text-slate-400">Execute with real money when ready</p>
+                        </div>
+                    </div>
+                    <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+                        <Link
+                            href="/?tab=start"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-400 hover:to-cyan-400 text-white font-medium rounded-lg transition-colors"
+                        >
+                            <FlaskConical className="h-4 w-4" />
+                            Start Paper Trading
+                        </Link>
+                        <span className="text-sm text-slate-500">No wallet or sign-in required</span>
+                    </div>
+                </section>
+
                 {/* Quick Start - Primary CTA */}
                 <section id="get-started" className="bg-gradient-to-br from-cyan-900/30 to-purple-900/30 border border-cyan-500/30 rounded-xl p-8 scroll-mt-20">
                     <div className="flex items-center justify-between mb-6">
@@ -153,7 +208,7 @@ export default function GuidePage() {
                         </Link>
                     </div>
                     <p className="text-slate-300 mb-6">
-                        Tell us your investment amount and risk tolerance. We'll show you exactly where to put your money with step-by-step execution instructions.
+                        Tell us your investment amount and risk tolerance. Get a personalized allocation—then paper trade it or execute right away.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="text-center p-4 bg-slate-800/50 rounded-lg">
@@ -174,14 +229,14 @@ export default function GuidePage() {
                             <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
                                 <span className="text-lg font-bold text-cyan-400">3</span>
                             </div>
-                            <h3 className="text-white font-medium mb-1">Execute</h3>
-                            <p className="text-xs text-slate-400">Step-by-step instructions</p>
+                            <h3 className="text-white font-medium mb-1">Paper Trade or Execute</h3>
+                            <p className="text-xs text-slate-400">Track it or invest right away</p>
                         </div>
                     </div>
                     <div className="mt-6 p-4 bg-slate-800/30 rounded-lg border border-cyan-500/20">
                         <h3 className="text-white font-medium mb-2">Your allocation persists across all tabs:</h3>
                         <ul className="text-sm text-slate-400 space-y-1">
-                            <li>• <strong className="text-cyan-400">Insights:</strong> Compare your allocation vs professional curators</li>
+                            <li>• <strong className="text-cyan-400">Insights:</strong> Save to Paper Portfolio and compare vs professional curators</li>
                             <li>• <strong className="text-cyan-400">Explore:</strong> Pools in your allocation are highlighted; find alternatives</li>
                             <li>• <strong className="text-cyan-400">Learn:</strong> Load your allocation into Strategy Builder to customize</li>
                         </ul>
@@ -433,6 +488,72 @@ export default function GuidePage() {
                                 <p className="text-xs text-slate-400">{tool.desc}</p>
                             </div>
                         ))}
+                    </div>
+                </section>
+
+                {/* Paper Portfolio */}
+                <section id="paper-portfolio" className="bg-gradient-to-br from-purple-900/20 to-slate-800 border border-purple-500/30 rounded-xl p-8 scroll-mt-20">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <FlaskConical className="h-6 w-6 text-purple-400" />
+                            <h2 className="text-xl font-semibold text-white">Paper Portfolio</h2>
+                            <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded border border-purple-500/30">
+                                No sign-in required
+                            </span>
+                        </div>
+                        <Link
+                            href="/?tab=insights"
+                            className="flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                        >
+                            Try it <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <p className="text-slate-300 mb-6">
+                        Track allocations over time without investing real money. Perfect for learning DeFi or testing strategies before committing capital.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <FlaskConical className="h-4 w-4 text-purple-400" />
+                                <h3 className="text-white font-medium">Save Allocations</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Save any allocation to your Paper Portfolio with optional notes. Keep up to 10 saved allocations.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <TrendingUp className="h-4 w-4 text-green-400" />
+                                <h3 className="text-white font-medium">Track Performance</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Watch how your saved allocations would have performed over a week, a month, or longer.
+                            </p>
+                        </div>
+                        <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-2">
+                                <History className="h-4 w-4 text-cyan-400" />
+                                <h3 className="text-white font-medium">Load & Compare</h3>
+                            </div>
+                            <p className="text-sm text-slate-400">
+                                Restore any saved allocation to compare with current recommendations and see what changed.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                        <h4 className="text-white font-medium mb-2">How to use Paper Portfolio:</h4>
+                        <ol className="text-sm text-slate-400 space-y-1 list-decimal list-inside">
+                            <li>Get an allocation from the <Link href="/?tab=start" className="text-purple-400 hover:underline">Get Started</Link> tab</li>
+                            <li>Go to the <Link href="/?tab=insights" className="text-purple-400 hover:underline">Insights</Link> tab and find Paper Portfolio section</li>
+                            <li>Click &quot;Save&quot; to add your current allocation (add notes if you want)</li>
+                            <li>Check back later to see how the pools performed</li>
+                            <li>When confident, execute the strategy with real funds</li>
+                        </ol>
+                    </div>
+                    <div className="mt-4 p-3 bg-slate-800/50 border border-slate-700/50 rounded-lg">
+                        <p className="text-xs text-slate-400">
+                            <strong className="text-slate-300">Note:</strong> Paper Portfolio is stored in your browser. Sign in to sync across devices and keep permanent records.
+                        </p>
                     </div>
                 </section>
 
@@ -791,14 +912,15 @@ export default function GuidePage() {
                         Ready to get started?
                     </h2>
                     <p className="text-slate-400 mb-6">
-                        Get your personalized allocation in 30 seconds, or explore on your own.
+                        Paper trade and track it for a week, a month, or longer. Invest when you&apos;re confident.
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-4">
                         <Link
                             href="/?tab=start"
-                            className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-medium rounded-lg transition-colors"
+                            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-400 hover:to-cyan-400 text-white font-medium rounded-lg transition-colors"
                         >
-                            Get My Allocation
+                            <FlaskConical className="h-4 w-4" />
+                            Start Paper Trading
                         </Link>
                         <Link
                             href="/?tab=explore"
@@ -813,6 +935,9 @@ export default function GuidePage() {
                             Practice Building
                         </Link>
                     </div>
+                    <p className="text-xs text-slate-500 mt-4">
+                        No wallet or sign-in required to start
+                    </p>
                 </section>
             </div>
         </CurateLayoutClient>
