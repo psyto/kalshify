@@ -8,11 +8,22 @@
 
 ## What is FABRKNT?
 
-FABRKNT gives you **personalized DeFi allocations** for **Solana**. Tell us your investment amount and risk tolerance, and we'll show you exactly where to put your money—with step-by-step execution instructions.
+FABRKNT gives you **personalized DeFi allocations** for **Solana**. Tell us your investment amount and risk tolerance, and we'll show you exactly where to put your money—then track it risk-free before committing real capital.
 
-Want to learn instead? FABRKNT also teaches you *how to think* about yield strategies by showing you how professional curators allocate capital—and why.
+**Our philosophy:** Actionable recommendations over data dumps. Trust before trade.
 
-**Our philosophy:** Actionable recommendations over data dumps.
+---
+
+## Try → Track → Trust → Trade
+
+| Step | What Happens |
+|------|--------------|
+| **Try** | Get personalized allocation in 30 seconds |
+| **Track** | Paper Portfolio Dashboard shows performance over time |
+| **Trust** | 14+ days of tracking builds confidence |
+| **Trade** | Execute with step-by-step instructions when ready |
+
+This is the recommended path for new users. Test strategies without risking real money, then invest when confident.
 
 ---
 
@@ -20,7 +31,7 @@ Want to learn instead? FABRKNT also teaches you *how to think* about yield strat
 
 1. **Enter your preferences** — Investment amount and risk tolerance (Safe/Balanced/Growth)
 2. **Get your allocation** — Personalized recommendations with expected yields
-3. **Execute** — Step-by-step instructions with protocol links
+3. **Paper trade or execute** — Track in Paper Portfolio Dashboard, or invest right away
 
 [Get Started →](https://www.fabrknt.com/?tab=start)
 
@@ -77,11 +88,7 @@ After getting your allocation, you'll see the Paper Portfolio Dashboard:
 - **Trust Progress** — 14-day ring showing progress toward building trust
 - **APY Sparklines** — Visual trend indicators (rising, falling, stable)
 
-The "Try → Track → Trust → Trade" journey:
-1. **Try** — Get your personalized allocation
-2. **Track** — Allocation auto-saves to Paper Portfolio
-3. **Trust** — Watch performance for 14+ days
-4. **Trade** — Execute with confidence when ready
+Your allocation auto-saves to Paper Portfolio. Track for 14+ days to build trust, then execute when confident.
 
 ### Connected Tabs Experience
 
@@ -198,14 +205,14 @@ Comprehensive guide covering all features with direct links:
 
 ---
 
-## Learning Flow
+## Learning Flow (Optional)
 
-FABRKNT is designed around a learning progression:
+For users who want to go deeper:
 
-1. **Understand the principles** — Learn the 6 mental models curators use
-2. **Study curator strategies** — See how experts apply these principles
-3. **Practice building** — Create your own strategy with feedback
-4. **Test before deploying** — Run scenarios to see how your strategy performs
+1. **Study curator strategies** — See how Gauntlet, Steakhouse, RE7 allocate in Insights
+2. **Practice building** — Create your own strategy in Strategy Builder with A-F grading
+3. **Compare vs pros** — See how your allocation differs from professionals
+4. **Test before deploying** — Run scenarios to stress test your strategy
 
 ---
 
@@ -289,20 +296,20 @@ Direct links to specific tabs and features:
 
 ### For Users
 
-**Option A: Get Your Allocation (30 seconds)**
+**Option A: Paper Trade First (Recommended)**
 1. Go to [fabrknt.com](https://www.fabrknt.com)
-2. Enter your investment amount
-3. Select your risk tolerance
-4. Get personalized recommendations
-5. Follow step-by-step execution instructions
+2. Enter your investment amount and risk tolerance
+3. Get personalized allocation (30 seconds)
+4. Track with Paper Portfolio Dashboard for 14+ days
+5. Build trust by watching performance
+6. Execute with step-by-step instructions when confident
 
-**Option B: Learn to Curate**
-1. **Start with Principles** — Learn the 6 mental models in the Insights tab
-2. **Study Curator Strategies** — See how experts apply these principles
-3. **Practice Building** — Use the Strategy Builder in the Learn tab
-4. **Test Your Strategy** — Run scenarios before committing capital
-5. **Explore Pools** — Browse the Explore tab when ready to dive deeper
-6. **Sign In** — Unlock personalized AI recommendations
+**Option B: Learn to Curate (Go Deeper)**
+1. Study curator strategies in the Insights tab
+2. Practice building your own in Strategy Builder (Practice tab)
+3. Compare your allocation vs professionals (Compare tab)
+4. Test with Scenario Simulator before deploying
+5. Sign in for AI-powered recommendations
 
 ### Development
 

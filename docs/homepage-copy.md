@@ -2,7 +2,7 @@
 
 *Updated: January 2025*
 
-This document contains the marketing copy for FABRKNT. The primary experience is the Get Started flow on the homepage.
+This document contains the marketing copy for FABRKNT. The primary experience is the **Try → Track → Trust → Trade** journey via paper trading.
 
 ## Content Placement
 
@@ -45,7 +45,16 @@ We never touch your funds. You execute all transactions yourself.
 
 ---
 
-## THE FLOW (3 Steps)
+## THE JOURNEY: Try → Track → Trust → Trade
+
+| Step | What Happens |
+|------|--------------|
+| **Try** | Get personalized allocation in 30 seconds |
+| **Track** | Paper Portfolio Dashboard shows performance over time |
+| **Trust** | 14+ days of tracking builds confidence |
+| **Trade** | Execute with step-by-step instructions when ready |
+
+## THE FLOW (3 Steps to Get Started)
 
 **Step 1: Your Preferences**
 - Enter investment amount ($100+)
@@ -57,11 +66,11 @@ We never touch your funds. You execute all transactions yourself.
 - Risk breakdown and warnings
 - "Why this allocation" insights
 
-**Step 3: Execute**
-- Step-by-step instructions for each position
+**Step 3: Paper Trade or Execute**
+- Auto-saved to Paper Portfolio Dashboard
+- Track performance with APY sparklines and trust progress
+- When ready: step-by-step execution instructions
 - Direct links to protocols (Kamino, Marginfi, Meteora, etc.)
-- Copy-paste amounts
-- Progress tracking (mark steps completed)
 
 ---
 
@@ -138,47 +147,61 @@ Most DeFi tools show you data and expect you to figure it out. FABRKNT tells you
 
 ## TWO WAYS TO USE FABRKNT
 
-**Option A: Get Your Allocation (30 seconds)**
-1. Enter amount and risk tolerance
-2. Get personalized recommendations
-3. Follow step-by-step execution
+**Option A: Paper Trade First (Recommended)**
+1. Get your allocation in 30 seconds
+2. Track with Paper Portfolio Dashboard for 14+ days
+3. Build trust by watching performance
+4. Execute when confident
 
-**Option B: Learn to Curate (go deeper)**
-1. Compare your allocation to professional curators
-2. Understand the reasoning behind allocations
-3. Build your own strategy with feedback
-4. Stress test before deploying
+**Option B: Learn to Curate (Go Deeper)**
+1. Study curator strategies in Insights
+2. Practice building your own in Strategy Builder
+3. Compare your allocation vs professionals
+4. Test with Scenario Simulator before deploying
 
 ---
 
 ## META (for SEO)
 
 **Page title:**
-FABRKNT — Personalized DeFi Allocations in 30 Seconds
+FABRKNT — Paper Trade DeFi Strategies Risk-Free
 
 **Meta description:**
-Get your personalized Solana yield allocation in 30 seconds. Tell us your amount and risk tolerance—we'll show you exactly where to put your money. Non-custodial, read-only, transparent.
+Get personalized Solana yield allocations in 30 seconds. Paper trade risk-free, track performance for 14+ days, then invest when confident. Non-custodial, read-only, transparent.
 
 **OG description:**
-Stop browsing DeFi dashboards. FABRKNT tells you exactly where to put your money with step-by-step execution instructions.
+Try → Track → Trust → Trade. Get personalized DeFi allocations, paper trade risk-free, build trust over time, then execute with confidence.
 
 ---
 
 ## SOCIAL COPY
 
 **Twitter bio (@fabrknt):**
-Get your personalized Solana yield allocation in 30 seconds.
-Actionable recommendations, not data dumps.
+Paper trade DeFi strategies risk-free. Track performance, build trust, invest when ready.
 Non-custodial · Read-only · fabrknt.com
 
 **Launch tweet:**
 Most DeFi tools show you data.
-We tell you what to do with it.
+We tell you what to do with it—and let you test it first.
 
-Get your personalized Solana yield allocation in 30 seconds:
-→ Enter your amount
-→ Pick your risk level
-→ Get step-by-step execution instructions
+Try → Track → Trust → Trade
 
-No wallet connection. No sign-up required.
+→ Get personalized allocation in 30 seconds
+→ Paper trade risk-free for 14+ days
+→ Watch performance with live dashboard
+→ Execute when you're confident
+
+No wallet. No sign-up. No risk.
+fabrknt.com
+
+**Alternative tweet:**
+New to DeFi yields? Don't risk real money learning.
+
+FABRKNT lets you:
+1. Get a personalized allocation (30 sec)
+2. Track it in Paper Portfolio
+3. Build trust over 14+ days
+4. Execute when ready
+
+Try → Track → Trust → Trade
 fabrknt.com

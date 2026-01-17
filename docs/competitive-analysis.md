@@ -101,17 +101,28 @@ The DeFi yield space has several categories of players:
 
 ## FABRKNT's Unique Position
 
+**The Try → Track → Trust → Trade Journey**
+
+Unlike competitors who ask users to either trust blindly (vaults) or figure it out themselves (data platforms), FABRKNT offers a trust-building journey:
+
+| Step | What Happens | Competitive Advantage |
+|------|--------------|----------------------|
+| **Try** | Get personalized allocation in 30 seconds | Faster than any competitor |
+| **Track** | Paper Portfolio Dashboard tracks performance | No vault required, no risk |
+| **Trust** | 14+ days of real performance data | Builds confidence before investing |
+| **Trade** | Step-by-step execution instructions | More control than vaults |
+
 **What FABRKNT does that no one else does:**
 
-1. **Actionable in 30 seconds** — Not a dashboard to explore, but an answer to "where should I put my money?"
+1. **Risk-free testing** — Paper trade before committing real capital. No other platform offers this.
 
-2. **Non-custodial recommendations** — Unlike aggregators, we never touch funds. Unlike data platforms, we give specific advice.
+2. **Trust through transparency** — Watch performance over time instead of trusting marketing claims.
 
-3. **Education built-in** — Compare your allocation to curators. Understand *why*, not just *what*.
+3. **Non-custodial recommendations** — Unlike aggregators, we never touch funds. Unlike data platforms, we give specific advice.
 
-4. **Connected experience** — Allocation persists across tabs. Customize in Explore, compare vs curators in Compare, refine in Practice.
+4. **Education built-in** — Compare your allocation to curators. Understand *why*, not just *what*.
 
-5. **Paper Portfolio Dashboard** — Track allocations risk-free for 14+ days before committing real capital. Visual performance metrics build trust.
+5. **Connected experience** — Allocation persists across tabs. Customize in Explore, compare vs curators in Compare, refine in Practice.
 
 ---
 
@@ -131,14 +142,14 @@ The DeFi yield space has several categories of players:
 
 | Strength | Weakness |
 |----------|----------|
-| Actionable (not just data) | No track record |
-| Non-custodial | Manual execution friction |
-| Educational | Solana only |
-| Free | New entrant, low awareness |
+| **Try → Track → Trust → Trade** journey | No track record yet |
+| Risk-free paper trading | Manual execution friction |
+| Non-custodial | Solana only |
+| Educational | New entrant, low awareness |
 | Fast (30 seconds) | Paper trading only (no real portfolio tracking) |
 | Paper Portfolio Dashboard | |
 
-**Bottom line:** FABRKNT occupies a unique space—more actionable than data platforms, more transparent than vaults, more accessible than institutional curators. The main challenges are proving reliability and reducing execution friction.
+**Bottom line:** FABRKNT's **Try → Track → Trust → Trade** journey is our key differentiator. We're more actionable than data platforms, more transparent than vaults, and more accessible than institutional curators. Users can verify our recommendations work before risking real money—something no competitor offers.
 
 ---
 

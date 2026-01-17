@@ -14,7 +14,7 @@ export default function AboutPage() {
                         About Fabrknt
                     </h1>
                     <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                        Personalized DeFi allocations in 30 seconds. Actionable recommendations, not data dumps.
+                        Paper trade DeFi strategies risk-free. Track performance, build trust, invest when ready.
                     </p>
                 </div>
 
@@ -25,12 +25,15 @@ export default function AboutPage() {
                         <h2 className="text-xl font-semibold text-white">Our Mission</h2>
                     </div>
                     <p className="text-slate-300 leading-relaxed mb-4">
-                        Most DeFi tools show you data. We tell you what to do with it.
+                        Most DeFi tools show you data. We tell you what to do with it—and let you test it first.
+                    </p>
+                    <p className="text-slate-300 leading-relaxed mb-4">
+                        Fabrknt gives you a personalized DeFi allocation in 30 seconds. But we don&apos;t ask you to
+                        trust us blindly. Our <strong className="text-cyan-400">Try → Track → Trust → Trade</strong> journey
+                        lets you paper trade risk-free, watch performance over 14+ days, and invest only when you&apos;re confident.
                     </p>
                     <p className="text-slate-300 leading-relaxed">
-                        Fabrknt gives you a personalized DeFi allocation in 30 seconds—tell us your amount and risk
-                        tolerance, and we'll show you exactly where to put your money with step-by-step execution
-                        instructions. Want to learn instead? We also teach you how professional curators think,
+                        Want to learn instead? We also teach you how professional curators think,
                         so you can build your own strategies with confidence.
                     </p>
                 </section>
@@ -46,12 +49,16 @@ export default function AboutPage() {
                             Coming from traditional banking and enterprise software, I saw how institutional
                             finance evaluates risk systematically—due diligence, stress testing, portfolio
                             diversification. But when I started exploring DeFi yields, I found a Wild West:
-                            flashy APYs with no context, hidden risks, and no clear answer to "where should I put my money?"
+                            flashy APYs with no context, hidden risks, and no clear answer to &quot;where should I put my money?&quot;
                         </p>
                         <p>
-                            Most tools gave me more data, not answers. I wanted something that would just tell me
-                            what to do—like a financial advisor, but for DeFi. That's Fabrknt: actionable allocations
-                            based on your goals, with the option to learn the thinking behind them if you want to go deeper.
+                            Most tools gave me more data, not answers. And even when I found good advice, I had no way
+                            to verify it worked before risking real money.
+                        </p>
+                        <p>
+                            That&apos;s why Fabrknt has the <strong className="text-purple-400">Try → Track → Trust → Trade</strong> journey.
+                            Get actionable allocations, paper trade them risk-free, watch performance over time, and invest
+                            only when you&apos;ve built trust. It&apos;s how institutional finance works—now available to everyone.
                         </p>
                     </div>
                 </section>
@@ -164,13 +171,14 @@ export default function AboutPage() {
 
                 {/* CTA */}
                 <section className="text-center py-8 border-t border-slate-800">
-                    <p className="text-slate-400 mb-4">Ready to get your personalized allocation?</p>
+                    <p className="text-slate-400 mb-4">Ready to start paper trading?</p>
                     <Link
                         href="/?tab=start"
                         className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-medium rounded-lg transition-colors"
                     >
-                        Get My Allocation
+                        Try → Track → Trust → Trade
                     </Link>
+                    <p className="text-xs text-slate-500 mt-3">No wallet or sign-in required</p>
                 </section>
             </div>
         </CurateLayoutClient>
