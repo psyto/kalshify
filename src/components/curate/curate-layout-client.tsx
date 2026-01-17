@@ -9,7 +9,7 @@ import { LogIn, LogOut, Github, Menu, X, TrendingUp, HelpCircle, Info } from "lu
 
 const NAV_LINKS = [
     { href: "/", label: "Yields", icon: TrendingUp, matchPaths: ["/", "/curate"] },
-    { href: "/how-it-works", label: "How It Works", icon: HelpCircle, matchPaths: ["/how-it-works"] },
+    { href: "/guide", label: "Guide", icon: HelpCircle, matchPaths: ["/guide"] },
     { href: "/about", label: "About", icon: Info, matchPaths: ["/about"] },
 ];
 

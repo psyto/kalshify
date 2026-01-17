@@ -231,7 +231,7 @@ Our composite risk score (0-100) evaluates:
 |-----------|-------------|
 | **Read-Only** | We never request wallet permissions |
 | **Non-Custodial** | Your keys, your funds. We never touch assets |
-| **Transparent** | Our methodology is open. See [How It Works](/how-it-works) |
+| **Transparent** | Our methodology is open. See [Guide](/guide) |
 
 Trust badges are displayed at the top of every section throughout the app, so users always know FABRKNT is safe to use.
 
@@ -239,10 +239,10 @@ Trust badges are displayed at the top of every section throughout the app, so us
 
 ## Pages
 
-- **/** — Main app with Insights, Explore, and Learn tabs
-- **/tools** — IL Calculator and Position Simulator (full page)
-- **/how-it-works** — Complete feature guide with links to each function
+- **/** — Main app with Get Started, Insights, Explore, and Learn tabs
+- **/guide** — Complete feature guide with links to each function
 - **/about** — Team and mission
+- **/tools** — Redirects to Learn > Compare tab
 
 ### URL Navigation
 

@@ -14,7 +14,7 @@ This document contains the marketing copy for FABRKNT. The primary experience is
 | Alternative paths | ActionableFlow (Browse Pools, Learn Curation) |
 | Connected experience | AllocationBanner, AllocationComparison, pool badges |
 | About/Mission | /about page |
-| How it works | /how-it-works page |
+| Guide | /guide page |
 
 ---
 
