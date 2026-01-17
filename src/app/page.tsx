@@ -685,27 +685,23 @@ function CuratePageContent() {
                         />
                     ),
 
-                    /* INSIGHTS TAB - Strategy selection */
+                    /* INSIGHTS TAB - Understand conditions and track record */
                     insights: (
                         <div className="space-y-6">
                             {/* Allocation banner - show if user has allocation */}
                             <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
-                            {/* Weekly market context - understand current conditions */}
-                            <MarketContextCard />
-                            {/* Rebalance alerts - notify users of allocation health */}
+                            {/* Allocation health alerts - actionable first */}
                             <RebalanceAlerts />
-                            {/* Allocation comparison - show if user has allocation */}
-                            <AllocationComparison />
-                            {/* Performance tracking - build trust through transparency */}
+                            {/* Weekly market context - current conditions */}
+                            <MarketContextCard />
+                            {/* FABRKNT track record - build trust */}
                             <PerformanceCard compact />
-                            {/* User allocation history - track saved allocations (requires sign-in) */}
-                            <AllocationHistory />
-                            {/* Welcome banner - dismissible one-time intro */}
-                            <WelcomeBanner />
                             {/* Curation principles - quick reference */}
                             <PrinciplesStrip />
-                            {/* Curator Strategies - Primary focus */}
+                            {/* Curator Strategies */}
                             <CuratorSection />
+                            {/* User allocation history - requires sign-in */}
+                            <AllocationHistory />
                         </div>
                     ),
 
@@ -1036,7 +1032,6 @@ function CuratePageContent() {
                         <div className="space-y-6">
                             {/* Allocation banner - show if user has allocation */}
                             <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
-                            <LearnHero />
                             <StrategyBuilder />
                         </div>
                     ),
@@ -1047,6 +1042,9 @@ function CuratePageContent() {
                             {/* Allocation banner - show if user has allocation */}
                             <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
                             <CompareHero />
+                            {/* Compare your allocation with curators */}
+                            <AllocationComparison />
+                            {/* Comparison tools */}
                             <ToolPicker>
                                 {{
                                     "protocol-comparison": <ProtocolComparison onProtocolClick={(slug) => filterPoolsByProtocol(slug)} />,

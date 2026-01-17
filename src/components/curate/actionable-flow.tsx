@@ -6,7 +6,7 @@ import {
     RecommendationDisplay,
     AllocationRecommendation,
 } from "./recommendation-display";
-import { PaperPortfolio } from "./paper-portfolio";
+import { PaperPortfolioDashboard } from "./paper-portfolio-dashboard";
 import { generateRecommendation } from "@/lib/curate/recommendation-engine";
 import { useAllocation } from "@/contexts/allocation-context";
 import {
@@ -267,17 +267,18 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
 
                 {step === "recommendation" && recommendation && (
                     <>
+                        {/* Paper Portfolio Dashboard - Primary focus after getting allocation */}
+                        <div className="max-w-3xl mx-auto mb-8">
+                            <PaperPortfolioDashboard />
+                        </div>
+
+                        {/* Your Allocation Details */}
                         <RecommendationDisplay
                             recommendation={recommendation}
                             riskTolerance={riskTolerance}
                             onReset={handleReset}
                             onViewDetails={handleViewDetails}
                         />
-
-                        {/* Paper Portfolio Section */}
-                        <div className="max-w-3xl mx-auto mt-8">
-                            <PaperPortfolio />
-                        </div>
                     </>
                 )}
             </div>
