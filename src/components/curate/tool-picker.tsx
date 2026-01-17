@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, Building2, Droplet, TrendingUp, Coins, Calculator, Eye, Shield, FileText } from "lucide-react";
+import { ChevronLeft, Building2, Droplet, TrendingUp, Coins, Calculator, LineChart, Eye, Shield, FileText } from "lucide-react";
 
 interface Tool {
     id: string;
@@ -47,6 +47,13 @@ const tools: Tool[] = [
         icon: Calculator,
         color: "red",
     },
+    {
+        id: "position-simulator",
+        name: "Position Simulator",
+        description: "Simulate returns and scenarios for your positions",
+        icon: LineChart,
+        color: "green",
+    },
 ];
 
 const colorClasses: Record<string, { bg: string; border: string; text: string }> = {
@@ -64,6 +71,7 @@ interface ToolPickerProps {
         "yield-spreads": React.ReactNode;
         "alternative-yields": React.ReactNode;
         "il-calculator": React.ReactNode;
+        "position-simulator": React.ReactNode;
     };
 }
 

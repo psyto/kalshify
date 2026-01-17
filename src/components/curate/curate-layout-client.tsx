@@ -5,11 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { useSession, signOut } from "next-auth/react";
-import { LogIn, LogOut, Github, Menu, X, TrendingUp, Wrench, HelpCircle, Info } from "lucide-react";
+import { LogIn, LogOut, Github, Menu, X, TrendingUp, HelpCircle, Info } from "lucide-react";
 
 const NAV_LINKS = [
     { href: "/", label: "Yields", icon: TrendingUp, matchPaths: ["/", "/curate"] },
-    { href: "/tools", label: "Tools", icon: Wrench, matchPaths: ["/tools"] },
     { href: "/how-it-works", label: "How It Works", icon: HelpCircle, matchPaths: ["/how-it-works"] },
     { href: "/about", label: "About", icon: Info, matchPaths: ["/about"] },
 ];

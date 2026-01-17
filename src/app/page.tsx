@@ -52,6 +52,7 @@ import { LearnCurationSection } from "@/components/curate/learn-curation-section
 import { LearnTabs } from "@/components/curate/learn-tabs";
 import { LearnHero } from "@/components/curate/learn-hero";
 import { ToolPicker } from "@/components/curate/tool-picker";
+import { PositionSimulator } from "@/components/curate/position-simulator";
 import { WhyLearnCuration } from "@/components/curate/why-learn-curation";
 import { StrategyBuilder } from "@/components/curate/strategy-builder";
 import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
@@ -323,106 +324,64 @@ function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
 type SortField = "tvl" | "apy" | "risk";
 type TabType = "all" | "watchlist";
 
-// Quick inline IL Calculator
+// IL Calculator - shown directly without accordion
 function QuickILCalculator() {
     const [priceChange, setPriceChange] = useState(50);
-    const [isExpanded, setIsExpanded] = useState(false);
 
     // IL formula: IL = 2 * sqrt(price_ratio) / (1 + price_ratio) - 1
     const priceRatio = 1 + priceChange / 100;
     const ilPercent = (2 * Math.sqrt(priceRatio) / (1 + priceRatio) - 1) * 100;
 
     return (
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-xl overflow-hidden">
-            {/* Header - always visible */}
-            <div
-                className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors"
-                onClick={() => setIsExpanded(!isExpanded)}
-            >
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg flex items-center justify-center">
-                        <Calculator className="h-5 w-5 text-orange-400" />
-                    </div>
-                    <div>
-                        <h3 className="text-white font-semibold text-sm">Quick IL Check</h3>
-                        <p className="text-xs text-slate-500">Estimate impermanent loss instantly</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4">
-                    {/* Quick preview when collapsed */}
-                    {!isExpanded && (
-                        <div className="hidden sm:flex items-center gap-3 text-sm">
-                            <span className="text-slate-400">If price changes {priceChange}%:</span>
-                            <span className={`font-semibold ${Math.abs(ilPercent) < 2 ? "text-green-400" : Math.abs(ilPercent) < 5 ? "text-yellow-400" : "text-red-400"}`}>
-                                {ilPercent.toFixed(2)}% IL
-                            </span>
-                        </div>
-                    )}
-                    <ChevronDown className={`h-5 w-5 text-slate-500 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Price Change Input */}
+            <div>
+                <label className="text-xs text-slate-400 block mb-2">Price Change (%)</label>
+                <input
+                    type="range"
+                    min="-90"
+                    max="500"
+                    value={priceChange}
+                    onChange={(e) => setPriceChange(parseInt(e.target.value))}
+                    className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                />
+                <div className="flex justify-between mt-1">
+                    <span className="text-xs text-slate-500">-90%</span>
+                    <span className="text-sm text-white font-medium">{priceChange > 0 ? "+" : ""}{priceChange}%</span>
+                    <span className="text-xs text-slate-500">+500%</span>
                 </div>
             </div>
 
-            {/* Expanded calculator */}
-            {isExpanded && (
-                <div className="px-4 pb-4 border-t border-slate-700/50">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-                        {/* Price Change Input */}
-                        <div>
-                            <label className="text-xs text-slate-400 block mb-2">Price Change (%)</label>
-                            <input
-                                type="range"
-                                min="-90"
-                                max="500"
-                                value={priceChange}
-                                onChange={(e) => setPriceChange(parseInt(e.target.value))}
-                                className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500"
-                            />
-                            <div className="flex justify-between mt-1">
-                                <span className="text-xs text-slate-500">-90%</span>
-                                <span className="text-sm text-white font-medium">{priceChange > 0 ? "+" : ""}{priceChange}%</span>
-                                <span className="text-xs text-slate-500">+500%</span>
-                            </div>
-                        </div>
+            {/* IL Result */}
+            <div className="flex flex-col items-center justify-center bg-slate-800/50 rounded-lg p-4">
+                <span className="text-xs text-slate-400 mb-1">Impermanent Loss</span>
+                <span className={`text-2xl font-bold ${Math.abs(ilPercent) < 2 ? "text-green-400" : Math.abs(ilPercent) < 5 ? "text-yellow-400" : "text-red-400"}`}>
+                    {ilPercent.toFixed(2)}%
+                </span>
+                <span className="text-xs text-slate-500 mt-1">
+                    {Math.abs(ilPercent) < 2 ? "Low risk" : Math.abs(ilPercent) < 5 ? "Moderate" : "High risk"}
+                </span>
+            </div>
 
-                        {/* IL Result */}
-                        <div className="flex flex-col items-center justify-center bg-slate-800/50 rounded-lg p-4">
-                            <span className="text-xs text-slate-400 mb-1">Impermanent Loss</span>
-                            <span className={`text-2xl font-bold ${Math.abs(ilPercent) < 2 ? "text-green-400" : Math.abs(ilPercent) < 5 ? "text-yellow-400" : "text-red-400"}`}>
-                                {ilPercent.toFixed(2)}%
-                            </span>
-                            <span className="text-xs text-slate-500 mt-1">
-                                {Math.abs(ilPercent) < 2 ? "Low risk" : Math.abs(ilPercent) < 5 ? "Moderate" : "High risk"}
-                            </span>
-                        </div>
-
-                        {/* Quick presets & link */}
-                        <div className="flex flex-col gap-2">
-                            <label className="text-xs text-slate-400">Quick Scenarios</label>
-                            <div className="grid grid-cols-3 gap-2">
-                                {[25, 50, 100, 200, -25, -50].map((val) => (
-                                    <button
-                                        key={val}
-                                        onClick={() => setPriceChange(val)}
-                                        className={`px-2 py-1.5 text-xs rounded transition-colors ${
-                                            priceChange === val
-                                                ? "bg-orange-500/30 text-orange-300 border border-orange-500/50"
-                                                : "bg-slate-700/50 text-slate-400 hover:text-white"
-                                        }`}
-                                    >
-                                        {val > 0 ? "+" : ""}{val}%
-                                    </button>
-                                ))}
-                            </div>
-                            <Link
-                                href="/tools#il-calculator"
-                                className="mt-2 text-xs text-cyan-400 hover:text-cyan-300 text-center"
-                            >
-                                Full Calculator & Simulator →
-                            </Link>
-                        </div>
-                    </div>
+            {/* Quick presets */}
+            <div className="flex flex-col gap-2">
+                <label className="text-xs text-slate-400">Quick Scenarios</label>
+                <div className="grid grid-cols-3 gap-2">
+                    {[25, 50, 100, 200, -25, -50].map((val) => (
+                        <button
+                            key={val}
+                            onClick={() => setPriceChange(val)}
+                            className={`px-2 py-1.5 text-xs rounded transition-colors ${
+                                priceChange === val
+                                    ? "bg-orange-500/30 text-orange-300 border border-orange-500/50"
+                                    : "bg-slate-700/50 text-slate-400 hover:text-white"
+                            }`}
+                        >
+                            {val > 0 ? "+" : ""}{val}%
+                        </button>
+                    ))}
                 </div>
-            )}
+            </div>
         </div>
     );
 }
@@ -1096,6 +1055,7 @@ function CuratePageContent() {
                                             "yield-spreads": <YieldSpreadsPanel />,
                                             "alternative-yields": <AlternativeYields />,
                                             "il-calculator": <QuickILCalculator />,
+                                            "position-simulator": <PositionSimulator standalone />,
                                         }}
                                     </ToolPicker>
                                 ),
