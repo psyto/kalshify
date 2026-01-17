@@ -1,5 +1,6 @@
+'use client';
+
 import { Sparkles } from 'lucide-react';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 interface LogoProps {
@@ -23,8 +24,16 @@ export function Logo({ size = 'md', variant = 'default', className }: LogoProps)
 
   const textColor = variant === 'light' ? 'text-white' : 'text-foreground';
 
+  const handleClick = () => {
+    // Force navigation to get started tab with full URL update
+    window.location.href = '/?tab=start';
+  };
+
   return (
-    <Link href="/" className={cn('flex items-center gap-2 group', className)}>
+    <button
+      onClick={handleClick}
+      className={cn('flex items-center gap-2 group', className)}
+    >
       <div className="relative">
         <Sparkles className={cn(iconSizeClasses[size], 'text-purple-600 group-hover:text-purple-700 transition-colors')} />
         <div className="absolute inset-0 bg-purple-600/20 blur-lg group-hover:bg-purple-600/30 transition-all" />
@@ -32,6 +41,6 @@ export function Logo({ size = 'md', variant = 'default', className }: LogoProps)
       <span className={cn('font-bold tracking-tight group-hover:text-purple-600 transition-colors', sizeClasses[size], textColor)}>
         FABRKNT
       </span>
-    </Link>
+    </button>
   );
 }

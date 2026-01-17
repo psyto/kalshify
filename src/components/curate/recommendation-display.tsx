@@ -5,7 +5,6 @@ import {
     TrendingUp,
     Shield,
     AlertTriangle,
-    ChevronRight,
     ChevronDown,
     PieChart,
     CheckCircle,
@@ -262,13 +261,10 @@ export function RecommendationDisplay({
                         <div
                             key={alloc.poolId}
                             className={`p-4 bg-slate-800/50 rounded-xl transition-colors ${
-                                expandedPool === alloc.poolId ? "bg-slate-800" : "hover:bg-slate-800/70"
+                                expandedPool === alloc.poolId ? "bg-slate-800" : ""
                             }`}
                         >
-                            <div
-                                className="flex items-center gap-4 cursor-pointer"
-                                onClick={() => onViewDetails(alloc.poolId)}
-                            >
+                            <div className="flex items-center gap-4">
                                 {/* Color indicator */}
                                 <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${ALLOCATION_COLORS[idx % ALLOCATION_COLORS.length]} shrink-0`} />
 
@@ -298,8 +294,6 @@ export function RecommendationDisplay({
                                         {formatCurrency(summary.totalAmount * alloc.allocation / 100)}
                                     </p>
                                 </div>
-
-                                <ChevronRight className="h-5 w-5 text-slate-500 shrink-0" />
                             </div>
                         </div>
                     ))}

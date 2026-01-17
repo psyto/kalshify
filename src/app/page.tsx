@@ -439,6 +439,7 @@ function CuratePageContent() {
     // Read tab from URL params
     const urlTab = searchParams.get("tab") as TabId | null;
     const urlSubtab = searchParams.get("subtab");
+    const urlPoolId = searchParams.get("pool");
 
     // Main navigation tab state (4 tabs: start, insights, explore, learn)
     const [mainTab, setMainTab] = useState<TabId>(() => {
@@ -491,6 +492,17 @@ function CuratePageContent() {
             setMainTab(urlTab);
         }
     }, [urlTab]);
+
+    // Handle pool param - expand and scroll to pool
+    useEffect(() => {
+        if (urlPoolId && !loading) {
+            setExpandedPool(urlPoolId);
+            // Scroll to pool after a short delay to allow rendering
+            setTimeout(() => {
+                document.getElementById(`pool-row-${urlPoolId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 300);
+        }
+    }, [urlPoolId, loading]);
 
     // Fetch hero stats (unfiltered)
     useEffect(() => {

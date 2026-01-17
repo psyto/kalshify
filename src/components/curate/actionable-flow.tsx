@@ -66,9 +66,9 @@ export function ActionableFlow({ onExplore, onLearn }: ActionableFlowProps) {
         setIsLoading(false);
     };
 
-    const handleViewDetails = (poolId: string) => {
-        // Could navigate to pool details or expand pool info
-        console.log("View details for pool:", poolId);
+    const handleViewDetails = (_poolId: string) => {
+        // Pool IDs are internal - clicking expands the reasoning panel instead
+        // The toggle is handled by the AllocationReasoningPanel component
     };
 
     const handleReset = () => {
