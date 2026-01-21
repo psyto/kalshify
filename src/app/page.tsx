@@ -56,6 +56,12 @@ export default function HomePage() {
                 AI Picks
               </Link>
               <Link
+                href="/intel"
+                className="hidden sm:block text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
+              >
+                Intel
+              </Link>
+              <Link
                 href="/markets"
                 className="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors"
               >
@@ -309,7 +315,10 @@ export default function HomePage() {
                 Leaderboard
               </Link>
               <Link href="/for-you" className="hover:text-zinc-900 dark:hover:text-white">
-                AI Recommendations
+                AI Picks
+              </Link>
+              <Link href="/intel" className="hover:text-green-500 dark:hover:text-green-400 text-green-600 dark:text-green-500">
+                Intel
               </Link>
             </div>
           </div>

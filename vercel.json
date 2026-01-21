@@ -7,6 +7,16 @@
     "env": {
         "PRISMA_GENERATE_DATAPROXY": "false"
     },
+    "crons": [
+        {
+            "path": "/api/cron/scan-markets",
+            "schedule": "*/5 * * * *"
+        },
+        {
+            "path": "/api/cron/scan-social",
+            "schedule": "*/10 * * * *"
+        }
+    ],
     "functions": {
         "src/app/api/**/*.ts": {
             "maxDuration": 30

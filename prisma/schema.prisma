@@ -293,3 +293,57 @@ model TraderStats {
   @@index([totalPnl])
   @@index([winCount])
 }
+
+// Store market snapshots for detecting changes
+model MarketSnapshot {
+  id            String   @id @default(cuid())
+  ticker        String
+  recordedAt    DateTime @default(now())
+  yesBid        Int
+  yesAsk        Int
+  noBid         Int
+  noAsk         Int
+  lastPrice     Int
+  volume24h     Int
+  openInterest  Int
+  spread        Int
+  probability   Int
+
+  @@index([ticker, recordedAt])
+  @@index([recordedAt])
+}
+
+// Combined intel signals (both social + trading)
+model IntelSignal {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  type          String   // "VOLUME_SPIKE" | "WHALE_ALERT" | "SOCIAL_INTEL" | "PRICE_MOVE"
+  severity      String   // "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"
+  ticker        String?
+  marketTitle   String?
+  title         String
+  description   String
+  data          Json
+  sourceType    String?  // "TWITTER" | "NEWS" | "SYSTEM"
+  sourceHandle  String?
+  sourceUrl     String?
+  isRead        Boolean  @default(false)
+  visitorId     String?
+
+  @@index([createdAt])
+  @@index([type])
+  @@index([ticker])
+}
+
+// Track Twitter accounts to monitor
+model IntelSource {
+  id            String   @id @default(cuid())
+  platform      String   // "TWITTER" | "NEWS"
+  handle        String
+  displayName   String
+  category      String   // "JOURNALIST" | "POLITICIAN" | "ANALYST"
+  isVerified    Boolean  @default(false)
+  isActive      Boolean  @default(true)
+
+  @@unique([platform, handle])
+}

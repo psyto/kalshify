@@ -152,6 +152,12 @@ export default function MarketDetailPage({ params }: MarketDetailPageProps) {
                 <span className="hidden sm:inline">AI Picks</span>
                 <span className="sm:hidden">AI</span>
               </Link>
+              <Link
+                href="/intel"
+                className="text-xs sm:text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
+              >
+                Intel
+              </Link>
             </div>
           </div>
         </div>

@@ -53,3 +53,81 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Terminal/Intel Theme Styles */
+@layer components {
+  .terminal-text {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  .terminal-glow {
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+  }
+
+  .terminal-border {
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+
+  .terminal-bg {
+    background-color: #0a0a0a;
+  }
+
+  /* Scanline animation */
+  @keyframes scanline {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100vh);
+    }
+  }
+
+  .animate-scanline {
+    animation: scanline 8s linear infinite;
+  }
+
+  /* CRT flicker effect */
+  @keyframes flicker {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.98;
+    }
+  }
+
+  .animate-flicker {
+    animation: flicker 0.15s infinite;
+  }
+
+  /* Terminal cursor blink */
+  @keyframes cursor-blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+
+  .animate-cursor {
+    animation: cursor-blink 1s step-end infinite;
+  }
+
+  /* Severity colors */
+  .severity-critical {
+    @apply text-red-500 border-red-500/50;
+  }
+
+  .severity-high {
+    @apply text-amber-500 border-amber-500/50;
+  }
+
+  .severity-medium {
+    @apply text-yellow-500 border-yellow-500/50;
+  }
+
+  .severity-low {
+    @apply text-green-500 border-green-500/50;
+  }
+}
