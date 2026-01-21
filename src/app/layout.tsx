@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/next";
+import { LayoutTicker } from "@/components/ui/layout-ticker";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -129,6 +130,7 @@ export default function RootLayout({
                 />
             </head>
             <body className={inter.className}>
+                <LayoutTicker />
                 <Providers>{children}</Providers>
                 <Toaster />
                 <Analytics />

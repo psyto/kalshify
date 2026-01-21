@@ -3,8 +3,9 @@
 import { useState, useMemo } from 'react';
 import { ProcessedMarket } from '@/lib/kalshi/types';
 import { MarketCard, MarketCardCompact } from './market-card';
+import { MarketHeatmap } from './market-heatmap';
 import { MarketFiltersBar, MarketFilters, defaultFilters } from './market-filters';
-import { LayoutGrid, List, Loader2 } from 'lucide-react';
+import { LayoutGrid, List, Loader2, Grid3X3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface MarketListProps {
@@ -12,7 +13,7 @@ interface MarketListProps {
   isLoading?: boolean;
   onSelectMarket?: (market: ProcessedMarket) => void;
   showFilters?: boolean;
-  initialView?: 'grid' | 'list';
+  initialView?: 'grid' | 'list' | 'heatmap';
   className?: string;
 }
 
@@ -25,7 +26,7 @@ export function MarketList({
   className,
 }: MarketListProps) {
   const [filters, setFilters] = useState<MarketFilters>(defaultFilters);
-  const [view, setView] = useState<'grid' | 'list'>(initialView);
+  const [view, setView] = useState<'grid' | 'list' | 'heatmap'>(initialView);
 
   const filteredMarkets = useMemo(() => {
     let result = [...markets];
@@ -108,6 +109,7 @@ export function MarketList({
                   : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
               )}
               aria-label="Grid view"
+              title="Grid view"
             >
               <LayoutGrid className="w-4 h-4" />
             </button>
@@ -120,8 +122,22 @@ export function MarketList({
                   : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
               )}
               aria-label="List view"
+              title="List view"
             >
               <List className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setView('heatmap')}
+              className={cn(
+                'p-2 rounded transition-colors',
+                view === 'heatmap'
+                  ? 'bg-white dark:bg-zinc-700 shadow-sm text-emerald-600 dark:text-emerald-400'
+                  : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
+              )}
+              aria-label="Heatmap view"
+              title="Heatmap view"
+            >
+              <Grid3X3 className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -145,6 +161,12 @@ export function MarketList({
             Clear filters
           </button>
         </div>
+      ) : view === 'heatmap' ? (
+        <MarketHeatmap
+          markets={filteredMarkets}
+          onSelectMarket={onSelectMarket}
+          colorBy="change"
+        />
       ) : view === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredMarkets.map((market) => (

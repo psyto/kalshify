@@ -11,6 +11,7 @@ import {
   Shuffle,
 } from 'lucide-react';
 import { PaperPositionCard, PaperPositionRow, PaperPositionData } from './paper-position-card';
+import { DonutChart, DonutLegend } from '@/components/ui/donut-chart';
 import { cn } from '@/lib/utils';
 
 interface PaperPortfolioDashboardProps {
@@ -200,32 +201,38 @@ export function PaperPortfolioDashboard({
         </div>
       </div>
 
-      {/* Category Breakdown */}
+      {/* Category Breakdown with Donut Chart */}
       {stats.categories.length > 0 && (
-        <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-          <div className="flex items-center gap-2 mb-3">
+        <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6">
+          <div className="flex items-center gap-2 mb-4">
             <PieChart className="w-4 h-4 text-zinc-500" />
             <h3 className="font-semibold text-zinc-900 dark:text-white">
               Category Exposure
             </h3>
           </div>
-          <div className="space-y-2">
-            {stats.categories.map((cat) => (
-              <div key={cat.name} className="flex items-center gap-2 sm:gap-3">
-                <div className="w-16 sm:w-24 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 truncate">
-                  {cat.name}
-                </div>
-                <div className="flex-1 h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-blue-500 rounded-full"
-                    style={{ width: `${cat.percentage}%` }}
-                  />
-                </div>
-                <div className="w-12 sm:w-20 text-right text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
-                  {cat.percentage.toFixed(1)}%
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            {/* Donut Chart */}
+            <div className="flex-shrink-0">
+              <DonutChart
+                segments={stats.categories.map((cat) => ({
+                  name: cat.name,
+                  value: cat.value,
+                }))}
+                size={160}
+                strokeWidth={24}
+                centerValue={`${stats.openCount}`}
+                centerLabel="Positions"
+              />
+            </div>
+            {/* Legend */}
+            <div className="flex-1 w-full">
+              <DonutLegend
+                segments={stats.categories.map((cat) => ({
+                  name: cat.name,
+                  value: cat.value,
+                }))}
+              />
+            </div>
           </div>
         </div>
       )}

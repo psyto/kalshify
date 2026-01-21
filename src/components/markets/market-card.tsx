@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { TrendingUp, TrendingDown, Clock, BarChart2 } from 'lucide-react';
 import { ProcessedMarket } from '@/lib/kalshi/types';
 import { cn } from '@/lib/utils';
+import { Sparkline } from '@/components/ui/sparkline';
 
 interface MarketCardProps {
   market: ProcessedMarket;
@@ -46,7 +47,7 @@ export function MarketCard({
         </div>
       </div>
 
-      {/* Probability */}
+      {/* Probability with Sparkline */}
       <div className="flex items-center gap-4 mb-4">
         <div className="flex-1">
           <div className="text-3xl font-bold text-zinc-900 dark:text-white data-probability">
@@ -58,22 +59,32 @@ export function MarketCard({
           </div>
         </div>
 
-        {market.probabilityChange !== 0 && (
-          <div
-            className={cn(
-              'flex items-center gap-1 px-2 py-1 rounded-lg text-sm font-medium data-percent',
-              isProbabilityUp && 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
-              isProbabilityDown && 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
-            )}
-          >
-            {isProbabilityUp ? (
-              <TrendingUp className="w-4 h-4" />
-            ) : (
-              <TrendingDown className="w-4 h-4" />
-            )}
-            {Math.abs(market.probabilityChange).toFixed(1)}%
-          </div>
-        )}
+        {/* Mini Sparkline */}
+        <div className="flex flex-col items-end gap-1">
+          <Sparkline
+            currentValue={market.probability}
+            change={market.probabilityChange}
+            width={64}
+            height={28}
+            color="auto"
+          />
+          {market.probabilityChange !== 0 && (
+            <div
+              className={cn(
+                'flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium data-percent',
+                isProbabilityUp && 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
+                isProbabilityDown && 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
+              )}
+            >
+              {isProbabilityUp ? (
+                <TrendingUp className="w-3 h-3" />
+              ) : (
+                <TrendingDown className="w-3 h-3" />
+              )}
+              {Math.abs(market.probabilityChange).toFixed(1)}%
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Yes/No Prices */}
@@ -164,6 +175,15 @@ export function MarketCardCompact({
       </div>
 
       <div className="flex items-center gap-3">
+        {/* Mini Sparkline */}
+        <Sparkline
+          currentValue={market.probability}
+          change={market.probabilityChange}
+          width={48}
+          height={20}
+          color="auto"
+        />
+
         <div className="text-right">
           <div className="text-lg font-bold text-zinc-900 dark:text-white data-probability">
             {market.probability.toFixed(0)}%

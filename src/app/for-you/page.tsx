@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { TrendingUp, Sparkles, Loader2 } from 'lucide-react';
 import { KALSHI_CATEGORIES } from '@/lib/kalshi/types';
 import { MarketCard } from '@/components/markets/market-card';
+import { AIPickCard } from '@/components/ai/ai-pick-card';
 import { cn } from '@/lib/utils';
 
 type RiskTolerance = 'conservative' | 'moderate' | 'aggressive';
@@ -218,46 +219,17 @@ export default function ForYouPage() {
               </p>
             )}
 
-            {/* Market Cards */}
-            <div className="grid gap-4">
+            {/* Market Cards with Flip Animation */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {recommendations.recommendations?.map((rec: any, index: number) => (
-                <Link
+                <AIPickCard
                   key={rec.ticker || index}
-                  href={`/markets/${rec.ticker}`}
-                  className="block bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
-                        #{rec.rank || index + 1} Match
-                      </span>
-                      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mt-1">
-                        {rec.ticker}
-                      </h3>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-zinc-500">Score</div>
-                      <div className="text-lg font-bold text-zinc-900 dark:text-white">
-                        {rec.matchScore || 0}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-zinc-600 dark:text-zinc-400 mb-3">
-                    {rec.reasoning}
-                  </p>
-                  {rec.highlights && rec.highlights.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {rec.highlights.map((highlight: string, i: number) => (
-                        <span
-                          key={i}
-                          className="px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400"
-                        >
-                          {highlight}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </Link>
+                  rank={rec.rank || index + 1}
+                  ticker={rec.ticker}
+                  matchScore={rec.matchScore || 0}
+                  reasoning={rec.reasoning || ''}
+                  highlights={rec.highlights || []}
+                />
               ))}
             </div>
 

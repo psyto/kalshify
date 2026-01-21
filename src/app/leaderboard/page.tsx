@@ -220,6 +220,67 @@ export default function LeaderboardPage() {
           ))}
         </div>
 
+        {/* Top 3 Podium */}
+        {!isLoading && leaderboard.length >= 3 && (
+          <div className="mb-8">
+            <div className="flex items-end justify-center gap-2 sm:gap-4">
+              {/* 2nd Place */}
+              <div className="flex flex-col items-center animate-podium animate-podium-delay-1 opacity-0">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center mb-2 shadow-lg">
+                  <Medal className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                </div>
+                <div className="text-center mb-2">
+                  <p className="font-semibold text-zinc-900 dark:text-white text-sm sm:text-base">
+                    {leaderboard[1]?.displayName || 'N/A'}
+                  </p>
+                  <p className="text-xs sm:text-sm text-green-500 font-bold data-price">
+                    +${((leaderboard[1]?.totalPnl || 0) / 100).toFixed(2)}
+                  </p>
+                </div>
+                <div className="w-20 sm:w-28 h-20 sm:h-24 bg-gradient-to-t from-gray-400 to-gray-300 rounded-t-lg flex items-center justify-center">
+                  <span className="text-2xl sm:text-4xl font-bold text-white">2</span>
+                </div>
+              </div>
+
+              {/* 1st Place */}
+              <div className="flex flex-col items-center animate-podium opacity-0">
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center mb-2 shadow-lg ring-4 ring-yellow-300/50">
+                  <Trophy className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
+                </div>
+                <div className="text-center mb-2">
+                  <p className="font-bold text-zinc-900 dark:text-white text-base sm:text-lg">
+                    {leaderboard[0]?.displayName || 'N/A'}
+                  </p>
+                  <p className="text-sm sm:text-base text-green-500 font-bold data-price">
+                    +${((leaderboard[0]?.totalPnl || 0) / 100).toFixed(2)}
+                  </p>
+                </div>
+                <div className="w-24 sm:w-32 h-28 sm:h-32 bg-gradient-to-t from-yellow-500 to-yellow-400 rounded-t-lg flex items-center justify-center">
+                  <span className="text-3xl sm:text-5xl font-bold text-white">1</span>
+                </div>
+              </div>
+
+              {/* 3rd Place */}
+              <div className="flex flex-col items-center animate-podium animate-podium-delay-2 opacity-0">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-amber-600 to-amber-700 flex items-center justify-center mb-2 shadow-lg">
+                  <Award className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                </div>
+                <div className="text-center mb-2">
+                  <p className="font-semibold text-zinc-900 dark:text-white text-sm sm:text-base">
+                    {leaderboard[2]?.displayName || 'N/A'}
+                  </p>
+                  <p className="text-xs sm:text-sm text-green-500 font-bold data-price">
+                    +${((leaderboard[2]?.totalPnl || 0) / 100).toFixed(2)}
+                  </p>
+                </div>
+                <div className="w-20 sm:w-28 h-16 sm:h-20 bg-gradient-to-t from-amber-700 to-amber-600 rounded-t-lg flex items-center justify-center">
+                  <span className="text-2xl sm:text-4xl font-bold text-white">3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Leaderboard Table */}
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
