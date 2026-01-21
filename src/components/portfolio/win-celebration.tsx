@@ -96,7 +96,7 @@ export function WinCelebration({ data, onClose, onShare }: WinCelebrationProps) 
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           onClick={(e) => e.stopPropagation()}
           className={cn(
-            'relative w-full max-w-md rounded-2xl p-6 shadow-2xl',
+            'relative w-full max-w-md rounded-2xl p-4 sm:p-6 shadow-2xl',
             'bg-gradient-to-br',
             isBigWin
               ? 'from-yellow-500 via-orange-500 to-red-500'
@@ -117,14 +117,14 @@ export function WinCelebration({ data, onClose, onShare }: WinCelebrationProps) 
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-            className="mx-auto w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4"
+            className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center mb-3 sm:mb-4"
           >
             {isBigWin ? (
-              <Trophy className="w-8 h-8" />
+              <Trophy className="w-6 h-6 sm:w-8 sm:h-8" />
             ) : isHotStreak ? (
-              <Flame className="w-8 h-8" />
+              <Flame className="w-6 h-6 sm:w-8 sm:h-8" />
             ) : (
-              <TrendingUp className="w-8 h-8" />
+              <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8" />
             )}
           </motion.div>
 
@@ -133,7 +133,7 @@ export function WinCelebration({ data, onClose, onShare }: WinCelebrationProps) 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-2xl font-black text-center mb-2"
+            className="text-xl sm:text-2xl font-black text-center mb-2"
           >
             {title}
           </motion.h2>
@@ -153,17 +153,17 @@ export function WinCelebration({ data, onClose, onShare }: WinCelebrationProps) 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="bg-white/20 rounded-xl p-4 mb-4"
+            className="bg-white/20 rounded-xl p-3 sm:p-4 mb-4"
           >
             <div className="text-center">
-              <div className="text-4xl font-black mb-1">
+              <div className="text-3xl sm:text-4xl font-black mb-1">
                 <CountUp
                   end={data.pnlCents / 100}
                   duration={1.5}
                   formatValue={(v) => `+$${v.toFixed(2)}`}
                 />
               </div>
-              <div className="text-lg font-semibold text-white/90">
+              <div className="text-base sm:text-lg font-semibold text-white/90">
                 <CountUp
                   end={data.pnlPercent}
                   duration={1.5}
@@ -172,7 +172,7 @@ export function WinCelebration({ data, onClose, onShare }: WinCelebrationProps) 
               </div>
             </div>
 
-            <div className="mt-3 pt-3 border-t border-white/20 text-sm text-white/80 text-center">
+            <div className="mt-3 pt-3 border-t border-white/20 text-xs sm:text-sm text-white/80 text-center">
               <span className={cn(
                 'inline-block px-2 py-0.5 rounded text-xs font-bold uppercase mr-2',
                 data.position === 'yes' ? 'bg-green-400/30' : 'bg-red-400/30'
@@ -218,23 +218,23 @@ export function WinCelebration({ data, onClose, onShare }: WinCelebrationProps) 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="flex gap-3"
+            className="flex gap-2 sm:gap-3"
           >
             <button
               onClick={handleTwitterShare}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white text-zinc-900 rounded-xl font-semibold hover:bg-white/90 transition-colors"
+              className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2.5 sm:px-4 sm:py-3 bg-white text-zinc-900 rounded-xl text-sm sm:text-base font-semibold hover:bg-white/90 transition-colors"
             >
-              <Twitter className="w-5 h-5" />
+              <Twitter className="w-4 h-4 sm:w-5 sm:h-5" />
               Share on X
             </button>
             <button
               onClick={handleCopyLink}
-              className="flex items-center justify-center gap-2 px-4 py-3 bg-white/20 rounded-xl font-semibold hover:bg-white/30 transition-colors"
+              className="flex items-center justify-center gap-2 px-3 py-2.5 sm:px-4 sm:py-3 bg-white/20 rounded-xl font-semibold hover:bg-white/30 transition-colors"
             >
               {copied ? (
-                <Check className="w-5 h-5" />
+                <Check className="w-4 h-4 sm:w-5 sm:h-5" />
               ) : (
-                <Copy className="w-5 h-5" />
+                <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
               )}
             </button>
           </motion.div>

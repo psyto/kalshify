@@ -211,7 +211,7 @@ export default function MarketDetailPage({ params }: MarketDetailPageProps) {
                       {market.status.charAt(0).toUpperCase() + market.status.slice(1)}
                     </span>
                   </div>
-                  <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+                  <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                     {market.title}
                   </h1>
                   {market.subtitle && (
@@ -226,7 +226,7 @@ export default function MarketDetailPage({ params }: MarketDetailPageProps) {
 
                 {/* Probability Display */}
                 <div className="text-center lg:text-right">
-                  <div className="text-5xl font-bold text-zinc-900 dark:text-white">
+                  <div className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white">
                     {market.probability}%
                   </div>
                   <div
@@ -247,46 +247,46 @@ export default function MarketDetailPage({ params }: MarketDetailPageProps) {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-                <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
-                  <Clock className="w-4 h-4" />
-                  <span className="text-sm">Closes</span>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
+                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">Closes</span>
                 </div>
-                <div className="text-lg font-semibold text-zinc-900 dark:text-white">
+                <div className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white">
                   {getTimeRemaining(market.closeTime)}
                 </div>
-                <div className="text-xs text-zinc-500 mt-1">
+                <div className="text-xs text-zinc-500 mt-1 hidden sm:block">
                   {formatDate(market.closeTime)}
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-                <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
-                  <BarChart3 className="w-4 h-4" />
-                  <span className="text-sm">24h Volume</span>
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
+                  <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">24h Volume</span>
                 </div>
-                <div className="text-lg font-semibold text-zinc-900 dark:text-white">
+                <div className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white">
                   ${market.volume24h.toLocaleString()}
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-                <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
-                  <Users className="w-4 h-4" />
-                  <span className="text-sm">Open Interest</span>
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
+                  <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">Open Interest</span>
                 </div>
-                <div className="text-lg font-semibold text-zinc-900 dark:text-white">
+                <div className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white">
                   {market.openInterest.toLocaleString()}
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-                <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
-                  <TrendingUp className="w-4 h-4" />
-                  <span className="text-sm">Spread</span>
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-zinc-500 dark:text-zinc-400 mb-1">
+                  <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">Spread</span>
                 </div>
-                <div className="text-lg font-semibold text-zinc-900 dark:text-white">
+                <div className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white">
                   {market.spread}¢
                 </div>
               </div>

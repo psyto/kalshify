@@ -103,12 +103,12 @@ export function PaperPortfolioDashboard({
   return (
     <div className={cn('space-y-6', className)}>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
             Paper Portfolio
           </h2>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
             Practice trading without real money
           </p>
         </div>
@@ -117,19 +117,21 @@ export function PaperPortfolioDashboard({
             <button
               onClick={onSimulatePrices}
               disabled={isSimulating}
-              className="flex items-center gap-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 disabled:bg-purple-400 text-white rounded-lg font-medium transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-500 hover:bg-purple-600 disabled:bg-purple-400 text-white rounded-lg text-sm sm:text-base font-medium transition-colors"
             >
               <Shuffle className={cn("w-4 h-4", isSimulating && "animate-spin")} />
-              Simulate Prices
+              <span className="hidden sm:inline">Simulate Prices</span>
+              <span className="sm:hidden">Simulate</span>
             </button>
           )}
           {onAddPosition && (
             <button
               onClick={onAddPosition}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm sm:text-base font-medium transition-colors"
             >
               <Plus className="w-4 h-4" />
-              Add Position
+              <span className="hidden sm:inline">Add Position</span>
+              <span className="sm:hidden">Add</span>
             </button>
           )}
         </div>
@@ -209,8 +211,8 @@ export function PaperPortfolioDashboard({
           </div>
           <div className="space-y-2">
             {stats.categories.map((cat) => (
-              <div key={cat.name} className="flex items-center gap-3">
-                <div className="w-24 text-sm text-zinc-600 dark:text-zinc-400">
+              <div key={cat.name} className="flex items-center gap-2 sm:gap-3">
+                <div className="w-16 sm:w-24 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 truncate">
                   {cat.name}
                 </div>
                 <div className="flex-1 h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
@@ -219,7 +221,7 @@ export function PaperPortfolioDashboard({
                     style={{ width: `${cat.percentage}%` }}
                   />
                 </div>
-                <div className="w-20 text-right text-sm text-zinc-600 dark:text-zinc-400">
+                <div className="w-12 sm:w-20 text-right text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
                   {cat.percentage.toFixed(1)}%
                 </div>
               </div>
@@ -233,7 +235,7 @@ export function PaperPortfolioDashboard({
         <button
           onClick={() => setView('active')}
           className={cn(
-            'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+            'px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors',
             view === 'active'
               ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-white'
               : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
@@ -244,7 +246,7 @@ export function PaperPortfolioDashboard({
         <button
           onClick={() => setView('closed')}
           className={cn(
-            'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+            'px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors',
             view === 'closed'
               ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-white'
               : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
@@ -255,7 +257,7 @@ export function PaperPortfolioDashboard({
         <button
           onClick={() => setView('all')}
           className={cn(
-            'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+            'px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors',
             view === 'all'
               ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-white'
               : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
