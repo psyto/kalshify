@@ -1,31 +1,32 @@
-# FABRKNT Twitter Copy
+# Kalshify Twitter Copy
 
 *Updated: January 2025*
 
-Twitter/X copy for @fabrknt and founder @psyto, aligned with the Try → Track → Trust → Trade journey.
+Twitter/X copy for @kalshify and founder @psyto.
 
 ---
 
 ## Twitter Bios
 
-### @fabrknt (Company)
+### @kalshify (Product)
 
 **Primary:**
 ```
-Paper trade DeFi strategies risk-free. Track performance, build trust, invest when ready.
+Experience Kalshi prediction markets from anywhere in the world.
 
-Try → Track → Trust → Trade
+AI-powered paper trading. Real data. Zero risk.
 
-Non-custodial · Solana · fabrknt.com
+No US residency required.
+kalshify.vercel.app
 ```
 
 **Alternative:**
 ```
-Get personalized Solana yield allocations in 30 seconds.
-Test them risk-free before investing real money.
+Paper trade Kalshi prediction markets globally.
+AI recommendations. P&L tracking. Leaderboard.
 
-Try → Track → Trust → Trade
-fabrknt.com
+Learn prediction markets risk-free.
+kalshify.vercel.app
 ```
 
 ---
@@ -34,41 +35,34 @@ fabrknt.com
 
 **Primary:**
 ```
-Building @fabrknt — paper trade DeFi strategies before risking real money.
+Building @kalshify — experience Kalshi prediction markets from anywhere.
 
 Ex-banking & enterprise software. Stanford blockchain cert. Based in Tokyo.
 
-Try → Track → Trust → Trade
-```
-
-**Alternative:**
-```
-Founder @fabrknt | Bringing institutional finance rigor to DeFi.
-
-Test strategies before you invest. Trust before you trade.
-
-Banking background · AWS · Tokyo
+AI-powered paper trading for the world.
 ```
 
 ---
 
-## Tweet Templates for @fabrknt
+## Tweet Templates for @kalshify
 
-### Launch/Intro Tweet
+### Launch Tweet
 
 ```
-Most DeFi tools show you data.
-We tell you what to do with it—and let you test it first.
+Kalshi is amazing.
+But 95% of the world can't use it.
 
-Try → Track → Trust → Trade
+Until now.
 
-→ Get personalized allocation (30 sec)
-→ Paper trade risk-free
-→ Watch performance for 14+ days
-→ Invest when confident
+Kalshify: Paper trade Kalshi prediction markets from anywhere.
 
-No wallet. No sign-up.
-fabrknt.com
+- Real market data
+- AI recommendations
+- P&L tracking
+- Global leaderboard
+
+No US residency. No real money.
+kalshify.vercel.app
 ```
 
 ---
@@ -76,50 +70,86 @@ fabrknt.com
 ### Problem/Solution Tweet
 
 ```
-The DeFi trust problem:
+The prediction market problem:
 
-❌ Vaults: "Trust us, deposit funds"
-❌ Data platforms: "Here's 500 pools, figure it out"
-❌ Influencers: "This APY is amazing" (no proof)
+US residency required
+Real money only
+No way to practice
 
-✅ FABRKNT: Paper trade first. See it work. Then invest.
+Kalshify solves all three:
 
-Try → Track → Trust → Trade
+Global access
+Paper trading
+Learn risk-free
+
+Experience Kalshi from anywhere.
 ```
 
 ---
 
-### Feature Highlight Tweet
+### Feature Highlight - Markets
 
 ```
-Introducing Paper Portfolio Dashboard 📊
+Browse every Kalshi market. From anywhere.
 
-Track your DeFi allocation without risking real money:
-• APY sparklines (rising/falling/stable)
-• Trust progress ring (14-day target)
-• Estimated yield tracking
-• Multiple allocations
+Politics. Economics. Climate. Sports.
 
-Build trust before you trade.
-fabrknt.com
+Real probabilities. Real volume. Real data.
+
+Paper trade the ones that interest you.
+
+kalshify.vercel.app/markets
 ```
 
 ---
 
-### Educational Tweet
+### Feature Highlight - AI
 
 ```
-How institutional finance works:
-1. Due diligence
-2. Paper trading / backtesting
-3. Small position test
-4. Full deployment
+Not sure which markets to trade?
 
-How most retail DeFi works:
-1. See high APY
-2. Ape in
+Let Claude AI help.
 
-We built FABRKNT for people who want #1.
+Tell us your interests. Set your risk tolerance.
+
+Get personalized market picks with clear reasoning.
+
+AI-powered prediction market recommendations.
+kalshify.vercel.app/for-you
+```
+
+---
+
+### Feature Highlight - Leaderboard
+
+```
+Think you can predict the future?
+
+Prove it.
+
+Kalshify Leaderboard:
+- Ranked by P&L
+- Win rate tracking
+- Streak indicators
+- Global competition
+
+Climb the ranks. No money required.
+kalshify.vercel.app/leaderboard
+```
+
+---
+
+### Feature Highlight - Paper Trading
+
+```
+Paper trading, but for prediction markets.
+
+Buy YES or NO at current prices
+Watch your P&L change
+Simulate price movements
+Close positions to lock in results
+
+Practice before you risk real money.
 ```
 
 ---
@@ -127,45 +157,44 @@ We built FABRKNT for people who want #1.
 ### Short Punchy Tweet
 
 ```
-Don't trust DeFi yields.
-Verify them.
+Prediction markets for everyone.
+Not just Americans.
 
-Paper trade → Track performance → Build trust → Then invest.
-
-fabrknt.com
+Paper trade Kalshi globally.
+kalshify.vercel.app
 ```
 
 ---
 
-### Journey Explainer Tweet
+### Educational Tweet
 
 ```
-Try → Track → Trust → Trade
+What if you could practice prediction markets before risking real money?
 
-The FABRKNT journey:
+That's Kalshify.
 
-Try: Get personalized allocation in 30 seconds
-Track: Paper Portfolio Dashboard shows real performance
-Trust: 14+ days of data builds confidence
-Trade: Execute with step-by-step instructions
+Real Kalshi data.
+Paper trades.
+AI recommendations.
+Global access.
 
-No blind trust required.
+Learn before you earn.
 ```
 
 ---
 
-### Comparison Tweet
+### Value Prop Tweet
 
 ```
-FABRKNT vs. the alternatives:
+Why Kalshify?
 
-DefiLlama: "Here's 500 pools"
-Kamino: "Deposit funds, trust us"
-CT influencer: "50% APY, trust me bro"
+Global Access — Trade from anywhere
+Zero Risk — Paper money only
+Real Data — Live Kalshi prices
+AI-Powered — Claude recommendations
+Competitive — Global leaderboard
 
-FABRKNT: "Here's your allocation. Paper trade it. See if it works. Then decide."
-
-Try → Track → Trust → Trade
+Experience Kalshi from anywhere.
 ```
 
 ---
@@ -175,17 +204,17 @@ Try → Track → Trust → Trade
 ### Origin Story Tweet
 
 ```
-Why I'm building @fabrknt:
+Why I'm building Kalshify:
 
-Came from banking. We never invested without testing first.
+Prediction markets are powerful.
+But Kalshi is US-only.
 
-But in DeFi? "Here's a 50% APY, trust me bro."
+95% of the world is locked out.
 
-So I built a way to paper trade DeFi strategies risk-free.
+So I built a paper trading platform.
+Same markets. Same data. Global access.
 
-Try → Track → Trust → Trade
-
-No more blind trust.
+Experience Kalshi from anywhere.
 ```
 
 ---
@@ -193,17 +222,15 @@ No more blind trust.
 ### Building in Public Tweet
 
 ```
-Building @fabrknt in public.
+Building Kalshify for the Kalshi Hackathon.
 
-This week: Paper Portfolio Dashboard
+This week's additions:
+- Performance snapshots
+- Global leaderboard
+- Win streak tracking
+- Rank percentiles
 
-Users can now:
-• Get allocation in 30 sec
-• Track performance over 14+ days
-• See APY trends with sparklines
-• Build trust before investing
-
-The "Trust" in Try → Track → Trust → Trade.
+Paper trading just got competitive.
 ```
 
 ---
@@ -211,135 +238,87 @@ The "Trust" in Try → Track → Trust → Trade.
 ### Philosophy Tweet
 
 ```
-Hot take: The best DeFi tool is one you can verify before using.
+Prediction markets should be global.
 
-That's why @fabrknt lets you paper trade first.
+Not everyone can risk real money.
+Not everyone lives in the US.
 
-If our recommendations don't perform, you'll know—before losing money.
+Kalshify: Practice prediction markets risk-free.
 
-Accountability through transparency.
+When you're ready for real trading, Kalshi will be waiting.
 ```
 
 ---
 
-### Personal + Product Tweet
+### Technical Tweet
 
 ```
-After 15+ years in banking and enterprise software, one thing is clear:
+Kalshify tech stack:
 
-Trust is earned, not assumed.
+Frontend: Next.js 16, React 19
+AI: Claude API for recommendations
+Data: Kalshi REST API
+Hosting: Vercel
 
-@fabrknt applies this to DeFi:
-• Get personalized allocation
-• Paper trade it
-• Watch it perform
-• Invest when YOU'RE ready
-
-Try → Track → Trust → Trade
+Built for the Kalshi Hackathon.
+Designed for global users.
 ```
 
 ---
 
-### Problem Observation Tweet
+## Thread: The Kalshify Story
 
+**Tweet 1/4:**
 ```
-The problem with DeFi yields:
+I wanted to trade on Kalshi.
 
-You don't know if they're real until you've risked real money.
+Problem: I'm in Tokyo.
 
-@fabrknt fixes this.
+Kalshi requires US residency.
 
-Paper trade first. Track for 14+ days. See actual performance.
-
-Then decide if you want to invest.
-
-Revolutionary? No. Just common sense.
+So I built Kalshify. 🧵
 ```
 
----
-
-### Institutional vs Retail Tweet
-
+**Tweet 2/4:**
 ```
-Institutional finance: "Show me the backtest before I invest."
+Kalshify gives you:
 
-Retail DeFi: "Number go up, ape in."
+- Real Kalshi market data
+- Paper trading (no real money)
+- AI-powered recommendations
+- P&L tracking
+- Global leaderboard
 
-@fabrknt brings institutional rigor to everyone.
-
-Paper trade your allocation. Verify it works. Then invest.
-
-Try → Track → Trust → Trade
+Everything except the real money part.
 ```
 
----
-
-## Thread: The FABRKNT Story
-
-**Tweet 1/5:**
+**Tweet 3/4:**
 ```
-Why I built @fabrknt — a thread 🧵
+Why this matters:
 
-I spent 15+ years in banking and enterprise software.
+Prediction markets are powerful.
+They aggregate information efficiently.
+They deserve global adoption.
 
-One thing was always true: you never invest without testing first.
+But you can't adopt what you can't access.
 
-Due diligence. Backtesting. Paper trading. Small position tests.
-
-Then DeFi happened.
+Kalshify is the on-ramp.
 ```
 
-**Tweet 2/5:**
+**Tweet 4/4:**
 ```
-In DeFi, the standard is:
+Try it now:
 
-"Here's a 50% APY. Deposit now. Trust me bro."
+kalshify.vercel.app
 
-No verification. No testing. Just vibes and hope.
+No sign-up.
+No wallet.
+No US residency.
 
-I lost money learning this lesson.
-```
+Just prediction markets.
+For everyone.
 
-**Tweet 3/5:**
-```
-So I built what I wished existed:
-
-A way to get personalized DeFi allocations AND test them before risking real money.
-
-Try → Track → Trust → Trade
-
-Get allocation in 30 seconds.
-Paper trade it.
-Watch performance for 14+ days.
-Invest when confident.
-```
-
-**Tweet 4/5:**
-```
-The Paper Portfolio Dashboard shows:
-
-• Your paper value over time
-• APY trends (rising/falling/stable)
-• Trust progress (14-day target)
-• Estimated yields
-
-All without risking a single dollar.
-```
-
-**Tweet 5/5:**
-```
-FABRKNT is live on Solana.
-
-Non-custodial. Read-only. Free.
-
-No wallet connection required.
-No sign-up required.
-
-Just answers to "where should I put my money?" — with proof that it works.
-
-Try it: fabrknt.com
-
-Try → Track → Trust → Trade
+Built for the Kalshi Hackathon.
 ```
 
 ---
@@ -347,10 +326,18 @@ Try → Track → Trust → Trade
 ## Hashtags
 
 Use sparingly:
-- #DeFi
-- #Solana
-- #YieldFarming
-- #CryptoYield
-- #DeFiYield
+- #Kalshi
+- #PredictionMarkets
+- #KalshiHackathon
+- #AI
+- #PaperTrading
 
-Avoid overusing hashtags — focus on the message.
+---
+
+## Visual Suggestions
+
+- Screenshot of markets page
+- Screenshot of leaderboard
+- AI recommendations flow
+- P&L tracking view
+- Before/after paper trade

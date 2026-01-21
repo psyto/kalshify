@@ -1,312 +1,256 @@
-# FABRKNT Pitch Video Script
+# Kalshify Pitch Video Script
 
 *Target length: 3 minutes*
-*Format: Screen recording with voiceover (or founder on camera + screen demos)*
+*For Kalshi Hackathon Submission*
 
 ---
 
 ## Pre-Production Notes
 
 **Video Style Options:**
-- **Option A**: Founder on camera (builds trust) + screen demos
-- **Option B**: Screen recording only with voiceover (simpler production)
-- **Option C**: Hybrid - founder intro/outro, screen demos in middle
+- **Option A**: Founder on camera + screen demos (builds trust)
+- **Option B**: Screen recording only with voiceover (simpler)
+- **Option C**: Hybrid - founder intro/outro, demos in middle
 
-**Recommended**: Option A or C - showing your face builds credibility with judges
-
-**Recording Tips:**
-- Good lighting, clean background
-- Clear audio (use external mic if possible)
-- 1080p minimum resolution
-- Practice 2-3 times before final recording
+**Recommended**: Option A or C for hackathon judges
 
 ---
 
 ## Script
 
-### HOOK (0:00 - 0:20)
-
-**[ON CAMERA or VOICEOVER with problem visuals]**
-
-> "Imagine you find a DeFi pool offering 25% APY.
->
-> Looks great. But how do you know it's real?
->
-> You don't. Not until you've risked real money.
->
-> Most DeFi tools ask for blind trust.
->
-> FABRKNT asks: why should you have to trust at all?"
-
-**[VISUAL]**: Quick montage - high APY screenshots, "trust me bro" memes, headlines about DeFi losses
-
----
-
-### PROBLEM (0:20 - 0:45)
+### HOOK (0:00 - 0:15)
 
 **[ON CAMERA or VOICEOVER]**
 
-> "Here's the problem with DeFi today.
+> "Kalshi is amazing. Prediction markets that actually work.
 >
-> Vaults say: 'Deposit your funds and trust us.'
+> But there's a problem: 95% of the world can't use it.
 >
-> Data platforms say: 'Here's 500 pools. Figure it out yourself.'
+> US residency required.
 >
-> And influencers? 'This APY is amazing.' No proof. Just vibes.
->
-> Meanwhile, institutional investors? They never invest without backtesting first.
->
-> Why should retail be any different?"
-
-**[VISUAL]**: Split screen comparison
-- Left: Institutional due diligence process
-- Right: Retail "ape in" culture
+> What if everyone could experience Kalshi?"
 
 ---
 
-### SOLUTION INTRO (0:45 - 1:00)
+### PROBLEM (0:15 - 0:35)
+
+**[ON CAMERA or VOICEOVER with visuals]**
+
+> "Here's the reality of prediction markets today:
+>
+> Want to trade on Kalshi? Need US residency.
+>
+> Want to practice first? No way to paper trade.
+>
+> Want to learn? Risk real money or don't learn at all.
+>
+> That's billions of people locked out.
+>
+> I'm one of them. I'm in Tokyo."
+
+**[VISUAL]**: World map, Kalshi access restriction, global audience
+
+---
+
+### SOLUTION INTRO (0:35 - 0:50)
 
 **[ON CAMERA]**
 
-> "That's why I built FABRKNT.
+> "So I built Kalshify.
 >
-> A simple idea: what if you could test DeFi strategies before risking real money?
+> Paper trade Kalshi prediction markets from anywhere in the world.
 >
-> We call it: Try, Track, Trust, Trade."
+> Same markets. Same data. Zero risk.
+>
+> Let me show you how it works."
 
-**[VISUAL]**: Show the 4-step journey graphic with icons
+**[VISUAL]**: Kalshify logo, tagline
 
 ---
 
-### DEMO - TRY (1:00 - 1:25)
+### DEMO - MARKETS (0:50 - 1:15)
 
-**[SCREEN RECORDING - fabrknt.com]**
+**[SCREEN RECORDING - kalshify.vercel.app/markets]**
 
-> "Let me show you how it works.
+> "Here's the Markets page.
 >
-> Step one: Try.
+> Every Kalshi market, live. Politics, economics, climate, sports.
 >
-> You come to FABRKNT. Enter your investment amount. Pick your risk tolerance.
+> Real probabilities. Real volume. Real data.
 >
-> In 30 seconds, you get a personalized allocation.
+> Filter by category. Search by keyword.
 >
-> No wallet connection. No sign-up. Just answers."
-
-**[VISUAL]**: Live demo
-1. Show homepage with QuickStart
-2. Enter $10,000
-3. Select "Balanced" risk
-4. Click "Show My Allocation"
-5. Show the allocation results
-
----
-
-### DEMO - TRACK (1:25 - 1:50)
-
-**[SCREEN RECORDING - Paper Portfolio Dashboard]**
-
-> "Step two: Track.
->
-> Your allocation automatically saves to the Paper Portfolio Dashboard.
->
-> Here you can see your paper value, estimated yield, and average APY.
->
-> This sparkline shows if your APY is rising, falling, or stable.
->
-> And this ring? That's your trust progress. We recommend tracking for 14 days minimum."
-
-**[VISUAL]**: Highlight each element as you mention it
-1. Paper Value
-2. Estimated Yield
-3. APY with sparkline
-4. Trust Progress Ring
-
----
-
-### DEMO - TRUST (1:50 - 2:05)
-
-**[SCREEN RECORDING or ON CAMERA]**
-
-> "Step three: Trust.
->
-> After 14 days, you have real data. Not marketing claims. Actual performance.
->
-> You can see: did this strategy work? How did APY trend over time?
->
-> Now you have proof. Trust is earned, not assumed."
-
-**[VISUAL]**: Show performance data, APY history, trust badge earned
-
----
-
-### DEMO - TRADE (2:05 - 2:15)
-
-**[SCREEN RECORDING]**
-
-> "Step four: Trade.
->
-> When you're confident, execute with step-by-step instructions.
->
-> Direct links to protocols. Copy-paste amounts. Track your progress.
->
-> You're in control. Invest when YOU'RE ready."
-
-**[VISUAL]**: Quick scroll through execution steps
-
----
-
-### DIFFERENTIATION (2:15 - 2:35)
-
-**[ON CAMERA]**
-
-> "What makes FABRKNT different?
->
-> We're non-custodial. We never touch your funds.
->
-> We're free. No hidden fees.
->
-> And we're transparent. You can compare your allocation against professional curators like Gauntlet and Steakhouse. See how they allocate—and why.
->
-> We're not just giving you data. We're giving you answers you can verify."
+> Click any market to see details."
 
 **[VISUAL]**:
-- Trust badges (Non-custodial, Read-only, Transparent)
-- Quick flash of Curator Comparison screen
+1. Show markets list
+2. Apply category filter
+3. Click into a market
 
 ---
 
-### VISION (2:35 - 2:45)
+### DEMO - TRADING (1:15 - 1:45)
 
-**[ON CAMERA]**
+**[SCREEN RECORDING - Market detail + trade]**
 
-> "Our vision? Democratize institutional finance practices.
+> "Here's a market detail page.
 >
-> Everyone should be able to test before they invest.
+> See the probability, volume, and orderbook.
 >
-> Not just hedge funds. Everyone."
-
----
-
-### CLOSE (2:45 - 3:00)
-
-**[ON CAMERA]**
-
-> "FABRKNT.
+> Want to trade? Click Buy YES or Buy NO.
 >
-> Don't trust DeFi yields. Verify them.
+> Enter your quantity. See the price.
 >
-> Try. Track. Trust. Trade.
+> Place the paper trade.
 >
-> Try it now at fabrknt.com."
+> Now check the portfolio."
 
 **[VISUAL]**:
-- FABRKNT logo
-- QR code to fabrknt.com
-- Social handles: @fabrknt, @psyto
+1. Market detail view
+2. Click Buy YES
+3. Enter quantity
+4. Submit trade
+5. Navigate to portfolio
 
 ---
 
-## Alternative Shorter Versions
+### DEMO - PORTFOLIO (1:45 - 2:05)
 
-### 90-Second Version
+**[SCREEN RECORDING - kalshify.vercel.app/portfolio]**
 
-Use for Twitter/social or if hackathon allows shorter format:
+> "The Portfolio page shows all your positions.
+>
+> Portfolio value. Unrealized P&L. Realized P&L.
+>
+> See how each position is performing.
+>
+> Want to test scenarios? Click Simulate Prices.
+>
+> The prices move. Your P&L updates.
+>
+> Close a position to lock in results."
+
+**[VISUAL]**:
+1. Portfolio overview
+2. Position cards
+3. Click Simulate Prices
+4. Show P&L change
+5. Close a position
+
+---
+
+### DEMO - LEADERBOARD (2:05 - 2:20)
+
+**[SCREEN RECORDING - kalshify.vercel.app/leaderboard]**
+
+> "And here's where it gets competitive.
+>
+> The global leaderboard.
+>
+> Ranked by P&L, win rate, total trades, or streak.
+>
+> See where you stand against traders worldwide.
+>
+> No money at stake. Just bragging rights."
+
+**[VISUAL]**: Leaderboard with rankings
+
+---
+
+### DEMO - AI RECOMMENDATIONS (2:20 - 2:35)
+
+**[SCREEN RECORDING - kalshify.vercel.app/for-you]**
+
+> "Not sure which markets to trade?
+>
+> Set your interests and risk tolerance.
+>
+> Claude AI recommends markets that match your profile.
+>
+> Each recommendation explains why it's a good fit."
+
+**[VISUAL]**: AI preferences form, recommendations
+
+---
+
+### VALUE PROP (2:35 - 2:50)
+
+**[ON CAMERA]**
+
+> "So what is Kalshify?
+>
+> Global access to Kalshi markets.
+> Paper trading with real data.
+> AI-powered recommendations.
+> Competitive leaderboard.
+>
+> All without risking real money."
+
+---
+
+### CLOSE (2:50 - 3:00)
+
+**[ON CAMERA]**
+
+> "Prediction markets should be for everyone.
+>
+> Kalshify makes that possible.
+>
+> Try it now at kalshify.vercel.app.
+>
+> Experience Kalshi from anywhere."
+
+**[VISUAL]**:
+- Kalshify logo
+- URL: kalshify.vercel.app
+- "Built for the Kalshi Hackathon"
+
+---
+
+## Alternative 90-Second Version
 
 | Section | Time | Content |
 |---------|------|---------|
-| Hook | 0:00-0:10 | "How do you know a DeFi yield is real? You don't—until now." |
-| Problem | 0:10-0:20 | "Vaults want trust. Data platforms give overwhelm. FABRKNT gives answers." |
-| Solution | 0:20-0:30 | "Try → Track → Trust → Trade" |
-| Demo | 0:30-1:10 | Quick walkthrough of all 4 steps |
-| Close | 1:10-1:30 | "Don't trust. Verify. fabrknt.com" |
-
-### 60-Second Version
-
-| Section | Time | Content |
-|---------|------|---------|
-| Hook + Problem | 0:00-0:15 | "DeFi requires blind trust. Why?" |
-| Solution | 0:15-0:25 | "FABRKNT: Paper trade first." |
-| Demo | 0:25-0:50 | Show allocation + Paper Portfolio Dashboard |
-| Close | 0:50-1:00 | "Try → Track → Trust → Trade. fabrknt.com" |
-
----
-
-## B-Roll Suggestions
-
-If doing more polished production:
-
-- Screen recordings of each feature
-- Animated journey diagram (Try→Track→Trust→Trade)
-- APY charts/graphs
-- Comparison tables (FABRKNT vs others)
-- Mobile view of the app
-- Cursor movements highlighting key UI elements
-
----
-
-## Audio Notes
-
-**Music**:
-- Subtle background music (upbeat but not distracting)
-- Fade in at start, fade out at end
-- Lower volume during voiceover
-
-**Sound effects** (optional):
-- Subtle "click" sounds during UI interactions
-- Subtle "success" sound when allocation appears
+| Hook | 0:00-0:10 | "Kalshi is US-only. Kalshify opens it to the world." |
+| Problem | 0:10-0:20 | Global audience locked out. No way to practice. |
+| Solution | 0:20-0:30 | "Paper trade Kalshi markets from anywhere." |
+| Demo | 0:30-1:10 | Markets → Trade → Portfolio → Leaderboard |
+| Close | 1:10-1:30 | "Experience Kalshi from anywhere. kalshify.vercel.app" |
 
 ---
 
 ## Recording Checklist
 
 ### Before Recording
-- [ ] Script practiced 2-3 times
-- [ ] fabrknt.com loaded and working
-- [ ] Test allocation ready to demo
-- [ ] Paper Portfolio has sample data
-- [ ] Browser clean (no embarrassing tabs/bookmarks visible)
+- [ ] kalshify.vercel.app loaded and working
+- [ ] Sample positions in portfolio
+- [ ] Browser clean (no personal bookmarks)
 - [ ] Notifications disabled
-- [ ] Good lighting/audio setup
+- [ ] Good audio setup
 
 ### During Recording
-- [ ] Speak clearly and at moderate pace
-- [ ] Pause briefly between sections (easier to edit)
-- [ ] Keep mouse movements smooth and intentional
-- [ ] Don't rush the demo—let viewers see the UI
+- [ ] Speak clearly, moderate pace
+- [ ] Smooth mouse movements
+- [ ] Pause between sections
+- [ ] Let UI be visible
 
 ### After Recording
 - [ ] Review full video
-- [ ] Check audio levels
-- [ ] Trim any dead space
-- [ ] Add captions (accessibility + many watch muted)
-- [ ] Export at 1080p minimum
+- [ ] Trim dead space
+- [ ] Add captions
+- [ ] Export 1080p minimum
 
 ---
 
-## Founder Intro Script (if using Option A/C)
-
-**[ON CAMERA - casual, authentic]**
-
-> "Hey, I'm Hiro. I spent 15 years in banking and enterprise software.
->
-> One thing was always true: you never invest without testing first.
->
-> When I got into DeFi, I was shocked. Everyone just... trusts. No verification.
->
-> So I built FABRKNT. Let me show you how it works."
-
-*Then transition to screen demo...*
-
----
-
-## Closing Credits (last 5 seconds)
+## Closing Credits
 
 ```
-FABRKNT
-Try → Track → Trust → Trade
+Kalshify
+Experience Kalshi From Anywhere
 
-fabrknt.com
-@fabrknt | @psyto
+kalshify.vercel.app
+@fabrknt
 
-Built on Solana
+Built for the Kalshi Hackathon
+Powered by Claude AI
 ```

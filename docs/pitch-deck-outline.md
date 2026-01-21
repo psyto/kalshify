@@ -1,166 +1,162 @@
-# FABRKNT Pitch Deck Outline
+# Kalshify Pitch Deck Outline
 
-*For Colosseum Hackathons (multi-track submission)*
+*For Kalshi Hackathon Submission*
 
 ---
 
 ## Slide Structure
 
 ### Slide 1: Title
-**FABRKNT**
-Paper Trade DeFi Before You Risk Real Money
 
-*Try → Track → Trust → Trade*
+**Kalshify**
+Experience Kalshi Prediction Markets From Anywhere
+
+*AI-Powered Paper Trading Platform*
 
 - Logo
-- Website: fabrknt.com
-- Tagline: "The trust layer for DeFi yields"
+- Website: kalshify.vercel.app
+- Tagline: "Practice prediction markets worldwide"
 
 ---
 
 ### Slide 2: The Problem
 
-**DeFi requires blind trust**
+**Prediction markets are US-only**
 
-| What They Say | What Happens |
-|---------------|--------------|
-| "50% APY, trust me" | Rug pull |
-| "Safe vault, deposit now" | Smart contract hack |
-| "Here's 500 pools" | Analysis paralysis |
+| The Reality | The Impact |
+|-------------|------------|
+| Kalshi requires US residency | Global audience locked out |
+| Real money barrier to entry | High risk for beginners |
+| No way to practice | Learn by losing money |
 
-- Users can't verify strategies before investing
-- No way to test without risking real money
-- Institutions backtest everything; retail gets "trust me bro"
+- 95% of the world can't access Kalshi
+- Beginners have no safe way to learn
+- Prediction market literacy stays low
 
-*Visual: Split screen - institutional due diligence vs retail "ape in"*
+*Visual: World map showing access restriction*
 
 ---
 
 ### Slide 3: The Solution
 
-**Try → Track → Trust → Trade**
+**Kalshify: Global Access + Zero Risk**
 
-| Step | What Happens | Time |
-|------|--------------|------|
-| **Try** | Get personalized allocation | 30 seconds |
-| **Track** | Paper Portfolio Dashboard | Ongoing |
-| **Trust** | Watch real performance | 14+ days |
-| **Trade** | Execute when confident | Your choice |
+| Feature | Benefit |
+|---------|---------|
+| **Paper Trading** | Practice without real money |
+| **Real Data** | Live Kalshi market prices |
+| **AI Recommendations** | Claude-powered market picks |
+| **Global Access** | Anyone, anywhere |
 
-*Visual: Journey flow diagram with icons*
+*Visual: Screenshot of Kalshify markets page*
 
-**Key insight**: Trust is earned, not assumed.
-
----
-
-### Slide 4: Demo - Get Allocation (Try)
-
-**30 Seconds to Your Allocation**
-
-1. Enter amount ($100+)
-2. Select risk tolerance (5 levels)
-3. Get personalized recommendations
-
-*Visual: Screenshot of QuickStart flow*
-
-- No wallet connection required
-- No sign-up required
-- Instant results
+**Key insight**: Let the world experience prediction markets.
 
 ---
 
-### Slide 5: Demo - Paper Portfolio Dashboard (Track)
+### Slide 4: Demo - Markets Explorer
 
-**Track Performance Risk-Free**
+**Browse Live Kalshi Markets**
 
-*Visual: Screenshot of Paper Portfolio Dashboard*
+*Visual: Screenshot of /markets page*
 
-Key metrics shown:
-- **Paper Value**: Total being tracked
-- **Estimated Yield**: Earnings to date
-- **Average APY**: Weighted across positions
-- **Trust Progress Ring**: Days toward 14-day target
-- **APY Sparklines**: Rising/falling/stable trends
+- Real-time probability data
+- Filter by category (Politics, Economics, Sports, etc.)
+- Volume and open interest
+- Market status indicators
 
-"See if it works before you invest."
+"Same markets, same data—paper trades instead of real money."
 
 ---
 
-### Slide 6: Demo - Build Trust (Trust)
+### Slide 5: Demo - Paper Trading
 
-**14+ Days of Real Data**
+**Trade Without Risk**
 
-*Visual: Performance chart over time*
+*Visual: Screenshot of trading interface*
 
-- APY trends tracked daily
-- Performance snapshots stored
-- Compare multiple allocations
-- Trust badge earned after 14 days
+Key features:
+- **Buy YES/NO** at current market prices
+- **Track P&L** as probabilities change
+- **Simulate Prices** to test scenarios
+- **Close Positions** to lock in results
 
-"Now you have proof, not promises."
+"See if your predictions are right before risking real capital."
 
 ---
 
-### Slide 7: Demo - Execute (Trade)
+### Slide 6: Demo - AI Recommendations
 
-**Step-by-Step When Ready**
+**Claude-Powered Market Picks**
 
-*Visual: Screenshot of execution steps*
+*Visual: Screenshot of /for-you page*
 
-- Direct links to protocols (Kamino, Marginfi, Meteora)
-- Copy-paste amounts
-- Progress tracking
-- Mark steps completed
+1. Set your interests (Politics, Economics, etc.)
+2. Choose risk tolerance (Conservative → Aggressive)
+3. Get personalized recommendations with reasoning
 
-"You're in control. Execute when YOU'RE ready."
+"AI explains why each market matches your profile."
+
+---
+
+### Slide 7: Demo - Leaderboard
+
+**Compete Globally**
+
+*Visual: Screenshot of /leaderboard page*
+
+- Rankings by P&L, win rate, trades, streak
+- Track your percentile
+- Win streak indicators
+- Gamification drives engagement
+
+"Turn learning into competition."
 
 ---
 
 ### Slide 8: How It Works (Technical)
 
-**Data → Intelligence → Recommendations**
+**Kalshi API → Kalshify → Global Users**
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  DeFiLlama  │────▶│   FABRKNT   │────▶│    User     │
-│  On-chain   │     │  Risk Model │     │ Allocation  │
-│    Data     │     │  AI Engine  │     │  Dashboard  │
+│  Kalshi API │────▶│  Kalshify   │────▶│   Global    │
+│  Market Data│     │  Paper Trade│     │   Users     │
+│             │     │  + Claude AI│     │             │
 └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
-- 200+ Solana pools analyzed
-- 5-factor risk scoring (TVL, APY sustainability, IL, stablecoin, protocol maturity)
-- Curator-level allocation logic
-- Real-time performance tracking
+- Live market data from Kalshi REST API
+- In-memory paper trading engine
+- Claude AI for recommendations
+- Performance tracking & leaderboard
 
 ---
 
 ### Slide 9: What Makes Us Different
 
-| Others | FABRKNT |
-|--------|---------|
-| "Trust us, deposit funds" | Paper trade first |
-| "Here's data, figure it out" | Here's what to do |
-| Custodial vaults | Non-custodial recommendations |
-| Sign up to see results | No wallet, no sign-up |
-| Marketing claims | 14 days of proof |
+| Traditional Approach | Kalshify |
+|---------------------|----------|
+| US residency required | Global access |
+| Real money only | Paper trading |
+| Figure it out yourself | AI recommendations |
+| No practice mode | Learn risk-free |
+| No competition | Leaderboard |
 
-**We're the only platform that lets you verify before you invest.**
+**We're the on-ramp for global prediction market adoption.**
 
 ---
 
-### Slide 10: Learn from the Best (Curator Comparison)
+### Slide 10: Why This Matters for Kalshi
 
-**Compare Your Allocation vs Professionals**
+**Expanding the Ecosystem**
 
-*Visual: Side-by-side comparison screenshot*
+1. **Global awareness** — Millions experience Kalshi markets
+2. **Education pipeline** — Users learn before real trading
+3. **Demand generation** — Paper traders want the real thing
+4. **Community building** — Leaderboard creates engagement
 
-- Gauntlet, Steakhouse, RE7 strategies visible
-- See how your allocation differs
-- Understand their reasoning
-- Learn while you earn
-
-"Democratizing institutional DeFi practices"
+"Every Kalshify user is a potential Kalshi customer."
 
 ---
 
@@ -168,182 +164,121 @@ Key metrics shown:
 
 | Principle | What It Means |
 |-----------|---------------|
-| **Non-Custodial** | We never touch your funds |
-| **Read-Only** | No wallet signing ever |
-| **Transparent** | Open risk methodology |
-| **Free** | No fees, no premium tier for core features |
+| **Paper Trading** | No real money at risk |
+| **Educational** | Learning platform, not gambling |
+| **Transparent** | Clear disclaimers everywhere |
+| **Non-custodial** | We never hold funds |
 
-*Visual: Security badges*
+*Visual: Disclaimer from footer*
 
 ---
 
-### Slide 12: Traction & Validation
+### Slide 12: Traction & Features
 
 **Built & Shipped**
 
-- Live at fabrknt.com
-- [X] pools analyzed
-- [X] allocations generated
-- [X] paper portfolios tracked
-
-**User Feedback** (if available):
-- Quote 1
-- Quote 2
-
-*Note: Add real metrics before submission*
+- Live at kalshify.vercel.app
+- Full market explorer with live data
+- Paper trading with P&L tracking
+- AI recommendations with Claude
+- Leaderboard with rankings
+- Price simulation for testing
 
 ---
 
-### Slide 13: Roadmap
+### Slide 13: Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 16, React 19, TypeScript |
+| Styling | Tailwind CSS |
+| AI | Anthropic Claude API |
+| Data | Kalshi REST API |
+| Hosting | Vercel |
+
+Clean, modern, production-ready.
+
+---
+
+### Slide 14: Roadmap
 
 **What's Next**
 
 | Phase | Feature |
 |-------|---------|
-| **Now** | Paper Portfolio Dashboard, Curator Comparison |
-| **Next** | Real portfolio tracking (post-execution) |
-| **Future** | One-click execution, Mobile app, Multi-chain |
-
-**Hackathon Sprint Focus**: [Specific feature built during hackathon]
-
----
-
-### Slide 14: Business Model
-
-**Free Core, Premium Future**
-
-| Free Forever | Future Premium |
-|--------------|----------------|
-| Allocations | Advanced AI insights |
-| Paper Portfolio | Priority alerts |
-| Curator comparison | API access |
-| Execution steps | Multi-wallet tracking |
-
-**Revenue opportunity**: Premium subscriptions, protocol partnerships, API licensing
+| **Now** | Paper trading, AI recommendations, leaderboard |
+| **Next** | Persistent user accounts, historical performance |
+| **Future** | Mobile app, DFlow integration, social features |
 
 ---
 
 ### Slide 15: Team
 
-**Hiroyuki Saito** - Founder
+**Hiroyuki Saito** - Builder
 
 - 15+ years banking & enterprise software
 - AWS certified
 - Stanford blockchain certification
 - Based in Tokyo
 
-*Photo + social links*
-
-Building at the intersection of institutional finance and DeFi.
+*Building at the intersection of prediction markets and AI.*
 
 ---
 
-### Slide 16: Why Now?
-
-**The Timing is Right**
-
-1. **DeFi complexity growing** - Users need guidance, not more data
-2. **Trust crisis** - Hacks, rugs, failures eroding confidence
-3. **Institutional practices proven** - Backtesting works, now available to everyone
-4. **Solana momentum** - Fast, cheap, growing ecosystem
-
----
-
-### Slide 17: The Ask
+### Slide 16: The Ask
 
 **What We're Building**
 
-- The trust layer for DeFi yields
-- Paper trading that proves strategies work
-- Institutional rigor for everyone
+- The global on-ramp to Kalshi
+- Learn prediction markets risk-free
+- AI-powered recommendations
+- Competitive leaderboard
 
-**Try → Track → Trust → Trade**
+**Experience Kalshi From Anywhere**
 
-[QR code to fabrknt.com]
-
----
-
-### Slide 18: Closing
-
-**FABRKNT**
-
-Don't trust DeFi yields. Verify them.
-
-*Try → Track → Trust → Trade*
-
-fabrknt.com | @fabrknt | @psyto
+[QR code to kalshify.vercel.app]
 
 ---
 
-## Track-Specific Talking Points
+### Slide 17: Closing
 
-Include these in pitch video or Q&A, depending on which judges you're addressing:
+**Kalshify**
 
-### For DeFi Track Judges
-- 200+ Solana yield pools analyzed
-- 5-factor risk scoring methodology
-- Curator-level allocation logic
-- Real APY tracking over time
+Experience Kalshi Prediction Markets From Anywhere
 
-### For Consumer Track Judges
-- 30-second onboarding
-- No wallet, no sign-up friction
-- Visual Paper Portfolio Dashboard
-- Mobile-friendly design
+*AI-Powered Paper Trading | Global Access | Zero Risk*
 
-### For Infrastructure Track Judges
-- Data aggregation from DeFiLlama + on-chain
-- Risk model architecture
-- API potential for other builders
-- Open methodology
-
-### For Public Good Award Judges
-- Free forever core features
-- Educational curator comparison
-- Democratizes institutional practices
-- Transparent, open methodology
-- Helps users avoid losses through verification
+kalshify.vercel.app | @fabrknt
 
 ---
 
-## Pitch Video Script Outline (3 minutes)
+## Demo Script (3 minutes)
 
 **0:00-0:20 - Hook**
-"Most DeFi platforms ask you to trust them with your money. FABRKNT asks: why should you?"
+"Kalshi is amazing. But 95% of the world can't use it. Kalshify changes that."
 
-**0:20-0:50 - Problem**
-Show the trust problem. Blind faith. No way to verify.
+**0:20-0:45 - Problem**
+Show the US-only restriction. No way to practice. High barrier to entry.
 
-**0:50-1:30 - Solution**
-Try → Track → Trust → Trade journey. Quick demo of each step.
+**0:45-1:30 - Solution Demo**
+Walk through: Markets → Place trade → Track P&L → Leaderboard
 
-**1:30-2:15 - Demo**
-Live walkthrough: Get allocation → Paper Portfolio Dashboard → Performance tracking
+**1:30-2:15 - AI Features**
+Show recommendations flow. Claude explains market picks.
 
-**2:15-2:40 - Differentiation**
-Non-custodial, no sign-up, 14 days of proof. Curator comparison.
+**2:15-2:40 - Value Prop**
+Global access. Zero risk. Real data. AI-powered.
 
 **2:40-3:00 - Close**
-"Don't trust DeFi yields. Verify them. Try FABRKNT at fabrknt.com."
-
----
-
-## Design Notes
-
-- **Color palette**: Cyan/Purple gradient (matches brand)
-- **Style**: Dark theme, minimal, data-focused
-- **Screenshots**: Use real product screenshots
-- **Charts**: Show real (or realistic) performance data
-- **Typography**: Clean, modern, readable
+"Experience Kalshi from anywhere. Try it at kalshify.vercel.app"
 
 ---
 
 ## Checklist Before Submission
 
-- [ ] Real metrics added (pools, allocations, users)
-- [ ] All screenshots current
+- [ ] Live demo working
+- [ ] All features functional
 - [ ] Demo video recorded
-- [ ] Pitch video recorded (3 min max)
-- [ ] GitHub repo clean and documented
-- [ ] fabrknt.com live and working
-- [ ] Mobile responsive verified
+- [ ] GitHub repo clean
+- [ ] README updated
+- [ ] Screenshots current

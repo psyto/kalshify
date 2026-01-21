@@ -1,393 +1,167 @@
-# FABRKNT: Get Personalized DeFi Allocations
+# Kalshify: Experience Kalshi Prediction Markets From Anywhere
 
-**Get your personalized Solana yield allocation in 30 seconds.**
+**AI-powered paper trading for Kalshi prediction markets. Practice trading worldwide — no US residency required.**
 
-**Domain:** [www.fabrknt.com](https://www.fabrknt.com)
-
----
-
-## What is FABRKNT?
-
-FABRKNT gives you **personalized DeFi allocations** for **Solana**. Tell us your investment amount and risk tolerance, and we'll show you exactly where to put your money—then track it risk-free before committing real capital.
-
-**Our philosophy:** Actionable recommendations over data dumps. Trust before trade.
+**Live Demo:** [kalshify.vercel.app](https://kalshify.vercel.app)
 
 ---
 
-## Try → Track → Trust → Trade
+## What is Kalshify?
 
-| Step | What Happens |
-|------|--------------|
-| **Try** | Get personalized allocation in 30 seconds |
-| **Track** | Paper Portfolio Dashboard shows performance over time |
-| **Trust** | 14+ days of tracking builds confidence |
-| **Trade** | Execute with step-by-step instructions when ready |
+Kalshify lets you **experience Kalshi prediction markets** from anywhere in the world. Get AI-powered recommendations, place paper trades with real market data, and track your P&L — all without risking real money.
 
-This is the recommended path for new users. Test strategies without risking real money, then invest when confident.
+**Built for the Kalshi Hackathon** | Powered by Claude AI
 
 ---
 
-## Quick Start (30 Seconds)
+## Features
 
-1. **Enter your preferences** — Investment amount and risk tolerance (Safe/Balanced/Growth)
-2. **Get your allocation** — Personalized recommendations with expected yields
-3. **Paper trade or execute** — Track in Paper Portfolio Dashboard, or invest right away
+### Markets Explorer
+Browse live Kalshi prediction markets with real-time data:
+- Filter by category (Politics, Economics, Climate, Sports, etc.)
+- View probability charts and orderbook data
+- See volume, open interest, and market status
 
-[Get Started →](https://www.fabrknt.com/?tab=start)
+### Paper Trading
+Practice trading without real money:
+- Buy YES or NO positions at current market prices
+- Track unrealized and realized P&L
+- Simulate price movements to test strategies
+- Close positions and see results
 
----
+### AI Recommendations
+Get personalized market suggestions powered by Claude AI:
+- Set your risk tolerance and interests
+- Receive curated market picks with reasoning
+- Understand why each market matches your profile
 
-## Navigation
-
-The app is organized into five connected tabs:
-
-| Tab | Purpose | What You'll Find |
-|-----|---------|------------------|
-| **Get Started** | "Your allocation in 30 seconds" | Quick start flow with personalized recommendations + Paper Portfolio Dashboard |
-| **Insights** | "Understand why" | Rebalance alerts, market context, curator strategies, performance tracking |
-| **Explore** | "Find alternatives" | Browse pools, swap out positions from your allocation |
-| **Practice** | "Build your own" | Strategy Builder pre-filled with your allocation, scenario testing |
-| **Compare** | "Analyze options" | Allocation comparison vs curators, protocol/LST tools, IL calculator |
-
-**Connected Experience:** Your allocation persists across all tabs. See your pools highlighted in Explore, compare to curators in Compare, or load it into the Strategy Builder to customize.
-
-**Mobile:** Bottom tab navigation with hamburger menu for site links.
-
----
-
-## Core Features
-
-### Get Started Tab (Primary Flow)
-
-The fastest way to get a DeFi allocation:
-
-#### Step 1: Your Preferences
-- Enter investment amount ($100 to any amount)
-- Select risk tolerance:
-  - **Safe** (4-7% APY) — Stablecoin-heavy, minimal risk
-  - **Balanced** (7-12% APY) — Mix of stable and growth
-  - **Growth** (12-25%+ APY) — Higher risk, higher potential
-
-#### Step 2: Your Allocation
-- Personalized pool recommendations
-- Expected APY and annual yield
-- Risk breakdown and warnings
-- "Why this allocation" insights
-
-#### Step 3: Execute
-- Step-by-step instructions for each position
-- Direct links to protocols (Kamino, Marginfi, Meteora, etc.)
-- Copy-paste amounts
-- Progress tracking (mark steps completed)
-
-#### Paper Portfolio Dashboard
-After getting your allocation, you'll see the Paper Portfolio Dashboard:
-- **Paper Value** — Total amount being tracked
-- **Estimated Yield** — Expected earnings to date
-- **Average APY** — Weighted APY across all positions
-- **Trust Progress** — 14-day ring showing progress toward building trust
-- **APY Sparklines** — Visual trend indicators (rising, falling, stable)
-
-Your allocation auto-saves to Paper Portfolio. Track for 14+ days to build trust, then execute when confident.
-
-### Connected Tabs Experience
-
-Once you have an allocation, all tabs work together:
-
-| Feature | Where | Description |
-|---------|-------|-------------|
-| **Paper Portfolio Dashboard** | Get Started | Visual performance tracking with APY trends, yield estimates, trust progress |
-| **Allocation Banner** | Insights, Explore, Practice, Compare | Summary bar showing your allocation with "View allocation" link |
-| **Your Allocation vs Curator** | Compare | Side-by-side comparison with matching curator (by risk profile) |
-| **"In your allocation" Badge** | Explore | Pools in your allocation are highlighted in the pool table |
-| **Load My Allocation** | Practice | One-click import into Strategy Builder for customization |
-| **Back to Allocation Button** | All tabs (except Start) | Floating button for quick navigation back to your allocation |
-
-This connected experience lets you:
-- **Track**: Monitor paper portfolio performance with visual dashboard
-- **Validate**: See how your allocation compares to professionals
-- **Customize**: Swap pools in Explore, see alternatives
-- **Learn**: Understand why curators make similar or different choices
-- **Iterate**: Refine your strategy in the Builder with real-time feedback
-
-### Insights Tab
-
-#### Your Allocation vs Curator
-If you have an allocation from Get Started:
-- Side-by-side comparison with a curator matching your risk profile
-- See expected APY and risk level differences
-- Understand how your choices compare to professionals
-
-#### Curation Principles
-Six mental models that guide professional curators:
-- **Risk/Reward Balance** — Higher yield = higher risk, always
-- **Diversification** — Spread risk across protocols and assets
-- **Yield Sustainability** — Base APY vs temporary emissions
-- **Protocol Trust** — TVL, audits, track record
-- **Liquidity Depth** — Can you exit without slippage?
-- **Correlation** — Understand how positions move together
-
-Click any principle to see a detailed explanation with examples.
-
-#### Curator Strategies
-Learn from professional DeFi curators:
-- **Gauntlet**, **Steakhouse Financial**, **RE7 Labs** profiles
-- Each allocation shows **why this asset** and **why this percentage**
-- Principle badges show which mental models each curator applies
-- Historical performance metrics (return, max drawdown, Sharpe ratio)
-
-### Explore Tab
-
-#### Explore Hero
-Overview of available pools with key stats (total pools, low-risk count). Messaging changes based on whether you have an allocation: "Customize or find alternatives."
-
-#### Pool Table
-Comprehensive pool listing with intelligent defaults:
-- Filter by protocol, risk level, TVL
-- Sort by TVL, APY, risk score
-- APY change alerts (badges when APY drops 20%+ or rises 30%+)
-- **"In your allocation" badge** — Pools from your allocation are highlighted
-- Watchlist for tracking favorites
-
-#### Pool Comparison & Backtesting
-Compare up to 3 pools side-by-side:
-- Risk breakdown comparison
-- APY sustainability analysis
-- **Historical performance backtesting** (7/30/90 days)
-- Compounding options (daily, weekly, none)
-
-### Practice Tab
-
-Build and test your own allocation strategies:
-
-- **Strategy Builder** — Build your own allocation strategy
-  - **"Load my allocation"** — Import your Get Started allocation with one click
-  - Select from available pools
-  - Set allocation percentages
-  - Get real-time feedback and grading (A-F)
-  - Compare your strategy to professional curators
-  - **Scenario Simulator** — Stress test with market scenarios:
-    - Market crash (-30%)
-    - Mild correction (-15%)
-    - Bull run (+50%)
-    - Rewards ending
-    - Stablecoin depeg
-
-### Compare Tab
-
-Analyze and compare allocations with specialized tools:
-
-- **Allocation Comparison** — Compare your allocation vs professional curators
-  - Side-by-side view with Gauntlet, Steakhouse, RE7
-  - See where you diverge from pros
-  - Understand curator reasoning
-
-- **Compare Tools** — Card-based tool picker:
-  - **Protocol Comparison** — Compare Kamino, Marginfi, Meteora, etc.
-  - **LST Comparison** — Compare liquid staking tokens
-  - **Yield Spreads** — Find arbitrage opportunities
-  - **Alternative Yields** — Restaking, perp LP, advanced strategies
-  - **IL Calculator** — Impermanent loss estimation
-
-### How It Works Page
-
-Comprehensive guide covering all features with direct links:
-- Learning Flow (4-step progression)
-- 6 Curation Principles explained
-- Curator Strategies overview
-- Strategy Builder & Scenario Simulator
-- Pool Comparison & Backtest
-- Compare Tools (Protocol, LST, Yield Spreads, Alternative Yields, IL Calculator)
-- AI Features (Portfolio Optimizer, AI Insights)
-- Watchlist functionality
-- Data Pipeline & Risk Scoring methodology
-- Trust & Security principles
+### Leaderboard
+Compete with traders worldwide:
+- Rankings by total P&L, win rate, trades, or streak
+- Track your progress and percentile
+- Win streaks and performance trends
 
 ---
 
-## Learning Flow (Optional)
+## Quick Start
 
-For users who want to go deeper:
+1. **Browse Markets** — Explore live Kalshi prediction markets at `/markets`
+2. **Place Paper Trades** — Click a market, buy YES or NO positions
+3. **Track Portfolio** — View your positions and P&L at `/portfolio`
+4. **Climb the Leaderboard** — Close positions to record trades at `/leaderboard`
 
-1. **Study curator strategies** — See how Gauntlet, Steakhouse, RE7 allocate in Insights
-2. **Practice building** — Create your own strategy in Strategy Builder with A-F grading
-3. **Compare vs pros** — See how your allocation differs from professionals
-4. **Test before deploying** — Run scenarios to stress test your strategy
-
----
-
-## AI-Powered Features
-
-### Smart Risk Insights
-AI-generated analysis in plain English (requires login):
-- Risk explanation and breakdown
-- APY sustainability analysis
-- Comparison vs. similar pools
-- Actionable verdict
-
-### Portfolio Optimizer
-AI suggests optimal allocation (requires login):
-- Input total amount and risk tolerance
-- Get diversified portfolio suggestions
-- View expected yields and risk warnings
-
----
-
-## Risk Scoring
-
-Our composite risk score (0-100) evaluates:
-
-| Factor | Weight | Description |
-|--------|--------|-------------|
-| TVL Risk | 25% | Liquidity depth and exit-ability |
-| APY Sustainability | 25% | Historical volatility and trends |
-| IL Risk | 20% | Impermanent loss exposure for LPs |
-| Stablecoin Exposure | 15% | Stability of underlying assets |
-| Protocol Maturity | 15% | Age, audits, track record |
-
-**Risk Levels:**
-- **Low** (0-20): Conservative, stable yields
-- **Medium** (21-40): Balanced risk-reward
-- **High** (41+): Higher risk, potentially higher returns
-
----
-
-## Trust & Security
-
-| Principle | Description |
-|-----------|-------------|
-| **Read-Only** | We never request wallet permissions |
-| **Non-Custodial** | Your keys, your funds. We never touch assets |
-| **Transparent** | Our methodology is open. See [Guide](/guide) |
-
-Trust badges are displayed at the top of every section throughout the app, so users always know FABRKNT is safe to use.
+No sign-up required. Start trading immediately.
 
 ---
 
 ## Pages
 
-- **/** — Main app with Get Started, Insights, Explore, Practice, and Compare tabs
-- **/guide** — Complete feature guide with links to each function
-- **/about** — Team and mission
-- **/tools** — Redirects to Compare tab
-
-### URL Navigation
-
-Direct links to specific tabs and features:
-- `/?tab=start` — Get Started (personalized allocation flow + Paper Portfolio Dashboard)
-- `/?tab=insights` — Insights tab (market context, curator strategies, performance tracking)
-- `/?tab=explore` — Explore tab (pool browser)
-- `/?tab=practice` — Practice tab (Strategy Builder)
-- `/?tab=compare` — Compare tab (Allocation Comparison + Tools)
-
----
-
-## Tech Stack
-
-- **Frontend:** Next.js 16, React 19, Tailwind CSS
-- **AI:** Anthropic Claude API
-- **Database:** PostgreSQL (Supabase)
-- **Hosting:** Vercel
-- **Data Sources:** DeFiLlama APIs, on-chain data
-
----
-
-## Getting Started
-
-### For Users
-
-**Option A: Paper Trade First (Recommended)**
-1. Go to [fabrknt.com](https://www.fabrknt.com)
-2. Enter your investment amount and risk tolerance
-3. Get personalized allocation (30 seconds)
-4. Track with Paper Portfolio Dashboard for 14+ days
-5. Build trust by watching performance
-6. Execute with step-by-step instructions when confident
-
-**Option B: Learn to Curate (Go Deeper)**
-1. Study curator strategies in the Insights tab
-2. Practice building your own in Strategy Builder (Practice tab)
-3. Compare your allocation vs professionals (Compare tab)
-4. Test with Scenario Simulator before deploying
-5. Sign in for AI-powered recommendations
-
-### Development
-
-```bash
-# Install dependencies
-pnpm install
-
-# Set up environment variables
-cp .env.example .env.local
-# Add your ANTHROPIC_API_KEY, DATABASE_URL, etc.
-
-# Run development server
-pnpm dev
-
-# Type check
-pnpm type-check
-
-# Build for production
-pnpm build
-```
-
-### Environment Variables
-
-```env
-# Database
-DATABASE_URL=postgresql://...
-
-# Authentication
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret
-
-# AI
-ANTHROPIC_API_KEY=sk-ant-...
-
-# App
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
+| Page | Description |
+|------|-------------|
+| `/` | Landing page with value proposition |
+| `/markets` | Browse all Kalshi markets with filters |
+| `/markets/[ticker]` | Market detail with trading interface |
+| `/portfolio` | Paper trading portfolio and P&L |
+| `/leaderboard` | Global rankings and competition |
+| `/for-you` | AI-powered personalized recommendations |
 
 ---
 
 ## API Endpoints
 
-### Public Endpoints
+### Market Data
+- `GET /api/kalshi/markets` — List markets with filters
+- `GET /api/kalshi/markets/[ticker]` — Single market details
 
-- `GET /api/curate/defi` — Yield pools with risk scoring
-- `GET /api/curate/defi/history/{poolId}` — Historical APY data
-- `GET /api/curate/protocols` — Protocol aggregation and comparison
-- `GET /api/curate/spreads` — Yield spread opportunities
-- `GET /api/curate/curators` — Curator profiles
-- `GET /api/curate/curators/{slug}` — Curator strategies and insights
-- `POST /api/curate/backtest` — Historical performance backtesting
+### Paper Trading
+- `GET /api/portfolio/paper/positions` — Get positions
+- `POST /api/portfolio/paper/positions` — Create position
+- `DELETE /api/portfolio/paper/positions?id=` — Close position
+- `PATCH /api/portfolio/paper/positions` — Simulate prices
 
-### Authenticated Endpoints
+### Performance & Leaderboard
+- `GET /api/portfolio/paper/snapshots` — Performance snapshots
+- `GET /api/leaderboard` — Leaderboard rankings
 
-- `GET /api/curate/ai/preferences` — Get user preferences
-- `PUT /api/curate/ai/preferences` — Update preferences
-- `POST /api/curate/ai/recommendations` — Get AI recommendations
-- `GET /api/curate/ai/insights/{poolId}` — Get AI pool insights
-- `POST /api/curate/ai/portfolio` — Optimize portfolio
+### AI Features
+- `POST /api/kalshi/ai/recommendations` — Get AI recommendations
+- `GET /api/kalshi/ai/insights/[marketId]` — Market analysis
+
+---
+
+## Tech Stack
+
+- **Frontend:** Next.js 16, React 19, TypeScript, Tailwind CSS
+- **AI:** Anthropic Claude API
+- **Data:** Kalshi REST API (live market data)
+- **Hosting:** Vercel
+
+---
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Add your KALSHI_API_KEY, ANTHROPIC_API_KEY, etc.
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+### Environment Variables
+
+```env
+# Kalshi API
+KALSHI_API_KEY=your-api-key
+
+# AI (for recommendations)
+ANTHROPIC_API_KEY=sk-ant-...
+
+# App
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+---
+
+## Why Paper Trade?
+
+| Benefit | Description |
+|---------|-------------|
+| **Global Access** | Trade from anywhere — no US residency required |
+| **Zero Risk** | Practice with simulated money |
+| **Real Data** | Live Kalshi prices and market data |
+| **AI-Powered** | Claude AI recommendations and insights |
+| **Learn First** | Understand prediction markets before real trading |
+
+---
+
+## Disclaimer
+
+Kalshify is an **educational paper trading platform**. No real money is involved. This platform is not affiliated with Kalshi Inc. Market data is provided for educational purposes only. Paper trading results do not guarantee future performance on real markets.
 
 ---
 
 ## Team
 
-**Hiroyuki Saito** — Founder
-Banking & enterprise software background. AWS certified, Stanford blockchain certification. Building at the intersection of institutional finance and DeFi. Based in Tokyo.
-
-- X (Twitter): [@psyto](https://x.com/psyto)
-- LinkedIn: [hiroyuki-saito](https://www.linkedin.com/in/hiroyuki-saito/)
+**Hiroyuki Saito** — Builder
+- Banking & enterprise software background
+- AWS certified, Stanford blockchain certification
+- Based in Tokyo
 
 ---
 
-## Contact & Resources
+## Connect
 
-- **Website:** [www.fabrknt.com](https://www.fabrknt.com)
-- **GitHub:** [github.com/fabrknt](https://github.com/fabrknt)
+- **GitHub:** [github.com/fabrknt/kalshify](https://github.com/fabrknt/kalshify)
 - **X (Twitter):** [@fabrknt](https://x.com/fabrknt)
 
 ---
 
-**Learn how top curators think. Build strategies with confidence.**
+*Experience Kalshi prediction markets from anywhere in the world.*
