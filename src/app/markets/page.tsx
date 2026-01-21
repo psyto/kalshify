@@ -85,7 +85,7 @@ export default function MarketsPage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="hidden sm:block text-xl font-bold text-zinc-900 dark:text-white">
+              <span className="text-base sm:text-xl font-bold text-zinc-900 dark:text-white">
                 Kalshify
               </span>
             </Link>

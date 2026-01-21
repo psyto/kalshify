@@ -62,7 +62,7 @@ export default function ForYouPage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="hidden sm:block text-xl font-bold text-zinc-900 dark:text-white">
+              <span className="text-base sm:text-xl font-bold text-zinc-900 dark:text-white">
                 Kalshify
               </span>
             </Link>
@@ -215,9 +215,10 @@ export default function ForYouPage() {
             {/* Market Cards */}
             <div className="grid gap-4">
               {recommendations.recommendations?.map((rec: any, index: number) => (
-                <div
+                <Link
                   key={rec.ticker || index}
-                  className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4"
+                  href={`/markets/${rec.ticker}`}
+                  className="block bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -250,7 +251,7 @@ export default function ForYouPage() {
                       ))}
                     </div>
                   )}
-                </div>
+                </Link>
               ))}
             </div>
 

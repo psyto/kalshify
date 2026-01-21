@@ -98,7 +98,7 @@ export default function LeaderboardPage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="hidden sm:block text-xl font-bold text-zinc-900 dark:text-white">
+              <span className="text-base sm:text-xl font-bold text-zinc-900 dark:text-white">
                 Kalshify
               </span>
             </Link>
@@ -196,20 +196,20 @@ export default function LeaderboardPage() {
         )}
 
         {/* Sort Options */}
-        <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
+        <div className="flex flex-wrap items-center gap-2 mb-6">
           {sortOptions.map((option) => (
             <button
               key={option.value}
               onClick={() => setSortBy(option.value)}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+                'flex items-center gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap',
                 sortBy === option.value
                   ? 'bg-blue-500 text-white'
                   : 'bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-blue-500'
               )}
             >
               {option.icon}
-              {option.label}
+              <span className="hidden sm:inline">{option.label}</span>
             </button>
           ))}
         </div>
@@ -234,8 +234,8 @@ export default function LeaderboardPage() {
           </div>
         ) : (
           <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-            {/* Table Header */}
-            <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-700 text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
+            {/* Table Header - Hidden on mobile */}
+            <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-700 text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
               <div className="col-span-1">Rank</div>
               <div className="col-span-4">Trader</div>
               <div className="col-span-2 text-right">P&L</div>
@@ -250,38 +250,70 @@ export default function LeaderboardPage() {
                 <div
                   key={entry.visitorId}
                   className={cn(
-                    'grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors',
+                    'px-4 py-3 md:px-6 md:py-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors',
                     entry.rank <= 3 && 'bg-gradient-to-r from-yellow-50/50 to-transparent dark:from-yellow-900/10'
                   )}
                 >
-                  <div className="col-span-1 flex items-center">
-                    {getRankIcon(entry.rank)}
-                  </div>
-                  <div className="col-span-4">
-                    <p className="font-medium text-zinc-900 dark:text-white">
-                      {entry.displayName}
-                    </p>
-                    {entry.streak > 3 && (
-                      <div className="flex items-center gap-1 text-xs text-orange-500 mt-0.5">
-                        <Flame className="w-3 h-3" />
-                        {entry.streak} win streak
+                  {/* Mobile Layout */}
+                  <div className="md:hidden">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        {getRankIcon(entry.rank)}
+                        <span className="font-medium text-zinc-900 dark:text-white">
+                          {entry.displayName}
+                        </span>
+                        {getTrendIcon(entry.trend)}
                       </div>
-                    )}
+                      <div className={cn(
+                        'font-semibold',
+                        entry.totalPnl >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                      )}>
+                        {entry.totalPnl >= 0 ? '+' : ''}${(entry.totalPnl / 100).toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+                      <span>{entry.winRate}% win</span>
+                      <span>{entry.totalTrades} trades</span>
+                      {entry.streak > 3 && (
+                        <span className="flex items-center gap-1 text-orange-500">
+                          <Flame className="w-3 h-3" />
+                          {entry.streak}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className={cn(
-                    'col-span-2 text-right font-semibold',
-                    entry.totalPnl >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                  )}>
-                    {entry.totalPnl >= 0 ? '+' : ''}${(entry.totalPnl / 100).toFixed(2)}
-                  </div>
-                  <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400">
-                    {entry.winRate}%
-                  </div>
-                  <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400">
-                    {entry.totalTrades}
-                  </div>
-                  <div className="col-span-1 flex justify-end">
-                    {getTrendIcon(entry.trend)}
+
+                  {/* Desktop Layout */}
+                  <div className="hidden md:grid grid-cols-12 gap-4 items-center">
+                    <div className="col-span-1 flex items-center">
+                      {getRankIcon(entry.rank)}
+                    </div>
+                    <div className="col-span-4">
+                      <p className="font-medium text-zinc-900 dark:text-white">
+                        {entry.displayName}
+                      </p>
+                      {entry.streak > 3 && (
+                        <div className="flex items-center gap-1 text-xs text-orange-500 mt-0.5">
+                          <Flame className="w-3 h-3" />
+                          {entry.streak} win streak
+                        </div>
+                      )}
+                    </div>
+                    <div className={cn(
+                      'col-span-2 text-right font-semibold',
+                      entry.totalPnl >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                    )}>
+                      {entry.totalPnl >= 0 ? '+' : ''}${(entry.totalPnl / 100).toFixed(2)}
+                    </div>
+                    <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400">
+                      {entry.winRate}%
+                    </div>
+                    <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400">
+                      {entry.totalTrades}
+                    </div>
+                    <div className="col-span-1 flex justify-end">
+                      {getTrendIcon(entry.trend)}
+                    </div>
                   </div>
                 </div>
               ))}
