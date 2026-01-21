@@ -17,7 +17,7 @@ Experience Kalshi prediction markets from anywhere in the world.
 AI-powered paper trading. Real data. Zero risk.
 
 No US residency required.
-kalshify.vercel.app
+kalshify-fabrknt.vercel.app
 ```
 
 **Alternative:**
@@ -26,7 +26,7 @@ Paper trade Kalshi prediction markets globally.
 AI recommendations. P&L tracking. Leaderboard.
 
 Learn prediction markets risk-free.
-kalshify.vercel.app
+kalshify-fabrknt.vercel.app
 ```
 
 ---
@@ -62,7 +62,7 @@ Kalshify: Paper trade Kalshi prediction markets from anywhere.
 - Global leaderboard
 
 No US residency. No real money.
-kalshify.vercel.app
+kalshify-fabrknt.vercel.app
 ```
 
 ---
@@ -98,7 +98,7 @@ Real probabilities. Real volume. Real data.
 
 Paper trade the ones that interest you.
 
-kalshify.vercel.app/markets
+kalshify-fabrknt.vercel.app/markets
 ```
 
 ---
@@ -115,7 +115,7 @@ Tell us your interests. Set your risk tolerance.
 Get personalized market picks with clear reasoning.
 
 AI-powered prediction market recommendations.
-kalshify.vercel.app/for-you
+kalshify-fabrknt.vercel.app/for-you
 ```
 
 ---
@@ -134,7 +134,7 @@ Kalshify Leaderboard:
 - Global competition
 
 Climb the ranks. No money required.
-kalshify.vercel.app/leaderboard
+kalshify-fabrknt.vercel.app/leaderboard
 ```
 
 ---
@@ -161,7 +161,7 @@ Prediction markets for everyone.
 Not just Americans.
 
 Paper trade Kalshi globally.
-kalshify.vercel.app
+kalshify-fabrknt.vercel.app
 ```
 
 ---
@@ -309,7 +309,7 @@ Kalshify is the on-ramp.
 ```
 Try it now:
 
-kalshify.vercel.app
+kalshify-fabrknt.vercel.app
 
 No sign-up.
 No wallet.

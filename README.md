@@ -2,7 +2,7 @@
 
 **AI-powered paper trading for Kalshi prediction markets. Practice trading worldwide — no US residency required.**
 
-**Live Demo:** [kalshify.vercel.app](https://kalshify.vercel.app)
+**Live Demo:** [kalshify-fabrknt.vercel.app](https://kalshify-fabrknt.vercel.app)
 
 ---
 
@@ -82,6 +82,11 @@ No sign-up required. Start trading immediately.
 ### Performance & Leaderboard
 - `GET /api/portfolio/paper/snapshots` — Performance snapshots
 - `GET /api/leaderboard` — Leaderboard rankings
+
+### Watchlist
+- `GET /api/portfolio/watchlist` — Get watchlist
+- `POST /api/portfolio/watchlist/[marketId]` — Add to watchlist
+- `DELETE /api/portfolio/watchlist/[marketId]` — Remove from watchlist
 
 ### AI Features
 - `POST /api/kalshi/ai/recommendations` — Get AI recommendations

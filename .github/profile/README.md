@@ -8,7 +8,7 @@ AI-powered paper trading for Kalshi prediction markets. Practice trading worldwi
 
 ## What We're Building
 
-**[kalshify.vercel.app](https://kalshify.vercel.app)** — Paper trade Kalshi prediction markets globally
+**[kalshify-fabrknt.vercel.app](https://kalshify-fabrknt.vercel.app)** — Paper trade Kalshi prediction markets globally
 
 ### Features
 
@@ -47,7 +47,7 @@ Kalshify is an educational paper trading platform. No real money is involved. No
 
 ## Connect
 
-- **Website:** [kalshify.vercel.app](https://kalshify.vercel.app)
+- **Website:** [kalshify-fabrknt.vercel.app](https://kalshify-fabrknt.vercel.app)
 - **X:** [@psyto](https://x.com/psyto)
 
 ---

@@ -14,7 +14,7 @@ Experience Kalshi Prediction Markets From Anywhere
 *AI-Powered Paper Trading Platform*
 
 - Logo
-- Website: kalshify.vercel.app
+- Website: kalshify-fabrknt.vercel.app
 - Tagline: "Practice prediction markets worldwide"
 
 ---
@@ -177,7 +177,7 @@ Key features:
 
 **Built & Shipped**
 
-- Live at kalshify.vercel.app
+- Live at kalshify-fabrknt.vercel.app
 - Full market explorer with live data
 - Paper trading with P&L tracking
 - AI recommendations with Claude
@@ -236,7 +236,7 @@ Clean, modern, production-ready.
 
 **Experience Kalshi From Anywhere**
 
-[QR code to kalshify.vercel.app]
+[QR code to kalshify-fabrknt.vercel.app]
 
 ---
 
@@ -248,7 +248,7 @@ Experience Kalshi Prediction Markets From Anywhere
 
 *AI-Powered Paper Trading | Global Access | Zero Risk*
 
-kalshify.vercel.app | @psyto
+kalshify-fabrknt.vercel.app | @psyto
 
 ---
 
@@ -270,7 +270,7 @@ Show recommendations flow. Claude explains market picks.
 Global access. Zero risk. Real data. AI-powered.
 
 **2:40-3:00 - Close**
-"Experience Kalshi from anywhere. Try it at kalshify.vercel.app"
+"Experience Kalshi from anywhere. Try it at kalshify-fabrknt.vercel.app"
 
 ---
 

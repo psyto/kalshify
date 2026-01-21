@@ -70,7 +70,7 @@
 
 ### DEMO - MARKETS (0:50 - 1:15)
 
-**[SCREEN RECORDING - kalshify.vercel.app/markets]**
+**[SCREEN RECORDING - kalshify-fabrknt.vercel.app/markets]**
 
 > "Here's the Markets page.
 >
@@ -116,7 +116,7 @@
 
 ### DEMO - PORTFOLIO (1:45 - 2:05)
 
-**[SCREEN RECORDING - kalshify.vercel.app/portfolio]**
+**[SCREEN RECORDING - kalshify-fabrknt.vercel.app/portfolio]**
 
 > "The Portfolio page shows all your positions.
 >
@@ -141,7 +141,7 @@
 
 ### DEMO - LEADERBOARD (2:05 - 2:20)
 
-**[SCREEN RECORDING - kalshify.vercel.app/leaderboard]**
+**[SCREEN RECORDING - kalshify-fabrknt.vercel.app/leaderboard]**
 
 > "And here's where it gets competitive.
 >
@@ -159,7 +159,7 @@
 
 ### DEMO - AI RECOMMENDATIONS (2:20 - 2:35)
 
-**[SCREEN RECORDING - kalshify.vercel.app/for-you]**
+**[SCREEN RECORDING - kalshify-fabrknt.vercel.app/for-you]**
 
 > "Not sure which markets to trade?
 >
@@ -196,13 +196,13 @@
 >
 > Kalshify makes that possible.
 >
-> Try it now at kalshify.vercel.app.
+> Try it now at kalshify-fabrknt.vercel.app.
 >
 > Experience Kalshi from anywhere."
 
 **[VISUAL]**:
 - Kalshify logo
-- URL: kalshify.vercel.app
+- URL: kalshify-fabrknt.vercel.app
 - "Built for the Kalshi Hackathon"
 
 ---
@@ -215,14 +215,14 @@
 | Problem | 0:10-0:20 | Global audience locked out. No way to practice. |
 | Solution | 0:20-0:30 | "Paper trade Kalshi markets from anywhere." |
 | Demo | 0:30-1:10 | Markets → Trade → Portfolio → Leaderboard |
-| Close | 1:10-1:30 | "Experience Kalshi from anywhere. kalshify.vercel.app" |
+| Close | 1:10-1:30 | "Experience Kalshi from anywhere. kalshify-fabrknt.vercel.app" |
 
 ---
 
 ## Recording Checklist
 
 ### Before Recording
-- [ ] kalshify.vercel.app loaded and working
+- [ ] kalshify-fabrknt.vercel.app loaded and working
 - [ ] Sample positions in portfolio
 - [ ] Browser clean (no personal bookmarks)
 - [ ] Notifications disabled
@@ -248,7 +248,7 @@
 Kalshify
 Experience Kalshi From Anywhere
 
-kalshify.vercel.app
+kalshify-fabrknt.vercel.app
 @psyto
 
 Built for the Kalshi Hackathon
