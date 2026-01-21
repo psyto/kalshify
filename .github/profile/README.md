@@ -48,7 +48,7 @@ Kalshify is an educational paper trading platform. No real money is involved. No
 ## Connect
 
 - **Website:** [kalshify.vercel.app](https://kalshify.vercel.app)
-- **X:** [@fabrknt](https://x.com/fabrknt)
+- **X:** [@psyto](https://x.com/psyto)
 
 ---
 

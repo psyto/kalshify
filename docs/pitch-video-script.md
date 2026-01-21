@@ -249,7 +249,7 @@ Kalshify
 Experience Kalshi From Anywhere
 
 kalshify.vercel.app
-@fabrknt
+@psyto
 
 Built for the Kalshi Hackathon
 Powered by Claude AI

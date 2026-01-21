@@ -248,7 +248,7 @@ Experience Kalshi Prediction Markets From Anywhere
 
 *AI-Powered Paper Trading | Global Access | Zero Risk*
 
-kalshify.vercel.app | @fabrknt
+kalshify.vercel.app | @psyto
 
 ---
 

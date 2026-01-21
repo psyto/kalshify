@@ -159,8 +159,8 @@ Kalshify is an **educational paper trading platform**. No real money is involved
 
 ## Connect
 
-- **GitHub:** [github.com/fabrknt/kalshify](https://github.com/fabrknt/kalshify)
-- **X (Twitter):** [@fabrknt](https://x.com/fabrknt)
+- **GitHub:** [github.com/psyto/kalshify](https://github.com/psyto/kalshify)
+- **X (Twitter):** [@psyto](https://x.com/psyto)
 
 ---
 
