@@ -118,13 +118,13 @@ export function PaperPositionCard({
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div>
           <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-0.5">Entry</div>
-          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+          <div className="text-sm font-medium text-zinc-900 dark:text-white data-price">
             {position.entryPrice}¢
           </div>
         </div>
         <div>
           <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-0.5">Current</div>
-          <div className="text-sm font-medium text-zinc-900 dark:text-white">
+          <div className="text-sm font-medium text-zinc-900 dark:text-white data-price">
             {position.currentPrice}¢
           </div>
         </div>
@@ -139,9 +139,9 @@ export function PaperPositionCard({
           <div
             className={cn(
               'flex items-center gap-1.5 font-bold',
-              isProfit && 'text-green-600 dark:text-green-400',
-              isLoss && 'text-red-600 dark:text-red-400',
-              !isProfit && !isLoss && 'text-zinc-600 dark:text-zinc-400'
+              isProfit && 'data-positive',
+              isLoss && 'data-negative',
+              !isProfit && !isLoss && 'data-neutral'
             )}
           >
             {isProfit ? (
@@ -152,7 +152,7 @@ export function PaperPositionCard({
             <span>
               {isProfit ? '+' : ''}${(unrealizedPnl / 100).toFixed(2)}
             </span>
-            <span className="text-xs font-normal">
+            <span className="text-xs font-normal data-percent">
               ({isProfit ? '+' : ''}{unrealizedPnlPercent.toFixed(1)}%)
             </span>
           </div>
@@ -160,7 +160,7 @@ export function PaperPositionCard({
 
         <div className="text-right">
           <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-0.5">Value</div>
-          <div className="text-sm font-semibold text-zinc-900 dark:text-white">
+          <div className="text-sm font-semibold text-zinc-900 dark:text-white data-price">
             ${(currentValue / 100).toFixed(2)}
           </div>
         </div>
@@ -241,7 +241,7 @@ export function PaperPositionRow({
         <div className="font-medium text-zinc-900 dark:text-white truncate">
           {position.marketTitle}
         </div>
-        <div className="text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="text-xs text-zinc-500 dark:text-zinc-400 data-price">
           {position.quantity} @ {position.entryPrice}¢
         </div>
       </div>
@@ -250,14 +250,14 @@ export function PaperPositionRow({
         <div
           className={cn(
             'font-bold',
-            isProfit && 'text-green-600 dark:text-green-400',
-            isLoss && 'text-red-600 dark:text-red-400',
-            !isProfit && !isLoss && 'text-zinc-600'
+            isProfit && 'data-positive',
+            isLoss && 'data-negative',
+            !isProfit && !isLoss && 'data-neutral'
           )}
         >
           {isProfit ? '+' : ''}${(unrealizedPnl / 100).toFixed(2)}
         </div>
-        <div className="text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="text-xs text-zinc-500 dark:text-zinc-400 data-percent">
           {isProfit ? '+' : ''}{unrealizedPnlPercent.toFixed(1)}%
         </div>
       </div>

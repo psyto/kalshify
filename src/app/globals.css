@@ -130,4 +130,47 @@
   .severity-low {
     @apply text-green-500 border-green-500/50;
   }
+
+  /* Data/Number styling - monospace for financial data */
+  .data-value {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .data-price {
+    @apply data-value;
+  }
+
+  .data-percent {
+    @apply data-value;
+  }
+
+  .data-volume {
+    @apply data-value;
+  }
+
+  /* Positive/negative value colors with monospace */
+  .data-positive {
+    @apply data-value text-green-600 dark:text-green-400;
+  }
+
+  .data-negative {
+    @apply data-value text-red-600 dark:text-red-400;
+  }
+
+  .data-neutral {
+    @apply data-value text-zinc-600 dark:text-zinc-400;
+  }
+
+  /* Probability display - larger emphasis */
+  .data-probability {
+    @apply data-value font-bold;
+  }
+
+  /* Ticker/Symbol styling */
+  .data-ticker {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    @apply font-medium tracking-tight;
+  }
 }

@@ -49,7 +49,7 @@ export function MarketCard({
       {/* Probability */}
       <div className="flex items-center gap-4 mb-4">
         <div className="flex-1">
-          <div className="text-3xl font-bold text-zinc-900 dark:text-white">
+          <div className="text-3xl font-bold text-zinc-900 dark:text-white data-probability">
             {market.probability.toFixed(0)}
             <span className="text-lg text-zinc-400">%</span>
           </div>
@@ -61,7 +61,7 @@ export function MarketCard({
         {market.probabilityChange !== 0 && (
           <div
             className={cn(
-              'flex items-center gap-1 px-2 py-1 rounded-lg text-sm font-medium',
+              'flex items-center gap-1 px-2 py-1 rounded-lg text-sm font-medium data-percent',
               isProbabilityUp && 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
               isProbabilityDown && 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
             )}
@@ -82,7 +82,7 @@ export function MarketCard({
           <div className="text-xs text-green-600 dark:text-green-400 font-medium mb-1">
             YES
           </div>
-          <div className="flex items-baseline gap-1">
+          <div className="flex items-baseline gap-1 data-price">
             <span className="text-lg font-bold text-green-700 dark:text-green-300">
               {market.yesBid}
             </span>
@@ -95,7 +95,7 @@ export function MarketCard({
           <div className="text-xs text-red-600 dark:text-red-400 font-medium mb-1">
             NO
           </div>
-          <div className="flex items-baseline gap-1">
+          <div className="flex items-baseline gap-1 data-price">
             <span className="text-lg font-bold text-red-700 dark:text-red-300">
               {market.noBid}
             </span>
@@ -111,7 +111,7 @@ export function MarketCard({
         <div className="flex items-center justify-between text-sm text-zinc-500 dark:text-zinc-400 pt-3 border-t border-zinc-100 dark:border-zinc-800">
           <div className="flex items-center gap-1">
             <BarChart2 className="w-4 h-4" />
-            <span>${(market.volume24h / 100).toLocaleString()}</span>
+            <span className="data-volume">${(market.volume24h / 100).toLocaleString()}</span>
             <span className="text-xs">24h vol</span>
           </div>
           <div className="flex items-center gap-1">
@@ -127,7 +127,7 @@ export function MarketCard({
           <span className="text-zinc-500 dark:text-zinc-400">Spread</span>
           <span
             className={cn(
-              'font-medium',
+              'font-medium data-price',
               market.spread <= 3 && 'text-green-600 dark:text-green-400',
               market.spread > 3 && market.spread <= 6 && 'text-yellow-600 dark:text-yellow-400',
               market.spread > 6 && 'text-red-600 dark:text-red-400'
@@ -165,7 +165,7 @@ export function MarketCardCompact({
 
       <div className="flex items-center gap-3">
         <div className="text-right">
-          <div className="text-lg font-bold text-zinc-900 dark:text-white">
+          <div className="text-lg font-bold text-zinc-900 dark:text-white data-probability">
             {market.probability.toFixed(0)}%
           </div>
         </div>
@@ -173,7 +173,7 @@ export function MarketCardCompact({
         {market.probabilityChange !== 0 && (
           <div
             className={cn(
-              'flex items-center gap-0.5 text-sm font-medium',
+              'flex items-center gap-0.5 text-sm font-medium data-percent',
               isProbabilityUp && 'text-green-600 dark:text-green-400',
               isProbabilityDown && 'text-red-600 dark:text-red-400'
             )}

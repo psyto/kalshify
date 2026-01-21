@@ -163,9 +163,9 @@ export default function LeaderboardPage() {
               <div>
                 <p className="text-blue-100 text-sm mb-1">Your Rank</p>
                 <div className="flex items-center gap-3">
-                  <span className="text-4xl font-bold">#{userRank.rank}</span>
+                  <span className="text-4xl font-bold data-value">#{userRank.rank}</span>
                   {userPercentile !== null && (
-                    <span className="text-blue-100 text-sm">
+                    <span className="text-blue-100 text-sm data-percent">
                       Top {100 - userPercentile}%
                     </span>
                   )}
@@ -174,7 +174,7 @@ export default function LeaderboardPage() {
               <div className="text-right">
                 <p className="text-blue-100 text-sm mb-1">Total P&L</p>
                 <p className={cn(
-                  'text-2xl font-bold',
+                  'text-2xl font-bold data-price',
                   userRank.totalPnl >= 0 ? 'text-green-300' : 'text-red-300'
                 )}>
                   {userRank.totalPnl >= 0 ? '+' : ''}${(userRank.totalPnl / 100).toFixed(2)}
@@ -184,15 +184,15 @@ export default function LeaderboardPage() {
             <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-white/20">
               <div>
                 <p className="text-blue-100 text-xs">Win Rate</p>
-                <p className="font-semibold">{userRank.winRate}%</p>
+                <p className="font-semibold data-percent">{userRank.winRate}%</p>
               </div>
               <div>
                 <p className="text-blue-100 text-xs">Trades</p>
-                <p className="font-semibold">{userRank.totalTrades}</p>
+                <p className="font-semibold data-value">{userRank.totalTrades}</p>
               </div>
               <div>
                 <p className="text-blue-100 text-xs">Streak</p>
-                <p className="font-semibold flex items-center gap-1">
+                <p className="font-semibold flex items-center gap-1 data-value">
                   {userRank.streak > 0 ? '+' : ''}{userRank.streak}
                   {getTrendIcon(userRank.trend)}
                 </p>
@@ -272,16 +272,16 @@ export default function LeaderboardPage() {
                       </div>
                       <div className={cn(
                         'font-semibold',
-                        entry.totalPnl >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                        entry.totalPnl >= 0 ? 'data-positive' : 'data-negative'
                       )}>
                         {entry.totalPnl >= 0 ? '+' : ''}${(entry.totalPnl / 100).toFixed(2)}
                       </div>
                     </div>
                     <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400">
-                      <span>{entry.winRate}% win</span>
-                      <span>{entry.totalTrades} trades</span>
+                      <span className="data-percent">{entry.winRate}% win</span>
+                      <span className="data-value">{entry.totalTrades} trades</span>
                       {entry.streak > 3 && (
-                        <span className="flex items-center gap-1 text-orange-500">
+                        <span className="flex items-center gap-1 text-orange-500 data-value">
                           <Flame className="w-3 h-3" />
                           {entry.streak}
                         </span>
@@ -299,7 +299,7 @@ export default function LeaderboardPage() {
                         {entry.displayName}
                       </p>
                       {entry.streak > 3 && (
-                        <div className="flex items-center gap-1 text-xs text-orange-500 mt-0.5">
+                        <div className="flex items-center gap-1 text-xs text-orange-500 mt-0.5 data-value">
                           <Flame className="w-3 h-3" />
                           {entry.streak} win streak
                         </div>
@@ -307,14 +307,14 @@ export default function LeaderboardPage() {
                     </div>
                     <div className={cn(
                       'col-span-2 text-right font-semibold',
-                      entry.totalPnl >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                      entry.totalPnl >= 0 ? 'data-positive' : 'data-negative'
                     )}>
                       {entry.totalPnl >= 0 ? '+' : ''}${(entry.totalPnl / 100).toFixed(2)}
                     </div>
-                    <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400">
+                    <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400 data-percent">
                       {entry.winRate}%
                     </div>
-                    <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400">
+                    <div className="col-span-2 text-right text-zinc-600 dark:text-zinc-400 data-value">
                       {entry.totalTrades}
                     </div>
                     <div className="col-span-1 flex justify-end">
