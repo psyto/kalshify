@@ -72,12 +72,13 @@ export function AchievementToast({
           exit={{ x: 400, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           className={cn(
-            'fixed top-4 right-4 z-50 w-80 rounded-xl shadow-2xl overflow-hidden',
+            'fixed top-4 right-4 z-50 w-80 rounded-xl shadow-2xl overflow-hidden border-2',
+            colors.border,
             colors.glow
           )}
         >
-          {/* Gradient background */}
-          <div className={cn('p-4', colors.bg)}>
+          {/* Solid gradient background */}
+          <div className={cn('p-4 bg-zinc-900', colors.bg)}>
             {/* Close button */}
             <button
               onClick={handleClose}

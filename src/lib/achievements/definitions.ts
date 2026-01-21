@@ -268,10 +268,10 @@ export function getRarityColor(rarity: AchievementRarity): {
     case 'common':
     default:
       return {
-        bg: 'bg-gradient-to-br from-zinc-500 to-zinc-700',
-        text: 'text-zinc-100',
-        border: 'border-zinc-400',
-        glow: '',
+        bg: 'bg-gradient-to-br from-emerald-600 via-green-600 to-teal-700',
+        text: 'text-emerald-100',
+        border: 'border-emerald-400',
+        glow: 'shadow-lg shadow-emerald-500/50',
       };
   }
 }
