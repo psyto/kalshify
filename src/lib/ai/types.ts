@@ -1,105 +1,102 @@
-// Types for AI-powered yield advisor features
+// Types for AI-powered prediction market advisor features
 
-export interface UserPreferences {
-    riskTolerance: "conservative" | "moderate" | "aggressive";
-    preferredChains: string[];
-    minApy: number;
-    maxApy: number;
-    stablecoinOnly: boolean;
-    maxAllocationUsd?: number;
+export interface UserPredictionProfile {
+  riskTolerance: 'conservative' | 'moderate' | 'aggressive';
+  preferredCategories: string[];
+  minProbability: number;
+  maxProbability: number;
+  investmentGoal?: string;
 }
 
-export interface PoolRecommendation {
-    poolId: string;
-    rank: number;
-    matchScore: number;
-    reasoning: string;
-    highlights: string[];
+export interface MarketRecommendation {
+  marketId: string;
+  ticker: string;
+  rank: number;
+  matchScore: number;
+  reasoning: string;
+  highlights: string[];
+  suggestedPosition?: 'yes' | 'no';
+  confidence: 'low' | 'medium' | 'high';
 }
 
 export interface RecommendationsResult {
-    recommendations: PoolRecommendation[];
-    preferenceSummary: string;
+  recommendations: MarketRecommendation[];
+  preferenceSummary: string;
+  categoryInsights: { category: string; outlook: string }[];
 }
 
-export interface PoolInsight {
-    riskExplanation: string;
-    opportunities: string[];
-    risks: string[];
-    apyStabilityAnalysis: string;
-    comparison: {
-        vsSimilarPools: string;
-        relativePosition: "above_average" | "average" | "below_average";
-    };
-    verdict: string;
+export interface MarketInsight {
+  summary: string;
+  keyFactors: string[];
+  riskAssessment: {
+    level: 'low' | 'medium' | 'high';
+    factors: string[];
+  };
+  probabilityAnalysis: {
+    currentProbability: number;
+    suggestedRange: { min: number; max: number };
+    confidence: 'low' | 'medium' | 'high';
+    reasoning: string;
+  };
+  marketSentiment: 'bullish' | 'neutral' | 'bearish';
+  tradingConsiderations: string[];
 }
 
 export interface InsightResult {
-    poolId: string;
-    insight: PoolInsight;
-    cached: boolean;
-    generatedAt: string;
+  marketId: string;
+  insight: MarketInsight;
+  cached: boolean;
+  generatedAt: string;
 }
 
-export interface PortfolioAllocation {
-    poolId: string;
-    allocationPercent: number;
-    rationale: string;
+export interface PortfolioPosition {
+  marketId: string;
+  ticker: string;
+  title: string;
+  position: 'yes' | 'no';
+  quantity: number;
+  entryPrice: number;
+  currentPrice: number;
 }
 
-export interface PortfolioRequest {
-    totalAllocation: number;
-    riskTolerance: "conservative" | "moderate" | "aggressive";
-    diversification: "focused" | "balanced" | "diversified";
-    excludeChains?: string[];
-    includeStablecoins?: boolean;
+export interface PortfolioAnalysisRequest {
+  positions: PortfolioPosition[];
+  riskTolerance: 'conservative' | 'moderate' | 'aggressive';
 }
 
-export interface PortfolioResult {
-    allocations: PortfolioAllocation[];
-    reasoning: string;
-    riskWarnings: string[];
+export interface PortfolioAnalysisResult {
+  summary: string;
+  totalExposure: {
+    categories: { category: string; percentage: number }[];
+    riskLevel: 'low' | 'medium' | 'high';
+  };
+  positionReview: {
+    marketId: string;
+    ticker: string;
+    assessment: 'strong' | 'moderate' | 'weak';
+    recommendation: string;
+    unrealizedPnl: number;
+  }[];
+  correlationWarnings: string[];
+  suggestions: string[];
 }
 
-// Minimal pool data needed for AI prompts
-export interface PoolForAI {
-    id: string;
-    chain: string;
-    project: string;
-    symbol: string;
-    tvlUsd: number;
-    apy: number;
-    apyBase: number;
-    apyReward: number;
-    stablecoin: boolean;
-    ilRisk: string;
-    riskScore: number;
-    riskLevel: "low" | "medium" | "high" | "very_high";
-    // Optional category for alternative yield types
-    category?: "lending" | "lp" | "staking" | "restaking" | "perp_lp";
-    categoryDescription?: string;
-    riskBreakdown: {
-        tvlScore: number;
-        apyScore: number;
-        stableScore: number;
-        ilScore: number;
-        protocolScore: number;
-    };
-    liquidityRisk: {
-        score: number;
-        maxSafeAllocation: number;
-        exitabilityRating: string;
-        slippageEstimates: {
-            at100k: number;
-            at500k: number;
-            at1m: number;
-        };
-    };
-    apyStability?: {
-        score: number;
-        volatility: number;
-        avgApy: number;
-        trend: "up" | "down" | "stable";
-    } | null;
-    underlyingAssets: string[];
+// Minimal market data needed for AI prompts
+export interface MarketForAI {
+  ticker: string;
+  eventTicker: string;
+  title: string;
+  subtitle?: string;
+  category: string;
+  status: 'open' | 'closed' | 'settled';
+  probability: number;
+  probabilityChange: number;
+  volume24h: number;
+  openInterest: number;
+  closeTime: Date;
+  yesBid: number;
+  yesAsk: number;
+  noBid: number;
+  noAsk: number;
+  spread: number;
 }

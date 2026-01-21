@@ -1,10 +1,11 @@
 'use client';
 
-import { useAccount } from 'wagmi';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { useQuery } from '@tanstack/react-query';
 
 export function useAuth() {
-  const { address, isConnected, isConnecting } = useAccount();
+  const { publicKey, connected, connecting } = useWallet();
+  const address = publicKey?.toBase58();
 
   // Fetch user profile from API (when backend is ready)
   const { data: user, isLoading: isLoadingUser } = useQuery({
@@ -20,14 +21,14 @@ export function useAuth() {
         return null;
       }
     },
-    enabled: !!address && isConnected,
+    enabled: !!address && connected,
   });
 
   return {
     address,
-    isConnected,
-    isConnecting,
+    isConnected: connected,
+    isConnecting: connecting,
     user,
-    isLoading: isConnecting || isLoadingUser,
+    isLoading: connecting || isLoadingUser,
   };
 }

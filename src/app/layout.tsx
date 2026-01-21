@@ -11,32 +11,32 @@ const inter = Inter({ subsets: ["latin"] });
 const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
-    "https://www.fabrknt.com";
+    "https://kalshify.vercel.app";
 
 export const metadata: Metadata = {
     title: {
-        default: "Fabrknt - DeFi Intelligence Platform",
-        template: "%s | Fabrknt",
+        default: "Kalshify - Experience Kalshi Prediction Markets From Anywhere",
+        template: "%s | Kalshify",
     },
     description:
-        "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, liquidity risk assessment, and verified protocol data.",
+        "The AI-powered paper trading platform for Kalshi prediction markets. Practice trading with real market data from anywhere in the world — no US residency required. Get AI recommendations and track your P&L risk-free.",
     keywords: [
-        "DeFi",
-        "DeFi Intelligence",
-        "Yield Curator",
-        "Risk Scoring",
-        "APY Stability",
-        "Liquidity Risk",
-        "Protocol Verification",
-        "On-chain Data",
-        "Solana",
-        "Ethereum",
-        "DeFi Analytics",
-        "Yield Farming",
+        "Kalshi",
+        "prediction markets",
+        "paper trading",
+        "AI trading",
+        "Kalshify",
+        "Claude AI",
+        "global prediction markets",
+        "learn trading",
+        "practice trading",
+        "event contracts",
+        "trading simulator",
+        "market predictions",
     ],
-    authors: [{ name: "Fabrknt" }],
-    creator: "Fabrknt",
-    publisher: "Fabrknt",
+    authors: [{ name: "Kalshify" }],
+    creator: "Kalshify",
+    publisher: "Kalshify",
     metadataBase: new URL(baseUrl),
     alternates: {
         canonical: "/",
@@ -45,26 +45,26 @@ export const metadata: Metadata = {
         type: "website",
         locale: "en_US",
         url: baseUrl,
-        siteName: "Fabrknt",
-        title: "Fabrknt - DeFi Intelligence Platform",
+        siteName: "Kalshify",
+        title: "Kalshify - Experience Kalshi Prediction Markets From Anywhere",
         description:
-            "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, liquidity risk assessment, and verified protocol data.",
+            "Paper trade on Kalshi prediction markets from anywhere in the world. AI-powered recommendations, real market data, zero risk. No US residency required.",
         images: [
             {
                 url: "/og-image.png",
                 width: 1200,
                 height: 630,
-                alt: "Fabrknt - DeFi Intelligence Platform",
+                alt: "Kalshify - Experience Kalshi From Anywhere",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Fabrknt - DeFi Intelligence Platform",
+        title: "Kalshify - Experience Kalshi From Anywhere",
         description:
-            "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, liquidity risk assessment, and verified protocol data.",
-        creator: "@fabrknt",
-        site: "@fabrknt",
+            "Paper trade on Kalshi prediction markets worldwide. AI recommendations, real data, zero risk. No US residency required.",
+        creator: "@kalshify",
+        site: "@kalshify",
         images: ["/og-image.png"],
     },
     robots: {
@@ -82,11 +82,6 @@ export const metadata: Metadata = {
         icon: "/favicon.ico",
         apple: "/apple-touch-icon.png",
     },
-    verification: {
-        // Add when you have verification codes
-        // google: "your-google-verification-code",
-        // yandex: "your-yandex-verification-code",
-    },
 };
 
 export const viewport: Viewport = {
@@ -99,27 +94,22 @@ export const viewport: Viewport = {
 const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Fabrknt",
+    name: "Kalshify",
     url: baseUrl,
     description:
-        "DeFi Intelligence Platform for curators and protocol teams. Risk scoring, APY stability analysis, and verified protocol data.",
+        "Experience Kalshi prediction markets from anywhere in the world. AI-powered paper trading platform with real market data — no US residency required.",
     potentialAction: {
         "@type": "SearchAction",
         target: {
             "@type": "EntryPoint",
-            urlTemplate: `${baseUrl}/curate?q={search_term_string}`,
+            urlTemplate: `${baseUrl}/markets?q={search_term_string}`,
         },
         "query-input": "required name=search_term_string",
     },
     publisher: {
         "@type": "Organization",
-        name: "Fabrknt",
+        name: "Kalshify",
         url: baseUrl,
-        logo: {
-            "@type": "ImageObject",
-            url: `${baseUrl}/logo.png`,
-        },
-        sameAs: ["https://twitter.com/fabrknt", "https://github.com/fabrknt"],
     },
 };
 

@@ -1,1115 +1,356 @@
-"use client";
+'use client';
 
-import { useEffect, useState, Fragment, useCallback, useMemo, Suspense } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import Link from 'next/link';
 import {
-    TrendingUp,
-    TrendingDown,
-    Minus,
-    Loader2,
-    Shield,
-    ChevronDown,
-    Layers,
-    Droplet,
-    Bookmark,
-    Search,
-    Sparkles,
-    BarChart3,
-    Calculator,
-    LineChart,
-    X,
-    AlertTriangle,
-} from "lucide-react";
-import { WatchlistButton } from "@/components/curate/watchlist-button";
-import { ApyHistoryChart } from "@/components/curate/apy-history-chart";
-import { CompareBar } from "@/components/curate/compare-bar";
-import { PoolComparisonPanel } from "@/components/curate/pool-comparison-panel";
-import { UserPreferencesPanel } from "@/components/curate/user-preferences-panel";
-import { AIRecommendationsSection } from "@/components/curate/ai-recommendations-section";
-import { PoolAIInsights } from "@/components/curate/pool-ai-insights";
-import { PortfolioOptimizer } from "@/components/curate/portfolio-optimizer";
-import { ProtocolComparison } from "@/components/curate/protocol-comparison";
-import { BacktestPanel } from "@/components/curate/backtest-panel";
-import { ProtocolRiskBadge } from "@/components/curate/protocol-risk-badge";
-import { SolanaMetricsPanel } from "@/components/curate/solana-yield-metrics";
-import { LSTComparison } from "@/components/curate/lst-comparison";
-import { AlternativeYields } from "@/components/curate/alternative-yields";
-import { CurateLayoutClient } from "@/components/curate/curate-layout-client";
-import {
-    ApySustainabilityToggle,
-    ILSimulatorEnhanced,
-    RiskScoreExplainer,
-    DiscoveryPrompts,
-} from "@/components/curate/learning";
-import { YieldSpreadsPanel } from "@/components/curate/yield-spreads-panel";
-import { CuratorSection } from "@/components/curate/curator-section";
-import { WelcomeBanner } from "@/components/curate/welcome-banner";
-import { PrinciplesStrip } from "@/components/curate/principles-strip";
-import { ExploreHero } from "@/components/curate/explore-hero";
-import { LearnHero } from "@/components/curate/learn-hero";
-import { CompareHero } from "@/components/curate/compare-hero";
-import { ToolPicker } from "@/components/curate/tool-picker";
-import { PositionSimulator } from "@/components/curate/position-simulator";
-import { StrategyBuilder } from "@/components/curate/strategy-builder";
-import { TabNavigation, TabContent, TabId, MobileTabSpacer } from "@/components/curate/tab-navigation";
-import { ActionableFlow } from "@/components/curate/actionable-flow";
-import { AllocationBanner } from "@/components/curate/allocation-banner";
-import { AllocationComparison } from "@/components/curate/allocation-comparison";
-import { BackToAllocationButton } from "@/components/curate/back-to-allocation-button";
-import { PerformanceCard } from "@/components/curate/performance-card";
-import { RebalanceAlerts } from "@/components/curate/rebalance-alert";
-import { MarketContextCard } from "@/components/curate/market-context-card";
-import { AllocationHistory } from "@/components/curate/allocation-history";
-import { useAllocation } from "@/contexts/allocation-context";
-import { getProtocolSlug } from "@/lib/solana/protocols";
+  TrendingUp,
+  BarChart2,
+  Sparkles,
+  Briefcase,
+  ArrowRight,
+  ChevronRight,
+  Globe,
+  Shield,
+  Zap,
+  GraduationCap,
+} from 'lucide-react';
 
-interface PoolDependency {
-    type: "protocol" | "asset" | "oracle" | "chain";
-    name: string;
-    risk: "low" | "medium" | "high";
-}
-
-interface RiskBreakdown {
-    tvlScore: number;
-    apyScore: number;
-    stableScore: number;
-    ilScore: number;
-    protocolScore: number;
-}
-
-interface ApyStability {
-    score: number;
-    volatility: number;
-    avgApy: number;
-    minApy: number;
-    maxApy: number;
-    trend: "up" | "down" | "stable";
-    dataPoints: number;
-}
-
-interface LiquidityRisk {
-    score: number;
-    poolTvl: number;
-    maxSafeAllocation: number;
-    safeAllocationPercent: number;
-    slippageEstimates: {
-        at100k: number;
-        at500k: number;
-        at1m: number;
-        at5m: number;
-        at10m: number;
-    };
-    exitabilityRating: "excellent" | "good" | "moderate" | "poor" | "very_poor";
-}
-
-// New Solana-specific interfaces
-interface YieldBreakdown {
-    base: number;
-    reward: number;
-    hasPoints: boolean;
-    pointsProgram: string | null;
-    sources: string[];
-}
-
-interface TvlTrend {
-    change7d: number | null;
-    change30d: number | null;
-    trend: "growing" | "stable" | "declining" | "unknown";
-    isHealthy: boolean;
-}
-
-interface VolatilityMetrics {
-    sigma: number;
-    sharpeRatio: number;
-    volatilityLevel: "low" | "medium" | "high" | "very_high";
-}
-
-interface ILRiskInfo {
-    hasILRisk: boolean;
-    level: "none" | "low" | "medium" | "high" | "very_high";
-    isConcentratedLiquidity: boolean;
-    poolType: string | null;
-}
-
-interface YieldPool {
-    id: string;
-    chain: string;
-    project: string;
-    projectSlug: string;
-    symbol: string;
-    tvlUsd: number;
-    apy: number;
-    apyBase: number;
-    apyReward: number;
-    stablecoin: boolean;
-    ilRisk: string;
-    poolMeta: string;
-    riskScore: number;
-    riskLevel: "low" | "medium" | "high" | "very_high";
-    riskBreakdown: RiskBreakdown;
-    dependencies: PoolDependency[];
-    underlyingAssets: string[];
-    apyStability: ApyStability | null;
-    liquidityRisk: LiquidityRisk;
-    // New Solana-specific fields
-    yieldBreakdown?: YieldBreakdown;
-    tvlTrend?: TvlTrend;
-    volatilityMetrics?: VolatilityMetrics | null;
-    ilRiskInfo?: ILRiskInfo;
-}
-
-interface DefiGraphData {
-    yields: YieldPool[];
-    metadata: {
-        totalProtocols: number;
-        totalYieldPools: number;
-        categories: string[];
-        chains: string[];
-        fetchedAt: string;
-    };
-}
-
-// Solana-only - no chain switching needed
-const SOLANA_CHAIN = "Solana";
-
-const RISK_COLORS = {
-    low: "text-green-400",
-    medium: "text-yellow-400",
-    high: "text-orange-400",
-    very_high: "text-red-400",
-};
-
-function formatTvl(tvl: number): string {
-    if (tvl >= 1_000_000_000) return `$${(tvl / 1_000_000_000).toFixed(2)}B`;
-    if (tvl >= 1_000_000) return `$${(tvl / 1_000_000).toFixed(1)}M`;
-    return `$${(tvl / 1_000).toFixed(0)}K`;
-}
-
-function formatApy(apy: number): string {
-    if (apy >= 100) return `${apy.toFixed(0)}%`;
-    return `${apy.toFixed(2)}%`;
-}
-
-function formatSafeAllocation(amount: number): string {
-    if (amount >= 1_000_000_000) return `$${(amount / 1_000_000_000).toFixed(1)}B`;
-    if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(1)}M`;
-    return `$${(amount / 1_000).toFixed(0)}K`;
-}
-
-function ExpandedPoolDetails({ pool }: { pool: YieldPool }) {
-    const { data: session } = useSession();
-    const { riskBreakdown, liquidityRisk } = pool;
-    const protocolSlug = getProtocolSlug(pool.project);
-    const hasILRisk = pool.ilRiskInfo?.hasILRisk && pool.ilRiskInfo.level !== "none";
-
-    return (
-        <div className="bg-slate-800/50 px-4 py-5 border-t border-slate-700/50">
-            {/* Protocol Trust Badge */}
-            {protocolSlug && (
-                <div className="mb-4">
-                    <ProtocolRiskBadge protocolSlug={protocolSlug} variant="full" />
-                </div>
-            )}
-
-            {/* Learning Components Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                {/* Risk Score Explainer */}
-                <RiskScoreExplainer
-                    riskScore={pool.riskScore}
-                    riskLevel={pool.riskLevel}
-                    breakdown={riskBreakdown}
-                    tvlUsd={pool.tvlUsd}
-                    apy={pool.apy}
-                    apyBase={pool.apyBase}
-                    apyReward={pool.apyReward}
-                    stablecoin={pool.stablecoin}
-                    ilRisk={pool.ilRisk}
-                    project={pool.project}
-                    underlyingAssets={pool.underlyingAssets}
-                />
-
-                {/* APY Sustainability Toggle */}
-                <ApySustainabilityToggle
-                    totalApy={pool.apy}
-                    baseApy={pool.apyBase}
-                    rewardApy={pool.apyReward}
-                    poolSymbol={pool.symbol}
-                />
-
-                {/* Liquidity Info */}
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-sm font-medium text-white mb-3 flex items-center gap-2">
-                        <Droplet className="h-4 w-4 text-cyan-400" />
-                        Liquidity & Exit
-                    </h4>
-                    {liquidityRisk ? (
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-center">
-                                <span className="text-xs text-slate-400">Exitability</span>
-                                <span className={`text-sm font-medium capitalize ${
-                                    liquidityRisk.exitabilityRating === "excellent" || liquidityRisk.exitabilityRating === "good"
-                                        ? "text-green-400"
-                                        : liquidityRisk.exitabilityRating === "moderate"
-                                        ? "text-yellow-400"
-                                        : "text-orange-400"
-                                }`}>
-                                    {liquidityRisk.exitabilityRating.replace("_", " ")}
-                                </span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-xs text-slate-400">Safe allocation</span>
-                                <span className="text-sm text-white">{formatSafeAllocation(liquidityRisk.maxSafeAllocation)}</span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-xs text-slate-400">Slippage @$100K</span>
-                                <span className={`text-sm ${liquidityRisk.slippageEstimates.at100k < 0.5 ? "text-green-400" : "text-yellow-400"}`}>
-                                    {liquidityRisk.slippageEstimates.at100k}%
-                                </span>
-                            </div>
-                            <div className="pt-2 border-t border-slate-700/50">
-                                <div className="flex flex-wrap gap-1">
-                                    {pool.underlyingAssets.map((a, i) => (
-                                        <span key={i} className="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">
-                                            {a}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        <p className="text-xs text-slate-500">No liquidity data available</p>
-                    )}
-                </div>
+export default function HomePage() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
+      {/* Navigation */}
+      <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold text-zinc-900 dark:text-white">
+                Kalshify
+              </span>
             </div>
-
-            {/* APY History Chart */}
-            <div className="mb-6">
-                <ApyHistoryChart poolId={pool.id} />
+            <div className="flex items-center gap-4">
+              <Link
+                href="/markets"
+                className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+              >
+                Markets
+              </Link>
+              <Link
+                href="/portfolio"
+                className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+              >
+                Portfolio
+              </Link>
+              <Link
+                href="/leaderboard"
+                className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+              >
+                Leaderboard
+              </Link>
+              <Link
+                href="/for-you"
+                className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+              >
+                For You
+              </Link>
+              <Link
+                href="/markets"
+                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors"
+              >
+                Start Trading
+              </Link>
             </div>
-
-            {/* IL Simulator - only show for LP pools with IL risk */}
-            {hasILRisk && pool.underlyingAssets.length >= 2 && (
-                <div className="mb-6">
-                    <ILSimulatorEnhanced
-                        poolSymbol={pool.symbol}
-                        poolApy={pool.apy}
-                        underlyingAssets={pool.underlyingAssets}
-                    />
-                </div>
-            )}
-
-            {/* Solana Yield Metrics */}
-            <div className="mb-6">
-                <SolanaMetricsPanel
-                    yieldBreakdown={pool.yieldBreakdown}
-                    tvlTrend={pool.tvlTrend}
-                    volatilityMetrics={pool.volatilityMetrics}
-                    ilRiskInfo={pool.ilRiskInfo}
-                    totalApy={pool.apy}
-                />
-            </div>
-
-            {/* AI Insights */}
-            <div>
-                <PoolAIInsights poolId={pool.id} isLoggedIn={!!session?.user} />
-            </div>
+          </div>
         </div>
-    );
-}
+      </nav>
 
-type SortField = "tvl" | "apy" | "risk";
-type TabType = "all" | "watchlist";
-
-// IL Calculator - shown directly without accordion
-function QuickILCalculator() {
-    const [priceChange, setPriceChange] = useState(50);
-
-    // IL formula: IL = 2 * sqrt(price_ratio) / (1 + price_ratio) - 1
-    const priceRatio = 1 + priceChange / 100;
-    const ilPercent = (2 * Math.sqrt(priceRatio) / (1 + priceRatio) - 1) * 100;
-
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Price Change Input */}
-            <div>
-                <label className="text-xs text-slate-400 block mb-2">Price Change (%)</label>
-                <input
-                    type="range"
-                    min="-90"
-                    max="500"
-                    value={priceChange}
-                    onChange={(e) => setPriceChange(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500"
-                />
-                <div className="flex justify-between mt-1">
-                    <span className="text-xs text-slate-500">-90%</span>
-                    <span className="text-sm text-white font-medium">{priceChange > 0 ? "+" : ""}{priceChange}%</span>
-                    <span className="text-xs text-slate-500">+500%</span>
-                </div>
-            </div>
-
-            {/* IL Result */}
-            <div className="flex flex-col items-center justify-center bg-slate-800/50 rounded-lg p-4">
-                <span className="text-xs text-slate-400 mb-1">Impermanent Loss</span>
-                <span className={`text-2xl font-bold ${Math.abs(ilPercent) < 2 ? "text-green-400" : Math.abs(ilPercent) < 5 ? "text-yellow-400" : "text-red-400"}`}>
-                    {ilPercent.toFixed(2)}%
-                </span>
-                <span className="text-xs text-slate-500 mt-1">
-                    {Math.abs(ilPercent) < 2 ? "Low risk" : Math.abs(ilPercent) < 5 ? "Moderate" : "High risk"}
-                </span>
-            </div>
-
-            {/* Quick presets */}
-            <div className="flex flex-col gap-2">
-                <label className="text-xs text-slate-400">Quick Scenarios</label>
-                <div className="grid grid-cols-3 gap-2">
-                    {[25, 50, 100, 200, -25, -50].map((val) => (
-                        <button
-                            key={val}
-                            onClick={() => setPriceChange(val)}
-                            className={`px-2 py-1.5 text-xs rounded transition-colors ${
-                                priceChange === val
-                                    ? "bg-orange-500/30 text-orange-300 border border-orange-500/50"
-                                    : "bg-slate-700/50 text-slate-400 hover:text-white"
-                            }`}
-                        >
-                            {val > 0 ? "+" : ""}{val}%
-                        </button>
-                    ))}
-                </div>
-            </div>
+      {/* Hero Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium mb-4">
+            <Globe className="w-4 h-4" />
+            Available Worldwide
+          </div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium mb-8 ml-2">
+            <Sparkles className="w-4 h-4" />
+            Powered by Claude AI
+          </div>
+          <h1 className="text-5xl sm:text-6xl font-bold text-zinc-900 dark:text-white mb-6">
+            Experience Kalshi
+            <br />
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              From Anywhere
+            </span>
+          </h1>
+          <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-6 max-w-2xl mx-auto">
+            The AI-powered paper trading platform for Kalshi prediction markets.
+            Practice trading with real market data — no US residency required.
+          </p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-500 mb-10 max-w-xl mx-auto">
+            Learn prediction market trading risk-free. Get AI recommendations, build a portfolio,
+            and track your P&L with simulated trades.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/markets"
+              className="flex items-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-semibold transition-colors text-lg"
+            >
+              Start Paper Trading
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/for-you"
+              className="flex items-center gap-2 px-8 py-4 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white rounded-xl font-semibold transition-colors"
+            >
+              Get AI Recommendations
+            </Link>
+          </div>
         </div>
-    );
-}
+      </section>
 
-function CuratePageContent() {
-    const { data: session } = useSession();
-    const searchParams = useSearchParams();
-    const { isPoolInAllocation, hasAllocation } = useAllocation();
-    const [graphData, setGraphData] = useState<DefiGraphData | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [expandedPool, setExpandedPool] = useState<string | null>(null);
-
-    // Read tab from URL params
-    const urlTabRaw = searchParams.get("tab");
-    const urlPoolId = searchParams.get("pool");
-
-    // Main navigation tab state (5 tabs: start, insights, explore, practice, compare)
-    const [mainTab, setMainTab] = useState<TabId>(() => {
-        if (urlTabRaw && ["start", "insights", "explore", "practice", "compare"].includes(urlTabRaw)) {
-            return urlTabRaw as TabId;
-        }
-        // Handle legacy "learn" tab URL param
-        if (urlTabRaw === "learn") {
-            return "practice";
-        }
-        return "start";
-    });
-
-    // Pool list tab state (all vs watchlist)
-    const [activeTab, setActiveTab] = useState<TabType>("all");
-
-    // Watchlist state
-    const [watchlistPoolIds, setWatchlistPoolIds] = useState<Set<string>>(new Set());
-    const [watchlistLoading, setWatchlistLoading] = useState(false);
-
-    // Comparison state
-    const [selectedPoolIds, setSelectedPoolIds] = useState<Set<string>>(new Set());
-    const [comparisonOpen, setComparisonOpen] = useState(false);
-    const [backtestOpen, setBacktestOpen] = useState(false);
-
-    // AI Features state
-    const [preferencesOpen, setPreferencesOpen] = useState(false);
-    const [portfolioOpen, setPortfolioOpen] = useState(false);
-    const [hasPreferences, setHasPreferences] = useState(false);
-    const [userPreferences, setUserPreferences] = useState<{
-        riskTolerance: "conservative" | "moderate" | "aggressive";
-        minApy: number;
-        maxApy: number;
-        stablecoinOnly: boolean;
-        maxAllocationUsd: number | null;
-    } | null>(null);
-
-    // Filters
-    const [searchQuery, setSearchQuery] = useState("");
-    // Solana-only - chain is fixed
-    const chain = SOLANA_CHAIN;
-    const [minTvl, setMinTvl] = useState(1_000_000);
-    const [stablecoinOnly, setStablecoinOnly] = useState(false);
-    const [riskFilter, setRiskFilter] = useState<string>("");
-    const [sortBy, setSortBy] = useState<SortField>("tvl");
-    const [protocolFilter, setProtocolFilter] = useState<string | null>(null);
-
-    // Hero stats (unfiltered totals)
-    const [heroStats, setHeroStats] = useState<{ totalPools: number; totalTvl: number; lowRiskCount: number } | null>(null);
-
-    // Sync tab state with URL params when they change
-    useEffect(() => {
-        if (urlTabRaw && ["start", "insights", "explore", "practice", "compare"].includes(urlTabRaw)) {
-            setMainTab(urlTabRaw as TabId);
-        } else if (urlTabRaw === "learn") {
-            setMainTab("practice");
-        }
-    }, [urlTabRaw]);
-
-    // Handle pool param - expand and scroll to pool
-    useEffect(() => {
-        if (urlPoolId && !loading) {
-            setExpandedPool(urlPoolId);
-            // Scroll to pool after a short delay to allow rendering
-            setTimeout(() => {
-                document.getElementById(`pool-row-${urlPoolId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-            }, 300);
-        }
-    }, [urlPoolId, loading]);
-
-    // Fetch hero stats (unfiltered)
-    useEffect(() => {
-        async function fetchHeroStats() {
-            try {
-                const params = new URLSearchParams();
-                params.set("chain", SOLANA_CHAIN);
-                params.set("minTvl", "1000000");
-                params.set("yieldLimit", "500");
-                const response = await fetch(`/api/curate/defi?${params}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    const pools = data.yields || [];
-                    setHeroStats({
-                        totalPools: pools.length,
-                        totalTvl: pools.reduce((sum: number, p: YieldPool) => sum + p.tvlUsd, 0),
-                        lowRiskCount: pools.filter((p: YieldPool) => p.riskScore <= 20).length,
-                    });
-                }
-            } catch (err) {
-                console.error("Failed to fetch hero stats:", err);
-            }
-        }
-        fetchHeroStats();
-    }, []);
-
-    // Fetch watchlist
-    useEffect(() => {
-        async function fetchWatchlist() {
-            if (!session?.user) return;
-            setWatchlistLoading(true);
-            try {
-                const response = await fetch("/api/watchlist/yields");
-                if (response.ok) {
-                    const data = await response.json();
-                    setWatchlistPoolIds(new Set(data.poolIds));
-                }
-            } catch (err) {
-                console.error("Failed to fetch watchlist:", err);
-            } finally {
-                setWatchlistLoading(false);
-            }
-        }
-        fetchWatchlist();
-    }, [session?.user]);
-
-    const handleWatchlistToggle = useCallback((poolId: string, isAdding: boolean) => {
-        setWatchlistPoolIds((prev) => {
-            const next = new Set(prev);
-            if (isAdding) next.add(poolId);
-            else next.delete(poolId);
-            return next;
-        });
-    }, []);
-
-    const handlePoolSelect = useCallback((poolId: string) => {
-        setSelectedPoolIds((prev) => {
-            const next = new Set(prev);
-            if (next.has(poolId)) next.delete(poolId);
-            else if (next.size < 3) next.add(poolId);
-            return next;
-        });
-    }, []);
-
-    useEffect(() => {
-        async function fetchData() {
-            setLoading(true);
-            try {
-                const params = new URLSearchParams();
-                if (chain) params.set("chain", chain);
-                params.set("minTvl", minTvl.toString());
-                if (stablecoinOnly) params.set("stablecoinOnly", "true");
-                if (riskFilter) params.set("riskLevel", riskFilter);
-                if (protocolFilter) params.set("project", protocolFilter);
-                params.set("sortBy", sortBy);
-                params.set("yieldLimit", "200");
-
-                const response = await fetch(`/api/curate/defi?${params}`);
-                if (!response.ok) throw new Error("Failed to fetch");
-                const data = await response.json();
-                setGraphData(data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : "An error occurred");
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchData();
-    }, [chain, minTvl, stablecoinOnly, riskFilter, sortBy, protocolFilter]);
-
-    // Filter by tab and search
-    const filteredYields = (graphData?.yields || []).filter((pool) => {
-        if (activeTab === "watchlist" && !watchlistPoolIds.has(pool.id)) return false;
-        if (searchQuery) {
-            const q = searchQuery.toLowerCase();
-            return pool.project.toLowerCase().includes(q) ||
-                   pool.symbol.toLowerCase().includes(q) ||
-                   pool.chain.toLowerCase().includes(q);
-        }
-        return true;
-    });
-
-    const selectedPools = filteredYields.filter((pool) => selectedPoolIds.has(pool.id));
-
-    // Calculate curated picks - algorithmically selected best opportunities
-    const curatedPicks = useMemo(() => {
-        if (!graphData?.yields) return { bestRiskAdjusted: null, topStable: null, highestApy: null };
-
-        const pools = graphData.yields;
-
-        // Best risk-adjusted: Low risk (<25) + decent APY (>3%), sorted by APY/risk ratio
-        const lowRiskPools = pools
-            .filter(p => p.riskScore <= 25 && p.apy >= 3 && p.tvlUsd >= 10_000_000)
-            .sort((a, b) => (b.apy / b.riskScore) - (a.apy / a.riskScore));
-        const bestRiskAdjusted = lowRiskPools[0] || null;
-
-        // Top stablecoin: Stablecoins with low risk, highest APY
-        const stablePools = pools
-            .filter(p => p.stablecoin && p.riskScore <= 35 && p.tvlUsd >= 5_000_000)
-            .sort((a, b) => b.apy - a.apy);
-        const topStable = stablePools[0] || null;
-
-        // Highest sustainable APY: High APY but with good stability score
-        const sustainableHighApy = pools
-            .filter(p => p.apy >= 8 && p.apyStability && p.apyStability.score >= 60 && p.tvlUsd >= 5_000_000)
-            .sort((a, b) => b.apy - a.apy);
-        const highestApy = sustainableHighApy[0] || null;
-
-        return { bestRiskAdjusted, topStable, highestApy };
-    }, [graphData?.yields]);
-
-    // Calculate summary stats
-    const summaryStats = useMemo(() => {
-        if (!graphData?.yields) return { totalTvl: 0, poolCount: 0, lowRiskCount: 0 };
-        const pools = graphData.yields;
-        return {
-            totalTvl: pools.reduce((sum, p) => sum + p.tvlUsd, 0),
-            poolCount: pools.length,
-            lowRiskCount: pools.filter(p => p.riskScore <= 20).length,
-        };
-    }, [graphData?.yields]);
-
-    const handleExpandFromPick = (poolId: string) => {
-        setExpandedPool(poolId);
-        // Scroll to the pool in the table
-        setTimeout(() => {
-            document.getElementById(`pool-row-${poolId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 100);
-    };
-
-    // Fetch user preferences on mount
-    useEffect(() => {
-        async function fetchPreferences() {
-            if (!session?.user) return;
-            try {
-                const response = await fetch("/api/curate/ai/preferences");
-                if (response.ok) {
-                    const data = await response.json();
-                    setUserPreferences(data);
-                    // Consider has preferences if they've customized anything
-                    setHasPreferences(
-                        data.riskTolerance !== "moderate" ||
-                        data.minApy > 0 ||
-                        data.maxApy < 100 ||
-                        data.stablecoinOnly
-                    );
-                }
-            } catch (err) {
-                console.error("Failed to fetch preferences:", err);
-            }
-        }
-        fetchPreferences();
-    }, [session?.user]);
-
-    const handleSavePreferences = async (preferences: typeof userPreferences) => {
-        if (!preferences) return;
-        try {
-            const response = await fetch("/api/curate/ai/preferences", {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(preferences),
-            });
-            if (response.ok) {
-                setUserPreferences(preferences);
-                setHasPreferences(true);
-            }
-        } catch (err) {
-            console.error("Failed to save preferences:", err);
-        }
-    };
-
-    // Helper to filter pools and navigate to explore tab
-    const filterPoolsByProtocol = (protocol?: string) => {
-        if (protocol) {
-            setProtocolFilter(protocol);
-            setRiskFilter(""); // Show all risks when filtering by protocol
-        }
-        setMainTab("explore");
-        // Scroll to pool table after a short delay
-        setTimeout(() => {
-            document.getElementById("pool-table-section")?.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-    };
-
-    return (
-        <CurateLayoutClient>
-        <div className="space-y-6">
-            {/* Tab Navigation */}
-            <TabNavigation activeTab={mainTab} onTabChange={setMainTab} />
-
-            <TabContent activeTab={mainTab}>
-                {{
-                    /* START TAB - Actionable recommendations flow */
-                    start: (
-                        <ActionableFlow
-                            onExplore={() => setMainTab("explore")}
-                            onLearn={() => setMainTab("practice")}
-                        />
-                    ),
-
-                    /* INSIGHTS TAB - Understand conditions and track record */
-                    insights: (
-                        <div className="space-y-6">
-                            {/* Allocation banner - show if user has allocation */}
-                            <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
-                            {/* Allocation health alerts - actionable first */}
-                            <RebalanceAlerts />
-                            {/* Weekly market context - current conditions */}
-                            <MarketContextCard />
-                            {/* FABRKNT track record - build trust */}
-                            <PerformanceCard compact />
-                            {/* Curation principles - quick reference */}
-                            <PrinciplesStrip />
-                            {/* Curator Strategies */}
-                            <CuratorSection />
-                            {/* User allocation history - requires sign-in */}
-                            <AllocationHistory />
-                        </div>
-                    ),
-
-                    /* EXPLORE TAB - Browse all pools */
-                    explore: (
-                        <div className="space-y-6">
-                            {/* Allocation banner - show if user has allocation */}
-                            <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
-                            {/* Explore Hero */}
-                            <ExploreHero
-                                poolCount={heroStats?.totalPools || summaryStats.poolCount}
-                                lowRiskCount={heroStats?.lowRiskCount || summaryStats.lowRiskCount}
-                            />
-
-                            {/* Pool Table Header */}
-            <div id="pool-table-section" className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <BarChart3 className="h-4 w-4 text-slate-500" />
-                    <h2 className="text-sm font-semibold text-white">
-                        {protocolFilter ? `${protocolFilter.charAt(0).toUpperCase() + protocolFilter.slice(1)} Pools` : "All Pools"}
-                    </h2>
-                    {protocolFilter && (
-                        <button
-                            onClick={() => setProtocolFilter(null)}
-                            className="flex items-center gap-1 px-2 py-0.5 bg-purple-500/20 text-purple-300 text-xs rounded-full hover:bg-purple-500/30 transition-colors"
-                        >
-                            {protocolFilter}
-                            <X className="h-3 w-3" />
-                        </button>
-                    )}
-                </div>
-                <button
-                    onClick={() => setPortfolioOpen(true)}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 rounded-lg text-sm text-purple-300 hover:border-purple-500/50 transition-colors"
-                >
-                    <Sparkles className="h-4 w-4" />
-                    Portfolio Optimizer
-                </button>
+      {/* Why Paper Trade Section */}
+      <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-2xl font-bold text-white text-center mb-10">
+            Why Paper Trade on Kalshify?
+          </h2>
+          <div className="grid md:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Globe className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="font-semibold text-white mb-1">Global Access</h3>
+              <p className="text-blue-100 text-sm">
+                Trade from anywhere in the world — no US residency needed
+              </p>
             </div>
-
-            {/* Filters Row */}
-            <div className="flex flex-wrap items-center gap-3">
-                {/* Search */}
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-                    <input
-                        type="text"
-                        placeholder="Search pools..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-9 pr-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 w-48"
-                    />
-                </div>
-
-                {/* TVL */}
-                <select
-                    value={minTvl}
-                    onChange={(e) => setMinTvl(parseInt(e.target.value))}
-                    className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500"
-                >
-                    <option value="100000">TVL &gt; $100K</option>
-                    <option value="1000000">TVL &gt; $1M</option>
-                    <option value="10000000">TVL &gt; $10M</option>
-                    <option value="100000000">TVL &gt; $100M</option>
-                </select>
-
-                {/* Risk */}
-                <select
-                    value={riskFilter}
-                    onChange={(e) => setRiskFilter(e.target.value)}
-                    className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500"
-                >
-                    <option value="">All Risks</option>
-                    <option value="low">Low Risk</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
-
-                {/* Sort */}
-                <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortField)}
-                    className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500"
-                >
-                    <option value="tvl">Sort: TVL</option>
-                    <option value="apy">Sort: APY</option>
-                    <option value="risk">Sort: Risk</option>
-                </select>
-
-                {/* Stablecoin toggle */}
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
-                    <input
-                        type="checkbox"
-                        checked={stablecoinOnly}
-                        onChange={(e) => setStablecoinOnly(e.target.checked)}
-                        className="w-4 h-4 rounded border-slate-600 bg-slate-900 text-cyan-500"
-                    />
-                    <span className="text-slate-400">Stablecoins</span>
-                </label>
-
-                {/* Spacer */}
-                <div className="flex-1" />
-
-                {/* Tabs */}
-                <div className="flex gap-1 bg-slate-900 p-1 rounded-lg">
-                    <button
-                        onClick={() => setActiveTab("all")}
-                        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-                            activeTab === "all" ? "bg-slate-700 text-white" : "text-slate-400 hover:text-white"
-                        }`}
-                    >
-                        All
-                    </button>
-                    <button
-                        onClick={() => setActiveTab("watchlist")}
-                        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1.5 ${
-                            activeTab === "watchlist" ? "bg-slate-700 text-white" : "text-slate-400 hover:text-white"
-                        }`}
-                    >
-                        <Bookmark className={`h-3.5 w-3.5 ${watchlistPoolIds.size > 0 ? "fill-current text-yellow-400" : ""}`} />
-                        Watchlist
-                        {watchlistPoolIds.size > 0 && (
-                            <span className="text-xs text-yellow-400">({watchlistPoolIds.size})</span>
-                        )}
-                    </button>
-                </div>
-
-                {/* Pool count */}
-                <span className="text-sm text-slate-500">
-                    {filteredYields.length} pools
-                </span>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="font-semibold text-white mb-1">Zero Risk</h3>
+              <p className="text-blue-100 text-sm">
+                Practice with simulated money — learn without losing
+              </p>
             </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="font-semibold text-white mb-1">Real Data</h3>
+              <p className="text-blue-100 text-sm">
+                Live Kalshi market prices, volume, and orderbook data
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="font-semibold text-white mb-1">AI-Powered</h3>
+              <p className="text-blue-100 text-sm">
+                Get personalized recommendations from Claude AI
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Table */}
-            {loading ? (
-                <div className="flex items-center justify-center h-96 bg-slate-900/50 rounded-lg border border-slate-800">
-                    <Loader2 className="h-6 w-6 text-cyan-400 animate-spin" />
-                </div>
-            ) : error ? (
-                <div className="flex items-center justify-center h-96 bg-slate-900/50 rounded-lg border border-slate-800">
-                    <p className="text-red-400">{error}</p>
-                </div>
-            ) : (
-                <div className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
-                    <table className="w-full">
-                        <thead>
-                            <tr className="border-b border-slate-800">
-                                <th className="w-8 px-2 py-3"></th>
-                                <th className="w-8 px-2 py-3"></th>
-                                <th className="text-left px-4 py-3 text-xs font-medium text-slate-500 uppercase">Pool</th>
-                                <th className="text-right px-4 py-3 text-xs font-medium text-slate-500 uppercase">TVL</th>
-                                <th className="text-right px-4 py-3 text-xs font-medium text-slate-500 uppercase">APY</th>
-                                <th className="text-center px-4 py-3 text-xs font-medium text-slate-500 uppercase">Risk</th>
-                                <th className="w-10 px-2 py-3"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredYields.map((pool) => (
-                                <Fragment key={pool.id}>
-                                    <tr
-                                        id={`pool-row-${pool.id}`}
-                                        className={`border-b border-slate-800/50 hover:bg-slate-800/30 cursor-pointer transition-colors ${
-                                            expandedPool === pool.id ? "bg-slate-800/40" : ""
-                                        }`}
-                                        onClick={() => setExpandedPool(expandedPool === pool.id ? null : pool.id)}
-                                    >
-                                        <td className="px-2 py-2.5" onClick={(e) => e.stopPropagation()}>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedPoolIds.has(pool.id)}
-                                                onChange={() => handlePoolSelect(pool.id)}
-                                                disabled={!selectedPoolIds.has(pool.id) && selectedPoolIds.size >= 3}
-                                                className="w-3.5 h-3.5 rounded border-slate-600 bg-slate-800 text-cyan-500 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
-                                            />
-                                        </td>
-                                        <td className="px-2 py-2.5" onClick={(e) => e.stopPropagation()}>
-                                            <WatchlistButton
-                                                poolId={pool.id}
-                                                chain={pool.chain}
-                                                project={pool.project}
-                                                symbol={pool.symbol}
-                                                isInWatchlist={watchlistPoolIds.has(pool.id)}
-                                                onToggle={handleWatchlistToggle}
-                                                disabled={!session?.user}
-                                            />
-                                        </td>
-                                        <td className="px-4 py-2.5">
-                                            <div className="flex items-center gap-2">
-                                                <div>
-                                                    <div className="flex items-center gap-1.5">
-                                                        <span className="text-sm text-white font-medium">{pool.project}</span>
-                                                        <span className="text-xs text-slate-500">{pool.symbol}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-1.5 mt-0.5">
-                                                        {pool.stablecoin && (
-                                                            <span className="text-[10px] px-1 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
-                                                                Stable
-                                                            </span>
-                                                        )}
-                                                        {pool.yieldBreakdown?.hasPoints && (
-                                                            <span className="text-[10px] px-1 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                                                                Points
-                                                            </span>
-                                                        )}
-                                                        {pool.ilRiskInfo?.isConcentratedLiquidity && (
-                                                            <span className="text-[10px] px-1 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">
-                                                                CLMM
-                                                            </span>
-                                                        )}
-                                                        {pool.ilRiskInfo?.hasILRisk && pool.ilRiskInfo.level !== "none" && pool.ilRiskInfo.level !== "low" && !pool.ilRiskInfo.isConcentratedLiquidity && (
-                                                            <span className="text-[10px] px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">
-                                                                IL Risk
-                                                            </span>
-                                                        )}
-                                                        {isPoolInAllocation(pool.id) && (
-                                                            <span className="text-[10px] px-1 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                                                                In your allocation
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-2.5 text-right">
-                                            <span className="text-sm text-white">{formatTvl(pool.tvlUsd)}</span>
-                                        </td>
-                                        <td className="px-4 py-2.5 text-right">
-                                            <div className="flex items-center justify-end gap-1.5">
-                                                {/* APY change alert badge */}
-                                                {pool.apyStability && pool.apyStability.avgApy > 0 && (() => {
-                                                    const changePercent = ((pool.apy - pool.apyStability.avgApy) / pool.apyStability.avgApy) * 100;
-                                                    if (changePercent <= -20) {
-                                                        return (
-                                                            <span className="flex items-center gap-0.5 text-[10px] px-1 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30" title={`APY dropped from ${pool.apyStability.avgApy.toFixed(1)}% avg`}>
-                                                                <AlertTriangle className="h-2.5 w-2.5" />
-                                                                {changePercent.toFixed(0)}%
-                                                            </span>
-                                                        );
-                                                    }
-                                                    if (changePercent >= 30) {
-                                                        return (
-                                                            <span className="flex items-center gap-0.5 text-[10px] px-1 py-0.5 rounded bg-green-500/20 text-green-400 border border-green-500/30" title={`APY up from ${pool.apyStability.avgApy.toFixed(1)}% avg`}>
-                                                                <TrendingUp className="h-2.5 w-2.5" />
-                                                                +{changePercent.toFixed(0)}%
-                                                            </span>
-                                                        );
-                                                    }
-                                                    return null;
-                                                })()}
-                                                <span className={`text-sm font-medium ${
-                                                    pool.apy >= 10 ? "text-green-400" : "text-white"
-                                                }`}>
-                                                    {formatApy(pool.apy)}
-                                                </span>
-                                                {pool.apyStability && (
-                                                    <span className={`${
-                                                        pool.apyStability.trend === "up" ? "text-green-500" :
-                                                        pool.apyStability.trend === "down" ? "text-red-500" : "text-slate-500"
-                                                    }`}>
-                                                        {pool.apyStability.trend === "up" && <TrendingUp className="h-3 w-3" />}
-                                                        {pool.apyStability.trend === "down" && <TrendingDown className="h-3 w-3" />}
-                                                        {pool.apyStability.trend === "stable" && <Minus className="h-3 w-3" />}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-2.5">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-12 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                                                    <div
-                                                        className={`h-full rounded-full ${
-                                                            pool.riskScore <= 20 ? "bg-green-500" :
-                                                            pool.riskScore <= 40 ? "bg-yellow-500" :
-                                                            pool.riskScore <= 60 ? "bg-orange-500" : "bg-red-500"
-                                                        }`}
-                                                        style={{ width: `${pool.riskScore}%` }}
-                                                    />
-                                                </div>
-                                                <span className={`text-xs font-medium ${RISK_COLORS[pool.riskLevel]}`}>
-                                                    {pool.riskScore}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-2 py-2.5">
-                                            <ChevronDown className={`h-4 w-4 text-slate-500 transition-transform ${
-                                                expandedPool === pool.id ? "rotate-180" : ""
-                                            }`} />
-                                        </td>
-                                    </tr>
-                                    {expandedPool === pool.id && (
-                                        <tr>
-                                            <td colSpan={7} className="p-0">
-                                                <ExpandedPoolDetails pool={pool} />
-                                            </td>
-                                        </tr>
-                                    )}
-                                </Fragment>
-                            ))}
-                        </tbody>
-                    </table>
-                    {filteredYields.length === 0 && (
-                        <div className="text-center py-12 text-slate-500">
-                            {activeTab === "watchlist" ? (
-                                <div className="flex flex-col items-center gap-2">
-                                    <Bookmark className="h-6 w-6 text-slate-600" />
-                                    <p>No pools in watchlist</p>
-                                </div>
-                            ) : (
-                                "No pools match filters"
-                            )}
-                        </div>
-                    )}
-                </div>
+      {/* Features */}
+      <section className="py-20 px-4 bg-zinc-50 dark:bg-zinc-900/50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-zinc-900 dark:text-white text-center mb-4">
+            Everything you need to learn prediction markets
+          </h2>
+          <p className="text-zinc-600 dark:text-zinc-400 text-center mb-12 max-w-2xl mx-auto">
+            Built for traders worldwide who want to experience Kalshi's prediction markets
+          </p>
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={<BarChart2 className="w-6 h-6" />}
+              title="Live Market Explorer"
+              description="Browse real Kalshi markets with live prices, trading volume, and probability charts. Filter by politics, economics, sports, and more."
+              href="/markets"
+            />
+            <FeatureCard
+              icon={<Sparkles className="w-6 h-6" />}
+              title="AI Recommendations"
+              description="Tell us your interests and risk tolerance. Claude AI analyzes markets and suggests trades that match your profile with clear reasoning."
+              href="/for-you"
+            />
+            <FeatureCard
+              icon={<Briefcase className="w-6 h-6" />}
+              title="Paper Portfolio"
+              description="Build a portfolio with simulated trades. Track your P&L in real-time, test strategies, and learn what works before risking real money."
+              href="/portfolio"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-zinc-900 dark:text-white text-center mb-4">
+            How it works
+          </h2>
+          <p className="text-zinc-600 dark:text-zinc-400 text-center mb-12 max-w-2xl mx-auto">
+            Start paper trading in seconds — no account or payment required
+          </p>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 dark:text-blue-400 font-bold text-xl">
+                1
+              </div>
+              <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">
+                Browse Markets
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm">
+                Explore live Kalshi prediction markets across politics, economics, sports, and more
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 dark:text-blue-400 font-bold text-xl">
+                2
+              </div>
+              <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">
+                Place Paper Trades
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm">
+                Buy YES or NO positions with simulated money at real market prices
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 dark:text-blue-400 font-bold text-xl">
+                3
+              </div>
+              <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">
+                Track Your P&L
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm">
+                Watch your portfolio value change as market prices move. Learn what works!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories */}
+      <section className="py-20 px-4 bg-zinc-50 dark:bg-zinc-900/50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-zinc-900 dark:text-white text-center mb-4">
+            Markets for every interest
+          </h2>
+          <p className="text-zinc-600 dark:text-zinc-400 text-center mb-12 max-w-2xl mx-auto">
+            From US elections to global economics, find markets that match your expertise
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {['Politics', 'Economics', 'Climate', 'Tech', 'Sports', 'Finance', 'Crypto', 'Entertainment'].map(
+              (category) => (
+                <Link
+                  key={category}
+                  href={`/markets?category=${category.toLowerCase()}`}
+                  className="px-5 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-full text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {category}
+                </Link>
+              )
             )}
-
-                            {/* Compare Bar */}
-                            <CompareBar
-                                count={selectedPoolIds.size}
-                                onCompare={() => setComparisonOpen(true)}
-                                onBacktest={() => setBacktestOpen(true)}
-                                onClear={() => setSelectedPoolIds(new Set())}
-                            />
-                        </div>
-                    ),
-
-                    /* PRACTICE TAB - Build strategies */
-                    practice: (
-                        <div className="space-y-6">
-                            {/* Allocation banner - show if user has allocation */}
-                            <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
-                            <StrategyBuilder />
-                        </div>
-                    ),
-
-                    /* COMPARE TAB - Analyze options */
-                    compare: (
-                        <div className="space-y-6">
-                            {/* Allocation banner - show if user has allocation */}
-                            <AllocationBanner onNavigateToAllocation={() => setMainTab("start")} />
-                            <CompareHero />
-                            {/* Compare your allocation with curators */}
-                            <AllocationComparison />
-                            {/* Comparison tools */}
-                            <ToolPicker>
-                                {{
-                                    "protocol-comparison": <ProtocolComparison onProtocolClick={(slug) => filterPoolsByProtocol(slug)} />,
-                                    "lst-comparison": <LSTComparison />,
-                                    "yield-spreads": <YieldSpreadsPanel />,
-                                    "alternative-yields": <AlternativeYields />,
-                                    "il-calculator": <QuickILCalculator />,
-                                    "position-simulator": <PositionSimulator standalone />,
-                                }}
-                            </ToolPicker>
-                        </div>
-                    ),
-                }}
-            </TabContent>
-
-            {/* Modals - Outside of tabs so they work everywhere */}
-            {/* Comparison Panel */}
-            <PoolComparisonPanel
-                pools={selectedPools}
-                isOpen={comparisonOpen}
-                onClose={() => setComparisonOpen(false)}
-            />
-
-            {/* User Preferences Panel */}
-            <UserPreferencesPanel
-                isOpen={preferencesOpen}
-                onClose={() => setPreferencesOpen(false)}
-                onSave={handleSavePreferences}
-                initialPreferences={userPreferences || undefined}
-                isLoggedIn={!!session?.user}
-            />
-
-            {/* Portfolio Optimizer */}
-            <PortfolioOptimizer
-                isOpen={portfolioOpen}
-                onClose={() => setPortfolioOpen(false)}
-                onPoolClick={handleExpandFromPick}
-                isLoggedIn={!!session?.user}
-            />
-
-            {/* Backtest Panel */}
-            <BacktestPanel
-                isOpen={backtestOpen}
-                onClose={() => setBacktestOpen(false)}
-                selectedPoolIds={Array.from(selectedPoolIds)}
-            />
-
-            {/* Back to allocation floating button */}
-            <BackToAllocationButton currentTab={mainTab} onNavigate={() => setMainTab("start")} />
-
-            {/* Mobile bottom tab spacer - prevents content from being hidden */}
-            <MobileTabSpacer />
+          </div>
         </div>
-        </CurateLayoutClient>
-    );
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-white text-sm mb-6">
+              <GraduationCap className="w-4 h-4" />
+              For Educational Purposes
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Ready to learn prediction markets?
+            </h2>
+            <p className="text-blue-100 mb-8 max-w-xl mx-auto">
+              Join traders worldwide practicing on Kalshify.
+              No sign-up required to start paper trading.
+            </p>
+            <Link
+              href="/markets"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-colors text-lg"
+            >
+              Start Paper Trading
+              <ChevronRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-zinc-200 dark:border-zinc-800 py-12 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-4 h-4 text-white" />
+              </div>
+              <span className="font-semibold text-zinc-900 dark:text-white">Kalshify</span>
+            </div>
+            <div className="flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
+              <Link href="/markets" className="hover:text-zinc-900 dark:hover:text-white">
+                Markets
+              </Link>
+              <Link href="/portfolio" className="hover:text-zinc-900 dark:hover:text-white">
+                Portfolio
+              </Link>
+              <Link href="/leaderboard" className="hover:text-zinc-900 dark:hover:text-white">
+                Leaderboard
+              </Link>
+              <Link href="/for-you" className="hover:text-zinc-900 dark:hover:text-white">
+                AI Recommendations
+              </Link>
+            </div>
+          </div>
+          <div className="border-t border-zinc-200 dark:border-zinc-800 pt-8">
+            <p className="text-xs text-zinc-500 dark:text-zinc-500 text-center max-w-3xl mx-auto">
+              <strong>Disclaimer:</strong> Kalshify is an educational paper trading platform.
+              No real money is involved. This platform is not affiliated with Kalshi Inc.
+              Market data is provided for educational purposes only.
+              Paper trading results do not guarantee future performance on real markets.
+            </p>
+            <p className="text-xs text-zinc-400 dark:text-zinc-600 text-center mt-4">
+              Built for the Kalshi Hackathon | Powered by Claude AI
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
 
-export default function CuratePage() {
-    return (
-        <Suspense fallback={
-            <div className="flex items-center justify-center min-h-screen">
-                <Loader2 className="h-8 w-8 text-cyan-400 animate-spin" />
-            </div>
-        }>
-            <CuratePageContent />
-        </Suspense>
-    );
+function FeatureCard({
+  icon,
+  title,
+  description,
+  href,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group"
+    >
+      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4">
+        {icon}
+      </div>
+      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+        {title}
+      </h3>
+      <p className="text-zinc-600 dark:text-zinc-400 text-sm">{description}</p>
+    </Link>
+  );
 }

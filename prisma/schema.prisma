@@ -1,5 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Kalshify - Prediction Market Analytics Platform
+// Prisma Schema for Kalshi integration
 
 generator client {
   provider = "prisma-client-js"
@@ -7,48 +7,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-}
-
-// Company model - Index data storage
-model Company {
-  id              String   @id @default(cuid())
-  slug            String   @unique
-  name            String
-  category        String   // 'defi' | 'defi-infra'
-  subcategory     String?  // 'dex' | 'lending' | 'liquid-staking' | 'derivatives' | 'yield' | 'rwa' | 'oracle' | 'dev-tools' | etc.
-  chains          String[] @default([]) // ['ethereum', 'solana', 'base', 'arbitrum'] - supports multi-chain
-  description     String?  @db.Text
-  logo            String?
-  website         String?
-
-  // Scores (cached from calculations)
-  overallScore    Int      @default(0)
-  teamHealthScore Int      @default(0)
-  growthScore     Int      @default(0)
-  socialScore     Int      @default(0)
-  walletQualityScore Int   @default(0)
-
-  // Trend indicator
-  trend           String   @default("stable") // 'up' | 'stable' | 'down'
-
-  // Raw Index data (JSON)
-  // Stores full IndexData from APIs
-  indexData Json?
-
-  // Status
-  isListed        Boolean  @default(false)
-  isActive        Boolean  @default(true)
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  lastFetchedAt   DateTime?
-
-  @@index([slug])
-  @@index([category])
-  @@index([subcategory])
-  @@index([overallScore])
-  @@index([isActive])
 }
 
 // User model - Extended for NextAuth + Web3
@@ -61,44 +19,27 @@ model User {
   emailVerified   DateTime?
   image           String?
 
-  // Web3 wallet (optional, for wallet login)
+  // Web3 wallet (for Solana/DFlow integration)
   walletAddress   String?  @unique
 
-  // Optional profile fields
+  // Profile fields
   displayName     String?
   bio             String?
-  website         String?
-  twitter         String?
-
-  // Premium subscription
-  isPremium       Boolean  @default(false)
-  premiumTier     String?  // "basic" | "pro" | "enterprise"
-  premiumExpiresAt DateTime?
-  stripeCustomerId String?  @unique
 
   // Timestamps
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   lastLoginAt     DateTime?
 
-  // Relations
-  listings        Listing[]
-  offers          Offer[]
-  dataRoomRequests DataRoomRequest[]
-  watchlist       Watchlist[]
-  notifications   Notification[]
-
   // NextAuth relations
   accounts        Account[]
   sessions        Session[]
-  yieldWatchlist  YieldWatchlist[]
-  yieldPreferences UserYieldPreferences?
 
-  // Morpho vaults
-  morphoVaults    MorphoVault[]
-
-  // Allocation history
-  allocationHistory UserAllocationHistory[]
+  // Kalshify relations
+  marketWatchlist     MarketWatchlist[]
+  predictionPreferences UserPredictionPreferences?
+  paperPositions      PaperPosition[]
+  portfolioSnapshots  PortfolioSnapshot[]
 
   @@index([walletAddress])
   @@index([email])
@@ -143,214 +84,15 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// Listing model - Matches existing mock data structure
-model Listing {
+// Market Watchlist - Users tracking Kalshi markets
+model MarketWatchlist {
   id              String   @id @default(cuid())
 
-  // Basic Info
-  type            String   // 'acquisition' | 'partnership' | 'collaboration' | 'investment'
-  projectName     String
-  productType     String
-  description     String   @db.Text
-
-  // M&A Fields (optional)
-  askingPrice     Decimal?  @db.Decimal(15, 2)
-  revenue         Decimal   @db.Decimal(15, 2)
-  mau             Int
-
-  // Partnership Fields (optional)
-  seekingPartners     String[]
-  offeringCapabilities String[]
-  partnershipType     String?   // 'technical' | 'strategic' | 'marketing' | 'ecosystem'
-
-  // Metadata
-  category        String   // 'defi' | 'defi-infra'
-  status          String   @default("active") // 'active' | 'under_offer' | 'sold' | 'withdrawn' | 'in_discussion'
-  chain           String   // 'ethereum' | 'base' | 'polygon' | 'solana' | 'multi-chain'
-  website         String?
-  logoUrl         String?  // Supabase Storage URL
-
-  // Requirements
-  hasNDA          Boolean  @default(false)
-  requiresProofOfFunds Boolean @default(false)
-  minBuyerCapital Decimal?  @db.Decimal(15, 2)
-
-  // Index Link (optional)
-  indexCompanyId String?
-  suiteDataSnapshot     Json?    // Cached PULSE + TRACE data
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  publishedAt     DateTime?
-
-  // Relations
-  seller          User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId        String
-
-  offers          Offer[]
-  dataRoomRequests DataRoomRequest[]
-  documents       Document[]
-  watchlist       Watchlist[]
-
-  @@index([sellerId])
-  @@index([status])
-  @@index([category])
-  @@index([type])
-  @@index([createdAt])
-}
-
-// Offer model - Buyer offers on listings
-model Offer {
-  id              String   @id @default(cuid())
-
-  // Offer Details
-  amount          Decimal?  @db.Decimal(15, 2)  // For M&A
-  proposalText    String   @db.Text             // For both M&A and partnerships
-
-  // Status
-  status          String   @default("pending")  // 'pending' | 'accepted' | 'rejected' | 'withdrawn'
-
-  // Contact Info (optional)
-  contactEmail    String?
-  contactTelegram String?
-
-  // Proof of Funds
-  proofOfFundsUrl String?  // Supabase Storage URL
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  respondedAt     DateTime?
-
-  // Relations
-  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  listingId       String
-
-  buyer           User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
-  buyerId         String
-
-  @@index([listingId])
-  @@index([buyerId])
-  @@index([status])
-  @@index([createdAt])
-}
-
-// Data Room Request model - Buyers requesting access to private documents
-model DataRoomRequest {
-  id              String   @id @default(cuid())
-
-  // Request Details
-  purpose         String   @db.Text
-  companyName     String?
-  position        String?
-
-  // Status
-  status          String   @default("pending")  // 'pending' | 'approved' | 'rejected'
-
-  // NDA
-  ndaSigned       Boolean  @default(false)
-  ndaSignedAt     DateTime?
-  ndaDocumentUrl  String?  // Supabase Storage URL
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  respondedAt     DateTime?
-
-  // Relations
-  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  listingId       String
-
-  requester       User     @relation(fields: [requesterId], references: [id], onDelete: Cascade)
-  requesterId     String
-
-  @@index([listingId])
-  @@index([requesterId])
-  @@index([status])
-}
-
-// Document model - File metadata for listings
-model Document {
-  id              String   @id @default(cuid())
-
-  // Document Info
-  name            String
-  url             String   // Supabase Storage URL
-  type            String   // 'logo' | 'data_room' | 'proof_of_funds' | 'nda'
-  sizeBytes       Int
-  mimeType        String
-
-  // Access Control
-  requiresDataRoomAccess Boolean @default(false)
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-
-  // Relations
-  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  listingId       String
-
-  @@index([listingId])
-  @@index([type])
-}
-
-// Watchlist model - Users saving listings for later
-model Watchlist {
-  id              String   @id @default(cuid())
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-
-  // Relations (Composite unique to prevent duplicates)
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String
-
-  listing         Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  listingId       String
-
-  @@unique([userId, listingId])
-  @@index([userId])
-}
-
-// Notification model - In-app notifications and email tracking
-model Notification {
-  id              String   @id @default(cuid())
-
-  // Notification Content
-  type            String   // 'new_offer' | 'data_room_request' | 'offer_response' | 'listing_status_change'
-  title           String
-  message         String   @db.Text
-
-  // Link
-  linkUrl         String?
-
-  // Status
-  read            Boolean  @default(false)
-  emailSent       Boolean  @default(false)
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  readAt          DateTime?
-
-  // Relations
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          String
-
-  @@index([userId])
-  @@index([read])
-  @@index([createdAt])
-}
-
-// Yield Watchlist - Users tracking DeFi yield pools
-model YieldWatchlist {
-  id              String   @id @default(cuid())
-
-  // Pool identification (from DeFiLlama)
-  poolId          String   // DeFiLlama pool UUID
-  chain           String
-  project         String
-  symbol          String
+  // Market identification (from Kalshi)
+  marketId        String   // Kalshi market ticker
+  eventTicker     String?  // Parent event ticker
+  title           String   // Market title for display
+  category        String?  // Market category
 
   // Timestamps
   createdAt       DateTime @default(now())
@@ -359,146 +101,79 @@ model YieldWatchlist {
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
 
-  @@unique([userId, poolId])
+  @@unique([userId, marketId])
   @@index([userId])
+  @@index([marketId])
 }
 
-// User Yield Preferences - AI recommendation settings
-model UserYieldPreferences {
-  id                String   @id @default(cuid())
-  userId            String   @unique
+// User Prediction Preferences - AI recommendation settings
+model UserPredictionPreferences {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
 
   // Risk tolerance
-  riskTolerance     String   @default("moderate") // "conservative" | "moderate" | "aggressive"
+  riskTolerance       String   @default("moderate") // "conservative" | "moderate" | "aggressive"
 
-  // Chain preferences
-  preferredChains   String[] @default([])
+  // Category preferences
+  preferredCategories String[] @default([]) // elections, weather, economics, crypto, sports, etc.
 
-  // APY range
-  minApy            Float    @default(0)
-  maxApy            Float    @default(100)
+  // Probability range filters
+  minProbability      Float    @default(0)  // 0-100
+  maxProbability      Float    @default(100)
 
-  // Asset preferences
-  stablecoinOnly    Boolean  @default(false)
-
-  // Allocation constraints
-  maxAllocationUsd  Float?
+  // Volume preferences
+  minVolume           Float?   // Minimum trading volume
 
   // Timestamps
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
-// Pool Insight Cache - Cached AI-generated insights
-model PoolInsightCache {
+// Market Insight Cache - Cached AI-generated insights
+model MarketInsightCache {
   id              String   @id @default(cuid())
-  poolId          String   @unique
+  marketId        String   @unique
 
   // Cached insight content
-  insight         Json
+  insight         Json     // AI analysis, key factors, etc.
 
-  // Pool snapshot for cache invalidation
-  poolSnapshot    Json
+  // Market snapshot for cache invalidation
+  marketSnapshot  Json     // Price, volume at cache time
 
   // Timestamps
   generatedAt     DateTime @default(now())
   expiresAt       DateTime
 
-  @@index([poolId])
+  @@index([marketId])
   @@index([expiresAt])
 }
 
-// Morpho Vault - User-deployed Morpho vaults
-model MorphoVault {
+// Paper Position - Simulated trading positions
+model PaperPosition {
   id              String   @id @default(cuid())
   userId          String
 
-  // Chain and contract info
-  chainId         Int
-  vaultAddress    String   @unique
-  factoryVersion  String   @default("v1.1") // "v1.1" or "v2"
+  // Market info
+  marketId        String   // Kalshi market ticker
+  marketTitle     String   // Market title for display
+  eventTicker     String?  // Parent event
 
-  // Asset info
-  asset           String   // Underlying token address
-  assetSymbol     String   // e.g., "USDC"
-
-  // Vault metadata
-  name            String
-  symbol          String
-
-  // Deployment timestamp
-  deployedAt      DateTime @default(now())
-  txHash          String?
-
-  // Curator settings
-  curatorAddress  String?
-  performanceFee  Float    @default(0)
-  managementFee   Float    @default(0)
-
-  // Tracking (updated periodically)
-  tvl             Float    @default(0)
-  totalEarned     Float    @default(0)
-  lastSyncedAt    DateTime?
-
-  // Relations
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  allocations     VaultAllocation[]
-
-  @@index([userId])
-  @@index([chainId, vaultAddress])
-}
-
-// Vault Allocation - Market allocations within a Morpho vault
-model VaultAllocation {
-  id              String   @id @default(cuid())
-  vaultId         String
-
-  // Morpho market info
-  marketId        String   // Morpho market unique key
-  marketName      String?  // e.g., "USDC/WETH"
-
-  // Allocation settings
-  allocationCap   Float    // Max allocation percentage (0-100)
-  enabled         Boolean  @default(true)
-
-  // Current state (updated periodically)
-  currentAmount   Float    @default(0)
-  currentApy      Float?
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  // Relations
-  vault           MorphoVault @relation(fields: [vaultId], references: [id], onDelete: Cascade)
-
-  @@unique([vaultId, marketId])
-  @@index([vaultId])
-}
-
-// User Allocation History - Track user's saved allocations over time
-model UserAllocationHistory {
-  id              String   @id @default(cuid())
-  userId          String
-
-  // Allocation details
-  riskTolerance   String   // "preserver" | "steady" | "balanced" | "growth" | "maximizer"
-  amount          Float    // Total amount allocated
-  allocations     Json     // Array of { poolId, poolName, protocol, asset, allocation, apy, riskScore }
-
-  // Calculated metrics
-  expectedApy     Float
-  weightedRiskScore Float
-
-  // Optional notes
-  notes           String?  @db.Text
+  // Position details
+  position        String   // "yes" | "no"
+  quantity        Int      // Number of contracts
+  entryPrice      Float    // Entry price (0-100 cents)
 
   // Status
-  isActive        Boolean  @default(true)  // Current active allocation
+  status          String   @default("open") // "open" | "closed"
+  exitPrice       Float?   // Price when closed
+  closedAt        DateTime?
+
+  // P&L tracking
+  realizedPnl     Float?   // Profit/loss when closed
 
   // Timestamps
   createdAt       DateTime @default(now())
@@ -508,38 +183,68 @@ model UserAllocationHistory {
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@index([userId, isActive])
-  @@index([createdAt])
+  @@index([userId, status])
+  @@index([marketId])
 }
 
-// Allocation Snapshot - Track performance of recommended allocations
-model AllocationSnapshot {
+// Portfolio Snapshot - Track portfolio performance over time
+model PortfolioSnapshot {
+  id              String   @id @default(cuid())
+  userId          String
+
+  // Portfolio metrics
+  totalValue      Float    // Total portfolio value in cents
+  totalCost       Float    // Total cost basis
+  unrealizedPnl   Float    // Current unrealized P&L
+  realizedPnl     Float    // Cumulative realized P&L
+
+  // Position count
+  openPositions   Int      // Number of open positions
+
+  // Timestamp
+  snapshotAt      DateTime @default(now())
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, snapshotAt])
+}
+
+// Market Category Cache - Cached category data
+model MarketCategoryCache {
+  id              String   @id @default(cuid())
+  category        String   @unique
+
+  // Cached data
+  marketCount     Int
+  totalVolume     Float
+  topMarkets      Json     // Array of top market tickers
+
+  // Timestamps
+  updatedAt       DateTime @updatedAt
+
+  @@index([category])
+}
+
+// Builder Code Metrics - Track DFlow builder code usage
+model BuilderCodeMetrics {
   id              String   @id @default(cuid())
 
-  // Snapshot identification
+  // Daily metrics
   date            DateTime @db.Date
-  riskProfile     String   // "conservative" | "moderate" | "aggressive"
 
-  // Allocation data at snapshot time
-  allocations     Json     // Array of { poolId, poolName, protocol, asset, allocation, apy, riskScore }
+  // Volume tracking
+  totalVolume     Float    @default(0)
+  transactionCount Int     @default(0)
+  uniqueUsers     Int      @default(0)
 
-  // Expected metrics at time of snapshot
-  expectedApy     Float    // Weighted average APY at snapshot
-  weightedRiskScore Float  // Weighted average risk score
-
-  // Actual performance (updated after time passes)
-  actualReturn7d  Float?   // Actual return after 7 days
-  actualReturn30d Float?   // Actual return after 30 days
-
-  // Pool-level performance tracking
-  poolPerformance Json?    // Array of { poolId, expectedApy, actualApy7d, actualApy30d }
+  // Fee tracking
+  feesEarned      Float    @default(0)
 
   // Timestamps
   createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
 
-  @@unique([date, riskProfile])
+  @@unique([date])
   @@index([date])
-  @@index([riskProfile])
 }
-
