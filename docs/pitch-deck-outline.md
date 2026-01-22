@@ -99,22 +99,37 @@ Key features:
 
 ---
 
-### Slide 7: Demo - Leaderboard
+### Slide 7: Demo - Intel Terminal (NEW!)
+
+**Real-Time Market Intelligence**
+
+*Visual: Screenshot of /intel page with terminal aesthetic*
+
+- **Smart Money Detection** — Volume spikes, whale alerts, price movements
+- **AI Market Analyst** — Click [ANALYZE] for Claude-powered signal analysis
+- **Live Demo Mode** — Auto-refresh every 10 seconds with new signal highlights
+- **Terminal Aesthetic** — Green/amber/red severity indicators, hacker-style UI
+
+"Bloomberg Terminal for prediction markets."
+
+---
+
+### Slide 8: Demo - Leaderboard
 
 **Compete Globally**
 
-*Visual: Screenshot of /leaderboard page*
+*Visual: Screenshot of /leaderboard page with top 3 podium*
 
+- **Top 3 Podium** — Gold, silver, bronze styled rankings
 - Rankings by P&L, win rate, trades, streak
 - Track your percentile
 - Win streak indicators
-- Gamification drives engagement
 
 "Turn learning into competition."
 
 ---
 
-### Slide 8: How It Works (Technical)
+### Slide 9: How It Works (Technical)
 
 **Kalshi API → Kalshify → Global Users**
 
@@ -133,7 +148,7 @@ Key features:
 
 ---
 
-### Slide 9: What Makes Us Different
+### Slide 10: What Makes Us Different
 
 | Traditional Approach | Kalshify |
 |---------------------|----------|
@@ -147,7 +162,7 @@ Key features:
 
 ---
 
-### Slide 10: Why This Matters for Kalshi
+### Slide 11: Why This Matters for Kalshi
 
 **Expanding the Ecosystem via Builder Codes**
 
@@ -160,7 +175,7 @@ Key features:
 
 ---
 
-### Slide 11: Trust & Security
+### Slide 12: Trust & Security
 
 | Principle | What It Means |
 |-----------|---------------|
@@ -173,20 +188,32 @@ Key features:
 
 ---
 
-### Slide 12: Traction & Features
+### Slide 13: Traction & Features
 
 **Built & Shipped**
 
-- Live at kalshify-fabrknt.vercel.app
-- Full market explorer with live data
+Core Features:
+- Full market explorer with live Kalshi data
 - Paper trading with P&L tracking
 - AI recommendations with Claude
-- Leaderboard with rankings
-- Price simulation for testing
+- Global leaderboard with achievements
+
+**Intel Terminal (Unique!)**
+- Real-time signal detection (volume spikes, whale alerts)
+- AI Market Analyst — Claude analyzes each signal
+- Live Demo Mode — Auto-refresh with animations
+
+**Visual Enhancements:**
+- Live price ticker (scrolling marquee)
+- Mini sparkline charts on market cards
+- Heatmap view for markets
+- Portfolio donut chart
+- AI Pick flip card animations
+- Top 3 podium with animations
 
 ---
 
-### Slide 13: Tech Stack
+### Slide 14: Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -200,7 +227,7 @@ Clean, modern, production-ready.
 
 ---
 
-### Slide 14: Roadmap
+### Slide 15: Roadmap
 
 **What's Next**
 
@@ -217,7 +244,7 @@ Clean, modern, production-ready.
 
 ---
 
-### Slide 15: Team
+### Slide 16: Team
 
 **Hiroyuki Saito** - Builder
 
@@ -230,7 +257,7 @@ Clean, modern, production-ready.
 
 ---
 
-### Slide 16: The Ask
+### Slide 17: The Ask
 
 **What We're Building**
 
@@ -245,7 +272,7 @@ Clean, modern, production-ready.
 
 ---
 
-### Slide 17: Closing
+### Slide 18: Closing
 
 **Kalshify**
 
@@ -259,22 +286,31 @@ kalshify-fabrknt.vercel.app | @psyto
 
 ## Demo Script (3 minutes)
 
-**0:00-0:20 - Hook**
+**0:00-0:15 - Hook**
 "Kalshi is amazing. But 95% of the world can't use it. Kalshify changes that."
 
-**0:20-0:45 - Problem**
+**0:15-0:30 - Problem**
 Show the US-only restriction. No way to practice. High barrier to entry.
 
-**0:45-1:30 - Solution Demo**
-Walk through: Markets → Place trade → Track P&L → Leaderboard
+**0:30-1:00 - Markets & Trading Demo**
+Walk through: Markets (show heatmap view, sparklines) → Place trade → Track P&L
 
-**1:30-2:15 - AI Features**
-Show recommendations flow. Claude explains market picks.
+**1:00-1:30 - Intel Terminal (KEY FEATURE!)**
+Show /intel page: "This is our Bloomberg Terminal for prediction markets."
+- Show real-time signals with terminal aesthetic
+- Click [ANALYZE] to show AI Market Analyst
+- Toggle Live Mode to show auto-refresh
 
-**2:15-2:40 - Value Prop**
-Global access. Zero risk. Real data. AI-powered.
+**1:30-2:00 - AI Recommendations**
+Show /for-you: Set preferences → Get recommendations → Flip cards for analysis
 
-**2:40-3:00 - Close**
+**2:00-2:20 - Leaderboard**
+Show top 3 podium, rankings, gamification
+
+**2:20-2:45 - Value to Kalshi**
+"Every Kalshify user is a potential Kalshi customer. With Builder Codes, we earn when they convert."
+
+**2:45-3:00 - Close**
 "Experience Kalshi from anywhere. Try it at kalshify-fabrknt.vercel.app"
 
 ---

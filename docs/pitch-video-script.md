@@ -1,6 +1,6 @@
 # Kalshify Pitch Video Script
 
-*Target length: 3 minutes*
+*Target length: 3-4 minutes*
 *For Kalshi Builders Program Submission*
 
 ---
@@ -139,7 +139,37 @@
 
 ---
 
-### DEMO - LEADERBOARD (2:05 - 2:20)
+### DEMO - INTEL TERMINAL (2:05 - 2:35)
+
+**[SCREEN RECORDING - kalshify-fabrknt.vercel.app/intel]**
+
+> "Now here's my favorite feature. The Intel Terminal.
+>
+> This is Bloomberg Terminal for prediction markets.
+>
+> Real-time signals. Volume spikes. Whale alerts. Price movements.
+>
+> See that signal? Click Analyze.
+>
+> Claude AI breaks down what's happening and why it matters.
+>
+> Toggle Live Mode — it auto-refreshes every 10 seconds.
+>
+> New signals highlight automatically.
+>
+> This is the kind of tool pro traders pay for."
+
+**[VISUAL]**:
+1. Intel Terminal with terminal aesthetic
+2. Signal cards with severity indicators
+3. Click [ANALYZE] button
+4. Show AI analysis appearing
+5. Toggle LIVE mode
+6. Show auto-refresh with new signal highlight
+
+---
+
+### DEMO - LEADERBOARD (2:35 - 2:50)
 
 **[SCREEN RECORDING - kalshify-fabrknt.vercel.app/leaderboard]**
 
@@ -157,7 +187,7 @@
 
 ---
 
-### DEMO - AI RECOMMENDATIONS (2:20 - 2:35)
+### DEMO - AI RECOMMENDATIONS (2:50 - 3:05)
 
 **[SCREEN RECORDING - kalshify-fabrknt.vercel.app/for-you]**
 
@@ -167,13 +197,13 @@
 >
 > Claude AI recommends markets that match your profile.
 >
-> Each recommendation explains why it's a good fit."
+> Tap a card to flip it — see the full AI analysis."
 
-**[VISUAL]**: AI preferences form, recommendations
+**[VISUAL]**: AI preferences form, recommendations with flip animation
 
 ---
 
-### VALUE PROP (2:35 - 2:50)
+### VALUE PROP (3:05 - 3:20)
 
 **[ON CAMERA]**
 
@@ -181,14 +211,16 @@
 >
 > Global access to Kalshi markets.
 > Paper trading with real data.
+> Intel Terminal for market signals.
 > AI-powered recommendations.
-> Competitive leaderboard.
 >
-> All without risking real money."
+> All without risking real money.
+>
+> Every Kalshify user is a potential Kalshi customer."
 
 ---
 
-### CLOSE (2:50 - 3:00)
+### CLOSE (3:20 - 3:30)
 
 **[ON CAMERA]**
 
@@ -203,7 +235,7 @@
 **[VISUAL]**:
 - Kalshify logo
 - URL: kalshify-fabrknt.vercel.app
-- "Built for the Kalshi Hackathon"
+- "Built for the Kalshi Builders Program"
 
 ---
 
