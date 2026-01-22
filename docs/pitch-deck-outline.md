@@ -1,6 +1,6 @@
 # Kalshify Pitch Deck Outline
 
-*For Kalshi Hackathon Submission*
+*For Kalshi Builders Program Submission*
 
 ---
 
@@ -149,14 +149,14 @@ Key features:
 
 ### Slide 10: Why This Matters for Kalshi
 
-**Expanding the Ecosystem**
+**Expanding the Ecosystem via Builder Codes**
 
-1. **Global awareness** — Millions experience Kalshi markets
-2. **Education pipeline** — Users learn before real trading
-3. **Demand generation** — Paper traders want the real thing
-4. **Community building** — Leaderboard creates engagement
+1. **User acquisition pipeline** — Paper traders become real traders
+2. **Builder Codes revenue** — Earn 30% of fees from converted users
+3. **Global community** — Build demand ahead of international expansion
+4. **Feature innovation** — Intel Terminal could become premium feature
 
-"Every Kalshify user is a potential Kalshi customer."
+"Every Kalshify user is a potential Kalshi customer — and Builder Codes means we earn when they convert."
 
 ---
 
@@ -206,9 +206,14 @@ Clean, modern, production-ready.
 
 | Phase | Feature |
 |-------|---------|
-| **Now** | Paper trading, AI recommendations, leaderboard |
-| **Next** | Persistent user accounts, historical performance |
-| **Future** | Mobile app, DFlow integration, social features |
+| **Now** | Paper trading, AI recommendations, Intel Terminal, leaderboard |
+| **Next** | Builder Codes integration, user accounts, conversion tracking |
+| **Future** | Mobile app, DFlow/Jupiter integration, social features |
+
+**Builder Codes Integration:**
+- "Ready for real trading?" CTA → Kalshi with referral tracking
+- Earn 30% of fees from converted users
+- Track conversion funnel metrics
 
 ---
 

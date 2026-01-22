@@ -278,7 +278,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA - Paper Trading */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12">
@@ -300,6 +300,34 @@ export default function HomePage() {
               Start Paper Trading
               <ChevronRight className="w-5 h-5" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA - Real Trading */}
+      <section className="py-16 px-4 bg-zinc-50 dark:bg-zinc-900/50">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-white text-sm mb-6">
+              <TrendingUp className="w-4 h-4" />
+              Ready for Real Trading?
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Take Your Skills to Kalshi
+            </h2>
+            <p className="text-emerald-100 mb-8 max-w-xl mx-auto">
+              Mastered paper trading? Trade real prediction markets on Kalshi —
+              the regulated exchange for event contracts. US residents can start trading today.
+            </p>
+            <a
+              href="https://kalshi.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-emerald-600 rounded-xl font-semibold hover:bg-emerald-50 transition-colors text-lg"
+            >
+              Visit Kalshi
+              <ArrowRight className="w-5 h-5" />
+            </a>
           </div>
         </div>
       </section>
@@ -360,12 +388,19 @@ export default function HomePage() {
           <div className="border-t border-zinc-200 dark:border-zinc-800 pt-8">
             <p className="text-xs text-zinc-500 dark:text-zinc-500 text-center max-w-3xl mx-auto">
               <strong>Disclaimer:</strong> Kalshify is an educational paper trading platform.
-              No real money is involved. This platform is not affiliated with Kalshi Inc.
-              Market data is provided for educational purposes only.
+              No real money is involved. Market data is provided for educational purposes only.
               Paper trading results do not guarantee future performance on real markets.
+              Ready for real trading? Visit{' '}
+              <a href="https://kalshi.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                Kalshi.com
+              </a>
             </p>
             <p className="text-xs text-zinc-400 dark:text-zinc-600 text-center mt-4">
-              Built for the Kalshi Hackathon | Powered by Claude AI
+              Built for the{' '}
+              <a href="https://kalshi.com" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-500">
+                Kalshi Builders Program
+              </a>
+              {' '}| Powered by Claude AI
             </p>
           </div>
         </div>

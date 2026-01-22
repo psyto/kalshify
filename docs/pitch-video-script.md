@@ -1,7 +1,7 @@
 # Kalshify Pitch Video Script
 
 *Target length: 3 minutes*
-*For Kalshi Hackathon Submission*
+*For Kalshi Builders Program Submission*
 
 ---
 

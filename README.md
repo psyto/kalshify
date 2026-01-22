@@ -10,7 +10,25 @@
 
 Kalshify lets you **experience Kalshi prediction markets** from anywhere in the world. Get AI-powered recommendations, place paper trades with real market data, and track your P&L — all without risking real money.
 
-**Built for the Kalshi Hackathon** | Powered by Claude AI
+**Built for the [Kalshi Builders Program](https://kalshi.com)** | Powered by Claude AI
+
+---
+
+## Why Kalshify?
+
+### The Problem
+- **95% of the world** can't access Kalshi (US residency required)
+- **Beginners** have no risk-free way to learn prediction markets
+- **No real-time intelligence tools** exist for Kalshi traders
+
+### The Solution
+Kalshify serves as the **global on-ramp to Kalshi**:
+
+1. **Learn** — Paper trade with real market data, zero risk
+2. **Practice** — Build strategies and track P&L before real trading
+3. **Convert** — When ready, transition to real trading on Kalshi
+
+> *"Every Kalshify user is a potential Kalshi customer."*
 
 ---
 
@@ -183,6 +201,27 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 ---
 
+## Value to Kalshi Ecosystem
+
+Kalshify creates a **user acquisition pipeline** for Kalshi:
+
+```
+Global/Novice Users → Kalshify (learn & practice) → Kalshi (real trading)
+```
+
+### For Kalshi
+- **Pre-qualified leads** — Users who understand prediction markets
+- **Global community** — Build demand for international expansion
+- **Reduced support burden** — Educated users need less hand-holding
+- **Feature testing** — Intel Terminal, AI Analyst could become premium features
+
+### For Users
+- **Risk-free learning** — Understand markets before real money
+- **Build confidence** — Track P&L and prove strategies work
+- **Smooth transition** — Same markets, same data, ready to trade real
+
+---
+
 ## Project Structure
 
 ```
@@ -212,7 +251,9 @@ src/
 
 ## Disclaimer
 
-Kalshify is an **educational paper trading platform**. No real money is involved. This platform is not affiliated with Kalshi Inc. Market data is provided for educational purposes only. Paper trading results do not guarantee future performance on real markets.
+Kalshify is an **educational paper trading platform**. No real money is involved. Market data is provided for educational purposes only. Paper trading results do not guarantee future performance on real markets.
+
+**Ready for real trading?** Visit [Kalshi.com](https://kalshi.com) — the regulated exchange for event contracts.
 
 ---
 
