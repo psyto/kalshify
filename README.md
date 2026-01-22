@@ -52,10 +52,10 @@ Browse live Kalshi prediction markets with real-time data:
 ### Paper Trading
 Practice trading without real money:
 - Buy YES or NO positions at current market prices
-- Track unrealized and realized P&L
+- Track unrealized and realized P&L with real Kalshi price updates
 - **Portfolio Donut Chart** — Visual category exposure breakdown
 - **Confetti celebration** on profitable trades
-- Simulate price movements to test strategies
+- Close positions to lock in gains or cut losses
 
 ### AI Recommendations
 Get personalized market suggestions powered by Claude AI:
@@ -122,10 +122,9 @@ No sign-up required. Start trading immediately.
 - `POST /api/intel/analyze` — AI analysis of a signal (Claude API)
 
 ### Paper Trading
-- `GET /api/portfolio/paper/positions` — Get positions
+- `GET /api/portfolio/paper/positions` — Get positions (with live prices from Kalshi)
 - `POST /api/portfolio/paper/positions` — Create position
 - `DELETE /api/portfolio/paper/positions?id=` — Close position
-- `PATCH /api/portfolio/paper/positions` — Simulate prices
 
 ### Performance & Leaderboard
 - `GET /api/portfolio/paper/snapshots` — Performance snapshots

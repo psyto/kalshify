@@ -145,8 +145,7 @@ kalshify-fabrknt.vercel.app/leaderboard
 Paper trading, but for prediction markets.
 
 Buy YES or NO at current prices
-Watch your P&L change
-Simulate price movements
+Watch your P&L update with live Kalshi prices
 Close positions to lock in results
 
 Practice before you risk real money.

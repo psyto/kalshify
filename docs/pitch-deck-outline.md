@@ -78,8 +78,7 @@ Experience Kalshi Prediction Markets From Anywhere
 
 Key features:
 - **Buy YES/NO** at current market prices
-- **Track P&L** as probabilities change
-- **Simulate Prices** to test scenarios
+- **Track P&L** as real Kalshi prices change
 - **Close Positions** to lock in results
 
 "See if your predictions are right before risking real capital."

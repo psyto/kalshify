@@ -125,20 +125,17 @@
 >
 > Portfolio value. Unrealized P&L. Realized P&L.
 >
-> See how each position is performing.
+> See how each position is performing with live Kalshi prices.
 >
-> Want to test scenarios? Click Simulate Prices.
->
-> The prices move. Your P&L updates.
+> As market prices change, your P&L updates in real-time.
 >
 > Close a position to lock in results."
 
 **[VISUAL]**:
 1. Portfolio overview
-2. Position cards
-3. Click Simulate Prices
-4. Show P&L change
-5. Close a position
+2. Position cards with live prices
+3. Show P&L updating
+4. Close a position
 
 ---
 
