@@ -30,7 +30,6 @@ export default function PortfolioPage() {
   const [stats, setStats] = useState<TraderStats | null>(null);
   const [rank, setRank] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSimulating, setIsSimulating] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('Loading...');
   const [celebration, setCelebration] = useState<WinCelebrationData | null>(null);
   const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
@@ -90,26 +89,6 @@ export default function PortfolioPage() {
     fetchPositions();
     fetchStats();
   }, []);
-
-  const handleSimulatePrices = async () => {
-    setIsSimulating(true);
-    try {
-      const response = await fetch('/api/portfolio/paper/positions', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'simulate_all' }),
-      });
-
-      if (response.ok) {
-        // Refetch positions with new simulated prices
-        await fetchPositions();
-      }
-    } catch (error) {
-      console.error('Failed to simulate prices:', error);
-    } finally {
-      setIsSimulating(false);
-    }
-  };
 
   const handleClosePosition = async (positionId: string) => {
     try {
@@ -313,8 +292,6 @@ export default function PortfolioPage() {
             onAddPosition={() => {
               window.location.href = '/markets';
             }}
-            onSimulatePrices={handleSimulatePrices}
-            isSimulating={isSimulating}
           />
         )}
       </main>

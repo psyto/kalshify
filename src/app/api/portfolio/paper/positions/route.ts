@@ -4,33 +4,20 @@ import { recordTrade, createSnapshot, getOrCreateTraderStats, checkAchievements 
 import { resolveUserId } from '@/lib/auth/visitor';
 import { prisma } from '@/lib/db';
 
-// Simulation mode flag (stored in memory, resets on server restart)
-let simulationMode = true;
-
-// Simulate random price movement
-function simulatePriceMovement(entryPrice: number): number {
-  const change = Math.floor(Math.random() * 21) - 10;
-  const newPrice = entryPrice + change;
-  return Math.max(1, Math.min(99, newPrice));
-}
-
 // GET - Fetch user's paper positions
 export async function GET(request: NextRequest) {
   try {
     const userId = await resolveUserId();
     if (!userId) {
-      return NextResponse.json({ positions: [], simulationMode });
+      return NextResponse.json({ positions: [] });
     }
-
-    const { searchParams } = new URL(request.url);
-    const simulate = searchParams.get('simulate') === 'true';
 
     const positions = await prisma.paperPosition.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
     });
 
-    // Update current prices
+    // Update current prices from Kalshi API
     const client = getKalshiClient();
     const updatedPositions = await Promise.all(
       positions.map(async (pos) => {
@@ -38,34 +25,19 @@ export async function GET(request: NextRequest) {
           return pos;
         }
 
-        // If simulation mode, use simulated prices
-        if (simulationMode || simulate) {
-          if (!pos.simulatedPrice) {
-            const newSimulatedPrice = simulatePriceMovement(pos.entryPrice);
-            await prisma.paperPosition.update({
-              where: { id: pos.id },
-              data: { simulatedPrice: newSimulatedPrice },
-            });
-            return { ...pos, simulatedPrice: newSimulatedPrice, currentPrice: newSimulatedPrice };
-          }
-          return { ...pos, currentPrice: pos.simulatedPrice };
-        }
-
-        // Otherwise try to fetch from Kalshi
+        // Fetch real price from Kalshi
         try {
           const market = await client.getMarket(pos.marketId);
           const currentPrice = pos.position === 'yes' ? market.yes_bid : market.no_bid;
           return { ...pos, currentPrice: currentPrice || pos.entryPrice };
         } catch {
+          // If market not found, return entry price
           return { ...pos, currentPrice: pos.entryPrice };
         }
       })
     );
 
-    return NextResponse.json({
-      positions: updatedPositions,
-      simulationMode
-    });
+    return NextResponse.json({ positions: updatedPositions });
   } catch (error) {
     console.error('Failed to fetch positions:', error);
     return NextResponse.json(
@@ -120,85 +92,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PATCH - Simulate price changes or update settings
-export async function PATCH(request: NextRequest) {
-  try {
-    const userId = await resolveUserId();
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'User identification required' },
-        { status: 401 }
-      );
-    }
-
-    const body = await request.json();
-    const { action, positionId, newPrice } = body;
-
-    switch (action) {
-      case 'simulate_all':
-        // Simulate new prices for all open positions
-        const openPositions = await prisma.paperPosition.findMany({
-          where: { userId, status: 'open' },
-        });
-
-        for (const pos of openPositions) {
-          const newSimulatedPrice = simulatePriceMovement(pos.entryPrice);
-          await prisma.paperPosition.update({
-            where: { id: pos.id },
-            data: { simulatedPrice: newSimulatedPrice },
-          });
-        }
-
-        return NextResponse.json({ success: true, message: 'Prices simulated' });
-
-      case 'set_price':
-        if (!positionId || newPrice === undefined) {
-          return NextResponse.json(
-            { error: 'positionId and newPrice required' },
-            { status: 400 }
-          );
-        }
-
-        const pos = await prisma.paperPosition.findFirst({
-          where: { id: positionId, userId },
-        });
-
-        if (!pos) {
-          return NextResponse.json(
-            { error: 'Position not found' },
-            { status: 404 }
-          );
-        }
-
-        const updatedPos = await prisma.paperPosition.update({
-          where: { id: positionId },
-          data: { simulatedPrice: Math.max(1, Math.min(99, newPrice)) },
-        });
-
-        return NextResponse.json({
-          success: true,
-          position: { ...updatedPos, currentPrice: updatedPos.simulatedPrice }
-        });
-
-      case 'toggle_simulation':
-        simulationMode = !simulationMode;
-        return NextResponse.json({ simulationMode });
-
-      default:
-        return NextResponse.json(
-          { error: 'Unknown action' },
-          { status: 400 }
-        );
-    }
-  } catch (error) {
-    console.error('Failed to update positions:', error);
-    return NextResponse.json(
-      { error: 'Failed to update positions' },
-      { status: 500 }
-    );
-  }
-}
-
 // DELETE - Close a paper position
 export async function DELETE(request: NextRequest) {
   try {
@@ -239,8 +132,18 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Get exit price - use simulated price if available
-    const exitPrice = position.simulatedPrice || position.entryPrice;
+    // Get current market price for exit
+    let exitPrice = position.entryPrice;
+    try {
+      const client = getKalshiClient();
+      const market = await client.getMarket(position.marketId);
+      exitPrice = position.position === 'yes' ? market.yes_bid : market.no_bid;
+      if (!exitPrice) exitPrice = position.entryPrice;
+    } catch {
+      // If can't fetch market, use entry price
+      exitPrice = position.entryPrice;
+    }
+
     const realizedPnl = (exitPrice - position.entryPrice) * position.quantity;
 
     // Close position and get all positions in parallel
@@ -260,7 +163,6 @@ export async function DELETE(request: NextRequest) {
           status: true,
           entryPrice: true,
           quantity: true,
-          simulatedPrice: true,
           currentPrice: true,
           realizedPnl: true,
         },
@@ -280,7 +182,7 @@ export async function DELETE(request: NextRequest) {
     for (const p of allPositions) {
       if (p.status === 'open') {
         openCount++;
-        const currentPrice = p.simulatedPrice || p.currentPrice || p.entryPrice;
+        const currentPrice = p.currentPrice || p.entryPrice;
         portfolioValue += currentPrice * p.quantity;
         totalCost += p.entryPrice * p.quantity;
         unrealizedPnl += (currentPrice - p.entryPrice) * p.quantity;

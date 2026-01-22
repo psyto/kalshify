@@ -8,7 +8,6 @@ import {
   BarChart2,
   History,
   Plus,
-  Shuffle,
 } from 'lucide-react';
 import { PaperPositionCard, PaperPositionRow, PaperPositionData } from './paper-position-card';
 import { DonutChart, DonutLegend } from '@/components/ui/donut-chart';
@@ -18,8 +17,6 @@ interface PaperPortfolioDashboardProps {
   positions: PaperPositionData[];
   onClosePosition?: (positionId: string) => void;
   onAddPosition?: () => void;
-  onSimulatePrices?: () => void;
-  isSimulating?: boolean;
   className?: string;
 }
 
@@ -27,8 +24,6 @@ export function PaperPortfolioDashboard({
   positions,
   onClosePosition,
   onAddPosition,
-  onSimulatePrices,
-  isSimulating,
   className,
 }: PaperPortfolioDashboardProps) {
   const [view, setView] = useState<'active' | 'closed' | 'all'>('active');
@@ -114,17 +109,6 @@ export function PaperPortfolioDashboard({
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {onSimulatePrices && (
-            <button
-              onClick={onSimulatePrices}
-              disabled={isSimulating}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-500 hover:bg-purple-600 disabled:bg-purple-400 text-white rounded-lg text-sm sm:text-base font-medium transition-colors"
-            >
-              <Shuffle className={cn("w-4 h-4", isSimulating && "animate-spin")} />
-              <span className="hidden sm:inline">Simulate Prices</span>
-              <span className="sm:hidden">Simulate</span>
-            </button>
-          )}
           {onAddPosition && (
             <button
               onClick={onAddPosition}
